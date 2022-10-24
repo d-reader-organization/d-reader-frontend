@@ -1,0 +1,10 @@
+{
+	"extends": ["next", "next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
+	"plugins": ["@typescript-eslint"],
+	"rules": {
+		"@next/next/no-img-element": "off",
+    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/no-explicit-any": "error",
+		"@typescript-eslint/no-var-requires": "off"
+	}
+}

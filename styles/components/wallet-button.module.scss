@@ -1,0 +1,26 @@
+@use '../variables/theme.module.scss' as *;
+
+.wallet-button,
+.navigation .wallet-button {
+	border-radius: 0;
+	padding: 0.2rem 1rem;
+	margin: 0 1rem;
+	width: 180px;
+	color: $secondary-color;
+
+	span > img {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.MuiList-root .MuiMenuItem-root .wallet-button {
+	background: none;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 2px solid black;
+	box-shadow: none;
+	margin: none;
+	min-width: unset;
+}

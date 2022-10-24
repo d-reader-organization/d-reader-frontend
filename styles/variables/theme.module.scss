@@ -1,0 +1,32 @@
+// colors
+$primary-color-light: #711527;
+$primary-color: #5e1120;
+$primary-color-dark: #550f1c;
+$secondary-color: #fbecc0;
+$important-color: #c82337;
+$text-color: #fafafa;
+
+// breakpoints
+$xs-width: 0px;
+$sm-width: 580px;
+$md-width: 900px;
+$lg-width: 1200px;
+$xl-width: 1536px;
+
+// other
+$spacing: 8px;
+
+:export {
+	primaryColorLight: $primary-color-light;
+	primaryColor: $primary-color;
+	primaryColorDark: $primary-color-dark;
+	secondaryColor: $secondary-color;
+	importantColor: $important-color;
+	textColor: $text-color;
+	xsWidth: $xs-width;
+	smWidth: $sm-width;
+	mdWidth: $md-width;
+	lgWidth: $lg-width;
+	xlWidth: $xl-width;
+	spacing: $spacing;
+}

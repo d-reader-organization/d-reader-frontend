@@ -1,0 +1,35 @@
+@use '../mixins/breakpoints.module.scss' as *;
+
+.section {
+	position: relative;
+	padding: 2rem 1rem;
+
+	@include sm {
+		padding: 3rem 1.5rem;
+	}
+
+	@include md {
+		padding: 4rem 2rem;
+	}
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		content: '';
+		background: url('../../public/assets/ui/divider.png');
+		height: 4px;
+		width: 100%;
+		display: block;
+	}
+
+	.section-title {
+		text-align: center;
+		padding-bottom: 1rem;
+
+		@include md {
+			text-align: left;
+			padding-bottom: 2rem;
+		}
+	}
+}

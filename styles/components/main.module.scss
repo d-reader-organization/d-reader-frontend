@@ -1,0 +1,7 @@
+@use '../mixins/animations.module.scss' as *;
+
+.main {
+	@include defaultFadeIn;
+	min-height: 100vh;
+	display: flex;
+}

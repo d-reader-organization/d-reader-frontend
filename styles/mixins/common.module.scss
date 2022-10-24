@@ -1,0 +1,42 @@
+@mixin clickable($x: 0px, $y: 0px) {
+	cursor: pointer;
+	pointer-events: all;
+
+	&:active {
+		transform: translate(calc($x + 1px), calc($y + 1px));
+	}
+}
+
+@mixin unclickable {
+	user-select: none;
+	pointer-events: none;
+}
+
+@mixin flexColumn {
+	display: flex;
+	flex-direction: column;
+	@content;
+}
+
+@mixin flexRow {
+	display: flex;
+	flex-direction: row;
+	@content;
+}
+
+@mixin centeredFlex {
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin centeredColumn {
+	@include flexColumn;
+	@include centeredFlex;
+	@content;
+}
+
+@mixin centeredRow {
+	@include flexRow;
+	@include centeredFlex;
+	@content;
+}
