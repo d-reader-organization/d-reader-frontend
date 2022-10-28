@@ -9,16 +9,15 @@ import { useFetchComicIssue } from 'api/comicIssue'
 import { useFetchComic } from 'api/comic'
 import useToggle from 'hooks/useToggle'
 import useSound from 'use-sound'
+import Image from 'next/image'
 
-// Is after 4am and before 8pm
-const isDaytime = () => new Date().getHours() < 20 && new Date().getHours() > 4
 const lsFlashlight = typeof window === 'object' ? localStorage.getItem('flashlight') : false
-const initialLight = lsFlashlight === null ? isDaytime() : lsFlashlight === 'true'
+const initialLight = lsFlashlight === 'true'
 
 const ComicReader: React.FC = () => {
 	const { data: comic, isFetched } = useFetchComic('gorecats')
-	const { data: comicIssue } = useFetchComicIssue(1)
-	const [play, { stop }] = useSound(comicIssue?.soundtrack || [], { interrupt: false })
+	const { data: comicIssue } = useFetchComicIssue(comic?.issues[0]?.id)
+	const [play, { stop }] = useSound('/assets/sounds/harlem_nocturne.mp3', { interrupt: false })
 	const [flashlight, toggleFlashlight] = useToggle(initialLight)
 	const [sound, toggleSound] = useToggle()
 
@@ -26,7 +25,6 @@ const ComicReader: React.FC = () => {
 		localStorage.setItem('flashlight', flashlight.toString())
 	}, [flashlight])
 
-	// TODO: navigate to 404?
 	if (!comic || !comicIssue) return null
 
 	return (
@@ -72,11 +70,20 @@ const ComicReader: React.FC = () => {
 					onContextMenu={(e) => {
 						e.preventDefault()
 					}}
-					px={{ xs: 0, sm: 1, md: 2 }}
+					className='comic-wrapper'
+					pt='100vh'
 				>
-					{/* TODO: next Image */}
-					{comicIssue.pages.map((page) => (
-						<img key={page.id} src={page.image} alt={`Page ${page.pageNumber}`} className='comic-page' />
+					{/* <Box height='200vh'>Temp</Box> */}
+					{comicIssue.pages.map((page, i) => (
+						<Image
+							key={page.id}
+							src={page.image}
+							alt={`Page ${page.pageNumber}`}
+							width={900}
+							height={1200}
+							priority={i === 0}
+							className='comic-page'
+						/>
 					))}
 				</Box>
 			</Box>

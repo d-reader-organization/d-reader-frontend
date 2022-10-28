@@ -3,7 +3,7 @@ import { Box, BoxProps, Grid, Button, Typography } from '@mui/material'
 import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
 import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
 import logoImage from 'public/assets/logo.png'
-import Image from 'next/future/image'
+import Image from 'next/image'
 
 const Footer: React.FC<BoxProps> = (props) => {
 	return (

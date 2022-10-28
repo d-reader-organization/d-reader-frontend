@@ -4,8 +4,13 @@ import HomeIcon from 'public/assets/vector-icons/home-icon.svg'
 import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
 import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
-import { WalletMultiButton } from '@solana/wallet-adapter-material-ui'
 import useAnchorElement from 'hooks/useAnchorElement'
+import dynamic from 'next/dynamic'
+
+const WalletMultiButtonDynamic = dynamic(
+	async () => (await import('@solana/wallet-adapter-material-ui')).WalletMultiButton,
+	{ ssr: false }
+)
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
@@ -68,7 +73,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 						<DiscordIcon />
 					</Button>
 				</Hidden>
-				<WalletMultiButton className='wallet-button' />
+				<WalletMultiButtonDynamic className='wallet-button' />
 			</Box>
 		</Toolbar>
 	)

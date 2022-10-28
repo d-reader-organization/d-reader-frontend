@@ -16,7 +16,7 @@ class MyDocument extends Document {
 
 					<meta
 						name='description'
-						content='1,111 handcrafted NFTs on Solana from the Emmy award winning duo at StudioNX. Backed by a team of veteran developers, tokenomists, puzzle designers and...'
+						content='Affordable, Authentic & Limited Edition. From manga to comics, now you can own digital graphic novels from your favorite artists and get rewarded for collecting.'
 					/>
 					<meta name='keywords' content='NFT, dReader, Comic, Solana, SOL, mint, collection, manga, manwha' />
 

@@ -12,13 +12,15 @@ const fetchComicIssue = async (id: number): Promise<ComicIssue> => {
 	return response.data
 }
 
-export const useFetchComicIssue = (id: number) => {
+export const useFetchComicIssue = (id: number | undefined) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
-	return useQuery(comicKeys.getComicIssue(id), () => fetchComicIssue(id), {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	return useQuery(comicKeys.getComicIssue(id!), () => fetchComicIssue(id!), {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: isAuthenticated,
+		enabled: isAuthenticated && id !== undefined && id !== null,
 		onError: toaster.onQueryError,
+		retry: 3,
 	})
 }
