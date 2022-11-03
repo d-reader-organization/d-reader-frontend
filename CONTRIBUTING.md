@@ -14,13 +14,13 @@ TODO
 
 ### Branching
 
-- `master` is the production branch. CI/CD will reflect all changes on [dreader.io](dreader.io)
+- `master` is the production branch. CI/CD will reflect all changes on [dreader.io](https://www.dreader.io)
 
-- ~~`staging` - [staging.dreader.io](staging.dreader.io)~~
+- ~~`staging` - [staging.dreader.io](https://staging.dreader.io)~~
 
-- ~~`qa` - [qa.dreader.io](qa.dreader.io)~~
+- ~~`qa` - [qa.dreader.io](https://qa.dreader.io)~~
 
-- `dev` - [dev.dreader.io](dev.dreader.io)
+- `dev` - [dev.dreader.io](https://dev.dreader.io)
 
 - `[chore | feat | fix | hotfix]/[task-name]` for active branches
 
