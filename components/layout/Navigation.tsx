@@ -5,15 +5,41 @@ import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
 import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
+import { Web3MobileWallet } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
+import { useAuth, useServerAuthorization, Account, removeAuthHeaders, lsRemoveWalletAuth } from '@open-sauce/solomon'
+import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile'
+import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
+import http from 'api/http'
 
 const WalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-material-ui')).WalletMultiButton,
 	{ ssr: false }
 )
 
+const MobileWalletMultiButtonDynamic = dynamic(
+	async () => await (await import('@open-sauce/solomon')).MobileWalletMultiButton,
+	{ ssr: false }
+)
+
 const Navigation: React.FC<ToolbarProps> = (props) => {
+	const { setIsAuthenticated } = useAuth()
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
+	const { mobileConnect } = useServerAuthorization(http)
+	const { wallet } = useWallet()
+	const isMobileWallet = wallet?.adapter.name === SolanaMobileWalletAdapterWalletName
+
+	const onAuthorize = async (mobileWallet: Web3MobileWallet, account: Account) => {
+		// TODO: deprecate setIsAuthenticated(true)
+		setIsAuthenticated(true)
+		return await mobileConnect(mobileWallet, account)
+	}
+
+	const onDeauthorize = (account: Account) => {
+		removeAuthHeaders(http)
+		if (account?.address) lsRemoveWalletAuth(account.address)
+		// TODO: setIsAuthenticated(false)
+	}
 
 	return (
 		<Toolbar color='primary' component='nav' className='navigation' {...props}>
@@ -51,7 +77,6 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 						</MenuItem>
 					</Menu>
 				</Hidden>
-
 				{/* Desktop */}
 				<Hidden smDown>
 					<Button
@@ -73,7 +98,15 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 						<DiscordIcon />
 					</Button>
 				</Hidden>
-				<WalletMultiButtonDynamic className='wallet-button' />
+				{isMobileWallet ? (
+					<MobileWalletMultiButtonDynamic
+						className='wallet-button'
+						onAuthorize={onAuthorize}
+						onDeauthorize={onDeauthorize}
+					/>
+				) : (
+					<WalletMultiButtonDynamic variant='contained' className='wallet-button' />
+				)}
 			</Box>
 		</Toolbar>
 	)
