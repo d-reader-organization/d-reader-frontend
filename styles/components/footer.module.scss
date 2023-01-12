@@ -1,67 +1,19 @@
-@use '../mixins/breakpoints.module.scss' as *;
 @use '../mixins/common.module.scss' as *;
-@use '../variables/theme.module.scss' as *;
 
 .footer {
-	background-color: $primary-color;
-	border-top: 4px solid $primary-color-dark;
-	padding: 3rem 2rem;
-	color: $secondary-color;
-	text-align: center;
+	@include flexRow;
+	justify-content: flex-end;
+	margin-top: auto;
 
-	.footer-content {
-		> *:not(:last-child) {
-			margin-bottom: 2.5rem;
-
-			@include md {
-				margin-bottom: 0rem;
-			}
-		}
-	}
-
-	.footer-links {
-		svg,
-		path {
-			fill: $secondary-color !important;
-		}
-	}
-
-	.company-name {
-		color: white;
-		font-family: Verdana, sans-serif;
-		font-size: 1.4rem;
-		font-weight: bolder;
-		text-transform: uppercase;
-		background-color: #69754e;
-		padding: 0.2rem 0.4rem;
-		margin: 0 auto 1rem auto;
-		width: min-content;
-		white-space: nowrap;
+	.footer-copyright {
+		@include centeredRow;
+		padding: 1rem 2rem 0.4rem 1rem;
+		filter: grayscale(1) brightness(0.4);
 	}
 
 	.company-logo {
-		// red color
-		filter: brightness(100%) sepia(100%) hue-rotate(-50deg) saturate(600%) contrast(0.8);
-	}
-
-	.footer-links-wrapper {
-		@include centeredColumn;
-	}
-
-	.footer-links-title {
-		font-size: 1.6rem;
-		padding: 0.6rem;
-
-		@include md {
-			font-size: 1.4rem;
-			padding: 0.4rem;
-		}
-	}
-
-	.footer-image {
-		width: 100%;
-		height: auto;
-		max-width: 180px;
-		margin: 0 auto;
+		height: 16px;
+		width: auto;
+		margin-right: 0.5rem;
 	}
 }

@@ -14,8 +14,12 @@ interface ToastContextState {
 }
 
 const initialContextValue: ToastContextState = {
-	add: () => {},
-	onQueryError: () => {},
+	add: () => {
+		return
+	},
+	onQueryError: () => {
+		return
+	},
 }
 
 export const ToastContext = createContext<ToastContextState>(initialContextValue)

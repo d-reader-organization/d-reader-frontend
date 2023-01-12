@@ -2,11 +2,13 @@
 
 .wallet-button,
 .navigation .wallet-button {
-	border-radius: 0;
+	border-radius: 6px;
+	text-transform: uppercase;
 	padding: 0.2rem 1rem;
-	margin: 0 1rem;
 	width: 180px;
-	color: $secondary-color;
+	color: $secondary-color !important;
+	background-color: $primary-color-light !important;
+	white-space: nowrap;
 
 	span > img {
 		width: 20px;
@@ -23,4 +25,9 @@
 	box-shadow: none;
 	margin: none;
 	min-width: unset;
+}
+
+.wallet-dialog .MuiDialogContent-root,
+#wallet-menu .MuiCollapse-root {
+	background-color: $primary-color-light !important;
 }

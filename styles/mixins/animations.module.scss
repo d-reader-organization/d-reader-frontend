@@ -24,3 +24,12 @@
 		opacity: 1;
 	}
 }
+
+@keyframes leftToRight {
+	0% {
+		clip-path: inset(0 100% 0 0);
+	}
+	100% {
+		clip-path: inset(0 0 0 0);
+	}
+}

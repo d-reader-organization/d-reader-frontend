@@ -1,4 +1,4 @@
-import { Comic } from './comic'
+import { CreatorStats } from './creatorStats'
 
 export interface Creator {
 	id: number
@@ -7,12 +7,11 @@ export interface Creator {
 	slug: string
 	isDeleted: boolean
 	isVerified: boolean
-	thumbnail: string
 	avatar: string
 	banner: string
 	logo: string
 	description: string
 	flavorText: string
 	website: string
-	comics: Comic[]
+	stats?: CreatorStats
 }

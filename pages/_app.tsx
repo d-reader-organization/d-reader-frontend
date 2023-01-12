@@ -20,8 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={wallets[network]} autoConnect={false}>
-						<WalletDialogProvider featuredWallets={6}>
+					<WalletProvider wallets={wallets[network]} autoConnect>
+						<WalletDialogProvider featuredWallets={6} className='wallet-dialog'>
 							<MobileWalletProvider cluster={network} identity={APP_IDENTITY}>
 								<AuthProvider http={http} cluster={network} identity={APP_IDENTITY}>
 									<ToastProvider>

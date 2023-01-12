@@ -6,6 +6,19 @@
 .navigation {
 	@include defaultFadeIn;
 
+	.company-logo-wrapper {
+		height: 32px;
+	}
+
+	.company-logo {
+		height: 32px;
+		width: auto;
+
+		&:hover {
+			filter: brightness(0.8);
+		}
+	}
+
 	a,
 	button {
 		@include clickable;
@@ -18,14 +31,23 @@
 		}
 	}
 
-	.navigation-items {
-		&--right {
-			margin-left: auto;
+	@include sm {
+		.company-logo-wrapper {
+			height: 36px;
 		}
 
-		&--left {
-			margin-right: auto;
+		.company-logo {
+			height: 36px;
 		}
+
+		a,
+		button {
+			height: 36px;
+		}
+	}
+
+	.navigation-items {
+		margin-left: auto;
 	}
 
 	.navigation-items {

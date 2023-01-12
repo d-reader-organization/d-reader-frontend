@@ -50,30 +50,8 @@ declare module '*.avif' {
 	export default content
 }
 
-declare module '*.md'
-
 declare global {
 	interface Window {
 		solana?: { publicKey: PublicKey }
 	}
-}
-
-interface ReactFlashlightProps {
-	enabled?: bool
-	children: node
-	showCursor?: bool
-	size?: number
-	initialPosition?: {
-		x: number
-		y: number
-	}
-	moveTo?: object
-	speed?: number
-	contain?: bool
-	enableMouse?: bool
-	darkness?: number
-}
-
-declare module 'react-flashlight' {
-	const ReactFlashlight: React.FC<ReactFlashlightProps>
 }

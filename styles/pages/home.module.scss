@@ -1,0 +1,5 @@
+@use '../mixins/animations.module.scss' as *;
+
+.home {
+	@include defaultFadeIn;
+}

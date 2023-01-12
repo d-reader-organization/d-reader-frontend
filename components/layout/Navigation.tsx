@@ -1,6 +1,7 @@
 import React from 'react'
 import { ToolbarProps, Toolbar, Button, Hidden, Box, Menu, MenuItem } from '@mui/material'
-import HomeIcon from 'public/assets/vector-icons/home-icon.svg'
+import logoWithTextImage from 'public/assets/logo-with-text.png'
+import logoImage from 'public/assets/logo.png'
 import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
 import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
@@ -10,6 +11,7 @@ import { useAuth, useServerAuthorization, Account, removeAuthHeaders, lsRemoveWa
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile'
 import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import http from 'api/http'
 
 const WalletMultiButtonDynamic = dynamic(
@@ -42,14 +44,29 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	}
 
 	return (
-		<Toolbar color='primary' component='nav' className='navigation' {...props}>
-			<Box className='navigation-items navigation-items--left'>
-				<Button variant='contained' href='https://www.dreader.io/' rel='noreferrer' target='_blank'>
-					<HomeIcon />
-				</Button>
-			</Box>
+		<Toolbar
+			component='nav'
+			className='navigation'
+			sx={{
+				padding: {
+					xs: '1rem',
+					sm: '2rem 2rem 3rem 2rem',
+					md: '2rem 3rem',
+					lg: '3rem 4rem',
+				},
+			}}
+			{...props}
+		>
+			<a href='https://www.dreader.app' rel='noreferrer' target='_blank' className='company-logo-wrapper'>
+				<Hidden smDown>
+					<Image className='company-logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
+				</Hidden>
+				<Hidden smUp>
+					<Image className='company-logo' src={logoImage} width={96} height={96} alt='dReader' />
+				</Hidden>
+			</a>
 
-			<Box className='navigation-items navigation-items--right'>
+			<Box className='navigation-items'>
 				{/* Mobile */}
 				<Hidden smUp>
 					<Button variant='contained' aria-label='social-media' onClick={setMenuAnchorEl}>
@@ -59,18 +76,18 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 						anchorEl={menuAnchorEl}
 						open={Boolean(menuAnchorEl)}
 						onClose={resetMenuAnchorEl}
-						className='navigation-items navigation-items--right'
+						className='navigation-items'
 						PaperProps={{ className: 'mobile-menu' }}
 						keepMounted
 					>
 						<MenuItem onClick={resetMenuAnchorEl}>
-							<Button color='secondary' href='https://twitter.com/dreader' rel='noreferrer' target='_blank'>
-								<TwitterIcon />
+							<Button color='secondary' href='https://twitter.com/JosipVolarevic2' rel='noreferrer' target='_blank'>
+								<TwitterIcon style={{ padding: 3 }} />
 								Twitter
 							</Button>
 						</MenuItem>
 						<MenuItem onClick={resetMenuAnchorEl}>
-							<Button color='secondary' href='https://discord.com/invite/dreader' rel='noreferrer' target='_blank'>
+							<Button color='secondary' href='https://discord.gg/BfCqPu63ZX' rel='noreferrer' target='_blank'>
 								<DiscordIcon />
 								Discord
 							</Button>
@@ -82,16 +99,16 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 					<Button
 						variant='contained'
 						aria-label='twitter'
-						href='https://twitter.com/dreader'
+						href='https://twitter.com/JosipVolarevic2'
 						rel='noreferrer'
 						target='_blank'
 					>
-						<TwitterIcon />
+						<TwitterIcon style={{ padding: 3 }} />
 					</Button>
 					<Button
 						variant='contained'
 						aria-label='discord'
-						href='https://discord.com/invite/dreader'
+						href='https://discord.gg/BfCqPu63ZX'
 						rel='noreferrer'
 						target='_blank'
 					>

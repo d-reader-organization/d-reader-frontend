@@ -1,4 +1,6 @@
+import { Comic } from './comic'
 import { ComicPage } from './comicPage'
+import { Creator } from './creator'
 
 export interface ComicIssue {
 	id: number
@@ -9,12 +11,13 @@ export interface ComicIssue {
 	flavorText: string
 	cover: string
 	soundtrack: string
-	magicEden: string
-	openSea: string
 	releaseDate: string
 	isPublished: boolean
+	isPopular: boolean
 	isDeleted: boolean
 	isVerified: boolean
-	hashlist: string[]
-	pages: ComicPage[]
+	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
+	comic?: Pick<Comic, 'name' | 'slug' | 'isMatureAudience'>
+	pages?: ComicPage[]
+	hashlist?: string[]
 }

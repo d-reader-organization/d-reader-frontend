@@ -25,6 +25,17 @@ class MyDocument extends Document {
 					<meta name='theme-color' content='#181A20' />
 
 					<link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
+
+					{/* Preload Urbanist font */}
+					<link
+						rel='preload'
+						as='style'
+						href='https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&display=swap'
+					/>
+					<link
+						href='https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&display=swap'
+						rel='stylesheet'
+					/>
 				</Head>
 				<body>
 					<Main />

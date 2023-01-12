@@ -12,6 +12,7 @@ const getSpacing = (x: number, y?: number, z?: number, q?: number) => {
 const defaultTheme = createTheme({
 	spacing,
 	palette: {
+		background: { default: variables.primaryColor },
 		primary: { main: variables.primaryColor },
 		secondary: { main: variables.secondaryColor },
 		text: { primary: variables.textColor },
@@ -26,59 +27,28 @@ const defaultTheme = createTheme({
 		},
 	},
 	typography: {
-		// fontSize: 18,
-		// fontFamily: 'Eczar',
+		fontSize: 16,
+		fontFamily: 'Urbanist, sans-serif',
 		// body1: { fontWeight: 500 },
-		// body2: { fontWeight: 500, fontFamily: 'Archivo Narrow' },
-		// h1: { fontWeight: 700, fontFamily: 'Archivo Narrow' },
+		// body2: { fontWeight: 500, fontFamily: 'Urbanist, sans-serif' },
+		// h1: { fontWeight: 'bold', fontSize: '5rem', lineHeight: 1.08 },
 	},
 	components: {
 		MuiAppBar: { styleOverrides: { root: { boxShadow: 'none' } } },
-		MuiAccordion: {
-			styleOverrides: {
-				root: {
-					backgroundColor: 'unset',
-					boxShadow: 'unset',
-					'&::after': {
-						content: "''",
-						position: 'absolute',
-						top: '-2px',
-						left: 0,
-						right: 0,
-						height: '3px',
-						backgroundImage: "url('/assets/ui/divider.png')",
-						backgroundPositionX: '-4000px',
-					},
-				},
-			},
-		},
-		MuiAccordionSummary: { styleOverrides: { root: { padding: getSpacing(0) } } },
-		MuiAccordionDetails: { styleOverrides: { root: { padding: getSpacing(8, 0) } } },
-		MuiToolbar: {
-			styleOverrides: {
-				root: {
-					backgroundColor: variables.primaryColorLight,
-					boxShadow: `0px 4px 2px ${variables.primaryColorDark}`,
-					height: '56px',
-					minHeight: '56px',
-				},
-			},
-		},
 		MuiButton: {
 			styleOverrides: {
 				root: {
 					textTransform: 'none',
 					'&.Mui-disabled': {
 						backgroundColor: variables.primaryColorDark,
-						boxShadow: '4px 2px rgba(0,0,0,0.9)',
+						border: 'none',
 						color: variables.secondaryColor,
 					},
 				},
 				contained: {
-					// borderRadius: '2rem',
-					borderRadius: 0,
-					boxShadow: '4px 2px rgba(0,0,0,0.9)',
-					border: '2px solid black',
+					backgroundColor: variables.primaryColorLight,
+					borderRadius: '6px',
+					border: 'none',
 					minWidth: '40px',
 					padding: getSpacing(0.25, 1),
 					textTransform: 'none',
@@ -86,7 +56,7 @@ const defaultTheme = createTheme({
 					'&:hover': {
 						backgroundColor: variables.primaryColor,
 						filter: 'brightness(0.85)',
-						boxShadow: '6px 4px rgba(0,0,0,0.9)',
+						border: 'none',
 					},
 				},
 			},
@@ -98,22 +68,20 @@ const defaultTheme = createTheme({
 					overflow: 'visible',
 					overflowY: 'visible',
 					overflowX: 'visible',
-					boxShadow: '6px 6px rgba(0,0,0,0.9)',
+					border: 'none',
 					'.MuiDialogTitle-root': {
 						textShadow: `2px 2px ${variables.primaryColorDark}`,
 						padding: getSpacing(1, 2),
 						alignItems: 'center',
 						backgroundColor: 'unset',
 					},
-					// TODO: change these styles in the future
-					// This is just temp workaround for prettier wallet selection dialog
 					'.MuiDialogContent-root .MuiList-root, .MuiDialogContent-root .MuiCollapse-root .MuiList-root': {
 						background: 'unset',
 						'.MuiButton-root': {
 							fontWeight: 'bold',
 						},
 						'.MuiListItem-root': {
-							boxShadow: 'inset 0 1px 0 0 rgba(0, 0, 0, 0.2)',
+							border: 'none',
 							'&:hover': {
 								backgroundColor: 'rgba(0, 0, 0, 0.05)',
 							},
@@ -125,8 +93,7 @@ const defaultTheme = createTheme({
 		MuiPaper: {
 			styleOverrides: {
 				root: {
-					// backgroundImage: "url('/assets/ui/theme-texture.jpg')",
-					borderRadius: '0',
+					borderRadius: '6px',
 					backgroundColor: variables.primaryColor,
 					border: '2px solid black',
 				},
@@ -135,7 +102,7 @@ const defaultTheme = createTheme({
 		MuiIconButton: {
 			styleOverrides: {
 				root: {
-					borderRadius: '0.4rem',
+					borderRadius: '6px',
 				},
 			},
 		},
