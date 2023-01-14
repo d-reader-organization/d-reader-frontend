@@ -1,7 +1,17 @@
 @use '../mixins/animations.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .main {
 	@include defaultFadeIn;
 	min-height: 100vh;
-	display: flex;
+
+	padding: 0.5rem;
+
+	@include sm {
+		padding: 1rem;
+	}
+
+	@include md {
+		padding: 2rem;
+	}
 }
