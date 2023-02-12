@@ -4,7 +4,9 @@
 
 ## Setup
 
-First, install dependencies and copy the .env file:
+First, make sure your node version matches the one specified in `.nvmrc`
+
+Install dependencies and copy the `.env.example` content into `.env`:
 
 ```bash
 npm install & cp .env.example .env.local
