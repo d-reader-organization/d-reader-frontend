@@ -27,6 +27,8 @@ import {
 	MintLayout,
 	TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
+import { Web3MobileWallet } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
+import { Account } from '@open-sauce/solomon'
 import { AnchorWallet } from '@solana/wallet-adapter-react'
 
 export async function constructMintInstruction(
@@ -132,6 +134,124 @@ export async function constructMintInstruction(
 		createAssociatedTokenAccountInstruction(payer.publicKey, nftTokenAccount, payer.publicKey, mint.publicKey)
 	)
 	instructions.push(createMintToInstruction(mint.publicKey, nftTokenAccount, payer.publicKey, 1, []))
+
+	const mintInstruction = createMintInstruction(accounts, args)
+
+	if (remainingAccounts) {
+		mintInstruction.keys.push(...remainingAccounts)
+	}
+
+	instructions.push(mintInstruction)
+
+	return instructions
+}
+
+export async function mobileConstructMintInstruction(
+	candyMachine: PublicKey,
+	mobileWallet: Web3MobileWallet,
+	account: Account,
+	mint: Keypair,
+	connection: Connection,
+	remainingAccounts?: AccountMeta[] | null,
+	mintArgs?: Uint8Array | null,
+	label?: string | null
+): Promise<TransactionInstruction[]> {
+	// candy machine object
+	const metaplex = Metaplex.make(connection).use(
+		walletAdapterIdentity({ ...mobileWallet, publicKey: account.publicKey })
+	)
+	const candyMachineObject: CandyMachine = await metaplex.candyMachines().findByAddress({
+		address: candyMachine,
+	})
+	//address: new PublicKey('4o8Wbsp5MzSzxXdwbRi6SgdtzH4LHaRSL4Xrg8UKA9nq'),
+
+	// PDAs required for the mint
+	// const tokenProgram = metaplex.programs().getToken();
+	// const systemProgram = metaplex.programs().getSystem();
+	// PDAs.
+	const authorityPda = metaplex.candyMachines().pdas().authority({ candyMachine })
+
+	const nftMetadata = metaplex.nfts().pdas().metadata({
+		mint: mint.publicKey,
+	})
+	const nftMasterEdition = metaplex.nfts().pdas().masterEdition({
+		mint: mint.publicKey,
+	})
+
+	const nftTokenAccount = metaplex
+		.tokens()
+		.pdas()
+		.associatedTokenAccount({ mint: mint.publicKey, owner: account.publicKey })
+
+	// collection PDAs
+	const collectionMetadata = metaplex.nfts().pdas().metadata({
+		mint: candyMachineObject.collectionMintAddress,
+	})
+	const collectionMasterEdition = metaplex.nfts().pdas().masterEdition({
+		mint: candyMachineObject.collectionMintAddress,
+	})
+
+	const collectionAuthorityRecord = metaplex.nfts().pdas().collectionAuthorityRecord({
+		mint: candyMachineObject.collectionMintAddress,
+		collectionAuthority: authorityPda,
+	})
+
+	// const tokenMetadataProgram = metaplex.programs().getTokenMetadata();
+	// const guardClient = metaplex.candyMachines().guards();
+	const collectionMint = candyMachineObject.collectionMintAddress
+	const collectionNft = await metaplex.nfts().findByMint({ mintAddress: collectionMint })
+
+	if (!candyMachineObject.candyGuard) {
+		throw new Error('no associated candyguard !')
+	}
+
+	const accounts: MintInstructionAccounts = {
+		candyGuard: candyMachineObject.candyGuard?.address,
+		candyMachineProgram: CANDY_MACHINE_PROGRAM_ID,
+		candyMachine,
+		payer: account.publicKey,
+		candyMachineAuthorityPda: authorityPda,
+		nftMasterEdition: nftMasterEdition,
+		nftMetadata,
+		nftMint: mint.publicKey,
+		nftMintAuthority: account.publicKey,
+		collectionUpdateAuthority: collectionNft.updateAuthorityAddress,
+		collectionAuthorityRecord,
+		collectionMasterEdition,
+		collectionMetadata,
+		collectionMint,
+		tokenMetadataProgram: METAPLEX_PROGRAM_ID,
+		tokenProgram: TOKEN_PROGRAM_ID,
+		systemProgram: SystemProgram.programId,
+		recentSlothashes: SYSVAR_SLOT_HASHES_PUBKEY,
+		instructionSysvarAccount: SYSVAR_INSTRUCTIONS_PUBKEY,
+	}
+
+	if (!mintArgs) {
+		mintArgs = new Uint8Array()
+	}
+
+	const args: MintInstructionArgs = {
+		mintArgs,
+		label: label ?? null,
+	}
+
+	const instructions: TransactionInstruction[] = []
+	instructions.push(
+		SystemProgram.createAccount({
+			fromPubkey: account.publicKey,
+			newAccountPubkey: mint.publicKey,
+			lamports: await connection.getMinimumBalanceForRentExemption(MintLayout.span),
+			space: MintLayout.span,
+			programId: TOKEN_PROGRAM_ID,
+		})
+	)
+
+	instructions.push(createInitializeMintInstruction(mint.publicKey, 0, account.publicKey, account.publicKey))
+	instructions.push(
+		createAssociatedTokenAccountInstruction(account.publicKey, nftTokenAccount, account.publicKey, mint.publicKey)
+	)
+	instructions.push(createMintToInstruction(mint.publicKey, nftTokenAccount, account.publicKey, 1, []))
 
 	const mintInstruction = createMintInstruction(accounts, args)
 

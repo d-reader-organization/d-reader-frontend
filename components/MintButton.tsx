@@ -2,9 +2,9 @@ import React, { useCallback, useMemo } from 'react'
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react'
 import { AnchorProvider, Program } from '@project-serum/anchor'
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js'
-import Button from '@mui/material/Button'
 import { constructMintInstruction } from 'utils/candyMachine'
 // import { network } from 'constants/environment'
+import Button from '@mui/material/Button'
 import idl from './candy_guard.json'
 
 // const programID = new PublicKey(idl.metadata.address)
@@ -15,7 +15,8 @@ const MintButton: React.FC = () => {
 
 	const provider = useMemo(() => {
 		return wallet
-			? new AnchorProvider(connection, wallet, {
+			? // TODO: use connection with different commitment?
+			  new AnchorProvider(connection, wallet, {
 					preflightCommitment: 'recent',
 					commitment: 'recent',
 			  })
@@ -26,7 +27,8 @@ const MintButton: React.FC = () => {
 	const idlJSON = JSON.parse(jsonString)
 
 	const mintNft = useCallback(async () => {
-		console.log('start')
+		// TODO: remove provider from here?
+		console.log('start', provider, wallet)
 		if (!provider || !wallet) return
 
 		const program = new Program(idlJSON, idl.metadata.address, provider)
@@ -64,7 +66,7 @@ const MintButton: React.FC = () => {
 		})
 	}, [connection, idlJSON, provider, wallet])
 
-	return <Button onClick={mintNft}>Mint new</Button>
+	return <Button onClick={mintNft}>Mint (Desktop)</Button>
 }
 
 export default MintButton
