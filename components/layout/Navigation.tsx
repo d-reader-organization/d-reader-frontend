@@ -16,19 +16,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
 
 	return (
-		<Toolbar
-			component='nav'
-			className='navigation'
-			sx={{
-				padding: {
-					xs: '1rem',
-					sm: '2rem 2rem 3rem 2rem',
-					md: '2rem 3rem',
-					lg: '3rem 4rem',
-				},
-			}}
-			{...props}
-		>
+		<Toolbar component='nav' className='navigation' {...props}>
 			<a href='https://www.dreader.app' rel='noreferrer' target='_blank' className='company-logo-wrapper'>
 				<Hidden smDown>
 					<Image className='company-logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
