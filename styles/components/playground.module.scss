@@ -10,15 +10,13 @@
 
 	button {
 		background-color: $important-color !important;
-
-		&:not(:last-child) {
-			margin-right: 2rem;
-		}
+		margin: 0.5rem;
 	}
 
 	.playground-buttons {
 		@include flexRow;
 		height: min-content;
+		flex-wrap: wrap;
 		padding: 2rem 0;
 	}
 }
