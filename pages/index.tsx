@@ -8,6 +8,7 @@ import { Button, TextField, Typography } from '@mui/material'
 import http from 'api/http'
 import { Box } from '@mui/system'
 import { useState } from 'react'
+import MintButton from 'components/MintButton'
 
 const fetchMintTransaction = async (): Promise<string> => {
 	const response = await http.get<string>('playground/transactions/construct/create-nft')
@@ -81,7 +82,8 @@ const Home: NextPage = () => {
 					</Box>
 					<Box className='playground-buttons'>
 						<Button onClick={genericFetch}>Generic</Button>
-						<Button onClick={mintOne}>Mint One</Button>
+						<Button onClick={mintOne}>Mint deprecated</Button>
+						<MintButton />
 						<Button onClick={buy}>Buy</Button>
 						<Button onClick={list}>Sell</Button>
 						<Button onClick={fetch}>Fetch</Button>
