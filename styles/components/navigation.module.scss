@@ -6,6 +6,20 @@
 .navigation {
 	@include defaultFadeIn;
 
+	padding: 1rem;
+
+	@include sm {
+		padding: 2rem 2rem 3rem 2rem;
+	}
+
+	@include md {
+		padding: 2rem 3rem;
+	}
+
+	@include lg {
+		padding: 3rem 4rem;
+	}
+
 	.company-logo-wrapper {
 		height: 32px;
 	}
