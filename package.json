@@ -16,13 +16,9 @@
 	"dependencies": {
 		"@emotion/react": "^11.10.5",
 		"@emotion/styled": "^11.10.5",
-		"@metaplex-foundation/js": "^0.18.0",
-		"@metaplex-foundation/mpl-candy-guard": "^0.3.2",
-		"@metaplex-foundation/mpl-candy-machine-core": "^0.1.2",
 		"@mui/icons-material": "^5.11.0",
 		"@mui/material": "^5.11.8",
 		"@open-sauce/solomon": "^0.1.28",
-		"@project-serum/anchor": "^0.26.0",
 		"@solana-mobile/wallet-adapter-mobile": "^1.0.0",
 		"@solana/spl-token": "^0.3.7",
 		"@solana/wallet-adapter-base": "^0.9.20",
