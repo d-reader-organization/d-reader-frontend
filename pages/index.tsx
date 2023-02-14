@@ -6,8 +6,6 @@ import Main from 'components/layout/Main'
 import useTransaction from 'hooks/useTransaction'
 import { Box, Button, TextField, Typography } from '@mui/material'
 // import { useFetchMintTransaction } from 'api/playground'
-import MobileMintButton from 'components/MobileMintButton'
-import MintButton from 'components/MintButton'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
@@ -82,9 +80,7 @@ const Home: NextPage = () => {
 					</Box>
 					<Box className='playground-buttons'>
 						<Button onClick={genericFetch}>Generic</Button>
-						{/* <Button onClick={mintOne}>Mint deprecated</Button> */}
-						<MintButton />
-						<MobileMintButton />
+						<Button onClick={mintOne}>Mint deprecated</Button>
 						<Button onClick={buy}>Buy</Button>
 						<Button onClick={list}>Sell</Button>
 						<Button onClick={fetch}>Fetch</Button>
