@@ -9,7 +9,9 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/construct/create-nft')
+	const response = await http.get<string>('playground/transactions/construct/mint-one', {
+		params: { candyMachineAddress: 'GWFHihr9B8ntBiTQWeVh7oZXCbmTUQLdqcfdhgsfRwgf' },
+	})
 	return response.data
 }
 
@@ -80,7 +82,7 @@ const Home: NextPage = () => {
 					</Box>
 					<Box className='playground-buttons'>
 						<Button onClick={genericFetch}>Generic</Button>
-						<Button onClick={mintOne}>Mint deprecated</Button>
+						<Button onClick={mintOne}>Mint</Button>
 						<Button onClick={buy}>Buy</Button>
 						<Button onClick={list}>Sell</Button>
 						<Button onClick={fetch}>Fetch</Button>
