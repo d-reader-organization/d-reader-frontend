@@ -1,4 +1,6 @@
 @use '../mixins/breakpoints.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
 
 .section {
 	position: relative;
@@ -9,7 +11,7 @@
 	}
 
 	@include md {
-		padding: 4rem 2rem;
+		padding: 3rem 2rem;
 	}
 
 	// &::before {
@@ -23,13 +25,17 @@
 	// 	display: block;
 	// }
 
-	.section-title {
-		text-align: center;
+	.section-title-row {
+		@include flexRow;
+		justify-content: space-between;
 		padding-bottom: 1rem;
 
-		@include md {
-			text-align: left;
-			padding-bottom: 2rem;
+		.section-title {
+			text-transform: capitalize;
+		}
+
+		.section-title-button {
+			color: $important-color;
 		}
 	}
 }

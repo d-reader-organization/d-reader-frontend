@@ -41,11 +41,15 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
 	const onQueryError = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(error: Error | AxiosError<any>) => {
+		(error: any | AxiosError<any>) => {
 			let message = ''
 			if (axios.isAxiosError(error)) {
 				message = error.response?.data.message
-			} else message = error?.message
+			} else {
+				if (Array.isArray(error?.message)) {
+					message = error.message.join(', ')
+				} else message = error?.message
+			}
 
 			add(message, 'error')
 		},

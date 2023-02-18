@@ -1,0 +1,73 @@
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
+
+.comic-issue-list {
+	@include flexRow;
+	// @include centeredRow;
+
+	.comic-issue-list-item {
+		position: relative;
+		border: 0.2rem solid $primary-color-light;
+		border-radius: 1.1rem;
+		height: 240px;
+
+		.episodes-badge {
+			background-color: white;
+			color: black;
+			padding: 0.1rem 0.6rem;
+			text-align: center;
+			border-radius: 2rem;
+			position: absolute;
+			top: 1rem;
+			left: 1rem;
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		.favourite-badge {
+			background-color: white;
+			color: black;
+			padding: 0.1rem 0.2rem;
+			text-align: center;
+			border-radius: 2rem;
+			position: absolute;
+			top: 1rem;
+			right: 1rem;
+			font-size: 14px;
+		}
+
+		.text-area {
+			width: 100%;
+			padding: 1rem;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+
+			.comic-title {
+				width: 100%;
+				font-weight: bold;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+		}
+
+		.cover-image {
+			z-index: 0;
+			object-fit: cover;
+			border-radius: 1rem;
+			mask-image: linear-gradient(
+				to bottom,
+				rgba($primary-color-light, 0.95) 0%,
+				rgba($primary-color-light, 0.15) 80%,
+				rgba($primary-color-light, 0.05) 100%
+			);
+			mix-blend-mode: normal;
+		}
+	}
+
+	// .comic-issue-list-item:not(:last-child) {
+	// 	margin-right: 1rem;
+	// }
+}

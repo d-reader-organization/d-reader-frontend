@@ -21,6 +21,6 @@ export const useFetchComicIssue = (id: number | undefined) => {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
 		enabled: isAuthenticated && id !== undefined && id !== null,
 		onError: toaster.onQueryError,
-		retry: 3,
+		retry: 1,
 	})
 }

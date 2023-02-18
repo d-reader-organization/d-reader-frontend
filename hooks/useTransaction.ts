@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { Transaction } from '@solana/web3.js'
+import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
+import { useMobileWallet } from '@open-sauce/solomon'
 
 type TransactionHook = {
 	decodeBase58: (encodedTransaction: string) => Promise<Transaction>
@@ -10,6 +12,7 @@ type TransactionHook = {
 }
 
 export const useTransaction = (): TransactionHook => {
+	const { authorizeSession, selectedAccount } = useMobileWallet()
 	const { signTransaction } = useWallet()
 	const { connection } = useConnection()
 
@@ -48,11 +51,33 @@ export const useTransaction = (): TransactionHook => {
 			// TODO: check if blockhash info is missing and fetch it if yes
 
 			const transaction = await decodeBase64(encodedTransaction)
-			const signedTransaction = await signTransaction(transaction)
-			const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-			return signature
+			try {
+				const signedTransaction = await signTransaction(transaction)
+				const signature = await connection.sendRawTransaction(signedTransaction.serialize())
+				return signature
+			} catch (e) {
+				return await transact(async (mobileWallet) => {
+					// TODO: use connection with different commitment?
+					const freshAccount = await authorizeSession(mobileWallet)
+					const account = selectedAccount ?? freshAccount
+
+					// const { context } = await connection.getLatestBlockhashAndContext()
+					// const [signature] = await mobileWallet.signAndSendTransactions({
+					// 	minContextSlot: context.slot,
+					// 	transactions: [transaction],
+					// })
+
+					console.log(account.publicKey.toBase58())
+					console.log(account.address)
+					const [signedTransaction] = await mobileWallet.signTransactions({
+						transactions: [transaction],
+					})
+					const signature = await connection.sendRawTransaction(signedTransaction.serialize())
+					return signature
+				})
+			}
 		},
-		[connection, decodeBase64, signTransaction]
+		[authorizeSession, connection, decodeBase64, selectedAccount, signTransaction]
 	)
 
 	return { decodeBase58, decodeBase58SignAndSend, decodeBase64, decodeBase64SignAndSend }

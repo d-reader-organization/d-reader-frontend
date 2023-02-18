@@ -4,14 +4,13 @@ import { Creator } from './creator'
 import { Genre } from './genre'
 
 export interface Comic {
-	id: number
 	name: string
 	slug: string
-	isMatureAudience: boolean
 	description: string
 	flavorText: string
-	isDeleted: boolean
+	isMatureAudience: boolean
 	isCompleted: boolean
+	isDeleted: boolean
 	isVerified: boolean
 	isPublished: boolean
 	isPopular: boolean
@@ -28,6 +27,6 @@ export interface Comic {
 	youTube: string
 	stats?: ComicStats
 	myStats?: MyComicStats
-	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color'>>
+	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color' | 'icon'>>
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
 }

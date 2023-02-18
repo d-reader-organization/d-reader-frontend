@@ -10,6 +10,10 @@
 @use 'components/wallet-button.module.scss';
 @use 'components/comic-reader.module.scss';
 @use 'components/playground.module.scss';
+@use 'components/carousel.module.scss';
+@use 'components/genre-list.module.scss';
+@use 'components/comic-list.module.scss';
+@use 'components/comic-issue-list.module.scss';
 
 // Pages
 @use 'pages/home.module.scss';

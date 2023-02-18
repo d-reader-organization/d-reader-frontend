@@ -1,0 +1,10 @@
+@use '../mixins/common.module.scss' as *;
+
+.genre-list {
+	@include flexRow;
+	// @include centeredRow;
+
+	.genre-list-item:not(:last-child) {
+		margin-right: 1rem;
+	}
+}
