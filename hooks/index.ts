@@ -1,6 +1,5 @@
 export * from './useIsomorphicLayoutEffect'
 export * from './useCancelablePromise'
 export * from './useAnchorElement'
-export * from './useTransaction'
 export * from './useIsMounted'
 export * from './useToggle'

@@ -1,6 +1,6 @@
 {
 	"name": "d-reader-frontend",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -17,11 +17,11 @@
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
 		"@mui/icons-material": "^5.11.9",
-		"@mui/material": "^5.11.9",
-		"@open-sauce/solomon": "^0.1.29",
+		"@mui/material": "^5.11.10",
+		"@open-sauce/solomon": "^0.2.0",
 		"@solana-mobile/wallet-adapter-mobile": "^1.0.0",
 		"@solana/spl-token": "^0.3.7",
-		"@solana/wallet-adapter-base": "^0.9.20",
+		"@solana/wallet-adapter-base": "^0.9.21",
 		"@solana/wallet-adapter-material-ui": "^0.16.25",
 		"@solana/wallet-adapter-react": "^0.15.28",
 		"@solana/web3.js": "^1.73.2",

@@ -3,51 +3,33 @@ import type { NextPage } from 'next'
 import Navigation from 'components/layout/Navigation'
 import Footer from 'components/layout/Footer'
 import Main from 'components/layout/Main'
-import useTransaction from 'hooks/useTransaction'
+import { useCrossDeviceWallet, decodeTransaction } from '@open-sauce/solomon'
 import { Box, Button, TextField, Typography } from '@mui/material'
-// import { useFetchMintTransaction } from 'api/playground'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
 	const response = await http.get<string>('playground/transactions/construct/mint-one', {
-		params: { candyMachineAddress: 'EJfHeoNCSpbcRtCdt1LhfXe3J51Ma82sYnppQCRevjAY' },
+		params: { candyMachineAddress: '8WyvLCSsB7nXXn49CsHp26v3geJk3zZRWtTpd6LPvNz9' },
 	})
 	return response.data
 }
 
 const Playground: NextPage = () => {
-	const { decodeBase58SignAndSend, decodeBase64SignAndSend } = useTransaction()
+	const { signAndSendTransaction } = useCrossDeviceWallet()
 	const [apiRoute, setApiRoute] = useState('')
-	const [lastTransaction, setLastTransaction] = useState('')
 	const [lastSignature, setLastSignature] = useState('')
-	const [encoding, setEncoding] = useState<'base64' | 'base58'>('base64')
-	// const { refetch, data: encodedTransaction } = useFetchMintTransaction()
-
-	const toggleEncoding = () => {
-		setEncoding((prevEncoding) => {
-			if (prevEncoding === 'base64') return 'base58'
-			else return 'base64'
-		})
-	}
-
-	const decodeSignAndSend = async (encodedTransaction: string) => {
-		console.log('encoding: ', encodedTransaction)
-		if (encoding === 'base64') return await decodeBase64SignAndSend(encodedTransaction)
-		else return await decodeBase58SignAndSend(encodedTransaction)
-	}
 
 	const genericFetch = async () => {
 		const response = await http.get<string>(apiRoute)
-		const encodedTransaction = response.data
-		setLastTransaction(encodedTransaction)
-		const signature = await decodeSignAndSend(encodedTransaction)
+		const encodedTransaction = decodeTransaction(response.data)
+		const signature = await signAndSendTransaction(encodedTransaction)
 		setLastSignature(signature)
 	}
 
 	const mintOne = async () => {
-		const encodedTransaction = await fetchMintTransaction()
-		setLastTransaction(encodedTransaction)
-		const signature = await decodeSignAndSend(encodedTransaction)
+		const response = await fetchMintTransaction()
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
 		setLastSignature(signature)
 	}
 
@@ -68,7 +50,6 @@ const Playground: NextPage = () => {
 			<Main className='main'>
 				<Box className='playground'>
 					<Box className='playground-input'>
-						<Button onClick={toggleEncoding}>{encoding === 'base64' ? 'base64' : 'base58'}</Button>
 						<TextField
 							value={apiRoute}
 							placeholder='API route to fetch tx from'
@@ -91,13 +72,6 @@ const Playground: NextPage = () => {
 				<Typography>
 					<strong>Last signature: </strong>
 					<span className='text--important'>{lastSignature || '------'}</span>
-				</Typography>
-				<br />
-				<Typography>
-					<strong>Last transaction: </strong>
-					<span className='text--important' style={{ wordBreak: 'break-all' }}>
-						{lastTransaction || '------'}
-					</span>
 				</Typography>
 			</Main>
 
