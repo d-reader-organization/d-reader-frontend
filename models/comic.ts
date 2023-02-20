@@ -1,5 +1,5 @@
 import { ComicStats } from './comicStats'
-import { MyComicStats } from './myComicStats'
+import { ComicMyStats } from './comicMyStats'
 import { Creator } from './creator'
 import { Genre } from './genre'
 
@@ -26,7 +26,7 @@ export interface Comic {
 	tikTok: string
 	youTube: string
 	stats?: ComicStats
-	myStats?: MyComicStats
+	myStats?: ComicMyStats
 	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color' | 'icon'>>
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
 }

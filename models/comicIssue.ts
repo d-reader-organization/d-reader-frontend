@@ -1,4 +1,6 @@
 import { Comic } from './comic'
+import { ComicIssueMyStats } from './comicIssueMyStats'
+import { ComicIssueStats } from './comicIssueStats'
 import { Creator } from './creator'
 
 export interface ComicIssue {
@@ -6,7 +8,7 @@ export interface ComicIssue {
 	number: number
 	suppy: number
 	discountMintPrice: number
-	mintPrice: 0.05
+	mintPrice: number
 	title: string
 	slug: string
 	description: string
@@ -21,6 +23,6 @@ export interface ComicIssue {
 	isVerified: boolean
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
 	comic?: Pick<Comic, 'name' | 'slug' | 'isMatureAudience'>
-	stats?: unknown // TODO
-	myStats?: unknown // TODO
+	stats?: ComicIssueStats
+	myStats?: ComicIssueMyStats
 }
