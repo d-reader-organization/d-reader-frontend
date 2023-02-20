@@ -1,104 +1,54 @@
-import { useState } from 'react'
 import type { NextPage } from 'next'
 import Navigation from 'components/layout/Navigation'
 import Footer from 'components/layout/Footer'
 import Main from 'components/layout/Main'
-import useTransaction from 'hooks/useTransaction'
-import { Box, Button, TextField, Typography } from '@mui/material'
-// import { useFetchMintTransaction } from 'api/playground'
-import http from 'api/http'
-
-const fetchMintTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/construct/mint-one', {
-		params: { candyMachineAddress: 'GWFHihr9B8ntBiTQWeVh7oZXCbmTUQLdqcfdhgsfRwgf' },
-	})
-	return response.data
-}
+import Carousel from 'components/Carousel'
+import GenreList from 'components/GenreList'
+import Section from 'components/layout/Section'
+import ComicList from 'components/ComicList'
+import ComicIssueList from 'components/ComicIssueList'
+import { Theme, useMediaQuery } from '@mui/material'
+import { useMemo } from 'react'
 
 const Home: NextPage = () => {
-	const { decodeBase58SignAndSend, decodeBase64SignAndSend } = useTransaction()
-	const [apiRoute, setApiRoute] = useState('')
-	const [lastTransaction, setLastTransaction] = useState('')
-	const [lastSignature, setLastSignature] = useState('')
-	const [encoding, setEncoding] = useState<'base64' | 'base58'>('base64')
-	// const { refetch, data: encodedTransaction } = useFetchMintTransaction()
+	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.up('xs'))
+	const sm = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
+	const md = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
+	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
-	const toggleEncoding = () => {
-		setEncoding((prevEncoding) => {
-			if (prevEncoding === 'base64') return 'base58'
-			else return 'base64'
-		})
-	}
+	const take = useMemo(() => {
+		if (lg) return { genres: 8, comics: 8, comicIssues: 8 }
+		else if (md) return { genres: 8, comics: 8, comicIssues: 8 }
+		else if (sm) return { genres: 6, comics: 6, comicIssues: 6 }
+		else if (xs) return { genres: 4, comics: 4, comicIssues: 4 }
+		else return undefined
+	}, [lg, md, sm, xs])
 
-	const decodeSignAndSend = async (encodedTransaction: string) => {
-		console.log('encoding: ', encodedTransaction)
-		if (encoding === 'base64') return await decodeBase64SignAndSend(encodedTransaction)
-		else return await decodeBase58SignAndSend(encodedTransaction)
-	}
-
-	const genericFetch = async () => {
-		const response = await http.get<string>(apiRoute)
-		const encodedTransaction = response.data
-		setLastTransaction(encodedTransaction)
-		const signature = await decodeSignAndSend(encodedTransaction)
-		setLastSignature(signature)
-	}
-
-	const mintOne = async () => {
-		const encodedTransaction = await fetchMintTransaction()
-		setLastTransaction(encodedTransaction)
-		const signature = await decodeSignAndSend(encodedTransaction)
-		setLastSignature(signature)
-	}
-
-	const buy = () => {
-		console.log('bought')
-	}
-	const list = () => {
-		console.log('listed')
-	}
-	const fetch = () => {
-		console.log('fetched')
-	}
+	if (!take) return null
 
 	return (
 		<>
 			<Navigation />
+			<header className='header'>
+				<Carousel />
+			</header>
 
 			<Main className='main'>
-				<Box className='playground'>
-					<Box className='playground-input'>
-						<Button onClick={toggleEncoding}>{encoding === 'base64' ? 'base64' : 'base58'}</Button>
-						<TextField
-							value={apiRoute}
-							placeholder='API route to fetch tx from'
-							variant='filled'
-							onChange={(e) => {
-								setApiRoute(e.target.value)
-							}}
-							size='small'
-							fullWidth
-						/>
-					</Box>
-					<Box className='playground-buttons'>
-						<Button onClick={genericFetch}>Generic</Button>
-						<Button onClick={mintOne}>Mint</Button>
-						<Button onClick={buy}>Buy</Button>
-						<Button onClick={list}>Sell</Button>
-						<Button onClick={fetch}>Fetch</Button>
-					</Box>
-				</Box>
-				<Typography>
-					<strong>Last signature: </strong>
-					<span className='text--important'>{lastSignature || '------'}</span>
-				</Typography>
-				<br />
-				<Typography>
-					<strong>Last transaction: </strong>
-					<span className='text--important' style={{ wordBreak: 'break-all' }}>
-						{lastTransaction || '------'}
-					</span>
-				</Typography>
+				<Section id='genres' title='Genres' actionProps={{ children: 'See All', href: '#genres' }}>
+					<GenreList take={take.genres} />
+				</Section>
+
+				<Section id='new-comics' title='New comics' actionProps={{ children: 'See All', href: '#new-comics' }}>
+					<ComicList take={take.comics} />
+				</Section>
+
+				<Section
+					id='popular-issues'
+					title='Popular issues'
+					actionProps={{ children: 'See All', href: '#popular-issues' }}
+				>
+					<ComicIssueList take={take.comicIssues} />
+				</Section>
 			</Main>
 
 			<Footer />

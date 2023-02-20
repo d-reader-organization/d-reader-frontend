@@ -16,6 +16,6 @@ export const useFetchApp = () => {
 	return useQuery(appKeys.app, fetchApp, {
 		staleTime: 1000 * 60 * 60 * 24, // Stale for one day
 		onError: toaster.onQueryError,
-		retry: 3,
+		retry: 1,
 	})
 }

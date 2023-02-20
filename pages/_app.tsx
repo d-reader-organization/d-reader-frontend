@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { network, endpoint, APP_IDENTITY } from 'constants/environment'
-import { AuthProvider, MobileWalletProvider, wallets } from '@open-sauce/solomon'
+import { AuthProvider, MobileWalletProvider, getWallets } from '@open-sauce/solomon'
 import ToastProvider from 'providers/ToastProvider'
 import theme from 'styles/theme'
 import Head from 'next/head'
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={wallets[network]} autoConnect>
+					<WalletProvider wallets={getWallets(network)} autoConnect>
 						<WalletDialogProvider featuredWallets={6} className='wallet-dialog'>
 							<MobileWalletProvider cluster={network} identity={APP_IDENTITY}>
 								<AuthProvider http={http} cluster={network} identity={APP_IDENTITY}>

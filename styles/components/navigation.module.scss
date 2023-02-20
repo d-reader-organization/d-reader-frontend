@@ -8,16 +8,16 @@
 
 	padding: 1rem;
 
-	@include sm {
-		padding: 2rem 2rem 3rem 2rem;
-	}
+	// @include sm {
+	// 	padding: 2rem;
+	// }
 
 	@include md {
-		padding: 2rem 3rem;
+		padding: 2rem;
 	}
 
 	@include lg {
-		padding: 3rem 4rem;
+		padding: 2rem 4rem;
 	}
 
 	.company-logo-wrapper {

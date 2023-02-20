@@ -1,0 +1,20 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.header {
+	.slider {
+		// width: 80%;
+		max-width: $md-width;
+		margin: 0 auto;
+	}
+
+	.slider-wrapper {
+		@include md {
+			border-radius: 1rem;
+		}
+	}
+
+	.slider-image {
+		object-fit: cover;
+	}
+}
