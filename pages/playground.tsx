@@ -14,6 +14,13 @@ const fetchMintTransaction = async (): Promise<string> => {
 	return response.data
 }
 
+const fetchListTransaction = async (): Promise<string> => {
+	const response = await http.get<string>('playground/transactions/construct/list', {
+		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ' , price: 1},
+	})
+	return response.data
+}
+
 const Playground: NextPage = () => {
 	const { signAndSendTransaction } = useCrossDeviceWallet()
 	const [apiRoute, setApiRoute] = useState('')
@@ -36,8 +43,11 @@ const Playground: NextPage = () => {
 	const buy = () => {
 		console.log('bought')
 	}
-	const list = () => {
-		console.log('listed')
+	const list = async() => {
+		const response = await fetchListTransaction()
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
 	}
 	const fetch = () => {
 		console.log('fetched')
