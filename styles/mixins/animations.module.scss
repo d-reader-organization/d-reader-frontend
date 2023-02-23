@@ -1,3 +1,5 @@
+@use '../variables/theme.module.scss' as *;
+
 @mixin defaultFadeIn {
 	opacity: 0;
 	animation-name: fadeIn;

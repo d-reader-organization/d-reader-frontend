@@ -1,7 +1,9 @@
-import { Box, BoxProps, Grid, Typography } from '@mui/material'
-import { useFetchComics } from 'api/comic'
+import { useEffect, useMemo, useState } from 'react'
+import { Box, BoxProps, Grid } from '@mui/material'
 import useOnScreen from 'hooks/useOnScreen'
-import Image from 'next/image'
+import { useFetchComics } from 'api/comic'
+import AnimatedGridItem from './AnimatedGrid'
+import ComicItem from './ComicItem'
 import clsx from 'clsx'
 
 interface Props extends BoxProps {
@@ -10,39 +12,17 @@ interface Props extends BoxProps {
 
 const ComicList: React.FC<Props> = ({ take, className, ...props }) => {
 	const { data: comics = [] } = useFetchComics({ skip: 0, take })
-	const [isVisible, endOfListRef] = useOnScreen()
+	const [isVisible, observableRef] = useOnScreen()
 
+	// TODO: add position absolute item at px = props.px and point the ref to it
 	return (
-		<Box ref={endOfListRef} className={clsx('comic-list', className)} {...props}>
+		<Box ref={observableRef} className={clsx('comic-list', className)} {...props}>
 			<Grid container spacing={2}>
 				{comics.map((comic, i) => (
-					<Grid key={comic.slug} item xs={12} sm={6} md={4} lg={3}>
+					<AnimatedGridItem key={comic.slug} animate={isVisible} itemOrder={i} xs={12} sm={6} md={4} lg={3}>
 						{/* TODO: these are Link-s */}
-						<Box
-							className={clsx('comic-list-item', 'theme-slideX-left', isVisible ? 'theme-slideX-animate' : '')}
-							style={{ transitionDelay: `${(i + 1) * 100}ms` }}
-						>
-							<Image blurDataURL='' src={comic.cover} alt='' fill sizes='100vw' className='cover-image' />
-
-							{comic.stats && (
-								<Box className='episodes-badge'>
-									{comic.stats.issuesCount}
-									{comic.stats.issuesCount > 1 ? ' EPs' : ' EP'}
-								</Box>
-							)}
-							{comic.myStats && <Box className='favourite-badge'>{comic.myStats.isFavourite ? '💖' : '🤍'}</Box>}
-
-							<Box className='text-area'>
-								<Typography className='comic-title'>{comic.name}</Typography>
-								{comic.creator && (
-									<Typography>
-										{comic.creator.name}
-										{comic.creator.isVerified ? ' ✅' : ''}
-									</Typography>
-								)}
-							</Box>
-						</Box>
-					</Grid>
+						<ComicItem comic={comic} />
+					</AnimatedGridItem>
 				))}
 			</Grid>
 		</Box>

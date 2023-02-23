@@ -19,7 +19,14 @@ const Carousel: React.FC = () => {
 		>
 			{carouselSlides.map((slide) => (
 				<Box key={slide.id} height={500} position='relative'>
-					<Image src={slide.image} alt={slide.title} fill sizes='100vw' className='slider-image' />
+					<Image
+						src={slide.image}
+						alt={slide.title}
+						fill
+						sizes='(max-width: 900px) 100vw,900px'
+						className='slider-image'
+						priority
+					/>
 				</Box>
 			))}
 		</ResponsiveCarousel>

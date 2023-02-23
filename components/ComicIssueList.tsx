@@ -22,7 +22,14 @@ const ComicIssueList: React.FC<Props> = ({ take, className, ...props }) => {
 							className={clsx('comic-issue-list-item', 'theme-slideX-left', isVisible ? 'theme-slideX-animate' : '')}
 							style={{ transitionDelay: `${(i + 1) * 100}ms` }}
 						>
-							<Image blurDataURL='' src={issue.cover} alt='' fill sizes='100vw' className='cover-image' />
+							<Image
+								src={issue.cover}
+								alt=''
+								fill
+								loading='lazy'
+								sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
+								className='cover-image'
+							/>
 							{/*
 							{issue.stats && (
 								<Box className='episodes-badge'>
