@@ -21,6 +21,13 @@ const fetchListTransaction = async (): Promise<string> => {
 	return response.data
 }
 
+const fetchPrivateBidTransaction = async (): Promise<string> => {
+	const response = await http.get<string>('playground/transactions/construct/private-bid', {
+		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ' , price: 1, seller:'3dkovHUm4UJRGjtRmapGJzHjwQFPjaGiPoFjNQxPj1sS'},
+	})
+	return response.data
+}
+
 const Playground: NextPage = () => {
 	const { signAndSendTransaction } = useCrossDeviceWallet()
 	const [apiRoute, setApiRoute] = useState('')
@@ -40,8 +47,11 @@ const Playground: NextPage = () => {
 		setLastSignature(signature)
 	}
 
-	const buy = () => {
-		console.log('bought')
+	const privateBid = async() => {
+		const response = await fetchPrivateBidTransaction()
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
 	}
 	const list = async() => {
 		const response = await fetchListTransaction()
@@ -74,7 +84,7 @@ const Playground: NextPage = () => {
 					<Box className='playground-buttons'>
 						<Button onClick={genericFetch}>Generic</Button>
 						<Button onClick={mintOne}>Mint</Button>
-						<Button onClick={buy}>Buy</Button>
+						<Button onClick={privateBid}>Private Bid</Button>
 						<Button onClick={list}>Sell</Button>
 						<Button onClick={fetch}>Fetch</Button>
 					</Box>
