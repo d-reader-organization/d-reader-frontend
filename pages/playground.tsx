@@ -28,6 +28,13 @@ const fetchPrivateBidTransaction = async (): Promise<string> => {
 	return response.data
 }
 
+const executeSaleTransaction = async(): Promise<string> => {
+	const response = await http.get<string>('playground/transactions/execute-sale', {
+		params: { bidReceipt:'pQVfXFi3zbjypdad1GFtNzxNVZt9wKXy9vJpxE8PpDe',  listReceipt: 'HEqJnMV8uaEzbLDJkucMBDTwMMKsuYPXckEUPXwokxP7'},
+	})
+	return response.data
+}
+
 const Playground: NextPage = () => {
 	const { signAndSendTransaction } = useCrossDeviceWallet()
 	const [apiRoute, setApiRoute] = useState('')
@@ -59,6 +66,15 @@ const Playground: NextPage = () => {
 		const signature = await signAndSendTransaction(encodedTransaction)
 		setLastSignature(signature)
 	}
+
+	const executeSale = async() => {
+		const response = await executeSaleTransaction()
+		console.log(response)
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
+	}
+  
 	const fetch = () => {
 		console.log('fetched')
 	}
@@ -86,6 +102,7 @@ const Playground: NextPage = () => {
 						<Button onClick={mintOne}>Mint</Button>
 						<Button onClick={privateBid}>Private Bid</Button>
 						<Button onClick={list}>Sell</Button>
+						<Button onClick={executeSale}>Execute Sale</Button>
 						<Button onClick={fetch}>Fetch</Button>
 					</Box>
 				</Box>
