@@ -16,7 +16,28 @@ const fetchMintTransaction = async (): Promise<string> => {
 
 const fetchListTransaction = async (): Promise<string> => {
 	const response = await http.get<string>('playground/transactions/construct/list', {
-		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ' , price: 1},
+		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ', price: 1 },
+	})
+	return response.data
+}
+
+const fetchPrivateBidTransaction = async (): Promise<string> => {
+	const response = await http.get<string>('playground/transactions/construct/private-bid', {
+		params: {
+			mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ',
+			price: 1,
+			seller: '3dkovHUm4UJRGjtRmapGJzHjwQFPjaGiPoFjNQxPj1sS',
+		},
+	})
+	return response.data
+}
+
+const executeSaleTransaction = async (): Promise<string> => {
+	const response = await http.get<string>('playground/transactions/execute-sale', {
+		params: {
+			bidReceipt: 'pQVfXFi3zbjypdad1GFtNzxNVZt9wKXy9vJpxE8PpDe',
+			listReceipt: 'HEqJnMV8uaEzbLDJkucMBDTwMMKsuYPXckEUPXwokxP7',
+		},
 	})
 	return response.data
 }
@@ -40,15 +61,27 @@ const Playground: NextPage = () => {
 		setLastSignature(signature)
 	}
 
-	const buy = () => {
-		console.log('bought')
+	const privateBid = async () => {
+		const response = await fetchPrivateBidTransaction()
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
 	}
-	const list = async() => {
+	const list = async () => {
 		const response = await fetchListTransaction()
 		const encodedTransaction = decodeTransaction(response)
 		const signature = await signAndSendTransaction(encodedTransaction)
 		setLastSignature(signature)
 	}
+
+	const executeSale = async () => {
+		const response = await executeSaleTransaction()
+		console.log(response)
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
+	}
+
 	const fetch = () => {
 		console.log('fetched')
 	}
@@ -74,8 +107,9 @@ const Playground: NextPage = () => {
 					<Box className='playground-buttons'>
 						<Button onClick={genericFetch}>Generic</Button>
 						<Button onClick={mintOne}>Mint</Button>
-						<Button onClick={buy}>Buy</Button>
+						<Button onClick={privateBid}>Private Bid</Button>
 						<Button onClick={list}>Sell</Button>
+						<Button onClick={executeSale}>Execute Sale</Button>
 						<Button onClick={fetch}>Fetch</Button>
 					</Box>
 				</Box>
