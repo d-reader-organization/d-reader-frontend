@@ -1,20 +1,53 @@
 @use '../variables/theme.module.scss' as *;
 @use '../mixins/breakpoints.module.scss' as *;
+@use '../mixins/animations.module.scss' as *;
 
-.header {
-	.slider {
-		// width: 80%;
-		max-width: $md-width;
-		margin: 0 auto;
-	}
-
-	.slider-wrapper {
-		@include md {
-			border-radius: 1rem;
-		}
-	}
+.slider {
+	max-width: $md-width;
+	margin: 0 auto;
+	@include defaultFadeIn;
 
 	.slider-image {
 		object-fit: cover;
+		z-index: -1;
+	}
+
+	.slide {
+		height: 420px;
+
+		@include sm {
+			height: 480px;
+		}
+
+		@include lg {
+			height: 540px;
+		}
+
+		.slide-text-area {
+			width: 100%;
+			text-align: left;
+			position: absolute;
+			padding: 2rem 1rem;
+			bottom: 0;
+			left: 0;
+
+			@include md {
+				padding: 2rem;
+			}
+		}
+
+		.slide-subtitle {
+			color: lightgray;
+		}
+
+		.slide-title {
+			font-weight: bold;
+		}
+	}
+}
+
+.slider-wrapper {
+	@include md {
+		border-radius: 1rem;
 	}
 }

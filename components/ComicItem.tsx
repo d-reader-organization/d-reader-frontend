@@ -37,7 +37,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 
 	return (
 		<Box className={clsx('comic-item', className)} {...props}>
-			<Overlay />
+			<Overlay borderRadius='1rem' />
 			<Image
 				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
 				className='cover-image'

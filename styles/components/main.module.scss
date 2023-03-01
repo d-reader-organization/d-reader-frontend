@@ -5,13 +5,13 @@
 	@include defaultFadeIn;
 	min-height: 100vh;
 
-	padding: 0.5rem;
+	padding: 1rem 0.5rem;
 
 	@include sm {
-		padding: 1rem;
+		padding: 2rem 1rem;
 	}
 
 	@include md {
-		padding: 2rem;
+		padding: 4rem 2rem;
 	}
 }

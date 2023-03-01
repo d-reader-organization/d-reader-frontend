@@ -1,8 +1,9 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Image from 'next/image'
+import Overlay from './Overlay'
 
 const Carousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
@@ -11,14 +12,15 @@ const Carousel: React.FC = () => {
 		<ResponsiveCarousel
 			autoPlay
 			infiniteLoop
-			interval={5000}
+			interval={8000}
 			swipeable
 			showStatus={false}
 			showThumbs={false}
 			className='slider'
 		>
 			{carouselSlides.map((slide) => (
-				<Box key={slide.id} height={500} position='relative'>
+				<Box key={slide.id} className='slide'>
+					<Overlay />
 					<Image
 						src={slide.image}
 						alt={slide.title}
@@ -27,6 +29,14 @@ const Carousel: React.FC = () => {
 						className='slider-image'
 						priority
 					/>
+					<Box className='slide-text-area'>
+						<Typography variant='body2' className='slide-subtitle'>
+							{slide.subtitle}
+						</Typography>
+						<Typography variant='h6' className='slide-title' component='p'>
+							{slide.title}
+						</Typography>
+					</Box>
 				</Box>
 			))}
 		</ResponsiveCarousel>
