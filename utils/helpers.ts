@@ -10,3 +10,11 @@ export const shortenString = (string: string, chars = 4): string => {
 export const getUnixTimeInSeconds = () => {
 	return new Date().getTime() / 1000
 }
+
+export function getRandomInt(min: number, max: number) {
+	return min + Math.floor(Math.random() * max)
+}
+
+export function getRandomFloat(min: number, max: number) {
+	return (min + Math.random() * max).toFixed(1)
+}

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import type { NextPage } from 'next'
 import Navigation from 'components/layout/Navigation'
 import Footer from 'components/layout/Footer'
@@ -6,9 +7,9 @@ import Carousel from 'components/Carousel'
 import GenreList from 'components/GenreList'
 import Section from 'components/layout/Section'
 import ComicList from 'components/ComicList'
+import CreatorList from 'components/CreatorList'
 import ComicIssueList from 'components/ComicIssueList'
 import { Theme, useMediaQuery } from '@mui/material'
-import { useMemo } from 'react'
 
 const Home: NextPage = () => {
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.up('xs'))
@@ -38,16 +39,28 @@ const Home: NextPage = () => {
 					<GenreList take={take.genres} />
 				</Section>
 
+				<Section
+					id='popular-comics'
+					title='Popular comics'
+					actionProps={{ children: 'See All', href: '#popular-comics' }}
+				>
+					<ComicList take={take.comics} />
+				</Section>
+
+				<Section id='new-issues' title='New episodes' actionProps={{ children: 'See All', href: '#new-issues' }}>
+					<ComicIssueList take={take.comicIssues} />
+				</Section>
+
+				<Section id='top-creators' title='Top creators' actionProps={{ children: 'See All', href: '#top-creators' }}>
+					<CreatorList take={take.comicIssues} />
+				</Section>
+
 				<Section id='new-comics' title='New comics' actionProps={{ children: 'See All', href: '#new-comics' }}>
 					<ComicList take={take.comics} />
 				</Section>
 
-				<Section
-					id='popular-issues'
-					title='Popular issues'
-					actionProps={{ children: 'See All', href: '#popular-issues' }}
-				>
-					<ComicIssueList take={take.comicIssues} />
+				<Section id='free-comics' title='Free' actionProps={{ children: 'See All', href: '#free-comics' }}>
+					<ComicList take={take.comics} />
 				</Section>
 			</Main>
 

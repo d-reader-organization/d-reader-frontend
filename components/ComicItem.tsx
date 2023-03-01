@@ -3,6 +3,7 @@ import { Comic } from 'models/comic'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { useState } from 'react'
+import Overlay from './Overlay'
 
 interface Props extends BoxProps {
 	comic: Comic
@@ -14,9 +15,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 	if (!isLoaded) {
 		return (
 			<Box className={clsx('comic-item', className)} {...props}>
-				{/* TODO: <Overlay> and <Blur /> components */}
-				{/* TODO: fix styles */}
-				<div className='overlay' />
+				<Overlay />
 				<Skeleton variant='rectangular' width='100%' height='100%' className='cover-image' />
 				<Image
 					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
@@ -29,8 +28,8 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 					fill
 				/>
 				<Box className='text-area'>
-					<Skeleton variant='text' className='comic-title' />
-					<Skeleton variant='text' className='comic-title' width='50%' />
+					<Skeleton variant='text' />
+					<Skeleton variant='text' width='50%' />
 				</Box>
 			</Box>
 		)
@@ -38,7 +37,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 
 	return (
 		<Box className={clsx('comic-item', className)} {...props}>
-			<div className='overlay' />
+			<Overlay />
 			<Image
 				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
 				className='cover-image'
@@ -58,9 +57,11 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 			{comic.myStats && <Box className='favourite-badge'>{comic.myStats.isFavourite ? '💖' : '🤍'}</Box>}
 
 			<Box className='text-area'>
-				<Typography className='comic-title'>{comic.name}</Typography>
+				<Typography className='comic-title' variant='body2'>
+					{comic.name}
+				</Typography>
 				{comic.creator && (
-					<Typography>
+					<Typography className='creator-name' variant='body2'>
 						{comic.creator.name}
 						{comic.creator.isVerified ? ' ✅' : ''}
 					</Typography>

@@ -8,7 +8,7 @@ const AnimatedGridItem: React.FC<Props> = ({ className, children, animate = fals
 		<Grid
 			item
 			className={clsx(className, 'theme-slideX-left', animate ? 'theme-slideX-animate' : '')}
-			style={{ transitionDelay: `${(itemOrder + 1) * 100}ms` }}
+			style={{ transitionDelay: animate ? `${(itemOrder + 1) * 100}ms` : '0ms' }}
 			{...props}
 		>
 			{children}

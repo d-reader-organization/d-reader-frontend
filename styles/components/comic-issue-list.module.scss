@@ -5,69 +5,91 @@
 .comic-issue-list {
 	@include flexRow;
 	// @include centeredRow;
+}
 
-	.comic-issue-list-item {
-		position: relative;
-		border: 0.2rem solid $primary-color-light;
-		border-radius: 1.1rem;
-		height: 240px;
+.comic-issue-item {
+	position: relative;
+	@include flexColumn;
+	background: $primary-color-light;
+	border: 0.2rem solid $primary-color-light;
+	border-radius: 1.1rem;
+	height: 320px;
+	cursor: pointer;
+	pointer-events: all;
+	transition: transform 0.3s ease;
 
-		.episodes-badge {
-			background-color: white;
-			color: black;
-			padding: 0.1rem 0.6rem;
-			text-align: center;
-			border-radius: 2rem;
-			position: absolute;
-			top: 1rem;
-			left: 1rem;
-			font-size: 14px;
-			font-weight: bold;
-		}
+	&:hover {
+		transform: translateY(-8px);
 
-		.favourite-badge {
-			background-color: white;
-			color: black;
-			padding: 0.1rem 0.2rem;
-			text-align: center;
-			border-radius: 2rem;
-			position: absolute;
-			top: 1rem;
-			right: 1rem;
-			font-size: 14px;
-		}
-
-		.text-area {
-			width: 100%;
-			padding: 1rem;
-			position: absolute;
-			bottom: 0;
-			left: 0;
-
-			.comic-title {
-				width: 100%;
-				font-weight: bold;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				white-space: nowrap;
-			}
-		}
-
-		.cover-image {
-			z-index: 0;
-			object-fit: cover;
-			border-radius: 1rem;
-			mask-image: linear-gradient(
-				to bottom,
-				rgba($primary-color-light, 0.95) 0%,
-				rgba($primary-color-light, 0.15) 80%,
-				rgba($primary-color-light, 0.05) 100%
-			);
-			mix-blend-mode: normal;
+		.blur {
+			opacity: 0.4;
 		}
 	}
 
-	// .comic-issue-list-item:not(:last-child) {
-	// 	margin-right: 1rem;
-	// }
+	.blur {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: -2;
+		background: linear-gradient(180deg, rgba(120, 117, 255, 0.1) 0%, rgba($important-color, 0.8) 88.02%);
+		transition: all 0.3s ease;
+		filter: blur(24px);
+		opacity: 0;
+	}
+
+	.episodes-badge {
+		color: black;
+		padding: 0.1rem 0.6rem;
+		text-align: center;
+		border-radius: 2rem;
+		position: absolute;
+		top: 1rem;
+		left: 1rem;
+		background-color: white;
+		font-size: 14px;
+		font-weight: bold;
+		user-select: none;
+	}
+
+	.text-area {
+		width: 100%;
+		padding: 0.5rem 1rem;
+
+		.comic-title {
+			color: $important-color;
+		}
+
+		.comic-title,
+		.comic-issue-title {
+			width: 100%;
+			font-weight: bold;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.creator-name {
+			color: lightgray;
+		}
+
+		.price {
+			@include centeredRow;
+			font-weight: bold;
+
+			.solana-icon {
+				width: 14px;
+				height: 14px;
+				margin-left: 0.5rem;
+			}
+		}
+	}
+
+	.cover-image {
+		z-index: 0;
+		object-fit: cover;
+		border-radius: 1rem;
+		@include unclickable;
+	}
 }
