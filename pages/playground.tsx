@@ -8,21 +8,21 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/construct/mint-one', {
+	const response = await http.get<string>('candy-machine/transactions/construct/mint-one', {
 		params: { candyMachineAddress: '8WyvLCSsB7nXXn49CsHp26v3geJk3zZRWtTpd6LPvNz9' },
 	})
 	return response.data
 }
 
 const fetchListTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/construct/list', {
+	const response = await http.get<string>('auction-house/transactions/construct/list', {
 		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ', price: 1 },
 	})
 	return response.data
 }
 
 const fetchPrivateBidTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/construct/private-bid', {
+	const response = await http.get<string>('auction-house/transactions/construct/private-bid', {
 		params: {
 			mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ',
 			price: 1,
@@ -33,7 +33,7 @@ const fetchPrivateBidTransaction = async (): Promise<string> => {
 }
 
 const executeSaleTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('playground/transactions/execute-sale', {
+	const response = await http.get<string>('auction-house/transactions/execute-sale', {
 		params: {
 			bidReceipt: 'pQVfXFi3zbjypdad1GFtNzxNVZt9wKXy9vJpxE8PpDe',
 			listReceipt: 'HEqJnMV8uaEzbLDJkucMBDTwMMKsuYPXckEUPXwokxP7',
