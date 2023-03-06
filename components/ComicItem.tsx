@@ -48,6 +48,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 			/>
 			<div className='blur' />
 
+			{/* TODO: different badge variant if series are completed */}
 			{comic.stats && (
 				<Box className='episodes-badge'>
 					{comic.stats.issuesCount}

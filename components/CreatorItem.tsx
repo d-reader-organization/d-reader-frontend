@@ -12,6 +12,7 @@ interface Props extends BoxProps {
 const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 	const [isLoaded, setIsLoaded] = useState(false)
 
+	// TODO: skeleton fixes
 	if (!isLoaded) {
 		return (
 			<Box className={clsx('creator-item', className)} {...props}>

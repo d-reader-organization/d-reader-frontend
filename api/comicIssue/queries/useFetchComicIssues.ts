@@ -9,21 +9,23 @@ import http from 'api/http'
 
 const { COMIC_ISSUE, GET } = COMIC_ISSUE_QUERY_KEYS
 
-const fetchComicIssues = async (pagination: Pagination): Promise<ComicIssue[]> => {
-	const response = await http.get<ComicIssue[]>(`${COMIC_ISSUE}/${GET}`, {
-		params: {
-			skip: pagination.skip,
-			take: pagination.take,
-		},
-	})
+interface Params extends Pagination {
+	genreSlugs?: string[]
+	creatorSlug?: string
+	comicSlug?: string
+	titleSubstring?: string
+}
+
+const fetchComicIssues = async (params: Params): Promise<ComicIssue[]> => {
+	const response = await http.get<ComicIssue[]>(`${COMIC_ISSUE}/${GET}`, { params })
 	return response.data
 }
 
-export const useFetchComicIssues = (pagination: Pagination) => {
+export const useFetchComicIssues = (params: Params) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
-	const fetchComicIssuesQuery = useQuery(comicKeys.getComicIssues(), () => fetchComicIssues(pagination), {
+	const fetchComicIssuesQuery = useQuery(comicKeys.getComicIssues(), () => fetchComicIssues(params), {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
 		enabled: isAuthenticated,
 		onError: toaster.onQueryError,
@@ -34,7 +36,8 @@ export const useFetchComicIssues = (pagination: Pagination) => {
 
 	useEffect(() => {
 		if (isAuthenticated) refetch()
-	}, [refetch, pagination.skip, pagination.take, isAuthenticated])
+		// TODO: check if we can simply use params
+	}, [refetch, params.skip, params.take, isAuthenticated])
 
 	return fetchComicIssuesQuery
 }

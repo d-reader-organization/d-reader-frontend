@@ -18,7 +18,7 @@ export const useFetchComic = (slug: string) => {
 
 	return useQuery(comicKeys.getComic(slug), () => fetchComic(slug), {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: isAuthenticated,
+		enabled: isAuthenticated && !!slug,
 		onError: toaster.onQueryError,
 		retry: 1,
 	})

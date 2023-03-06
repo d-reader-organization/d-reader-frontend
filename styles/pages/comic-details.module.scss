@@ -1,0 +1,86 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.comic-details-wrapper {
+	.comic-details > *:not(:last-child) {
+		margin-bottom: 0.4rem;
+
+		@include md {
+			margin-bottom: 0.8rem;
+		}
+	}
+
+	.cover-image {
+		position: relative !important;
+		width: 100%;
+		height: auto !important;
+		border: 0.2rem solid $primary-color-light;
+		border-radius: 1.1rem;
+	}
+
+	.comic-name {
+		font-weight: bold;
+	}
+
+	.comic-flavor-text {
+		font-style: italic;
+		border-left: 4px solid $important-color;
+		padding-left: 0.5rem;
+		color: lightgray;
+	}
+
+	.comic-creator-wrapper {
+		@include flexRow;
+		align-items: center;
+
+		.text--author {
+			color: lightgray;
+			font-style: italic;
+			margin-bottom: -0.2rem;
+			font-size: 12px;
+		}
+	}
+
+	.comic-genre-list {
+		@include flexRow;
+		flex-wrap: wrap;
+
+		.genre-item {
+			@include flexRow;
+			align-items: center;
+			white-space: nowrap;
+
+			&:not(:last-child) {
+				margin-right: 1.2rem;
+			}
+		}
+
+		.genre-icon {
+			width: 24px;
+			height: 24px;
+			margin-right: 0.5rem;
+			border-radius: 0.25rem;
+		}
+	}
+
+	.comic-stats-list {
+		@include flexRow;
+		flex-wrap: wrap;
+
+		.stat-item {
+			@include flexRow;
+			align-items: center;
+			white-space: nowrap;
+			// color: lightgray;
+			background: $primary-color-light;
+			border-radius: 0.5rem;
+			padding: 0.4rem 0.8rem;
+			margin: 0.1rem 0;
+
+			&:not(:last-child) {
+				margin-right: 0.8rem;
+			}
+		}
+	}
+}

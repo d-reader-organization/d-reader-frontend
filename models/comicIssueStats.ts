@@ -1,7 +1,7 @@
 export interface ComicIssueStats {
 	favouritesCount: number
 	ratersCount: number
-	averageRating: number
+	averageRating?: number
 	floorPrice: number
 	totalVolume: number
 	totalIssuesCount: number

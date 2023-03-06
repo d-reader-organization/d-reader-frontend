@@ -16,9 +16,11 @@
 @use 'components/comic-issue-list.module.scss';
 @use 'components/creator-list.module.scss';
 @use 'components/overlay.module.scss';
+@use 'components/avatar.module.scss';
 
 // Pages
 @use 'pages/home.module.scss';
+@use 'pages/comic-details.module.scss';
 
 // Variables
 @use 'variables/theme.module.scss';

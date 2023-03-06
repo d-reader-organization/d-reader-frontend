@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { ContainerProps, Typography, Container, ButtonProps, Box, Button, Slide } from '@mui/material'
 import clsx from 'clsx'
 
@@ -18,19 +18,21 @@ const Section: React.FC<Props> = ({
 	show = true,
 	...props
 }) => {
+	const titleRef = useRef(null)
+
 	return (
 		<Container maxWidth='lg' component='section' className={clsx('section', className)} {...props}>
 			{title || actionProps ? (
-				<Box className='section-title-row'>
+				<Box className='section-title-row' ref={titleRef}>
 					{title && (
-						<Slide in={show} direction='right'>
+						<Slide container={titleRef.current} in={show} direction='right'>
 							<Typography component='h2' variant='h6' className='section-title'>
 								{title}
 							</Typography>
 						</Slide>
 					)}
 					{actionProps && (
-						<Slide in={show} direction='left'>
+						<Slide container={titleRef.current} in={show} direction='left'>
 							<Button {...actionProps} className={clsx('section-title-button', actionProps.className)} />
 						</Slide>
 					)}
@@ -40,21 +42,18 @@ const Section: React.FC<Props> = ({
 
 			<Box
 				position='absolute'
+				zIndex={-100}
 				top={0}
 				left={0}
 				right={0}
 				bottom={0}
 				margin='auto'
-				width='100%'
+				// width='100%'
 				height={{
 					xs: `calc(100% - ${60}px)`,
 					sm: `calc(100% - ${80}px)`,
 					md: `calc(100% - ${100}px)`,
 					lg: `calc(100% - ${120}px)`,
-					// xs: `calc(100% - ${80}px)`,
-					// sm: `calc(100% - ${100}px)`,
-					// md: `calc(100% - ${120}px)`,
-					// lg: `calc(100% - ${140}px)`,
 				}}
 				ref={observationRef}
 			/>

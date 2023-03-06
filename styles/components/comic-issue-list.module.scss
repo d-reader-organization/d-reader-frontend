@@ -73,17 +73,6 @@
 		.creator-name {
 			color: lightgray;
 		}
-
-		.price {
-			@include centeredRow;
-			font-weight: bold;
-
-			.solana-icon {
-				width: 14px;
-				height: 14px;
-				margin-left: 0.5rem;
-			}
-		}
 	}
 
 	.cover-image {

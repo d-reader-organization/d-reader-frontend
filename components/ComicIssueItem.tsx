@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
-import SolanaIcon from 'public/assets/vector-icons/solana.svg'
 import { ComicIssue } from 'models/comicIssue'
+import PriceTag from 'components/tags/PriceTag'
 import Overlay from './Overlay'
 import Image from 'next/image'
 import clsx from 'clsx'
@@ -52,15 +52,13 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 					fill
 				/>
 
+				{/* TODO: different badge variant if series are completed */}
 				{comicIssue.stats && (
 					<>
 						<Box className='episodes-badge'>
 							EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
 						</Box>
-						{/* <Box className='price-badge'>
-							{comicIssue.stats.floorPrice}
-							<SolanaIcon className='solana-icon' />
-						</Box> */}
+						{/* TODO: add "favorite" icon? */}
 					</>
 				)}
 				{comicIssue.myStats && <Box className='favourite-badge'>{comicIssue.myStats.isFavourite ? '💖' : '🤍'}</Box>}
@@ -83,12 +81,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 							{comicIssue.creator.name}
 						</Typography>
 					)}
-					{comicIssue.stats && (
-						<Typography variant='body2' className='price'>
-							{comicIssue.stats.floorPrice}
-							<SolanaIcon className='solana-icon' />
-						</Typography>
-					)}
+					{comicIssue.stats && <PriceTag price={comicIssue.stats.floorPrice} />}
 				</Box>
 			</Box>
 		</Box>
