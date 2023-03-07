@@ -1,10 +1,9 @@
-import { Box, Skeleton, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Image from 'next/image'
 import Overlay from './Overlay'
-import { Suspense } from 'react'
 
 const Carousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()

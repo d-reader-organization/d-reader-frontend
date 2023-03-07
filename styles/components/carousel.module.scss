@@ -13,6 +13,7 @@
 	}
 
 	.slide {
+		position: relative;
 		height: 420px;
 
 		@include sm {
