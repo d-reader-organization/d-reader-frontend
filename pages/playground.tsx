@@ -42,6 +42,15 @@ const executeSaleTransaction = async (): Promise<string> => {
 	return response.data
 }
 
+const fetchCancelBidTransaction = async (): Promise<string> => {
+	const response = await http.get<string>('auction-house/transactions/construct/cancel-bid', {
+		params: {
+			receiptAddress: 'Gty9jXQDcaKrfGDQtbRMhEysRjTHYQ7Yp3BQENWLhJDb',
+		},
+	})
+	return response.data
+}
+
 const Playground: NextPage = () => {
 	const { signAndSendTransaction } = useCrossDeviceWallet()
 	const [apiRoute, setApiRoute] = useState('')
@@ -82,6 +91,14 @@ const Playground: NextPage = () => {
 		setLastSignature(signature)
 	}
 
+	const cancelBid = async()=>{
+		const response = await fetchCancelBidTransaction()
+		console.log(response)
+		const encodedTransaction = decodeTransaction(response)
+		const signature = await signAndSendTransaction(encodedTransaction)
+		setLastSignature(signature)
+	}
+
 	const fetch = () => {
 		console.log('fetched')
 	}
@@ -110,6 +127,7 @@ const Playground: NextPage = () => {
 						<Button onClick={privateBid}>Private Bid</Button>
 						<Button onClick={list}>Sell</Button>
 						<Button onClick={executeSale}>Execute Sale</Button>
+						<Button onClick={cancelBid}>Cancel Bid</Button>
 						<Button onClick={fetch}>Fetch</Button>
 					</Box>
 				</Box>
