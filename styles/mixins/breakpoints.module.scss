@@ -29,3 +29,15 @@
 		@content;
 	}
 }
+
+@mixin landscape {
+	@media (orientation: landscape) {
+		@content;
+	}
+}
+
+@mixin portrait {
+	@media (orientation: portrait) {
+		@content;
+	}
+}

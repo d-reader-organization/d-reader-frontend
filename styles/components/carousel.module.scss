@@ -2,26 +2,16 @@
 @use '../mixins/breakpoints.module.scss' as *;
 @use '../mixins/animations.module.scss' as *;
 
-.slider {
-	max-width: $md-width;
-	margin: 0 auto;
+.carousel {
 	@include defaultFadeIn;
-
-	.slider-image {
-		object-fit: cover;
-		z-index: -1;
-	}
 
 	.slide {
 		position: relative;
-		height: 420px;
+		height: 56.25vw;
 
-		@include sm {
-			height: 480px;
-		}
-
-		@include lg {
-			height: 540px;
+		.slide-image {
+			object-fit: cover;
+			z-index: -1;
 		}
 
 		.slide-text-area {
@@ -44,11 +34,5 @@
 		.slide-title {
 			font-weight: bold;
 		}
-	}
-}
-
-.slider-wrapper {
-	@include md {
-		border-radius: 1rem;
 	}
 }

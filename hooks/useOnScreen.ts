@@ -13,7 +13,6 @@ export const useOnScreen = <E extends HTMLElement>(): [boolean, React.RefCallbac
 				// }
 
 				if (entry.isIntersecting) {
-					console.log('FIRED!')
 					setIntersecting((prevIntersecting) => {
 						if (observer) observer.unobserve(entry.target)
 						return prevIntersecting || entry.isIntersecting

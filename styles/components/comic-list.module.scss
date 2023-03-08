@@ -27,8 +27,7 @@
 		}
 	}
 
-	.episodes-badge,
-	.favourite-badge {
+	.episodes-badge {
 		background-color: white;
 		color: black;
 		padding: 0.1rem 0.6rem;
@@ -36,17 +35,10 @@
 		border-radius: 2rem;
 		position: absolute;
 		top: 1rem;
-		font-size: 14px;
-		user-select: none;
-	}
-
-	.episodes-badge {
 		left: 1rem;
+		font-size: 14px;
 		font-weight: bold;
-	}
-
-	.favourite-badge {
-		right: 1rem;
+		user-select: none;
 	}
 
 	.text-area {

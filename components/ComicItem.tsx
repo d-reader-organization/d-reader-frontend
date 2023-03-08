@@ -55,8 +55,6 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 					{comic.stats.issuesCount > 1 ? ' EPs' : ' EP'}
 				</Box>
 			)}
-			{comic.myStats && <Box className='favourite-badge'>{comic.myStats.isFavourite ? '💖' : '🤍'}</Box>}
-
 			<Box className='text-area'>
 				<Typography className='comic-title' variant='body2'>
 					{comic.name}

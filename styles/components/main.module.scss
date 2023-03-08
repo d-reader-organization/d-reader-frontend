@@ -5,7 +5,9 @@
 	@include defaultFadeIn;
 	min-height: 100vh;
 
-	padding: 1rem;
+	@media (min-width: 380px) {
+		padding: 1rem;
+	}
 
 	@include sm {
 		padding: 2rem 1rem;

@@ -4,7 +4,12 @@
 
 .section {
 	position: relative;
-	margin: 3vw auto;
+
+	margin: 4vw auto;
+
+	@include sm {
+		margin: 3vw auto;
+	}
 
 	.section-title-row {
 		@include flexRow;

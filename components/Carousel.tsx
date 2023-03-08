@@ -14,19 +14,20 @@ const Carousel: React.FC = () => {
 			infiniteLoop
 			interval={8000}
 			swipeable
+			showIndicators={false}
 			showStatus={false}
 			showThumbs={false}
-			className='slider'
+			className='carousel'
 		>
 			{carouselSlides.map((slide) => (
 				<Box key={slide.id} className='slide'>
 					<Overlay />
 					<Image
 						src={slide.image}
-						alt={slide.title}
+						alt=''
 						fill
 						sizes='(max-width: 900px) 100vw,900px'
-						className='slider-image'
+						className='slide-image'
 						priority
 					/>
 					{/* TODO: skeleton */}

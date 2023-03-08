@@ -3,21 +3,24 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../variables/theme.module.scss' as *;
 
+.header {
+	background-color: transparent !important;
+	border: none !important;
+	border-radius: 0 !important;
+	transition: background-color 0.5s;
+
+	&.with-background {
+		background-color: $primary-color !important;
+	}
+}
+
 .navigation {
 	@include defaultFadeIn;
 
-	padding: 1rem;
-
-	// @include sm {
-	// 	padding: 2rem;
-	// }
-
-	@include md {
-		padding: 2rem;
-	}
-
-	@include lg {
-		padding: 2rem 4rem;
+	@media (max-width: 300px) {
+		.navigation-social-button {
+			display: none;
+		}
 	}
 
 	.company-logo-wrapper {

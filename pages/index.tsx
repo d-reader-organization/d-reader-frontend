@@ -3,15 +3,15 @@ import type { NextPage } from 'next'
 import Navigation from 'components/layout/Navigation'
 import Footer from 'components/layout/Footer'
 import Main from 'components/layout/Main'
-import Carousel from 'components/Carousel'
 import GenreList from 'components/GenreList'
 import Section from 'components/layout/Section'
 import ComicList from 'components/ComicList'
 import CreatorList from 'components/CreatorList'
+import ComicCarousel from 'components/ComicCarousel'
 import ComicIssueList from 'components/ComicIssueList'
 import { Theme, useMediaQuery } from '@mui/material'
-import useOnScreen from 'hooks/useOnScreen'
 import { useAuth } from '@open-sauce/solomon'
+import useOnScreen from 'hooks/useOnScreen'
 
 const Home: NextPage = () => {
 	const [showGenres, genresRef] = useOnScreen()
@@ -28,8 +28,8 @@ const Home: NextPage = () => {
 	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
 	const take = useMemo(() => {
-		if (lg) return { genres: 8, comics: 8, comicIssues: 8, creators: 8 }
-		else if (md) return { genres: 6, comics: 8, comicIssues: 8, creators: 8 }
+		if (lg) return { genres: 8, comics: 4, comicIssues: 4, creators: 4 }
+		else if (md) return { genres: 6, comics: 4, comicIssues: 4, creators: 4 }
 		else if (sm) return { genres: 6, comics: 6, comicIssues: 6, creators: 6 }
 		else if (xs) return { genres: 4, comics: 4, comicIssues: 4, creators: 4 }
 		else return undefined
@@ -38,14 +38,21 @@ const Home: NextPage = () => {
 	if (!take) return null
 
 	return (
-		<>
+		<div className='home'>
 			<Navigation />
-			<header className='header'>
-				<Carousel />
-			</header>
+
+			<ComicCarousel />
 
 			{isAuthenticated ? (
 				<Main className='main'>
+					<Section
+						id='promoted-comics'
+						title='Get started'
+						actionProps={{ children: 'See All', href: '#promoted-comics' }}
+					>
+						<ComicList take={take.comics} animate />
+					</Section>
+
 					<Section
 						id='genres'
 						title='Genres'
@@ -98,7 +105,7 @@ const Home: NextPage = () => {
 
 					<Section
 						id='free-comics'
-						title='Free'
+						title='Free comics'
 						show={showFreeComics}
 						observationRef={freeComicsRef}
 						actionProps={{ children: 'See All', href: '#free-comics' }}
@@ -111,7 +118,7 @@ const Home: NextPage = () => {
 			)}
 
 			<Footer />
-		</>
+		</div>
 	)
 }
 

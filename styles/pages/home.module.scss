@@ -1,5 +1,22 @@
 @use '../mixins/animations.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .home {
 	@include defaultFadeIn;
+
+	.main {
+		margin-top: -4rem;
+
+		@include sm {
+			margin-top: -6rem;
+		}
+
+		@include md {
+			margin-top: -8.4rem;
+		}
+
+		@include lg {
+			margin-top: -9.4rem;
+		}
+	}
 }
