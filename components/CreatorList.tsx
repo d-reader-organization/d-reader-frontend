@@ -1,7 +1,6 @@
 import { Box, BoxProps, Grid } from '@mui/material'
 import { useFetchCreators } from 'api/creator'
 import AnimatedGridItem from './AnimatedGrid'
-import useOnScreen from 'hooks/useOnScreen'
 import CreatorItem from './CreatorItem'
 import clsx from 'clsx'
 

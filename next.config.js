@@ -15,12 +15,8 @@ module.exports = withPWA({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'd-reader.s3.us-east-1.amazonaws.com',
-      },
-			{
-        protocol: 'https',
-        hostname: `${process.env.NEXT_AWS_BUCKET_NAME}.s3.us-east-1.amazonaws.com`,
-      },
+        hostname: '**.amazonaws.com',
+      }
     ],
   },
 	webpack(config) {
