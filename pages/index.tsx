@@ -7,9 +7,9 @@ import GenreList from 'components/GenreList'
 import Section from 'components/layout/Section'
 import ComicList from 'components/ComicList'
 import CreatorList from 'components/CreatorList'
-import ComicCarousel from 'components/ComicCarousel'
+import Carousel from 'components/Carousel'
 import ComicIssueList from 'components/ComicIssueList'
-import { Theme, useMediaQuery } from '@mui/material'
+import { Box, Theme, useMediaQuery } from '@mui/material'
 import { useAuth } from '@open-sauce/solomon'
 import useOnScreen from 'hooks/useOnScreen'
 
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
 	const [showNewComicIssues, newComicIssuesRef] = useOnScreen()
 	const [showTopCreators, topCreatorsRef] = useOnScreen()
 	const [showNewComics, newComicsRef] = useOnScreen()
-	const [showFreeComics, freeComicsRef] = useOnScreen()
+	const [showFreeComicIssues, freeComicIssuesRef] = useOnScreen()
 	const { isAuthenticated } = useAuth()
 
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.up('xs'))
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 
 	const take = useMemo(() => {
 		if (lg) return { genres: 8, comics: 4, comicIssues: 4, creators: 4 }
-		else if (md) return { genres: 6, comics: 4, comicIssues: 4, creators: 4 }
+		else if (md) return { genres: 6, comics: 6, comicIssues: 6, creators: 4 }
 		else if (sm) return { genres: 6, comics: 6, comicIssues: 6, creators: 6 }
 		else if (xs) return { genres: 4, comics: 4, comicIssues: 4, creators: 4 }
 		else return undefined
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
 		<div className='home'>
 			<Navigation />
 
-			<ComicCarousel />
+			<Carousel />
 
 			{isAuthenticated ? (
 				<Main className='main'>
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
 						title='Get started'
 						actionProps={{ children: 'See All', href: '#promoted-comics' }}
 					>
-						<ComicList take={take.comics} animate />
+						<ComicList skip={0} take={take.comics} animate />
 					</Section>
 
 					<Section
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 						observationRef={genresRef}
 						actionProps={{ children: 'See All', href: '#genres' }}
 					>
-						<GenreList take={take.genres} animate={showGenres} />
+						<GenreList skip={0} take={take.genres} animate={showGenres} />
 					</Section>
 
 					<Section
@@ -70,7 +70,7 @@ const Home: NextPage = () => {
 						observationRef={popularComicsRef}
 						actionProps={{ children: 'See All', href: '#popular-comics' }}
 					>
-						<ComicList take={take.comics} animate={showPopularComics} />
+						<ComicList skip={take.comics} take={take.comics} animate={showPopularComics} />
 					</Section>
 
 					<Section
@@ -80,7 +80,7 @@ const Home: NextPage = () => {
 						observationRef={newComicIssuesRef}
 						actionProps={{ children: 'See All', href: '#new-episodes' }}
 					>
-						<ComicIssueList take={take.comicIssues} animate={showNewComicIssues} />
+						<ComicIssueList skip={0} take={take.comicIssues} animate={showNewComicIssues} />
 					</Section>
 
 					<Section
@@ -90,7 +90,7 @@ const Home: NextPage = () => {
 						observationRef={topCreatorsRef}
 						actionProps={{ children: 'See All', href: '#top-creators' }}
 					>
-						<CreatorList take={take.comicIssues} animate={showTopCreators} />
+						<CreatorList skip={0} take={take.creators} animate={showTopCreators} />
 					</Section>
 
 					<Section
@@ -100,21 +100,23 @@ const Home: NextPage = () => {
 						observationRef={newComicsRef}
 						actionProps={{ children: 'See All', href: '#new-comics' }}
 					>
-						<ComicList take={take.comics} animate={showNewComics} />
+						<ComicList skip={take.comics * 2} take={take.comics} animate={showNewComics} />
 					</Section>
 
 					<Section
-						id='free-comics'
-						title='Free comics'
-						show={showFreeComics}
-						observationRef={freeComicsRef}
-						actionProps={{ children: 'See All', href: '#free-comics' }}
+						id='free-comic-issues'
+						title='Free episodes'
+						show={showFreeComicIssues}
+						observationRef={freeComicIssuesRef}
+						actionProps={{ children: 'See All', href: '#free-episodes' }}
 					>
-						<ComicList take={take.comics} animate={showFreeComics} />
+						<ComicIssueList skip={take.comicIssues} take={take.comicIssues} animate={showFreeComicIssues} />
 					</Section>
 				</Main>
 			) : (
-				<div>Authenticate yo&apos;self</div>
+				<Box py={14} px={4}>
+					Authenticate yo&apos;self
+				</Box>
 			)}
 
 			<Footer />

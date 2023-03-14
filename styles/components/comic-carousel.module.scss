@@ -60,13 +60,15 @@
 
 			@include sm {
 				width: 60%;
-				bottom: 25%;
 			}
 
 			@include md {
 				padding: 2rem;
+				width: 50%;
+			}
+
+			@include lg {
 				width: 40%;
-				bottom: 30%;
 			}
 		}
 
@@ -78,10 +80,6 @@
 			@include sm {
 				font-size: 2.4rem;
 			}
-
-			@include md {
-				font-size: 2.8rem;
-			}
 		}
 
 		.slide-description {
@@ -89,6 +87,7 @@
 			line-height: 1.2;
 			white-space: pre-line;
 			font-size: 0.9rem;
+			// font-style: italic;
 			// line-clamp: 4;
 			// max-lines: 4;
 

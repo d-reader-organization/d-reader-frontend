@@ -4,12 +4,13 @@ import Grow from '@mui/material/Grow'
 import clsx from 'clsx'
 
 interface Props extends BoxProps {
+	skip: number
 	take: number
 	animate: boolean
 }
 
-const GenreList: React.FC<Props> = ({ take, animate, className, ...props }) => {
-	const { data: genres = [] } = useFetchGenres({ skip: 0, take })
+const GenreList: React.FC<Props> = ({ skip, take, animate, className, ...props }) => {
+	const { data: genres = [] } = useFetchGenres({ skip, take })
 
 	return (
 		<Box className={clsx('genre-list', className)} {...props}>

@@ -81,7 +81,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 							{comicIssue.creator.name}
 						</Typography>
 					)}
-					{comicIssue.stats && <PriceTag price={comicIssue.stats.floorPrice} />}
+					{comicIssue.stats && <PriceTag price={comicIssue.stats.price} />}
 				</Box>
 			</Box>
 		</Box>

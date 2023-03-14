@@ -3,7 +3,6 @@ import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Image from 'next/image'
-import Overlay from './Overlay'
 
 const Carousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
@@ -21,7 +20,6 @@ const Carousel: React.FC = () => {
 		>
 			{carouselSlides.map((slide) => (
 				<Box key={slide.id} className='slide'>
-					<Overlay />
 					<Image
 						src={slide.image}
 						alt=''
@@ -33,13 +31,14 @@ const Carousel: React.FC = () => {
 					{/* TODO: skeleton */}
 					{/* <Skeleton className='slider-image' height='100%' /> */}
 					<Box className='slide-text-area'>
-						<Typography variant='body2' className='slide-subtitle'>
-							{slide.subtitle}
-						</Typography>
-						<Typography variant='h6' className='slide-title' component='p'>
+						<Typography variant='h2' className='slide-title'>
 							{slide.title}
 						</Typography>
+						<Typography variant='body1' className='slide-subtitle' component='p'>
+							{slide.subtitle}
+						</Typography>
 					</Box>
+					<div className='bottom-overlay' />
 				</Box>
 			))}
 		</ResponsiveCarousel>

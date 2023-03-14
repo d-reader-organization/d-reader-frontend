@@ -5,12 +5,13 @@ import CreatorItem from './CreatorItem'
 import clsx from 'clsx'
 
 interface Props extends BoxProps {
+	skip: number
 	take: number
 	animate: boolean
 }
 
-const CreatorList: React.FC<Props> = ({ take, animate, className, ...props }) => {
-	const { data: creators = [] } = useFetchCreators({ skip: 0, take })
+const CreatorList: React.FC<Props> = ({ skip, take, animate, className, ...props }) => {
+	const { data: creators = [] } = useFetchCreators({ skip, take })
 
 	return (
 		<Box className={clsx('creator-list', className)} {...props}>

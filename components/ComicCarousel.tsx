@@ -1,10 +1,8 @@
-import { Box, Tooltip, Typography } from '@mui/material'
-import { useFetchCarouselSlides } from 'api/carousel'
+import { Box, Typography } from '@mui/material'
 import { Carousel } from 'react-responsive-carousel'
-import Overlay from './Overlay'
-import Image from 'next/image'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { useFetchComics } from 'api/comic'
+import Image from 'next/image'
 
 const ComicCarousel: React.FC = () => {
 	const { data: comics = [] } = useFetchComics({ skip: 0, take: 4 })

@@ -20,7 +20,7 @@ const PriceTag: React.FC<Props> = ({ price, size = 16, bold = true, reverse = fa
 			fontWeight={bold ? 'bold' : 'normal'}
 			{...props}
 		>
-			{price}
+			{price == 0 ? 'FREE' : price ?? '-.--'}
 			<SolanaIcon
 				style={{
 					width: size,

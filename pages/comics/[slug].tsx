@@ -120,7 +120,7 @@ const ComicDetails: NextPage = () => {
 									<br />
 									{issue.description}
 									<br />
-									{issue.stats?.floorPrice}
+									{issue.stats?.price}
 									<br />
 									{issue.stats?.viewersCount}
 									<br />

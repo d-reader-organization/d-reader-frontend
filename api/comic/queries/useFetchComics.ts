@@ -5,7 +5,6 @@ import { useQuery } from 'react-query'
 import { Comic } from 'models/comic'
 import { useToaster } from 'providers/ToastProvider'
 import { Pagination } from 'models/pagination'
-import { useEffect } from 'react'
 
 const { COMIC, GET } = COMIC_QUERY_KEYS
 
@@ -23,18 +22,10 @@ export const useFetchComics = (pagination: Pagination) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
-	const fetchComicsQuery = useQuery(comicKeys.getComics, () => fetchComics(pagination), {
+	return useQuery([...comicKeys.getComics(pagination)], () => fetchComics(pagination), {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
 		enabled: !!isAuthenticated,
 		onError: toaster.onQueryError,
 		retry: 1,
 	})
-
-	const { refetch } = fetchComicsQuery
-
-	useEffect(() => {
-		if (isAuthenticated) refetch()
-	}, [refetch, pagination.skip, pagination.take, isAuthenticated])
-
-	return fetchComicsQuery
 }

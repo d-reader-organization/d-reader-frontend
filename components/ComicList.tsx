@@ -5,12 +5,13 @@ import ComicItem from './ComicItem'
 import clsx from 'clsx'
 
 interface Props extends BoxProps {
+	skip: number
 	take: number
 	animate: boolean
 }
 
-const ComicList: React.FC<Props> = ({ take, animate, className, ...props }) => {
-	const { data: comics = [] } = useFetchComics({ skip: 0, take })
+const ComicList: React.FC<Props> = ({ skip, take, animate, className, ...props }) => {
+	const { data: comics = [] } = useFetchComics({ skip, take })
 
 	return (
 		<Box className={clsx('comic-list', className)} {...props}>
