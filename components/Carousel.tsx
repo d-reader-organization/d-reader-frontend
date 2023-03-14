@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
@@ -31,6 +31,9 @@ const Carousel: React.FC = () => {
 					{/* TODO: skeleton */}
 					{/* <Skeleton className='slider-image' height='100%' /> */}
 					<Box className='slide-text-area'>
+						<Button href='#' variant='contained' className='slide-button' size='large'>
+							VISIT COMIC
+						</Button>
 						<Typography variant='h2' className='slide-title'>
 							{slide.title}
 						</Typography>

@@ -1,6 +1,7 @@
 @use '../variables/theme.module.scss' as *;
 @use '../mixins/breakpoints.module.scss' as *;
 @use '../mixins/animations.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
 
 .carousel {
 	@include defaultFadeIn;
@@ -77,6 +78,7 @@
 			font-weight: bold;
 			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 			font-size: 2rem;
+			margin: 1rem 0 0.2rem 0;
 
 			@include sm {
 				font-size: 2.4rem;
@@ -99,6 +101,14 @@
 			@include md {
 				font-size: 1.1rem;
 			}
+		}
+
+		.slide-button {
+			background-color: $important-color !important;
+			color: $primary-color !important;
+			padding: 0.3rem 1rem !important;
+			box-shadow: 3px 3px 3px black;
+			@include clickable;
 		}
 	}
 }
