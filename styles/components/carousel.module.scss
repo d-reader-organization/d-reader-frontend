@@ -43,6 +43,7 @@
 
 		@include landscape {
 			height: 100vh;
+			max-height: 700px;
 		}
 
 		.slide-image {

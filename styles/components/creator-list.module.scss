@@ -39,6 +39,14 @@
 			overflow: hidden;
 			white-space: nowrap;
 			font-weight: bold;
+			display: flex;
+			align-items: center;
+
+			& > svg {
+				width: 14px;
+				height: 14px;
+				margin-left: 0.5rem;
+			}
 		}
 
 		.performance {

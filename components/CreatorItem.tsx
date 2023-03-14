@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
+import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
+import { getRandomFloat } from 'utils/helpers'
 import { Creator } from 'models/creator'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { getRandomFloat } from 'utils/helpers'
 
 interface Props extends BoxProps {
 	creator: Creator
@@ -41,7 +42,7 @@ const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 			<Box className='text-area'>
 				<Typography variant='body2' className='creator-name'>
 					{creator.name}
-					{creator.isVerified ? ' ✅' : ''}
+					{creator.isVerified ? <VerifiedIcon /> : ''}
 				</Typography>
 				<Typography variant='body2' className='performance'>
 					{getRandomFloat(10, 50)} %

@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
+import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
 import { Comic } from 'models/comic'
+import Overlay from './Overlay'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { useState } from 'react'
-import Overlay from './Overlay'
 
 interface Props extends BoxProps {
 	comic: Comic
@@ -62,7 +63,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 				{comic.creator && (
 					<Typography className='creator-name' variant='body2'>
 						{comic.creator.name}
-						{comic.creator.isVerified ? ' ✅' : ''}
+						{comic.creator.isVerified ? <VerifiedIcon /> : ''}
 					</Typography>
 				)}
 			</Box>

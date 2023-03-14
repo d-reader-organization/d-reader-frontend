@@ -58,6 +58,14 @@
 
 		.creator-name {
 			color: lightgray;
+			display: flex;
+			align-items: center;
+
+			& > svg {
+				width: 14px;
+				height: 14px;
+				margin-left: 0.5rem;
+			}
 		}
 	}
 
