@@ -10,7 +10,8 @@
 	transition: background-color 0.5s;
 
 	&.with-background {
-		background-color: $primary-color !important;
+		backdrop-filter: blur(10px) !important;
+		background: rgba($primary-color-light, 0.8) !important;
 	}
 }
 
