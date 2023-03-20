@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Navigation from 'components/layout/Navigation'
 import Footer from 'components/layout/Footer'
 import Main from 'components/layout/Main'
 import { useCrossDeviceWallet, decodeTransaction } from '@open-sauce/solomon'
 import { Box, Button, TextField, Typography } from '@mui/material'
+import { io } from 'socket.io-client'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
 	const response = await http.get<string>('candy-machine/transactions/construct/mint-one', {
-		params: { candyMachineAddress: '8WyvLCSsB7nXXn49CsHp26v3geJk3zZRWtTpd6LPvNz9' },
+		params: { candyMachineAddress: 'L8ozHrhcmYXGJZByTvS8ZiG1jJWuTKCseUqn3bs7Bcc' },
 	})
 	return response.data
 }
@@ -99,14 +100,14 @@ const Playground: NextPage = () => {
 		setLastSignature(signature)
 	}
 
-	const cancelBid = async()=>{
+	const cancelBid = async () => {
 		const response = await fetchCancelBidTransaction()
 		const encodedTransaction = decodeTransaction(response)
 		const signature = await signAndSendTransaction(encodedTransaction)
 		setLastSignature(signature)
 	}
 
-	const cancelListing = async()=>{
+	const cancelListing = async () => {
 		const response = await fetchCancelListingTransaction()
 		const encodedTransaction = decodeTransaction(response)
 		const signature = await signAndSendTransaction(encodedTransaction)
@@ -116,6 +117,20 @@ const Playground: NextPage = () => {
 	const fetch = () => {
 		console.log('fetched')
 	}
+
+	useEffect(() => {
+		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
+		socket.on('message', () => {
+			console.log('State updated')
+		})
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		socket.on('receiptCreated', (data: any) => {
+			console.log('State updated', data)
+		})
+		return () => {
+			socket.disconnect()
+		}
+	}, [])
 
 	return (
 		<>
