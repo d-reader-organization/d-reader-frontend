@@ -9,21 +9,21 @@ import { io } from 'socket.io-client'
 import http from 'api/http'
 
 const fetchMintTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('candy-machine/transactions/construct/mint-one', {
+	const response = await http.get<string>('candy-machine/transactions/mint-one', {
 		params: { candyMachineAddress: 'L8ozHrhcmYXGJZByTvS8ZiG1jJWuTKCseUqn3bs7Bcc' },
 	})
 	return response.data
 }
 
 const fetchListTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('auction-house/transactions/construct/list', {
+	const response = await http.get<string>('auction-house/transactions/list', {
 		params: { mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ', price: 1 },
 	})
 	return response.data
 }
 
 const fetchPrivateBidTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('auction-house/transactions/construct/private-bid', {
+	const response = await http.get<string>('auction-house/transactions/private-bid', {
 		params: {
 			mintAccount: '5G5nrgqXRx1FbmXCJioJVjjJRsVHFUgQzBeW1z7AGaVQ',
 			price: 1,
@@ -44,7 +44,7 @@ const executeSaleTransaction = async (): Promise<string> => {
 }
 
 const fetchCancelBidTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('auction-house/transactions/construct/cancel-bid', {
+	const response = await http.get<string>('auction-house/transactions/cancel-bid', {
 		params: {
 			receiptAddress: 'Gty9jXQDcaKrfGDQtbRMhEysRjTHYQ7Yp3BQENWLhJDb',
 		},
@@ -53,7 +53,7 @@ const fetchCancelBidTransaction = async (): Promise<string> => {
 }
 
 const fetchCancelListingTransaction = async (): Promise<string> => {
-	const response = await http.get<string>('auction-house/transactions/construct/cancel-listing', {
+	const response = await http.get<string>('auction-house/transactions/cancel-listing', {
 		params: {
 			receiptAddress: 'FDeZdVgeSTyahzQSLBXt77naVeWm6jujVqxuFtv8wqeS',
 		},

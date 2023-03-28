@@ -2,19 +2,21 @@ import { ComicStats } from './comicStats'
 import { ComicMyStats } from './comicMyStats'
 import { Creator } from './creator'
 import { Genre } from './genre'
+import { AudienceType } from 'enums/audienceType'
 
 export interface Comic {
 	name: string
 	slug: string
 	description: string
 	flavorText: string
-	isMatureAudience: boolean
+	audienceType: AudienceType
 	isCompleted: boolean
 	isDeleted: boolean
 	isVerified: boolean
 	isPublished: boolean
 	isPopular: boolean
 	cover: string
+	banner: string
 	pfp: string
 	logo: string
 	website: string

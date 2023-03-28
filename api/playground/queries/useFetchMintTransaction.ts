@@ -4,10 +4,10 @@ import { playgroundKeys, PLAYGROUND_QUERY_KEYS } from 'api/playground'
 import { useToaster } from 'providers/ToastProvider'
 import { useQuery } from 'react-query'
 
-const { PLAYGROUND, TRANSACTION, CONSTRUCT, CREATE_NFT } = PLAYGROUND_QUERY_KEYS
+const { PLAYGROUND, TRANSACTION, CREATE_NFT } = PLAYGROUND_QUERY_KEYS
 
 const fetchMintTransaction = async (): Promise<string> => {
-	const response = await http.get<string>(`${PLAYGROUND}/${TRANSACTION}/${CONSTRUCT}/${CREATE_NFT}`)
+	const response = await http.get<string>(`${PLAYGROUND}/${TRANSACTION}/${CREATE_NFT}`)
 	return response.data
 }
 

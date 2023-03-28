@@ -9,12 +9,12 @@ export interface ComicIssue {
 	suppy: number
 	discountMintPrice: number
 	mintPrice: number
+	sellerFee: number
 	title: string
 	slug: string
 	description: string
 	flavorText: string
 	cover: string
-	soundtrack: string
 	releaseDate: string
 	isFree: boolean
 	isPublished: boolean
@@ -22,7 +22,7 @@ export interface ComicIssue {
 	isDeleted: boolean
 	isVerified: boolean
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
-	comic?: Pick<Comic, 'name' | 'slug' | 'isMatureAudience'>
+	comic?: Pick<Comic, 'name' | 'slug' | 'audienceType'>
 	stats?: ComicIssueStats
 	myStats?: ComicIssueMyStats
 }
