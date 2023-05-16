@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { genreKeys, GENRE_QUERY_KEYS } from 'api/genre'
 import { useToaster } from 'providers/ToastProvider'
 import { useAuth } from '@open-sauce/solomon'
