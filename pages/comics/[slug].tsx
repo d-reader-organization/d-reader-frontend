@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { useFetchComic } from 'api/comic'
 import { useFetchComicIssues } from 'api/comicIssue'
 import AvatarImage from 'components/AvatarImage'

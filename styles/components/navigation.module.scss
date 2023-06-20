@@ -4,10 +4,11 @@
 @use '../variables/theme.module.scss' as *;
 
 .header {
-	background-color: transparent !important;
+	background: $primary-color !important;
 	border: none !important;
 	border-radius: 0 !important;
-	transition: background-color 0.5s;
+	transition: background-color 0.3s;
+	position: sticky;
 
 	&.with-background {
 		backdrop-filter: blur(10px) !important;

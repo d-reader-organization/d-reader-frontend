@@ -28,9 +28,9 @@ const defaultTheme = createTheme({
 	},
 	typography: {
 		fontSize: 16,
-		fontFamily: 'Urbanist, sans-serif',
+		fontFamily: 'Satoshi, sans-serif',
 		// body1: { fontWeight: 500 },
-		// body2: { fontWeight: 500, fontFamily: 'Urbanist, sans-serif' },
+		// body2: { fontWeight: 500, fontFamily: 'Satoshi, sans-serif' },
 		// h1: { fontWeight: 'bold', fontSize: '5rem', lineHeight: 1.08 },
 	},
 	components: {

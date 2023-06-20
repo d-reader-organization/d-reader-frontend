@@ -19,12 +19,7 @@
 		right: 0;
 		z-index: -1;
 		background-color: transparent;
-		background-image: linear-gradient(
-			rgb(21, 23, 28) 0%,
-			rgba(21, 23, 28, 0.3) 26%,
-			rgba(21, 23, 28, 0.48) 42%,
-			rgb(21, 23, 28) 94%
-		);
+		background-image: linear-gradient(rgba(0, 0, 0, 0) 36%, rgba(21, 23, 28, 0.75) 72%, rgb(21, 23, 28) 100%);
 		background-position: 0 top;
 		background-repeat: repeat-x;
 		background-size: 100% 100%;
@@ -48,6 +43,8 @@
 		}
 
 		.slide-image {
+			padding: 0 0.4rem;
+			border-radius: 0.5rem;
 			object-fit: cover;
 			z-index: -1;
 		}
@@ -57,7 +54,7 @@
 			text-align: left;
 			position: absolute;
 			padding: 2rem 1rem;
-			bottom: 20%;
+			bottom: 10%;
 			left: 5%;
 
 			@include sm {

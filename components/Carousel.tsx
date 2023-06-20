@@ -7,13 +7,16 @@ import Image from 'next/image'
 const Carousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
 
+	if (carouselSlides.length === 0) return null
+
 	return (
 		<ResponsiveCarousel
 			autoPlay
-			infiniteLoop
-			interval={8000}
 			swipeable
-			showIndicators={false}
+			centerMode
+			infiniteLoop
+			interval={30000}
+			centerSlidePercentage={90}
 			showStatus={false}
 			showThumbs={false}
 			className='carousel'
