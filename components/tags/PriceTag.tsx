@@ -1,5 +1,6 @@
 import { Typography, TypographyProps } from '@mui/material'
 import SolanaIcon from 'public/assets/vector-icons/solana.svg'
+import { formatPrice } from 'utils/helpers'
 
 interface Props extends TypographyProps {
 	price: number
@@ -20,7 +21,7 @@ const PriceTag: React.FC<Props> = ({ price, size = 16, bold = true, reverse = fa
 			fontWeight={bold ? 'bold' : 'normal'}
 			{...props}
 		>
-			{price == 0 ? 'FREE' : price ?? '-.--'}
+			{price == 0 ? 'FREE' : formatPrice(price) ?? '-.--'}
 			<SolanaIcon
 				style={{
 					width: size,

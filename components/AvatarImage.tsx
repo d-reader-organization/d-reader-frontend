@@ -1,6 +1,6 @@
-import clsx from 'clsx'
 import { ImageProps } from 'next/image'
 import Image from 'next/image'
+import clsx from 'clsx'
 
 interface Props extends Omit<ImageProps, 'alt'> {
 	size: number

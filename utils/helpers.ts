@@ -1,3 +1,5 @@
+import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+
 export function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -17,4 +19,8 @@ export function getRandomInt(min: number, max: number) {
 
 export function getRandomFloat(min: number, max: number) {
 	return (min + Math.random() * max).toFixed(1)
+}
+
+export function formatPrice(price: number) {
+	return price ? price / LAMPORTS_PER_SOL : price
 }

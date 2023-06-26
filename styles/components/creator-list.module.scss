@@ -13,7 +13,7 @@
 	background: $primary-color-light;
 	border: 0.2rem solid $primary-color-light;
 	border-radius: 1.1rem;
-	padding: 1rem;
+	padding: 0.8rem 1rem;
 	cursor: pointer;
 	pointer-events: all;
 	transition: transform 0.3s ease;
@@ -32,15 +32,18 @@
 	.text-area {
 		@include flexColumn;
 		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		width: calc(100% - 60px);
 
-		.creator-name {
-			width: 100%;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-			font-weight: bold;
-			display: flex;
-			align-items: center;
+		.creator-name-wrapper {
+			@include centeredRow;
+
+			.creator-name {
+				width: 100%;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				font-weight: bold;
+			}
 
 			& > svg {
 				width: 14px;
@@ -60,5 +63,6 @@
 		border-radius: 45%;
 		@include unclickable;
 		background-color: $primary-color-dark;
+		width: 60px;
 	}
 }

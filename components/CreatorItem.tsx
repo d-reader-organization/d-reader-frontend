@@ -40,10 +40,12 @@ const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 		<Box className={clsx('creator-item', className)} {...props}>
 			<Image width={60} height={60} className='creator-image' src={creator.avatar} loading='lazy' alt='' />
 			<Box className='text-area'>
-				<Typography variant='body2' className='creator-name'>
-					{creator.name}
+				<Box className='creator-name-wrapper'>
+					<Typography variant='body2' className='creator-name'>
+						{creator.name}
+					</Typography>
 					{creator.isVerified ? <VerifiedIcon /> : ''}
-				</Typography>
+				</Box>
 				<Typography variant='body2' className='performance'>
 					{getRandomFloat(10, 50)} %
 				</Typography>

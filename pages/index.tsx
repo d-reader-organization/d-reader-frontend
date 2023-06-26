@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 
 	const take = useMemo(() => {
 		if (lg) return { genres: 8, comics: 4, comicIssues: 4, creators: 4 }
-		else if (md) return { genres: 6, comics: 6, comicIssues: 6, creators: 4 }
+		else if (md) return { genres: 6, comics: 6, comicIssues: 6, creators: 6 }
 		else if (sm) return { genres: 6, comics: 6, comicIssues: 6, creators: 6 }
 		else if (xs) return { genres: 4, comics: 4, comicIssues: 4, creators: 4 }
 		else return undefined

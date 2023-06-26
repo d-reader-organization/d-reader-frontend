@@ -23,19 +23,6 @@ class MyDocument extends Document {
 					<link rel='manifest' href='/manifest.json' />
 					<link rel='apple-touch-icon' href='/apple-touch-icon.png'></link>
 					<meta name='theme-color' content='#181A20' />
-
-					<link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
-
-					{/* Preload Satoshi font */}
-					<link
-						rel='preload'
-						as='style'
-						href='https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap'
-					/>
-					<link
-						href='https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap'
-						rel='stylesheet'
-					/>
 				</Head>
 				<body>
 					<Main />

@@ -1,11 +1,14 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Image from 'next/image'
+import clsx from 'clsx'
 
 const Carousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
+
+	const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
 	if (carouselSlides.length === 0) return null
 
@@ -13,9 +16,9 @@ const Carousel: React.FC = () => {
 		<ResponsiveCarousel
 			autoPlay
 			swipeable
-			centerMode
+			centerMode={isDesktop}
 			infiniteLoop
-			interval={30000}
+			interval={10000}
 			centerSlidePercentage={90}
 			showStatus={false}
 			showThumbs={false}
@@ -27,8 +30,9 @@ const Carousel: React.FC = () => {
 						src={slide.image}
 						alt=''
 						fill
-						sizes='(max-width: 900px) 100vw,900px'
-						className='slide-image'
+						quality={100}
+						sizes='100vw'
+						className={clsx('slide-image', isDesktop ? 'slide-image--compact' : '')}
 						priority
 					/>
 					{/* TODO: skeleton */}
