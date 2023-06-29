@@ -1,11 +1,11 @@
 import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
-import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
+import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Image from 'next/image'
 import clsx from 'clsx'
 
-const Carousel: React.FC = () => {
+const HeroCarousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
 
 	const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
@@ -13,7 +13,7 @@ const Carousel: React.FC = () => {
 	if (carouselSlides.length === 0) return null
 
 	return (
-		<ResponsiveCarousel
+		<Carousel
 			autoPlay
 			swipeable
 			centerMode={isDesktop}
@@ -22,7 +22,7 @@ const Carousel: React.FC = () => {
 			centerSlidePercentage={90}
 			showStatus={false}
 			showThumbs={false}
-			className='carousel'
+			className='hero-carousel'
 		>
 			{carouselSlides.map((slide) => (
 				<Box key={slide.id} className='slide'>
@@ -51,8 +51,8 @@ const Carousel: React.FC = () => {
 					<div className='bottom-overlay' />
 				</Box>
 			))}
-		</ResponsiveCarousel>
+		</Carousel>
 	)
 }
 
-export default Carousel
+export default HeroCarousel

@@ -56,6 +56,7 @@ const defaultTheme = createTheme({
 			styleOverrides: {
 				root: {
 					textTransform: 'none',
+					color: variables.secondaryColor,
 					'&.Mui-disabled': {
 						backgroundColor: variables.primaryColorDark,
 						border: 'none',
@@ -69,7 +70,7 @@ const defaultTheme = createTheme({
 					minWidth: '40px',
 					padding: getSpacing(0.25, 1),
 					textTransform: 'none',
-					fontWeight: 'bold',
+					// fontWeight: 'bold',
 					'&:hover': {
 						backgroundColor: variables.primaryColor,
 						filter: 'brightness(0.85)',
@@ -94,9 +95,9 @@ const defaultTheme = createTheme({
 					},
 					'.MuiDialogContent-root .MuiList-root, .MuiDialogContent-root .MuiCollapse-root .MuiList-root': {
 						background: 'unset',
-						'.MuiButton-root': {
-							fontWeight: 'bold',
-						},
+						// '.MuiButton-root': {
+						// 	fontWeight: 'bold',
+						// },
 						'.MuiListItem-root': {
 							border: 'none',
 							'&:hover': {

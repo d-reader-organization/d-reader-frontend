@@ -12,12 +12,16 @@
 
 	&.with-background {
 		backdrop-filter: blur(10px) !important;
-		background: rgba($primary-color-light, 0.8) !important;
+		background: rgba($primary-color-light, 0.75) !important;
 	}
 }
 
 .navigation {
-	@include defaultFadeIn;
+	// @include defaultFadeIn;
+	width: 90%;
+	margin: 0 auto;
+	padding: 0 0.4rem;
+	height: 72px;
 
 	@media (max-width: 300px) {
 		.navigation-social-button {
@@ -26,12 +30,13 @@
 	}
 
 	.company-logo-wrapper {
-		height: 32px;
+		height: 28px;
 	}
 
 	.company-logo {
-		height: 32px;
+		height: 28px;
 		width: auto;
+		user-select: none;
 
 		&:hover {
 			filter: brightness(0.8);
@@ -41,27 +46,41 @@
 	a,
 	button {
 		@include clickable;
-		height: 32px;
+		height: 28px;
+
+		&:hover,
+		&.active {
+			color: $important-color;
+
+			svg {
+				color: $important-color;
+			}
+		}
 
 		svg {
+			color: $secondary-color;
 			height: 100%;
 			padding: 1px;
 			width: auto;
+		}
+
+		&:not(.navigation-social-button) svg {
+			margin-right: 0.4rem;
 		}
 	}
 
 	@include sm {
 		.company-logo-wrapper {
-			height: 36px;
+			height: 32px;
 		}
 
 		.company-logo {
-			height: 36px;
+			height: 32px;
 		}
 
 		a,
 		button {
-			height: 36px;
+			height: 32px;
 		}
 	}
 
@@ -72,7 +91,7 @@
 	.navigation-items {
 		> a:not(:last-child),
 		> button:not(:last-child) {
-			margin-right: 0.5rem;
+			margin-right: 1rem;
 		}
 	}
 }
@@ -102,11 +121,18 @@
 		&:hover {
 			background-color: unset;
 			filter: brightness(1.5);
+			color: $important-color;
+
+			svg {
+				color: $important-color;
+			}
 		}
 
 		svg {
-			margin-right: 0.8rem;
-			padding: 2px;
+			height: 24px;
+			padding: 1px;
+			margin-right: 0.4rem;
+			width: auto;
 		}
 	}
 }

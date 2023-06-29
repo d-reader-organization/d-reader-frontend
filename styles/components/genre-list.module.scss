@@ -3,7 +3,6 @@
 
 .genre-list {
 	@include flexRow;
-	// @include centeredRow;
 
 	.genre-item {
 		@include centeredRow;

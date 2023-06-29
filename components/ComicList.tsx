@@ -1,29 +1,25 @@
-import { Box, BoxProps, Grid } from '@mui/material'
 import { useFetchComics } from 'api/comic'
-import AnimatedGridItem from './AnimatedGrid'
 import ComicItem from './ComicItem'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import clsx from 'clsx'
 
-interface Props extends BoxProps {
+interface Props {
 	skip: number
 	take: number
-	animate: boolean
+	className?: string
 }
 
-const ComicList: React.FC<Props> = ({ skip, take, animate, className, ...props }) => {
-	const { data: comics = [] } = useFetchComics({ skip, take })
+const ComicList: React.FC<Props> = ({ skip, take, className }) => {
+	const { data: comics = [] } = useFetchComics({ skip, take: 20 })
 
 	return (
-		<Box className={clsx('comic-list', className)} {...props}>
-			<Grid container spacing={1}>
-				{comics.map((comic, i) => (
-					<AnimatedGridItem key={comic.slug} animate={animate} itemOrder={i} xs={12} sm={6} md={4} lg={3}>
-						{/* TODO: these are Link-s */}
-						<ComicItem comic={comic} />
-					</AnimatedGridItem>
-				))}
-			</Grid>
-		</Box>
+		<Slider className={clsx('comic-list', className)} slidesToShow={take} slidesToScroll={take}>
+			{comics.map((comic) => (
+				<ComicItem key={comic.slug} comic={comic} />
+			))}
+		</Slider>
 	)
 }
 

@@ -3,7 +3,7 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../mixins/common.module.scss' as *;
 
-.carousel {
+.hero-carousel {
 	@include defaultFadeIn;
 	position: relative;
 
@@ -46,6 +46,7 @@
 			z-index: -1;
 			object-fit: cover;
 			max-height: 100%;
+			user-select: none;
 
 			&--compact {
 				padding: 0 0.4rem;

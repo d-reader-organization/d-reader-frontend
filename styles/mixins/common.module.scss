@@ -40,3 +40,9 @@
 	@include centeredFlex;
 	@content;
 }
+
+@mixin textOverflow {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}

@@ -2,9 +2,8 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .home {
-	@include defaultFadeIn;
-
 	.main {
+		@include defaultFadeIn;
 		padding-top: 0;
 	}
 }

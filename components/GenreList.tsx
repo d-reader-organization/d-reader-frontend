@@ -17,7 +17,7 @@ const GenreList: React.FC<Props> = ({ skip, take, animate, className, ...props }
 			<Grow in={animate}>
 				<Grid container spacing={1}>
 					{genres.map((genre) => (
-						<Grid item key={genre.slug} xs={6} sm={4} md={4} lg={3}>
+						<Grid item key={genre.slug} xs={6} sm={3} md={3} lg={2}>
 							<Button className='genre-item' variant='contained' style={{ backgroundColor: genre.color }}>
 								<img src={genre.icon} alt='' className='genre-icon' />
 								<Typography variant='body1'>{genre.name}</Typography>

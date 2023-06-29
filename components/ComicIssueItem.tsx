@@ -42,28 +42,15 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 
 	return (
 		<Box className={clsx('comic-issue-item', className)} {...props}>
-			<Box position='relative' height='100%'>
-				<Image
-					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
-					className='cover-image'
-					src={comicIssue.cover}
-					loading='lazy'
-					alt=''
-					fill
-				/>
-
-				{/* TODO: different badge variant if series are completed */}
-				{comicIssue.stats && (
-					<>
-						<Box className='episodes-badge'>
-							EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
-						</Box>
-						{/* TODO: add "favorite" icon? */}
-					</>
-				)}
-				{comicIssue.myStats && <Box className='favourite-badge'>{comicIssue.myStats.isFavourite ? '💖' : '🤍'}</Box>}
-				<div className='blur' />
-			</Box>
+			<Overlay borderRadius='1rem' />
+			<Image
+				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
+				className='cover-image'
+				src={comicIssue.cover}
+				loading='lazy'
+				alt=''
+				fill
+			/>
 
 			<Box className='text-area'>
 				{comicIssue.comic && (
@@ -76,12 +63,13 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 				</Typography>
 
 				<Box display='flex' justifyContent='space-between'>
-					{comicIssue.creator && (
-						<Typography className='creator-name' variant='body2'>
-							{comicIssue.creator.name}
-						</Typography>
+					{/* TODO: different badge variant if series are completed */}
+					{comicIssue.stats && (
+						<Box className='episodes-badge'>
+							EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
+						</Box>
 					)}
-					{comicIssue.stats && <PriceTag price={comicIssue.stats.price} />}
+					{comicIssue.stats && <PriceTag from size={14} price={comicIssue.stats.price} />}
 				</Box>
 			</Box>
 		</Box>

@@ -133,42 +133,36 @@ const Playground: NextPage = () => {
 	}, [])
 
 	return (
-		<>
-			<Navigation />
-
-			<Main className='main'>
-				<Box className='playground'>
-					<Box className='playground-input'>
-						<TextField
-							value={apiRoute}
-							placeholder='API route to fetch tx from'
-							variant='filled'
-							onChange={(e) => {
-								setApiRoute(e.target.value)
-							}}
-							size='small'
-							fullWidth
-						/>
-					</Box>
-					<Box className='playground-buttons'>
-						<Button onClick={genericFetch}>Generic</Button>
-						<Button onClick={mintOne}>Mint</Button>
-						<Button onClick={privateBid}>Private Bid</Button>
-						<Button onClick={list}>Sell</Button>
-						<Button onClick={executeSale}>Execute Sale</Button>
-						<Button onClick={cancelBid}>Cancel Bid</Button>
-						<Button onClick={cancelListing}>Cancel Listing</Button>
-						<Button onClick={fetch}>Fetch</Button>
-					</Box>
+		<Main className='main'>
+			<Box className='playground'>
+				<Box className='playground-input'>
+					<TextField
+						value={apiRoute}
+						placeholder='API route to fetch tx from'
+						variant='filled'
+						onChange={(e) => {
+							setApiRoute(e.target.value)
+						}}
+						size='small'
+						fullWidth
+					/>
 				</Box>
-				<Typography>
-					<strong>Last signature: </strong>
-					<span className='text--important'>{lastSignature || '------'}</span>
-				</Typography>
-			</Main>
-
-			<Footer />
-		</>
+				<Box className='playground-buttons'>
+					<Button onClick={genericFetch}>Generic</Button>
+					<Button onClick={mintOne}>Mint</Button>
+					<Button onClick={privateBid}>Private Bid</Button>
+					<Button onClick={list}>Sell</Button>
+					<Button onClick={executeSale}>Execute Sale</Button>
+					<Button onClick={cancelBid}>Cancel Bid</Button>
+					<Button onClick={cancelListing}>Cancel Listing</Button>
+					<Button onClick={fetch}>Fetch</Button>
+				</Box>
+			</Box>
+			<Typography>
+				<strong>Last signature: </strong>
+				<span className='text--important'>{lastSignature || '------'}</span>
+			</Typography>
+		</Main>
 	)
 }
 

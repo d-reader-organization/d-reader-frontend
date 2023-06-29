@@ -17,7 +17,7 @@ const CreatorList: React.FC<Props> = ({ skip, take, animate, className, ...props
 		<Box className={clsx('creator-list', className)} {...props}>
 			<Grid container spacing={1}>
 				{creators.map((creator, i) => (
-					<AnimatedGridItem key={creator.slug} animate={animate} itemOrder={i} xs={12} sm={6} md={4} lg={3}>
+					<AnimatedGridItem key={creator.slug} animate={animate} itemOrder={i} xs={12} sm={6} md={3} lg={3}>
 						{/* TODO: these are Link-s */}
 						<CreatorItem creator={creator} />
 					</AnimatedGridItem>

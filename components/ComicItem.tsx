@@ -38,7 +38,6 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 
 	return (
 		<Box className={clsx('comic-item', className)} {...props}>
-			<Overlay borderRadius='1rem' />
 			<Image
 				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
 				className='cover-image'
@@ -47,26 +46,29 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 				alt=''
 				fill
 			/>
-			<div className='blur' />
+			<Image
+				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
+				className='cover-logo'
+				src={comic.logo}
+				loading='lazy'
+				alt=''
+				width={250}
+				height={250}
+			/>
 
-			{/* TODO: different badge variant if series are completed */}
-			{comic.stats && (
-				<Box className='episodes-badge'>
-					{comic.stats.issuesCount}
-					{comic.stats.issuesCount > 1 ? ' EPs' : ' EP'}
-				</Box>
-			)}
-			<Box className='text-area'>
+			{/* <Box className='text-area'>
 				<Typography className='comic-title' variant='body2'>
 					{comic.name}
 				</Typography>
 				{comic.creator && (
-					<Typography className='creator-name' variant='body2'>
-						{comic.creator.name}
+					<Box className='creator-name-wrapper'>
+						<Typography className='creator-name' variant='body2'>
+							{comic.creator.name}
+						</Typography>
 						{comic.creator.isVerified ? <VerifiedIcon /> : ''}
-					</Typography>
+					</Box>
 				)}
-			</Box>
+			</Box> */}
 		</Box>
 	)
 }

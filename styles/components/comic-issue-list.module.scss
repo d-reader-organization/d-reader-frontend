@@ -4,69 +4,62 @@
 
 .comic-issue-list {
 	@include flexRow;
-	// @include centeredRow;
+
+	.slick-slide {
+		padding: 0 0.2rem;
+	}
 }
 
 .comic-issue-item {
 	position: relative;
-	@include flexColumn;
-	background: $primary-color-light;
 	border: 0.2rem solid $primary-color-light;
 	border-radius: 1.1rem;
-	height: 320px;
+	aspect-ratio: 663 / 1024;
+	width: 100%;
 	cursor: pointer;
 	pointer-events: all;
-	transition: transform 0.3s ease;
+	transition: transform 0.2s ease;
 
 	&:hover {
 		transform: translateY(-4px);
 		@include md {
 			transform: translateY(-6px);
 		}
-
-		.blur {
-			opacity: 0.4;
-		}
 	}
 
 	.episodes-badge {
-		color: black;
-		padding: 0.1rem 0.6rem;
+		padding: 0.1rem 0;
 		text-align: center;
 		border-radius: 2rem;
-		position: absolute;
-		top: 1rem;
-		left: 1rem;
-		background-color: white;
 		font-size: 14px;
-		font-weight: bold;
 		user-select: none;
 	}
 
 	.text-area {
 		width: 100%;
 		padding: 0.5rem 1rem;
+		position: absolute;
+		bottom: 0;
+		left: 0;
 
 		.comic-title {
-			color: $important-color;
+			width: 100%;
+			color: lightgray;
+		}
+
+		.comic-issue-title {
+			width: 100%;
+			font-weight: bold;
 		}
 
 		.comic-title,
 		.comic-issue-title {
-			width: 100%;
-			font-weight: bold;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-		}
-
-		.creator-name {
-			color: lightgray;
+			@include textOverflow;
 		}
 	}
 
 	.cover-image {
-		z-index: 0;
+		z-index: -1;
 		object-fit: cover;
 		border-radius: 1rem;
 		@include unclickable;

@@ -2,12 +2,14 @@ import React from 'react'
 import { ToolbarProps, Toolbar, Button, Hidden, Box, Menu, MenuItem, AppBar, useScrollTrigger } from '@mui/material'
 import logoWithTextImage from 'public/assets/logo-with-text.png'
 import logoImage from 'public/assets/logo.png'
-import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
-import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
+import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
+import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Link from 'next/link'
 import http from 'api/http'
 import clsx from 'clsx'
 
@@ -16,18 +18,19 @@ const WalletButtonDynamic = dynamic(async () => (await import('@open-sauce/solom
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
 	const trigger = useScrollTrigger()
+	const router = useRouter()
 
 	return (
 		<AppBar className={clsx('header', trigger ? 'with-background' : '')}>
 			<Toolbar component='nav' className='navigation' {...props}>
-				<a href='https://www.dreader.app' rel='noreferrer' target='_blank' className='company-logo-wrapper'>
+				<Link href='/' className='company-logo-wrapper'>
 					<Hidden smDown>
 						<Image className='company-logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
 					</Hidden>
 					<Hidden smUp>
 						<Image className='company-logo' src={logoImage} width={96} height={96} alt='dReader' />
 					</Hidden>
-				</a>
+				</Link>
 
 				<Box className='navigation-items'>
 					{/* Mobile */}
@@ -44,20 +47,23 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							anchorEl={menuAnchorEl}
 							open={Boolean(menuAnchorEl)}
 							onClose={resetMenuAnchorEl}
-							className='navigation-items'
 							PaperProps={{ className: 'mobile-menu' }}
 							keepMounted
 						>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<Button color='secondary' href='https://twitter.com/JosipVolarevic2' rel='noreferrer' target='_blank'>
-									<TwitterIcon style={{ padding: 3 }} />
-									Twitter
+								<Button
+									LinkComponent={Link}
+									className={router.pathname === '/discover' ? 'active' : ''}
+									href='/discover'
+								>
+									<DiscoverIcon />
+									Discover
 								</Button>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<Button color='secondary' href='https://discord.gg/BfCqPu63ZX' rel='noreferrer' target='_blank'>
-									<DiscordIcon />
-									Discord
+								<Button LinkComponent={Link} className={router.pathname === '/library' ? 'active' : ''} href='/library'>
+									<LibraryIcon />
+									Library
 								</Button>
 							</MenuItem>
 						</Menu>
@@ -65,22 +71,22 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 					{/* Desktop */}
 					<Hidden smDown>
 						<Button
-							variant='contained'
-							aria-label='twitter'
-							href='https://twitter.com/JosipVolarevic2'
-							rel='noreferrer'
-							target='_blank'
+							LinkComponent={Link}
+							className={router.pathname === '/discover' ? 'active' : ''}
+							aria-label='discover'
+							href='/discover'
 						>
-							<TwitterIcon style={{ padding: 3 }} />
+							<DiscoverIcon />
+							Discover
 						</Button>
 						<Button
-							variant='contained'
-							aria-label='discord'
-							href='https://discord.gg/BfCqPu63ZX'
-							rel='noreferrer'
-							target='_blank'
+							LinkComponent={Link}
+							className={router.pathname === '/library' ? 'active' : ''}
+							aria-label='library'
+							href='/library'
 						>
-							<DiscordIcon />
+							<LibraryIcon />
+							Library
 						</Button>
 					</Hidden>
 					<WalletButtonDynamic http={http} className='wallet-button' />

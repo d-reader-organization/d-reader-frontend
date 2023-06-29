@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { network, endpoint, APP_IDENTITY } from 'constants/environment'
 import { AuthProvider, MobileWalletProvider, getWallets } from '@open-sauce/solomon'
 import ToastProvider from 'providers/ToastProvider'
+import Navigation from 'components/layout/Navigation'
+import Footer from 'components/layout/Footer'
 import theme from 'styles/theme'
 import Head from 'next/head'
 import http from 'api/http'
@@ -35,7 +37,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 											<title>dReader</title>
 										</Head>
 
+										<Navigation />
 										<Component {...pageProps} />
+										<Footer />
 									</ToastProvider>
 								</AuthProvider>
 							</MobileWalletProvider>

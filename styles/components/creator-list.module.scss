@@ -16,16 +16,12 @@
 	padding: 0.8rem 1rem;
 	cursor: pointer;
 	pointer-events: all;
-	transition: transform 0.3s ease;
+	transition: transform 0.2s ease;
 
 	&:hover {
 		transform: translateY(-4px);
 		@include md {
 			transform: translateY(-6px);
-		}
-
-		.blur {
-			opacity: 0.4;
 		}
 	}
 
@@ -35,14 +31,13 @@
 		width: calc(100% - 60px);
 
 		.creator-name-wrapper {
-			@include centeredRow;
+			@include flexRow;
+			align-items: center;
+			width: 100%;
 
 			.creator-name {
-				width: 100%;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				white-space: nowrap;
 				font-weight: bold;
+				@include textOverflow;
 			}
 
 			& > svg {
