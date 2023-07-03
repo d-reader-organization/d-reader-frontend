@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
-import Navigation from 'components/layout/Navigation'
-import Footer from 'components/layout/Footer'
 import Main from 'components/layout/Main'
 import { useCrossDeviceWallet, decodeTransaction } from '@open-sauce/solomon'
 import { Box, Button, TextField, Typography } from '@mui/material'

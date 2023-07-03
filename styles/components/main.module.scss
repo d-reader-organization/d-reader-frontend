@@ -4,6 +4,7 @@
 .main {
 	@include defaultFadeIn;
 	min-height: 100vh;
+	overflow: hidden;
 
 	@media (min-width: 380px) {
 		padding: 1rem;

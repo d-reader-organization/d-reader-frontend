@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
-import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
+import { Box, BoxProps, Skeleton } from '@mui/material'
 import { Comic } from 'models/comic'
 import Overlay from './Overlay'
 import Image from 'next/image'
