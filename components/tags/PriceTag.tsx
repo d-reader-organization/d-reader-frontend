@@ -1,9 +1,10 @@
 import { Typography, TypographyProps } from '@mui/material'
 import SolanaIcon from 'public/assets/vector-icons/solana.svg'
 import { formatPrice } from 'utils/helpers'
+import { isNil } from 'lodash'
 
 interface Props extends Omit<TypographyProps, 'children'> {
-	price: number
+	price?: number | null
 	size?: number
 	bold?: boolean
 	reverse?: boolean
@@ -28,6 +29,7 @@ const PriceTag: React.FC<Props> = ({ price, size = 16, bold = false, reverse = f
 		)
 	}
 
+	if (isNil(price)) return <TypographyWrapper>-.--</TypographyWrapper>
 	if (price == 0) return <TypographyWrapper>FREE</TypographyWrapper>
 
 	return (

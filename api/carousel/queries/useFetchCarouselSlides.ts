@@ -3,7 +3,7 @@ import { carouselKeys, CAROUSEL_QUERY_KEYS } from 'api/carousel'
 import { useToaster } from 'providers/ToastProvider'
 import { useAuth } from '@open-sauce/solomon'
 import { useQuery } from 'react-query'
-import { CarouselSlide } from 'models/carouselSlide'
+import { CarouselSlide } from 'models/carousel/carouselSlide'
 
 const { CAROUSEL, SLIDES, GET } = CAROUSEL_QUERY_KEYS
 

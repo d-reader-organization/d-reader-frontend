@@ -1,4 +1,6 @@
+import { Genre } from 'models/genre'
 import { CreatorStats } from './creatorStats'
+import { CreatorMyStats } from './creatorMyStats'
 
 export interface Creator {
 	id: number
@@ -13,5 +15,10 @@ export interface Creator {
 	description: string
 	flavorText: string
 	website: string
+	twitter: string
+	instagram: string
+	lynkfire: string
 	stats?: CreatorStats
+	myStats?: CreatorMyStats
+	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color' | 'icon'>>
 }

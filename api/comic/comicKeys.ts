@@ -1,4 +1,4 @@
-import { Pagination } from 'models/pagination'
+import { ComicParams } from 'models/comic/comicParams'
 
 export const COMIC_QUERY_KEYS = Object.freeze({
 	COMIC: 'comic',
@@ -7,11 +7,17 @@ export const COMIC_QUERY_KEYS = Object.freeze({
 
 export const comicKeys = Object.freeze({
 	comic: [COMIC_QUERY_KEYS.COMIC],
-	getComics: (pagination: Pagination) => [
+	getComics: (params: ComicParams) => [
 		COMIC_QUERY_KEYS.COMIC,
 		COMIC_QUERY_KEYS.GET,
-		pagination.skip,
-		pagination.take,
+		params.titleSubstring,
+		params.creatorSlug,
+		params.genreSlugs,
+		params.filterTag,
+		params.sortOrder,
+		params.sortTag,
+		params.skip,
+		params.take,
 	],
 	getComic: (slug: string) => [COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET, slug],
 })

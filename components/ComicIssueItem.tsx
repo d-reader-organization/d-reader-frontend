@@ -55,7 +55,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 			<Box className='text-area'>
 				{comicIssue.comic && (
 					<Typography className='comic-title' variant='body2'>
-						{comicIssue.comic.name}
+						{comicIssue.comic.title}
 					</Typography>
 				)}
 				<Typography className='comic-issue-title' variant='body2'>
