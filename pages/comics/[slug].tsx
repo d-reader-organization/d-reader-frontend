@@ -8,13 +8,14 @@ import PriceTag from 'components/tags/PriceTag'
 import Main from 'components/layout/Main'
 import { useFetchComic } from 'api/comic'
 import Image from 'next/image'
+import { getRandomFloat } from 'utils/helpers'
 
 const ComicDetails: NextPage = () => {
 	const router = useRouter()
 	const { slug } = router.query
 	// TODO: remove slug as string
 	const { data: comic, error } = useFetchComic(slug as string)
-	const { data: comicIssues = [] } = useFetchComicIssues({
+	const { flatData: comicIssues = [] } = useFetchComicIssues({
 		comicSlug: slug as string,
 		// TODO: handle infinite scroll properly
 		take: 20,
@@ -44,7 +45,7 @@ const ComicDetails: NextPage = () => {
 						<Grid item xs={12} sm={6} md={8} lg={9}>
 							<Box className='comic-details'>
 								<Typography component='h1' variant='h5' className='comic-name'>
-									{comic.name}
+									{comic.title}
 								</Typography>
 								{comic.creator && (
 									<Box className='comic-creator-wrapper'>
@@ -74,7 +75,7 @@ const ComicDetails: NextPage = () => {
 								{comic.stats && comic.myStats && (
 									<Box className='comic-stats-list'>
 										<Box className='stat-item'>
-											<PriceTag price={comic.stats.totalVolume} reverse />
+											<PriceTag price={parseInt(getRandomFloat(0, 10))} reverse />
 											&nbsp;VOLUME
 										</Box>
 										<Box className='stat-item'>
@@ -107,7 +108,7 @@ const ComicDetails: NextPage = () => {
 							<Grid item key={issue.id} xs={12} sm={6} md={4} lg={3}>
 								EPISODE {issue.number} of {comic.stats?.issuesCount}
 								<br />
-								{comic.name}
+								{comic.title}
 								<br />
 								{issue.title}
 								<br />

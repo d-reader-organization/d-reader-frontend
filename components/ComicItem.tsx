@@ -57,7 +57,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, ...props }) => {
 
 			{/* <Box className='text-area'>
 				<Typography className='comic-title' variant='body2'>
-					{comic.name}
+					{comic.title}
 				</Typography>
 				{comic.creator && (
 					<Box className='creator-name-wrapper'>

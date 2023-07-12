@@ -47,7 +47,7 @@ const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 					{creator.isVerified ? <VerifiedIcon /> : ''}
 				</Box>
 				<Typography variant='body2' className='performance'>
-					{getRandomFloat(10, 50)} %
+					{getRandomFloat(10, 30)} %
 				</Typography>
 			</Box>
 		</Box>

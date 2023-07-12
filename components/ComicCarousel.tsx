@@ -5,7 +5,7 @@ import { useFetchComics } from 'api/comic'
 import Image from 'next/image'
 
 const ComicCarousel: React.FC = () => {
-	const { data: comics = [] } = useFetchComics({ skip: 0, take: 4 })
+	const { flatData: comics } = useFetchComics({ skip: 0, take: 4 })
 
 	return (
 		<Carousel
@@ -32,7 +32,7 @@ const ComicCarousel: React.FC = () => {
 					{/* <Skeleton className='slider-image' height='100%' /> */}
 					<Box className='slide-text-area'>
 						<Typography variant='h2' className='slide-name'>
-							{comic.name}
+							{comic.title}
 						</Typography>
 						<Typography variant='body1' className='slide-description' component='p'>
 							{comic.description}
