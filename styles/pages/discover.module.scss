@@ -1,0 +1,14 @@
+@use '../mixins/common.module.scss' as *;
+
+.discover {
+	.search-box {
+		width: 60%;
+		margin: 0 auto;
+	}
+
+	.genre-button-list {
+		@include flexRow;
+		flex-wrap: wrap;
+		margin: 0 -0.4rem;
+	}
+}

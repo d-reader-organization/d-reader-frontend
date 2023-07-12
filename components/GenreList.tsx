@@ -1,11 +1,10 @@
 import { Box, BoxProps, Button, Grid, Typography } from '@mui/material'
+import { Pagination } from 'models/pagination'
 import { useFetchGenres } from 'api/genre'
 import Grow from '@mui/material/Grow'
 import clsx from 'clsx'
 
-interface Props extends BoxProps {
-	skip: number
-	take: number
+interface Props extends BoxProps, Pagination {
 	animate: boolean
 }
 

@@ -1,12 +1,11 @@
 import { Box, BoxProps, Grid } from '@mui/material'
 import { useFetchCreators } from 'api/creator'
 import AnimatedGridItem from './AnimatedGrid'
+import { Pagination } from 'models/pagination'
 import CreatorItem from './CreatorItem'
 import clsx from 'clsx'
 
-interface Props extends BoxProps {
-	skip: number
-	take: number
+interface Props extends BoxProps, Pagination {
 	animate: boolean
 }
 

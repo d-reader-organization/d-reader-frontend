@@ -1,23 +1,24 @@
+import { debounce } from 'lodash'
 import { useState, useMemo, useCallback } from 'react'
 
-export const useOnScreen = <E extends HTMLElement>(): [boolean, React.RefCallback<E>] => {
+export const useOnScreen = <E extends HTMLElement>(): [boolean, boolean, React.RefCallback<E>] => {
 	const [intersecting, setIntersecting] = useState(false)
+	const [hasIntersected, setHasIntersected] = useState(false)
 
 	const observer = useMemo(() => {
+		const debouncedSetIntersecting = debounce((newValue: boolean) => {
+			setIntersecting(newValue)
+		}, 100)
+
 		if (typeof window === 'object') {
 			return new IntersectionObserver(([entry]) => {
-				// if (entry.intersectionRatio >= 0) {
-				// TODO: intersectionRatio
 				// https://stackoverflow.com/questions/53214116/intersectionobserver-callback-firing-immediately-on-page-load
+				// if (entry.intersectionRatio >= 0) {
 				// 	setIntersecting(true)
 				// }
 
-				if (entry.isIntersecting) {
-					setIntersecting((prevIntersecting) => {
-						if (observer) observer.unobserve(entry.target)
-						return prevIntersecting || entry.isIntersecting
-					})
-				}
+				debouncedSetIntersecting(entry.isIntersecting)
+				if (entry.isIntersecting) setHasIntersected(true)
 			})
 		}
 	}, [])
@@ -28,16 +29,16 @@ export const useOnScreen = <E extends HTMLElement>(): [boolean, React.RefCallbac
 			if (element) {
 				setTimeout(() => {
 					observer.observe(element)
-				}, 2000)
+				}, 1000)
 			} else {
-				observer.disconnect()
+				// observer.disconnect()
 				setIntersecting(false)
 			}
 		},
 		[observer]
 	)
 
-	return [intersecting, currentElement]
+	return [hasIntersected, intersecting, currentElement]
 }
 
 export default useOnScreen

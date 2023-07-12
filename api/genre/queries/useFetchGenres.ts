@@ -8,17 +8,17 @@ import http from 'api/http'
 
 const { GENRE, GET } = GENRE_QUERY_KEYS
 
-const fetchGenres = async (pagination: Pagination): Promise<Genre[]> => {
+const fetchGenres = async (pagination?: Pagination): Promise<Genre[]> => {
 	const response = await http.get<Genre[]>(`${GENRE}/${GET}`, {
 		params: {
-			skip: pagination.skip,
-			take: pagination.take,
+			skip: pagination?.skip,
+			take: pagination?.take,
 		},
 	})
 	return response.data
 }
 
-export const useFetchGenres = (pagination: Pagination) => {
+export const useFetchGenres = (pagination?: Pagination) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 

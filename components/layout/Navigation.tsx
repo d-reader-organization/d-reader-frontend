@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import http from 'api/http'
 import clsx from 'clsx'
+import { RoutePath } from 'enums/routePath'
 
 const WalletButtonDynamic = dynamic(async () => (await import('@open-sauce/solomon')).WalletButton, { ssr: false })
 
@@ -23,7 +24,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	return (
 		<AppBar className={clsx('header', trigger ? 'with-background' : '')}>
 			<Toolbar component='nav' className='navigation' {...props}>
-				<Link href='/' className='company-logo-wrapper'>
+				<Link href={RoutePath.Home} className='company-logo-wrapper'>
 					<Hidden smDown>
 						<Image className='company-logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
 					</Hidden>
@@ -53,15 +54,19 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							<MenuItem onClick={resetMenuAnchorEl}>
 								<Button
 									LinkComponent={Link}
-									className={router.pathname === '/discover' ? 'active' : ''}
-									href='/discover'
+									className={router.pathname === RoutePath.Discover ? 'active' : ''}
+									href={RoutePath.Discover}
 								>
 									<DiscoverIcon />
 									Discover
 								</Button>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<Button LinkComponent={Link} className={router.pathname === '/library' ? 'active' : ''} href='/library'>
+								<Button
+									LinkComponent={Link}
+									className={router.pathname === RoutePath.Library ? 'active' : ''}
+									href={RoutePath.Library}
+								>
 									<LibraryIcon />
 									Library
 								</Button>
@@ -72,18 +77,18 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 					<Hidden smDown>
 						<Button
 							LinkComponent={Link}
-							className={router.pathname === '/discover' ? 'active' : ''}
+							className={router.pathname === RoutePath.Discover ? 'active' : ''}
 							aria-label='discover'
-							href='/discover'
+							href={RoutePath.Discover}
 						>
 							<DiscoverIcon />
 							Discover
 						</Button>
 						<Button
 							LinkComponent={Link}
-							className={router.pathname === '/library' ? 'active' : ''}
+							className={router.pathname === RoutePath.Library ? 'active' : ''}
 							aria-label='library'
-							href='/library'
+							href={RoutePath.Library}
 						>
 							<LibraryIcon />
 							Library

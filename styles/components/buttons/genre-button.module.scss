@@ -1,0 +1,19 @@
+@use '../../variables/theme.module.scss' as *;
+@use '../../mixins/common.module.scss' as *;
+
+.genre-button {
+	@include centeredRow;
+	width: min-content;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 0.8rem;
+	margin: 0.4rem;
+	border-radius: 1rem;
+	white-space: nowrap;
+
+	.genre-icon {
+		width: 24px;
+		height: 24px;
+		margin-right: 0.5rem;
+	}
+}

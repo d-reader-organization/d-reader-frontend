@@ -7,7 +7,6 @@
 @use 'components/navigation.module.scss';
 @use 'components/main.module.scss';
 @use 'components/section.module.scss';
-@use 'components/wallet-button.module.scss';
 @use 'components/comic-reader.module.scss';
 @use 'components/playground.module.scss';
 @use 'components/carousel.module.scss';
@@ -19,9 +18,14 @@
 @use 'components/overlay.module.scss';
 @use 'components/avatar.module.scss';
 
+// Button components
+@use 'components/buttons/wallet-button.module.scss';
+@use 'components/buttons/genre-button.module.scss';
+
 // Pages
 @use 'pages/home.module.scss';
 @use 'pages/comic-details.module.scss';
+@use 'pages/discover.module.scss';
 
 // Variables
 @use 'variables/theme.module.scss';

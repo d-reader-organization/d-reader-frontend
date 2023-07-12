@@ -21,7 +21,7 @@ const Section: React.FC<Props> = ({
 	const titleRef = useRef(null)
 
 	return (
-		<Container maxWidth={'lg' || false} component='section' className={clsx('section', className)} {...props}>
+		<Container maxWidth={'xl' || false} component='section' className={clsx('section', className)} {...props}>
 			{title || actionProps ? (
 				<Box className='section-title-row' ref={titleRef}>
 					{title && (

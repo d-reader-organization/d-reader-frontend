@@ -4,18 +4,19 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import clsx from 'clsx'
+import { ComicParams } from 'models/comic/comicParams'
 
 interface Props {
-	skip: number
-	take: number
+	params: ComicParams
+	slidesToShow: number
 	className?: string
 }
 
-const ComicList: React.FC<Props> = ({ skip, take, className }) => {
-	const { data: comics = [] } = useFetchComics({ skip, take: 20 })
+const ComicList: React.FC<Props> = ({ params, slidesToShow, className }) => {
+	const { flatData: comics } = useFetchComics(params)
 
 	return (
-		<Slider className={clsx('comic-list', className)} slidesToShow={take} slidesToScroll={take}>
+		<Slider className={clsx('comic-list', className)} slidesToShow={slidesToShow} slidesToScroll={slidesToShow}>
 			{comics.map((comic) => (
 				<ComicItem key={comic.slug} comic={comic} />
 			))}
