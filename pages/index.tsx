@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import type { NextPage } from 'next'
-import Main from 'components/layout/Main'
 import GenreList from 'components/GenreList'
 import Section from 'components/layout/Section'
 import ComicList from 'components/ComicList'
@@ -10,9 +9,10 @@ import ComicIssueList from 'components/ComicIssueList'
 import useBreakpoints from 'hooks/useBreakpoints'
 import useOnScreen from 'hooks/useOnScreen'
 import { useAuth } from '@open-sauce/solomon'
-import { Box } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import { ComicFilterTag, ComicSortTag } from 'models/comic/comicParams'
 import { ComicIssueFilterTag, ComicIssueSortTag } from 'models/comicIssue/comicIssueParams'
+import { RoutePath } from 'enums/routePath'
 
 const Home: NextPage = () => {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -26,20 +26,22 @@ const Home: NextPage = () => {
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
 	const take = useMemo(() => {
-		if (xl) return { genres: 12, comics: 12, comicsPerPage: 6, comicIssues: 12, comicIssuesPerPage: 6, creators: 8 }
-		else if (lg) return { genres: 6, comics: 12, comicsPerPage: 6, comicIssues: 12, comicIssuesPerPage: 6, creators: 4 }
+		if (xl) return { genres: 12, comics: 18, comicsPerPage: 6, comicIssues: 18, comicIssuesPerPage: 6, creators: 8 }
+		else if (lg) return { genres: 6, comics: 18, comicsPerPage: 6, comicIssues: 18, comicIssuesPerPage: 6, creators: 4 }
 		else if (md) return { genres: 4, comics: 15, comicsPerPage: 5, comicIssues: 15, comicIssuesPerPage: 5, creators: 4 }
 		else if (sm) return { genres: 4, comics: 12, comicsPerPage: 4, comicIssues: 12, comicIssuesPerPage: 4, creators: 4 }
-		else if (xs) return { genres: 4, comics: 10, comicsPerPage: 2, comicIssues: 10, comicIssuesPerPage: 2, creators: 3 }
+		else if (xs) return { genres: 4, comics: 12, comicsPerPage: 2, comicIssues: 12, comicIssuesPerPage: 2, creators: 3 }
 		else return undefined
 	}, [xl, lg, md, sm, xs])
 
 	if (!take) return null
 	if (!isAuthenticated) {
 		return (
-			<Box py={14} px={4}>
-				Please connect your wallet
-			</Box>
+			<Container className='home-container' maxWidth='xl'>
+				<Box py={14} px={4}>
+					Please connect your wallet
+				</Box>
+			</Container>
 		)
 	}
 
@@ -47,11 +49,11 @@ const Home: NextPage = () => {
 		<div className='home'>
 			<HeroCarousel />
 
-			<Main className='main'>
+			<Container className='home-container' maxWidth='xl'>
 				<Section
 					id='promoted-comics'
 					title='Get started'
-					actionProps={{ children: 'See All', href: '#promoted-comics' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
 				>
 					<ComicList
 						params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Rating }}
@@ -64,7 +66,7 @@ const Home: NextPage = () => {
 					title='Popular comics'
 					show={showPopularComics}
 					observationRef={popularComicsRef}
-					actionProps={{ children: 'See All', href: '#popular-comics' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
 				>
 					<ComicList
 						params={{ skip: 0, take: take.comics, filterTag: ComicFilterTag.Popular }}
@@ -77,7 +79,7 @@ const Home: NextPage = () => {
 					title='Genres'
 					show={showGenres}
 					observationRef={genresRef}
-					actionProps={{ children: 'See All', href: '#genres' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
 				>
 					<GenreList skip={0} take={take.genres} animate={showGenres} />
 				</Section>
@@ -87,7 +89,7 @@ const Home: NextPage = () => {
 					title='New episodes'
 					show={showNewComicIssues}
 					observationRef={newComicIssuesRef}
-					actionProps={{ children: 'See All', href: '#new-episodes' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
 				>
 					<ComicIssueList
 						params={{ skip: 0, take: take.comicIssues, sortTag: ComicIssueSortTag.Latest }}
@@ -100,7 +102,7 @@ const Home: NextPage = () => {
 					title='Free episodes'
 					show={showFreeComicIssues}
 					observationRef={freeComicIssuesRef}
-					actionProps={{ children: 'See All', href: '#free-episodes' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
 				>
 					<ComicIssueList
 						params={{ skip: 0, take: take.comicIssues, filterTag: ComicIssueFilterTag.Free }}
@@ -113,7 +115,7 @@ const Home: NextPage = () => {
 					title='Top creators'
 					show={showTopCreators}
 					observationRef={topCreatorsRef}
-					actionProps={{ children: 'See All', href: '#top-creators' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverCreators }}
 				>
 					<CreatorList skip={0} take={take.creators} animate={showTopCreators} />
 				</Section>
@@ -123,14 +125,14 @@ const Home: NextPage = () => {
 					title='New comics'
 					show={showNewComics}
 					observationRef={newComicsRef}
-					actionProps={{ children: 'See All', href: '#new-comics' }}
+					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
 				>
 					<ComicList
 						params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Published }}
 						slidesToShow={take.comicsPerPage}
 					/>
 				</Section>
-			</Main>
+			</Container>
 		</div>
 	)
 }

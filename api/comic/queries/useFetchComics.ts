@@ -1,11 +1,11 @@
-import http from 'api/http'
+import { useMemo } from 'react'
 import { comicKeys, COMIC_QUERY_KEYS } from 'api/comic'
+import { ComicParams } from 'models/comic/comicParams'
+import { useToaster } from 'providers/ToastProvider'
 import { useAuth } from '@open-sauce/solomon'
 import { useInfiniteQuery } from 'react-query'
 import { Comic } from 'models/comic'
-import { useToaster } from 'providers/ToastProvider'
-import { ComicParams } from 'models/comic/comicParams'
-import { useMemo } from 'react'
+import http from 'api/http'
 
 const { COMIC, GET } = COMIC_QUERY_KEYS
 
@@ -14,7 +14,7 @@ const fetchComics = async (params: ComicParams): Promise<Comic[]> => {
 	return response.data
 }
 
-export const useFetchComics = (params: ComicParams) => {
+export const useFetchComics = (params: ComicParams, enabled = true) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
@@ -25,7 +25,7 @@ export const useFetchComics = (params: ComicParams) => {
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: !!isAuthenticated,
+		enabled: enabled && !!isAuthenticated,
 		onError: toaster.onQueryError,
 		retry: 1,
 	})

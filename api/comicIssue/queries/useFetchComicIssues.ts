@@ -14,7 +14,7 @@ const fetchComicIssues = async (params: ComicIssueParams): Promise<ComicIssue[]>
 	return response.data
 }
 
-export const useFetchComicIssues = (params: ComicIssueParams) => {
+export const useFetchComicIssues = (params: ComicIssueParams, enabled = true) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
@@ -25,8 +25,9 @@ export const useFetchComicIssues = (params: ComicIssueParams) => {
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: isAuthenticated,
+		enabled: enabled && isAuthenticated,
 		onError: toaster.onQueryError,
+
 		retry: 1,
 	})
 

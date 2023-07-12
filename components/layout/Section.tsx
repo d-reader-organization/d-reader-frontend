@@ -1,12 +1,14 @@
 import React, { useRef } from 'react'
-import { ContainerProps, Typography, Container, ButtonProps, Box, Button, Slide } from '@mui/material'
+import { BoxProps, Typography, Box, Slide, ButtonProps, Button } from '@mui/material'
+import Link from 'next/link'
 import clsx from 'clsx'
 
-interface Props extends ContainerProps {
+interface Props extends BoxProps {
 	title?: string
-	actionProps?: ButtonProps
+	actionProps?: ButtonProps<'a'>
+	// actionProps?: LinkProps
 	show?: boolean
-	observationRef?: ContainerProps['ref']
+	observationRef?: BoxProps['ref']
 }
 
 const Section: React.FC<Props> = ({
@@ -21,7 +23,7 @@ const Section: React.FC<Props> = ({
 	const titleRef = useRef(null)
 
 	return (
-		<Container maxWidth={'xl' || false} component='section' className={clsx('section', className)} {...props}>
+		<Box component='section' className={clsx('section', className)} {...props}>
 			{title || actionProps ? (
 				<Box className='section-title-row' ref={titleRef}>
 					{title && (
@@ -33,7 +35,11 @@ const Section: React.FC<Props> = ({
 					)}
 					{actionProps && (
 						<Slide container={titleRef.current} in={show} direction='left'>
-							<Button {...actionProps} className={clsx('section-title-button', actionProps.className)} />
+							<Button
+								component={Link}
+								{...actionProps}
+								className={clsx('section-title-button', actionProps.className)}
+							/>
 						</Slide>
 					)}
 				</Box>
@@ -57,7 +63,7 @@ const Section: React.FC<Props> = ({
 				}}
 				ref={observationRef}
 			/>
-		</Container>
+		</Box>
 	)
 }
 

@@ -6,23 +6,29 @@ import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
 import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
+import { RoutePath } from 'enums/routePath'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import http from 'api/http'
 import clsx from 'clsx'
-import { RoutePath } from 'enums/routePath'
 
 const WalletButtonDynamic = dynamic(async () => (await import('@open-sauce/solomon')).WalletButton, { ssr: false })
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
-	const trigger = useScrollTrigger()
+	const trigger = useScrollTrigger({ threshold: 20 })
 	const router = useRouter()
 
 	return (
-		<AppBar className={clsx('header', trigger ? 'with-background' : '')}>
+		<AppBar
+			className={clsx(
+				'header',
+				trigger && 'header--with-background',
+				router.pathname !== RoutePath.Home && 'header--fixed'
+			)}
+		>
 			<Toolbar component='nav' className='navigation' {...props}>
 				<Link href={RoutePath.Home} className='company-logo-wrapper'>
 					<Hidden smDown>
@@ -54,8 +60,8 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							<MenuItem onClick={resetMenuAnchorEl}>
 								<Button
 									LinkComponent={Link}
-									className={router.pathname === RoutePath.Discover ? 'active' : ''}
-									href={RoutePath.Discover}
+									className={router.pathname.startsWith(RoutePath.Discover) ? 'active' : ''}
+									href={RoutePath.DiscoverComics}
 								>
 									<DiscoverIcon />
 									Discover
@@ -64,7 +70,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							<MenuItem onClick={resetMenuAnchorEl}>
 								<Button
 									LinkComponent={Link}
-									className={router.pathname === RoutePath.Library ? 'active' : ''}
+									className={router.pathname.startsWith(RoutePath.Library) ? 'active' : ''}
 									href={RoutePath.Library}
 								>
 									<LibraryIcon />
@@ -77,16 +83,16 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 					<Hidden smDown>
 						<Button
 							LinkComponent={Link}
-							className={router.pathname === RoutePath.Discover ? 'active' : ''}
+							className={router.pathname.startsWith(RoutePath.Discover) ? 'active' : ''}
 							aria-label='discover'
-							href={RoutePath.Discover}
+							href={RoutePath.DiscoverComics}
 						>
 							<DiscoverIcon />
 							Discover
 						</Button>
 						<Button
 							LinkComponent={Link}
-							className={router.pathname === RoutePath.Library ? 'active' : ''}
+							className={router.pathname.startsWith(RoutePath.Library) ? 'active' : ''}
 							aria-label='library'
 							href={RoutePath.Library}
 						>

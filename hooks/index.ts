@@ -1,6 +1,7 @@
 export * from './useIsomorphicLayoutEffect'
 export * from './useCancelablePromise'
 export * from './useAnchorElement'
+export * from './useBreakpoints'
 export * from './useIsMounted'
 export * from './useOnScreen'
 export * from './useToggle'

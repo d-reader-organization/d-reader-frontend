@@ -8,23 +8,18 @@ import http from 'api/http'
 
 const { GENRE, GET } = GENRE_QUERY_KEYS
 
-const fetchGenres = async (pagination?: Pagination): Promise<Genre[]> => {
-	const response = await http.get<Genre[]>(`${GENRE}/${GET}`, {
-		params: {
-			skip: pagination?.skip,
-			take: pagination?.take,
-		},
-	})
+const fetchGenres = async (params?: Pagination): Promise<Genre[]> => {
+	const response = await http.get<Genre[]>(`${GENRE}/${GET}`, { params })
 	return response.data
 }
 
-export const useFetchGenres = (pagination?: Pagination) => {
+export const useFetchGenres = (params?: Pagination) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
-	return useQuery([...genreKeys.getGenres(pagination)], () => fetchGenres(pagination), {
+	return useQuery([...genreKeys.getGenres(params)], () => fetchGenres(params), {
 		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: isAuthenticated,
+		enabled: !!isAuthenticated,
 		onError: toaster.onQueryError,
 		retry: 1,
 	})

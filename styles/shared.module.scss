@@ -2,6 +2,15 @@
 @use 'mixins/common.module.scss' as *;
 @use 'mixins/breakpoints.module.scss' as *;
 
+html {
+	scrollbar-color: $primary-color-dark transparent;
+	scrollbar-width: thin;
+}
+
+body {
+	background-color: $primary-color;
+}
+
 svg {
 	color: $secondary-color;
 	// fill: $secondary-color;
@@ -74,11 +83,6 @@ svg {
 
 ::-webkit-scrollbar-thumb:hover {
 	background: $primary-color;
-}
-
-html {
-	scrollbar-color: $primary-color-dark transparent;
-	scrollbar-width: thin;
 }
 
 .blur {

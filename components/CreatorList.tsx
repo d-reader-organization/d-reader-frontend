@@ -10,7 +10,7 @@ interface Props extends BoxProps, Pagination {
 }
 
 const CreatorList: React.FC<Props> = ({ skip, take, animate, className, ...props }) => {
-	const { data: creators = [] } = useFetchCreators({ skip, take })
+	const { flatData: creators = [] } = useFetchCreators({ skip, take })
 
 	return (
 		<Box className={clsx('creator-list', className)} {...props}>

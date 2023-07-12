@@ -55,25 +55,11 @@
 		}
 
 		.slide-text-area {
-			width: 90%;
 			text-align: left;
 			position: absolute;
-			padding: 2rem 1rem;
 			bottom: 10%;
-			left: 5%;
-
-			@include sm {
-				width: 70%;
-			}
-
-			@include md {
-				padding: 2rem;
-				width: 60%;
-			}
-
-			@include lg {
-				width: 50%;
-			}
+			left: 50%;
+			transform: translateX(-50%);
 		}
 
 		.slide-title {

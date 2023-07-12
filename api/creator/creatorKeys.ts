@@ -1,4 +1,4 @@
-import { Pagination } from 'models/pagination'
+import { CreatorParams } from 'models/creator/creatorParams'
 
 export const CREATOR_QUERY_KEYS = Object.freeze({
 	CREATOR: 'creator',
@@ -7,11 +7,16 @@ export const CREATOR_QUERY_KEYS = Object.freeze({
 
 export const creatorKeys = Object.freeze({
 	creator: [CREATOR_QUERY_KEYS.CREATOR],
-	getCreators: (pagination: Pagination) => [
+	getCreators: (params: CreatorParams) => [
 		CREATOR_QUERY_KEYS.CREATOR,
 		CREATOR_QUERY_KEYS.GET,
-		pagination.skip,
-		pagination.take,
+		params.nameSubstring,
+		params.genreSlugs,
+		params.filterTag,
+		params.sortOrder,
+		params.sortTag,
+		params.skip,
+		params.take,
 	],
 	getCreator: (slug: string) => [CREATOR_QUERY_KEYS.CREATOR, CREATOR_QUERY_KEYS.GET, slug],
 })
