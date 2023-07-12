@@ -3,12 +3,11 @@
 
 .genre-button {
 	@include centeredRow;
-	width: min-content;
-	box-sizing: border-box;
+	align-items: center;
 	height: 40px;
-	padding: 0.8rem;
-	margin: 0.4rem;
-	border-radius: 1rem;
+	padding: 0.8rem !important;
+	margin: 0.4rem !important;
+	border-radius: 1rem !important;
 	white-space: nowrap;
 
 	.genre-icon {

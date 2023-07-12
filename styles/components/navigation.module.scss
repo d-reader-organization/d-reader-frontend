@@ -7,8 +7,8 @@
 	background: $primary-color !important;
 	border: none !important;
 	border-radius: 0 !important;
-	transition: background-color 0.3s;
-	position: sticky;
+	transition: background-color 0.3s !important;
+	position: sticky !important;
 
 	&.with-background {
 		backdrop-filter: blur(10px) !important;
@@ -20,7 +20,7 @@
 	// @include defaultFadeIn;
 	width: 90%;
 	margin: 0 auto;
-	padding: 0 0.4rem;
+	padding: 0 0.4rem !important;
 	height: 72px;
 
 	@media (max-width: 300px) {
