@@ -2,17 +2,15 @@
 @use '../../mixins/common.module.scss' as *;
 
 .genre-button {
-	@include centeredRow;
-	align-items: center;
-	height: 40px;
+	@include centeredColumn;
+
 	padding: 0.8rem !important;
-	margin: 0.4rem !important;
 	border-radius: 1rem !important;
 	white-space: nowrap;
+	width: 100%;
 
 	.genre-icon {
 		width: 24px;
 		height: 24px;
-		margin-right: 0.5rem;
 	}
 }

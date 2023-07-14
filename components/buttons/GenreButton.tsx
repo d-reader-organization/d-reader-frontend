@@ -12,14 +12,16 @@ const GenreButton: React.FC<Props> = ({ genre, active = false, className, ...pro
 		<Button
 			className={clsx('genre-button', className)}
 			variant='outlined'
+			// color='secondary'
 			style={{
 				backgroundColor: active ? genre.color : 'transparent',
+				// borderColor: active ? genre.color : undefined,
 				borderColor: genre.color,
 			}}
 			{...props}
 		>
 			<img src={genre.icon} alt='' className='genre-icon' />
-			<Typography variant='body1'>{genre.name}</Typography>
+			<Typography variant='body2'>{genre.name}</Typography>
 		</Button>
 	)
 }

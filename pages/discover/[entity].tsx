@@ -1,17 +1,18 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { Box, Button, Container, Hidden, Tab, Tabs } from '@mui/material'
+import { Box, Button, Collapse, Container, Grid, Hidden, Tab, Tabs } from '@mui/material'
 import ComicIssueDiscoverList from 'components/discover/ComicIssueDiscoverList'
 import CreatorDiscoverList from 'components/discover/CreatorDiscoverList'
+import AccordionList, { AccordionItem } from 'components/AccordionList'
 import ComicDiscoverList from 'components/discover/ComicDiscoverList'
+import ProtectedContent from 'components/ProtectedContent'
 import GenreButton from 'components/buttons/GenreButton'
-import { useAuth } from '@open-sauce/solomon'
-import { useFetchGenres } from 'api/genre'
 import { useQueue, useToggle } from 'hooks'
-import { useRouter } from 'next/router'
 import { RoutePath } from 'enums/routePath'
-import clsx from 'clsx'
 import { SortOrder } from 'enums/sortOrder'
+import { useFetchGenres } from 'api/genre'
+import { useRouter } from 'next/router'
+import clsx from 'clsx'
 
 const tabs = [
 	{ path: RoutePath.DiscoverComics, index: 0 },
@@ -25,12 +26,11 @@ const findIndex = (path: string) => tabs.find((tab) => tab.path === path)?.index
 const DiscoverComicIssues: NextPage = () => {
 	const router = useRouter()
 	const [activeTab, setActiveTab] = useState(findIndex(router.asPath))
-	const genresQueue = useQueue<string>({ size: 1 }) // max 1 selected genre
+	const genresQueue = useQueue<string>({ size: 3 }) // max 3 selected genres
 	const [searchString, setSearchString] = useState('')
 	const [filterDrawer, toggleFilterDrawer] = useToggle()
 	const [isAscending, toggleSortOrder] = useToggle()
 	const { data: genres = [] } = useFetchGenres()
-	const { isAuthenticated } = useAuth()
 
 	const sortOrder = isAscending ? SortOrder.ASC : SortOrder.DESC
 	const comicsTab = router.asPath === RoutePath.DiscoverComics
@@ -38,11 +38,14 @@ const DiscoverComicIssues: NextPage = () => {
 	const creatorsTab = router.asPath === RoutePath.DiscoverCreators
 
 	useEffect(() => {
-		// route to /discover/comics if page is not found
+		if (typeof window !== 'object') return
+		if (router.asPath === router.pathname) return
+
+		// route to /discover/comic-issues if page is not found
 		const pageFound = tabs.find((tab) => tab.path === router.asPath)
 		if (!pageFound) {
-			router.replace(RoutePath.DiscoverComics, undefined, { shallow: true })
-		}
+			router.replace(RoutePath.DiscoverComicIssues, undefined, { shallow: true })
+		} else setActiveTab(findIndex(router.asPath))
 	}, [router])
 
 	const clearFilters = () => {
@@ -55,16 +58,58 @@ const DiscoverComicIssues: NextPage = () => {
 		router.replace(findPath(newValue), undefined, { shallow: true })
 	}
 
-	if (!isAuthenticated) {
-		return (
-			<Box py={14} px={4}>
-				Please connect your wallet
-			</Box>
-		)
-	}
+	const filterItems: AccordionItem[] = [
+		{
+			summary: 'Genres',
+			details: (
+				<Grid container spacing={1}>
+					{genres.map((genre) => (
+						<Grid item key={genre.slug} xs={4}>
+							<GenreButton
+								genre={genre}
+								active={genresQueue.contains(genre.slug)}
+								onClick={() => {
+									genresQueue.add(genre.slug)
+								}}
+							/>
+						</Grid>
+					))}
+				</Grid>
+			),
+		},
+		{
+			summary: 'Tags',
+			details: (
+				<>
+					----
+					{/* <Button
+						variant='contained'
+						color='primary'
+						onClick={() => {
+							console.log('popular selected')
+						}}
+					>
+						Popular
+					</Button>
+					<Button
+						variant='contained'
+						onClick={() => {
+							console.log('free selected')
+						}}
+					>
+						Free
+					</Button> */}
+				</>
+			),
+		},
+		{
+			summary: 'Sort By',
+			details: <>----</>,
+		},
+	]
 
 	return (
-		<>
+		<ProtectedContent>
 			<div className='header-image' />
 			<Container className='discover' maxWidth='xl'>
 				<Tabs
@@ -96,7 +141,8 @@ const DiscoverComicIssues: NextPage = () => {
 
 				<Box className='search-box'>
 					<Button variant='contained' className='search-button' onClick={toggleFilterDrawer}>
-						⬅️<Hidden smDown> Filters</Hidden>
+						{filterDrawer ? '➡️' : '⬅️'}
+						<Hidden smDown> Filters</Hidden>
 					</Button>
 					<Button variant='contained' className='search-button' onClick={clearFilters}>
 						Clear
@@ -116,45 +162,47 @@ const DiscoverComicIssues: NextPage = () => {
 					</Button>
 				</Box>
 
-				<Box className='genre-button-list' pt={1}>
-					{genres.map((genre) => (
-						<GenreButton
-							key={genre.slug}
-							genre={genre}
-							active={genresQueue.contains(genre.slug)}
-							onClick={() => {
-								genresQueue.add(genre.slug)
-							}}
-						/>
-					))}
-				</Box>
+				<Box className='discover-body'>
+					<Collapse
+						className={clsx('filter-box-wrapper', filterDrawer && 'filter-box-wrapper--active')}
+						orientation='horizontal'
+						in={filterDrawer}
+					>
+						<Box className='filter-box'>
+							<AccordionList items={filterItems} />
+						</Box>
+					</Collapse>
 
-				<Box hidden={!comicsTab} className='discover-content'>
-					<ComicDiscoverList
-						genreSlugs={genresQueue.items}
-						titleSubstring={searchString}
-						sortOrder={sortOrder}
-						enabled={comicsTab}
-					/>
-				</Box>
-				<Box hidden={!comicIssuesTab} className='discover-content'>
-					<ComicIssueDiscoverList
-						genreSlugs={genresQueue.items}
-						titleSubstring={searchString}
-						sortOrder={sortOrder}
-						enabled={comicIssuesTab}
-					/>
-				</Box>
-				<Box hidden={!creatorsTab} className='discover-content'>
-					<CreatorDiscoverList
-						genreSlugs={genresQueue.items}
-						nameSubstring={searchString}
-						sortOrder={sortOrder}
-						enabled={creatorsTab}
-					/>
+					<Box hidden={!comicsTab} className='discover-content'>
+						<ComicDiscoverList
+							genreSlugs={genresQueue.items}
+							titleSubstring={searchString}
+							sortOrder={sortOrder}
+							enabled={comicsTab}
+							narrow={filterDrawer}
+						/>
+					</Box>
+					<Box hidden={!comicIssuesTab} className='discover-content'>
+						<ComicIssueDiscoverList
+							genreSlugs={genresQueue.items}
+							titleSubstring={searchString}
+							sortOrder={sortOrder}
+							enabled={comicIssuesTab}
+							narrow={filterDrawer}
+						/>
+					</Box>
+					<Box hidden={!creatorsTab} className='discover-content'>
+						<CreatorDiscoverList
+							genreSlugs={genresQueue.items}
+							nameSubstring={searchString}
+							sortOrder={sortOrder}
+							enabled={creatorsTab}
+							narrow={filterDrawer}
+						/>
+					</Box>
 				</Box>
 			</Container>
-		</>
+		</ProtectedContent>
 	)
 }
 

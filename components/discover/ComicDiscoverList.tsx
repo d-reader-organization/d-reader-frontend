@@ -10,20 +10,28 @@ interface Props extends GridProps {
 	titleSubstring: string
 	sortOrder: SortOrder
 	enabled: boolean
+	narrow: boolean
 }
 
-const ComicDiscoverList: React.FC<Props> = ({ genreSlugs, titleSubstring, sortOrder, enabled, ...props }) => {
+const ComicDiscoverList: React.FC<Props> = ({
+	genreSlugs,
+	titleSubstring,
+	sortOrder,
+	enabled,
+	narrow = false,
+	...props
+}) => {
 	const [, showMore, showMoreRef] = useOnScreen()
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
 	const take = useMemo(() => {
-		if (xl) return 18
-		else if (lg) return 18
-		else if (md) return 12
+		if (xl) return narrow ? 12 : 18
+		else if (lg) return narrow ? 12 : 18
+		else if (md) return narrow ? 9 : 12
 		else if (sm) return 9
 		else if (xs) return 6
 		else return 0
-	}, [xl, lg, md, sm, xs])
+	}, [xl, lg, narrow, md, sm, xs])
 
 	const {
 		flatData: comics,
@@ -40,7 +48,7 @@ const ComicDiscoverList: React.FC<Props> = ({ genreSlugs, titleSubstring, sortOr
 		<>
 			<Grid container spacing={2} {...props}>
 				{comics.map((comic) => (
-					<Grid key={comic.slug} item xs={6} sm={4} md={3} lg={2}>
+					<Grid key={comic.slug} item xs={6} sm={4} md={narrow ? 4 : 3} lg={narrow ? 3 : 2}>
 						<ComicItem comic={comic} />
 					</Grid>
 				))}

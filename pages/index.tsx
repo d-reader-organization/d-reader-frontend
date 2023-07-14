@@ -8,11 +8,11 @@ import HeroCarousel from 'components/HeroCarousel'
 import ComicIssueList from 'components/ComicIssueList'
 import useBreakpoints from 'hooks/useBreakpoints'
 import useOnScreen from 'hooks/useOnScreen'
-import { useAuth } from '@open-sauce/solomon'
-import { Box, Container } from '@mui/material'
+import { Container } from '@mui/material'
 import { ComicFilterTag, ComicSortTag } from 'models/comic/comicParams'
 import { ComicIssueFilterTag, ComicIssueSortTag } from 'models/comicIssue/comicIssueParams'
 import { RoutePath } from 'enums/routePath'
+import ProtectedContent from 'components/ProtectedContent'
 
 const Home: NextPage = () => {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -21,7 +21,6 @@ const Home: NextPage = () => {
 	const [showTopCreators, , topCreatorsRef] = useOnScreen()
 	const [showNewComics, , newComicsRef] = useOnScreen()
 	const [showFreeComicIssues, , freeComicIssuesRef] = useOnScreen()
-	const { isAuthenticated } = useAuth()
 
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
@@ -35,18 +34,9 @@ const Home: NextPage = () => {
 	}, [xl, lg, md, sm, xs])
 
 	if (!take) return null
-	if (!isAuthenticated) {
-		return (
-			<Container className='home-container' maxWidth='xl'>
-				<Box py={14} px={4}>
-					Please connect your wallet
-				</Box>
-			</Container>
-		)
-	}
 
 	return (
-		<div className='home'>
+		<ProtectedContent className='home'>
 			<HeroCarousel />
 
 			<Container className='home-container' maxWidth='xl'>
@@ -133,7 +123,7 @@ const Home: NextPage = () => {
 					/>
 				</Section>
 			</Container>
-		</div>
+		</ProtectedContent>
 	)
 }
 
