@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Box, Button, Container, Hidden, Typography } from '@mui/material'
+import { Box, Button, Container, Hidden, Theme, Typography, useMediaQuery } from '@mui/material'
 import ComicIssueDiscoverList from 'components/comicIssue/ComicIssueDiscoverList'
 import PageBanner from 'public/assets/page-banner.png'
 import WebsiteIcon from 'public/assets/vector-icons/web-icon.svg'
@@ -36,6 +36,8 @@ const ComicDetails: NextPage = () => {
 		skip: 0,
 	})
 
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
 	// const toggleFavorite = () => {
 	// 	console.log('Toggle favorite')
 	// }
@@ -47,13 +49,14 @@ const ComicDetails: NextPage = () => {
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comic || !comic.stats || !comic.myStats) return null
 
+	const hasHeroImage = comic.banner || comic.cover
+	const fallbackImage = isMobile ? comic.cover : PageBanner.src
+	const heroImage = comic.banner || fallbackImage
+
 	return (
 		<ProtectedContent>
-			<div
-				className='comic-details-banner-image'
-				style={{ backgroundImage: `url('${comic.banner || PageBanner.src}')` }}
-			>
-				<div className={clsx('bottom-overlay', `bottom-overlay--${comic.banner ? 'standard' : 'no-banner'}`)} />
+			<div className='comic-details-banner-image' style={{ backgroundImage: `url('${heroImage}')` }}>
+				<div className={clsx('bottom-overlay', `bottom-overlay--${hasHeroImage ? 'standard' : 'simpler'}`)} />
 				{comic.logo && <Image src={comic.logo} priority width={600} height={300} className='comic-logo' alt='' />}
 			</div>
 
@@ -61,26 +64,24 @@ const ComicDetails: NextPage = () => {
 				<Box className='comic-details-header'>
 					<Box className='comic-details--left'>
 						<FlexRow>
-							<Typography variant='h3' component='h1'>
+							<Typography variant='h4' component='h1'>
 								{comic.title}
 							</Typography>
-							{/* TODO: implement this */}
+							{/* TODO: implement this + import heart icons */}
 							{/* <Button onClick={toggleFavorite}>❤️</Button> */}
 						</FlexRow>
 						{comic.genres && (
 							<FlexRow>
-								{comic.genres && (
-									<Box className='comic-genre-list'>
-										{comic.genres.map((genre) => (
-											<Box className='genre-item' key={genre.slug}>
-												<img src={genre.icon} alt='' className='genre-icon' />
-												<Hidden smDown>
-													<Typography variant='body1'>{genre.name}</Typography>
-												</Hidden>
-											</Box>
-										))}
-									</Box>
-								)}
+								<Box className='comic-genre-list'>
+									{comic.genres.map((genre) => (
+										<Box className='genre-item' key={genre.slug}>
+											<img src={genre.icon} alt='' className='genre-icon' />
+											<Hidden smDown>
+												<Typography variant='body1'>{genre.name}</Typography>
+											</Hidden>
+										</Box>
+									))}
+								</Box>
 							</FlexRow>
 						)}
 						{comic.flavorText && (

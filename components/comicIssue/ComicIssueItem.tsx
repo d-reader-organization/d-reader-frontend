@@ -5,6 +5,8 @@ import PriceTag from 'components/tags/PriceTag'
 import Overlay from '../ui/Overlay'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { RoutePath } from 'enums/routePath'
+import Link from 'next/link'
 
 interface Props extends BoxProps {
 	comicIssue: ComicIssue
@@ -42,35 +44,37 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 
 	return (
 		<Box className={clsx('comic-issue-item', className)} {...props}>
-			<Overlay borderRadius='1rem' />
-			<Image
-				sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
-				className='cover-image'
-				src={comicIssue.cover}
-				loading='lazy'
-				alt=''
-				fill
-			/>
+			<Link className='comic-issue-item-link' href={`${RoutePath.ComicIssues}/${comicIssue.id}`}>
+				<Overlay borderRadius='1rem' />
+				<Image
+					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
+					className='cover-image'
+					src={comicIssue.cover}
+					loading='lazy'
+					alt=''
+					fill
+				/>
 
-			<Box className='text-area'>
-				{comicIssue.comic && (
-					<Typography className='comic-title' variant='body2'>
-						{comicIssue.comic.title}
-					</Typography>
-				)}
-				<Typography className='comic-issue-title' variant='body2'>
-					{comicIssue.title}
-				</Typography>
-
-				<Box display='flex' justifyContent='space-between'>
-					{comicIssue.stats && (
-						<Box className='episodes-badge'>
-							EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
-						</Box>
+				<Box className='text-area'>
+					{comicIssue.comic && (
+						<Typography className='comic-title' variant='body2'>
+							{comicIssue.comic.title}
+						</Typography>
 					)}
-					{comicIssue.stats && <PriceTag from size={14} price={comicIssue.stats.price} />}
+					<Typography className='comic-issue-title' variant='body2'>
+						{comicIssue.title}
+					</Typography>
+
+					<Box display='flex' justifyContent='space-between'>
+						{comicIssue.stats && (
+							<Box className='episodes-badge'>
+								EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
+							</Box>
+						)}
+						{comicIssue.stats && <PriceTag from size={14} price={comicIssue.stats.price} />}
+					</Box>
 				</Box>
-			</Box>
+			</Link>
 		</Box>
 	)
 }

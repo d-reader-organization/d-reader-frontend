@@ -14,7 +14,7 @@
 	position: relative;
 	border: 0.2rem solid $primary-color-light;
 	border-radius: 1.1rem;
-	aspect-ratio: 663 / 1024;
+	aspect-ratio: $comic-issue-cover-ratio;
 	width: 100%;
 	cursor: pointer;
 	pointer-events: all;
@@ -33,6 +33,17 @@
 		border-radius: 2rem;
 		font-size: 14px;
 		user-select: none;
+	}
+
+	.comic-issue-item-link {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		line-height: 0;
+		color: inherit;
+		text-decoration: inherit;
 	}
 
 	.text-area {

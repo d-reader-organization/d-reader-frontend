@@ -6,10 +6,8 @@
 
 	&--vertical {
 		@include centeredColumn;
-
-		.collection-status-label {
-			margin-bottom: 0.5rem;
-		}
+		text-align: center;
+		width: max-content;
 	}
 
 	&--horizontal {
@@ -17,7 +15,7 @@
 		justify-content: space-between;
 
 		.collection-status-label {
-			margin-right: 0.5rem;
+			margin-right: 1rem;
 		}
 	}
 
@@ -30,6 +28,6 @@
 	.collection-status-value {
 		font-weight: bold;
 		font-weight: 22px;
-		min-width: 62px;
+		min-width: 70px;
 	}
 }

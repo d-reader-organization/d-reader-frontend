@@ -14,7 +14,7 @@
 	position: relative;
 	border: 0.2rem solid $primary-color-light;
 	border-radius: 1.1rem;
-	aspect-ratio: 1 / 1;
+	aspect-ratio: $comic-cover-ratio;
 	width: 100%;
 	// width: 180px;
 	cursor: pointer;

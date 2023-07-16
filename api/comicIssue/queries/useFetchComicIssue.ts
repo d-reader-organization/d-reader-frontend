@@ -7,12 +7,12 @@ import { useToaster } from 'providers/ToastProvider'
 
 const { COMIC_ISSUE, GET } = COMIC_ISSUE_QUERY_KEYS
 
-const fetchComicIssue = async (id: number): Promise<ComicIssue> => {
+const fetchComicIssue = async (id: number | string): Promise<ComicIssue> => {
 	const response = await http.get<ComicIssue>(`${COMIC_ISSUE}/${GET}/${id}`)
 	return response.data
 }
 
-export const useFetchComicIssue = (id: number | undefined) => {
+export const useFetchComicIssue = (id: number | string | undefined) => {
 	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 

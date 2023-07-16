@@ -9,8 +9,16 @@
 	padding: 0 !important;
 
 	& > * {
-		padding: 1rem 1.2rem !important;
 		border-radius: 0 !important;
+		padding: 1rem 1.2rem !important;
+	}
+
+	&--vertical {
+		@include flexColumn;
+
+		& > *:not(:last-child) {
+			border-bottom: 1px solid $lightgray;
+		}
 
 		&:first-child {
 			border-top-left-radius: 0.5rem !important;
@@ -23,19 +31,21 @@
 		}
 	}
 
-	&--vertical {
-		@include flexColumn;
-
-		& > *:not(:last-child) {
-			border-bottom: 1px solid $lightgray;
-		}
-	}
-
 	&--horizontal {
 		@include flexRow;
 
 		& > *:not(:last-child) {
 			border-right: 1px solid $lightgray;
+		}
+
+		&:first-child {
+			border-top-left-radius: 0.5rem !important;
+			border-bottom-left-radius: 0.5rem !important;
+		}
+
+		&:last-child {
+			border-top-right-radius: 0.5rem !important;
+			border-bottom-right-radius: 0.5rem !important;
 		}
 	}
 }

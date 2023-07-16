@@ -20,5 +20,5 @@ export const comicKeys = Object.freeze({
 		params.skip,
 		params.take,
 	],
-	getComicIssue: (id: number) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET, `${id}`],
+	getComicIssue: (id: number | string) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET, `${id}`],
 })

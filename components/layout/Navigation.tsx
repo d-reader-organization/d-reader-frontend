@@ -30,7 +30,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 			className={clsx(
 				'header',
 				trigger && 'header--with-background',
-				router.pathname !== RoutePath.Home && 'header--fixed'
+				router.asPath.includes(RoutePath.Discover) && 'header--fixed'
 			)}
 		>
 			<Toolbar component='nav' className='navigation' {...props}>
