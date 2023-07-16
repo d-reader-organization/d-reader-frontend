@@ -2,14 +2,6 @@
 
 > Conventions and steps to respect when contributing to the project
 
-## Project structure
-
-....
-
-TODO
-
-....
-
 ## Git
 
 ### Branching

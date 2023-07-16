@@ -1,135 +1,154 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Box, Grid, Typography } from '@mui/material'
-import { useFetchComicIssues } from 'api/comicIssue'
+import { Box, Button, Container, Hidden, Typography } from '@mui/material'
+import ComicIssueDiscoverList from 'components/comicIssue/ComicIssueDiscoverList'
+import PageBanner from 'public/assets/page-banner.png'
+import WebsiteIcon from 'public/assets/vector-icons/web-icon.svg'
+import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
+import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
+import TelegramIcon from 'public/assets/vector-icons/telegram-icon.svg'
+import InstagramIcon from 'public/assets/vector-icons/instagram-icon.svg'
+import TikTokIcon from 'public/assets/vector-icons/tiktok-icon.svg'
+import YouTubeIcon from 'public/assets/vector-icons/youtube-icon.svg'
+import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
+import CollectionStatusItem from 'components/ui/CollectionStatusItem'
+import IconButtonLink from 'components/buttons/ButtonLink'
+import ProtectedContent from 'components/ProtectedContent'
 import AvatarImage from 'components/AvatarImage'
 import PriceTag from 'components/tags/PriceTag'
-import Main from 'components/layout/Main'
+import { useFetchComicIssues } from 'api/comicIssue'
 import { useFetchComic } from 'api/comic'
+import { SortOrder } from 'enums/sortOrder'
+import InfoList from 'components/ui/InfoList'
+import { roundNumber } from 'utils/numbers'
+import FlexRow from 'components/ui/FlexRow'
 import Image from 'next/image'
-import { getRandomFloat } from 'utils/helpers'
+import clsx from 'clsx'
 
 const ComicDetails: NextPage = () => {
 	const router = useRouter()
 	const { slug } = router.query
-	// TODO: remove slug as string
 	const { data: comic, error } = useFetchComic(slug as string)
 	const { flatData: comicIssues = [] } = useFetchComicIssues({
 		comicSlug: slug as string,
-		// TODO: handle infinite scroll properly
 		take: 20,
 		skip: 0,
 	})
 
+	// const toggleFavorite = () => {
+	// 	console.log('Toggle favorite')
+	// }
+
+	// const toggleBookmark = () => {
+	// 	console.log('Toggle bookmark')
+	// }
+
 	if (error) return <Box p={2}>{error.message}</Box>
-	if (!comic) return null
+	if (!comic || !comic.stats || !comic.myStats) return null
 
 	return (
-		<Box maxWidth='lg' margin='0 auto'>
-			{/* TODO: skeleton */}
-			{/* TODO: ongoing, hot */}
-			<Main className='main'>
-				<Box className='comic-details-wrapper'>
-					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6} md={4} lg={3} position='relative'>
-							<Image
-								src={comic.cover}
-								alt=''
-								fill
-								sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
-								className='cover-image'
-								priority
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6} md={8} lg={9}>
-							<Box className='comic-details'>
-								<Typography component='h1' variant='h5' className='comic-name'>
-									{comic.title}
-								</Typography>
-								{comic.creator && (
-									<Box className='comic-creator-wrapper'>
-										<AvatarImage src={comic.creator.avatar} size={48} />
-										<Box ml={2}>
-											<Typography className='text--author'>author</Typography>
-											<Typography fontWeight='bold'>{comic.creator.name}</Typography>
-										</Box>
-									</Box>
-								)}
-								<Typography variant='body2' className='comic-flavor-text'>
-									{comic.flavorText}
-								</Typography>
-								<Typography variant='body1'>{comic.description}</Typography>
+		<ProtectedContent>
+			<div
+				className='comic-details-banner-image'
+				style={{ backgroundImage: `url('${comic.banner || PageBanner.src}')` }}
+			>
+				<div className={clsx('bottom-overlay', `bottom-overlay--${comic.banner ? 'standard' : 'no-banner'}`)} />
+				{comic.logo && <Image src={comic.logo} priority width={600} height={300} className='comic-logo' alt='' />}
+			</div>
+
+			<Container className='comic-details' maxWidth='xl'>
+				<Box className='comic-details-header'>
+					<Box className='comic-details--left'>
+						<FlexRow>
+							<Typography variant='h3' component='h1'>
+								{comic.title}
+							</Typography>
+							{/* TODO: implement this */}
+							{/* <Button onClick={toggleFavorite}>❤️</Button> */}
+						</FlexRow>
+						{comic.genres && (
+							<FlexRow>
 								{comic.genres && (
 									<Box className='comic-genre-list'>
 										{comic.genres.map((genre) => (
-											<React.Fragment key={genre.slug}>
-												<Box className='genre-item'>
-													<img src={genre.icon} alt='' className='genre-icon' style={{ background: genre.color }} />
+											<Box className='genre-item' key={genre.slug}>
+												<img src={genre.icon} alt='' className='genre-icon' />
+												<Hidden smDown>
 													<Typography variant='body1'>{genre.name}</Typography>
-												</Box>
-											</React.Fragment>
+												</Hidden>
+											</Box>
 										))}
 									</Box>
 								)}
-								{comic.stats && comic.myStats && (
-									<Box className='comic-stats-list'>
-										<Box className='stat-item'>
-											<PriceTag price={parseInt(getRandomFloat(0, 10))} reverse />
-											&nbsp;VOLUME
-										</Box>
-										<Box className='stat-item'>
-											<strong>{comic.stats.issuesCount}</strong>&nbsp;EPs
-										</Box>
-										<Box className='stat-item'>
-											<strong>{comic.stats.viewersCount}</strong>&nbsp;👁️‍🗨️
-										</Box>
-										<Box className='stat-item stat-item--star'>
-											<strong>{comic.stats.averageRating || '--'}</strong>&nbsp;{comic.myStats.rating ? '⭐' : '⭐'}
-										</Box>
-										<Box className='stat-item stat-item--heart'>
-											<strong>{comic.stats.favouritesCount}</strong>&nbsp;
-											{comic.myStats.isFavourite ? '💖' : '🤍'}
-										</Box>
-									</Box>
-								)}
+							</FlexRow>
+						)}
+						{comic.flavorText && (
+							<Typography variant='body2' className='comic-flavor-text'>
+								{comic.flavorText}
+							</Typography>
+						)}
+						{/* TODO: add "view more" if more than 2-3 rows */}
+						<Typography className='comic-description'>{comic.description}</Typography>
+						{comic.creator && (
+							<Box className='comic-creator-wrapper'>
+								<AvatarImage src={comic.creator.avatar} size={48} />
+								<Box ml={2}>
+									<Typography className='text--author'>author</Typography>
+									<Typography fontWeight='bold'>
+										{comic.creator.name} {comic.creator.isVerified ? <VerifiedIcon /> : ''}
+									</Typography>
+								</Box>
 							</Box>
-						</Grid>
-					</Grid>
+						)}
+					</Box>
+					<Box className='comic-details--right'>
+						<FlexRow className='comic-links-wrapper'>
+							<FlexRow className='comic-links'>
+								{/* TODO: if too many links, show a linktree dropdown */}
+								<IconButtonLink href={comic.website} Icon={WebsiteIcon} blank />
+								<IconButtonLink href={comic.twitter} Icon={TwitterIcon} blank />
+								<IconButtonLink href={comic.discord} Icon={DiscordIcon} blank />
+								<IconButtonLink href={comic.telegram} Icon={TelegramIcon} blank />
+								<IconButtonLink href={comic.instagram} Icon={InstagramIcon} blank />
+								<IconButtonLink href={comic.tikTok} Icon={TikTokIcon} blank />
+								<IconButtonLink href={comic.youTube} Icon={YouTubeIcon} blank />
+							</FlexRow>
+							<Box width='max-content'>
+								{/* TODO: enable this */}
+								{/* <Button onClick={toggleBookmark}>+ Add to Library</Button> */}
+							</Box>
+						</FlexRow>
+						<FlexRow className='comic-stats'>
+							<InfoList orientation='vertical'>
+								<Button>
+									⭐&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
+								</Button>
+								<Button>
+									❤️&nbsp;<span>{comic.stats.favouritesCount}</span>
+								</Button>
+							</InfoList>
+
+							<InfoList orientation='vertical'>
+								<CollectionStatusItem
+									label='volume'
+									value={<PriceTag component='span' maxDecimals={0} price={1030220000000} bold symbol reverse />}
+								/>
+								<CollectionStatusItem label='issues' value={comic.stats.issuesCount} />
+								<CollectionStatusItem label='readers' value={comic.stats.viewersCount} />
+								<CollectionStatusItem label='ongoing' value={comic.isCompleted ? 'no ' : 'yes'} />
+							</InfoList>
+						</FlexRow>
+					</Box>
 				</Box>
 
-				<br />
-				<br />
-				<br />
-				<br />
-				{comicIssues.length > 0 ? (
-					<Grid container spacing={2}>
-						{comicIssues.map((issue) => (
-							<Grid item key={issue.id} xs={12} sm={6} md={4} lg={3}>
-								EPISODE {issue.number} of {comic.stats?.issuesCount}
-								<br />
-								{comic.title}
-								<br />
-								{issue.title}
-								<br />
-								{issue.description}
-								<br />
-								{issue.stats?.price}
-								<br />
-								{issue.stats?.viewersCount}
-								<br />
-								{new Date(issue.releaseDate).toLocaleDateString()}
-							</Grid>
-						))}
-					</Grid>
-				) : (
-					<Box>
-						{/* TODO: this thing */}
-						No issues found for this comic
-					</Box>
-				)}
-			</Main>
-		</Box>
+				<Typography className='section-title' variant='h5' component='h2'>
+					Issues ( {`${comic.stats.issuesCount}`} )
+				</Typography>
+				<ComicIssueDiscoverList params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC }} enabled hideItemsCount />
+				{comicIssues.length === 0 && <Box>No issues found for this comic</Box>}
+			</Container>
+		</ProtectedContent>
 	)
 }
 

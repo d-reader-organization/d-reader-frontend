@@ -41,3 +41,9 @@ export const formatCurrency = (value?: number, currency = '') => {
 	if (!value) return '-.--' + suffix
 	return numberFormater.format(value) + suffix
 }
+
+export const roundNumber = (number: number | null, maxDecimals = 1) => {
+	if (!number) return number
+	const decimalUnits = Math.pow(10, maxDecimals)
+	return Math.round(number * decimalUnits) / decimalUnits
+}

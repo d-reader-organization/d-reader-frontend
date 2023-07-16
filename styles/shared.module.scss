@@ -12,6 +12,8 @@ body {
 }
 
 svg {
+	height: 24px;
+	width: auto;
 	color: $secondary-color;
 	// fill: $secondary-color;
 }
@@ -96,4 +98,20 @@ svg {
 	transition: all 0.3s ease;
 	filter: blur(24px);
 	opacity: 0;
+}
+
+.row {
+	@include flexRow;
+}
+
+.row--centered {
+	@include centeredRow;
+}
+
+.column {
+	@include flexColumn;
+}
+
+.column--centered {
+	@include centeredColumn;
 }

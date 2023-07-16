@@ -1,15 +1,24 @@
-import { Box, Button, Container, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Box, Container, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { CarouselSlide } from 'models/carousel/carouselSlide'
+import ButtonLink from './buttons/ButtonLink'
+import { RoutePath } from 'enums/routePath'
 import Image from 'next/image'
 import clsx from 'clsx'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+
+const getSlideUrl = (slide: CarouselSlide) => {
+	if (slide.comicIssueId) return `${RoutePath.ComicIssues}/${slide.comicIssueId}`
+	else if (slide.creatorSlug) return `${RoutePath.Creators}/${slide.creatorSlug}`
+	else if (slide.comicSlug) return `${RoutePath.Comics}/${slide.comicSlug}`
+	else return slide.externalLink
+}
 
 const HeroCarousel: React.FC = () => {
 	const { data: carouselSlides = [] } = useFetchCarouselSlides()
 
 	const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
-
 	if (carouselSlides.length === 0) return null
 
 	return (
@@ -24,7 +33,7 @@ const HeroCarousel: React.FC = () => {
 			showThumbs={false}
 			className='hero-carousel'
 		>
-			{carouselSlides.map((slide) => (
+			{carouselSlides.map((slide, index) => (
 				<Box key={slide.id} className='slide'>
 					<Image
 						src={slide.image}
@@ -33,14 +42,18 @@ const HeroCarousel: React.FC = () => {
 						quality={100}
 						sizes='100vw'
 						className={clsx('slide-image', isDesktop ? 'slide-image--compact' : '')}
-						priority
+						priority={index === 0}
 					/>
-					{/* TODO: skeleton */}
-					{/* <Skeleton className='slider-image' height='100%' /> */}
 					<Container className='slide-text-area' maxWidth='xl'>
-						<Button href='#' variant='contained' className='slide-button' size='large'>
-							VISIT COMIC
-						</Button>
+						<ButtonLink
+							href={getSlideUrl(slide) || ''}
+							blank={!!slide.externalLink}
+							variant='contained'
+							className='slide-button'
+							size='large'
+						>
+							VISIT
+						</ButtonLink>
 						<Typography variant='h2' className='slide-title'>
 							{slide.title}
 						</Typography>

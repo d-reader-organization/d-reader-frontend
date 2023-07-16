@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { Box, Button, Collapse, Container, Grid, Hidden, Tab, Tabs } from '@mui/material'
-import ComicIssueDiscoverList from 'components/discover/ComicIssueDiscoverList'
-import CreatorDiscoverList from 'components/discover/CreatorDiscoverList'
-import AccordionList, { AccordionItem } from 'components/AccordionList'
-import ComicDiscoverList from 'components/discover/ComicDiscoverList'
+import ComicIssueDiscoverList from 'components/comicIssue/ComicIssueDiscoverList'
+import CreatorDiscoverList from 'components/creator/CreatorDiscoverList'
+import AccordionList, { AccordionItem } from 'components/ui/AccordionList'
+import ComicDiscoverList from 'components/comic/ComicDiscoverList'
 import ProtectedContent from 'components/ProtectedContent'
 import GenreButton from 'components/buttons/GenreButton'
 import { useQueue, useToggle } from 'hooks'
@@ -86,6 +86,15 @@ const DiscoverComicIssues: NextPage = () => {
 						variant='contained'
 						color='primary'
 						onClick={() => {
+							console.log('all selected')
+						}}
+					>
+						all
+					</Button>
+					<Button
+						variant='contained'
+						color='primary'
+						onClick={() => {
 							console.log('popular selected')
 						}}
 					>
@@ -110,8 +119,8 @@ const DiscoverComicIssues: NextPage = () => {
 
 	return (
 		<ProtectedContent>
-			<div className='header-image' />
 			<Container className='discover' maxWidth='xl'>
+				<div className='header-image' />
 				<Tabs
 					indicatorColor='secondary'
 					textColor='secondary'
@@ -169,33 +178,39 @@ const DiscoverComicIssues: NextPage = () => {
 						in={filterDrawer}
 					>
 						<Box className='filter-box'>
-							<AccordionList items={filterItems} />
+							<AccordionList items={filterItems} defaultOpened={[0]} />
 						</Box>
 					</Collapse>
 
 					<Box hidden={!comicsTab} className='discover-content'>
 						<ComicDiscoverList
-							genreSlugs={genresQueue.items}
-							titleSubstring={searchString}
-							sortOrder={sortOrder}
+							params={{
+								genreSlugs: genresQueue.items,
+								titleSubstring: searchString,
+								sortOrder: sortOrder,
+							}}
 							enabled={comicsTab}
 							narrow={filterDrawer}
 						/>
 					</Box>
 					<Box hidden={!comicIssuesTab} className='discover-content'>
 						<ComicIssueDiscoverList
-							genreSlugs={genresQueue.items}
-							titleSubstring={searchString}
-							sortOrder={sortOrder}
+							params={{
+								genreSlugs: genresQueue.items,
+								titleSubstring: searchString,
+								sortOrder: sortOrder,
+							}}
 							enabled={comicIssuesTab}
 							narrow={filterDrawer}
 						/>
 					</Box>
 					<Box hidden={!creatorsTab} className='discover-content'>
 						<CreatorDiscoverList
-							genreSlugs={genresQueue.items}
-							nameSubstring={searchString}
-							sortOrder={sortOrder}
+							params={{
+								genreSlugs: genresQueue.items,
+								nameSubstring: searchString,
+								sortOrder: sortOrder,
+							}}
 							enabled={creatorsTab}
 							narrow={filterDrawer}
 						/>

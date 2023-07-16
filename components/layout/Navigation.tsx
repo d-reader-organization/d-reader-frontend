@@ -13,13 +13,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import http from 'api/http'
 import clsx from 'clsx'
+import IconButtonLink from 'components/buttons/ButtonLink'
 
 const WalletButtonDynamic = dynamic(async () => (await import('@open-sauce/solomon')).WalletButton, { ssr: false })
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
-	const trigger = useScrollTrigger({ threshold: 20 })
+	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: true })
 	const router = useRouter()
+
+	const isDiscover = router.pathname.startsWith(RoutePath.Discover)
+	const isLibrary = router.pathname.startsWith(RoutePath.Library)
 
 	return (
 		<AppBar
@@ -58,47 +62,33 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							keepMounted
 						>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<Button
-									LinkComponent={Link}
-									className={router.pathname.startsWith(RoutePath.Discover) ? 'active' : ''}
-									href={RoutePath.DiscoverComics}
-								>
+								<IconButtonLink className={isDiscover ? 'active' : ''} href={RoutePath.DiscoverComics}>
 									<DiscoverIcon />
 									Discover
-								</Button>
+								</IconButtonLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<Button
-									LinkComponent={Link}
-									className={router.pathname.startsWith(RoutePath.Library) ? 'active' : ''}
-									href={RoutePath.Library}
-								>
+								<IconButtonLink className={isLibrary ? 'active' : ''} href={RoutePath.Library}>
 									<LibraryIcon />
 									Library
-								</Button>
+								</IconButtonLink>
 							</MenuItem>
 						</Menu>
 					</Hidden>
 					{/* Desktop */}
 					<Hidden smDown>
-						<Button
-							LinkComponent={Link}
-							className={router.pathname.startsWith(RoutePath.Discover) ? 'active' : ''}
+						<IconButtonLink
+							className={isDiscover ? 'active' : ''}
 							aria-label='discover'
 							href={RoutePath.DiscoverComics}
 						>
 							<DiscoverIcon />
 							Discover
-						</Button>
-						<Button
-							LinkComponent={Link}
-							className={router.pathname.startsWith(RoutePath.Library) ? 'active' : ''}
-							aria-label='library'
-							href={RoutePath.Library}
-						>
+						</IconButtonLink>
+						<IconButtonLink className={isLibrary ? 'active' : ''} aria-label='library' href={RoutePath.Library}>
 							<LibraryIcon />
 							Library
-						</Button>
+						</IconButtonLink>
 					</Hidden>
 					<WalletButtonDynamic http={http} className='wallet-button' />
 				</Box>

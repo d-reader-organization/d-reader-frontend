@@ -16,6 +16,7 @@ const satoshiFont = localFont({
 		{ path: './fonts/Satoshi-BlackItalic.woff2', weight: '900', style: 'italic' },
 	],
 	display: 'swap',
+	preload: false,
 })
 
 const spacing = parseInt(variables.spacing || '8')
@@ -48,13 +49,16 @@ const defaultTheme = createTheme({
 		fontFamily: satoshiFont.style.fontFamily,
 		// body1: { fontWeight: 500 },
 		// body2: { fontWeight: 500, fontFamily: 'Satoshi, sans-serif' },
-		// h1: { fontWeight: 'bold', fontSize: '5rem', lineHeight: 1.08 },
+		h1: { fontWeight: 'bold' },
+		h2: { fontWeight: 'bold' },
+		h3: { fontWeight: 'bold' },
 	},
 	components: {
 		MuiAppBar: { styleOverrides: { root: { boxShadow: 'none' } } },
 		MuiButton: {
 			styleOverrides: {
 				root: {
+					minWidth: '40px',
 					textTransform: 'none',
 					color: variables.secondaryColor,
 					'&.Mui-disabled': {

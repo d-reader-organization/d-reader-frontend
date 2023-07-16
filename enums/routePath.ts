@@ -5,4 +5,7 @@ export enum RoutePath {
 	DiscoverComicIssues = '/discover/comic-issues',
 	DiscoverCreators = '/discover/creators',
 	Library = '/library',
+	Comics = '/comics',
+	ComicIssues = '/comic-issues',
+	Creators = '/creators',
 }

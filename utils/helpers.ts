@@ -21,6 +21,6 @@ export function getRandomFloat(min: number, max: number) {
 	return (min + Math.random() * max).toFixed(1)
 }
 
-export function formatPrice(price: number) {
+export function formatPrice(price?: number) {
 	return price ? price / LAMPORTS_PER_SOL : price
 }

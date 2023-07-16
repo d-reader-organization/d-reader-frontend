@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
 import { ComicIssue } from 'models/comicIssue'
 import PriceTag from 'components/tags/PriceTag'
-import Overlay from './Overlay'
+import Overlay from '../ui/Overlay'
 import Image from 'next/image'
 import clsx from 'clsx'
 
@@ -63,7 +63,6 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 				</Typography>
 
 				<Box display='flex' justifyContent='space-between'>
-					{/* TODO: different badge variant if series are completed */}
 					{comicIssue.stats && (
 						<Box className='episodes-badge'>
 							EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}

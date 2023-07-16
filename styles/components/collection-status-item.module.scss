@@ -1,0 +1,35 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.collection-status-item {
+	width: 100%;
+
+	&--vertical {
+		@include centeredColumn;
+
+		.collection-status-label {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	&--horizontal {
+		@include centeredRow;
+		justify-content: space-between;
+
+		.collection-status-label {
+			margin-right: 0.5rem;
+		}
+	}
+
+	.collection-status-label {
+		color: $secondary-lightgray;
+		text-transform: uppercase;
+		font-weight: 16px;
+	}
+
+	.collection-status-value {
+		font-weight: bold;
+		font-weight: 22px;
+		min-width: 62px;
+	}
+}

@@ -9,8 +9,6 @@ export const useBreakpoints: BreakpointHook = () => {
 	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 	const xl = useMediaQuery((theme: Theme) => theme.breakpoints.up('xl'))
 
-	// TODO: throttle/debounce this on screen resize
-
 	return { xs, sm, md, lg, xl }
 }
 

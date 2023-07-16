@@ -17,6 +17,7 @@ export interface AccordionItem {
 
 interface Props extends BoxProps {
 	items: AccordionItem[]
+	defaultOpened?: number[]
 }
 
 const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} {...props} />)(() => ({
@@ -27,15 +28,15 @@ const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters
 	},
 }))
 
-const AccordionList: React.FC<Props> = ({ items, ...params }) => {
-	const accordionsQueue = useQueue<number>()
+const AccordionList: React.FC<Props> = ({ items, defaultOpened, ...props }) => {
+	const accordionsQueue = useQueue<number>({ initialState: defaultOpened })
 
 	const toggleAccordion = (selectedIndex: number) => {
 		accordionsQueue.add(selectedIndex)
 	}
 
 	return (
-		<Box {...params}>
+		<Box {...props}>
 			{items.map((item, index) => {
 				return (
 					<Accordion key={item.summary} expanded={accordionsQueue.contains(index)}>

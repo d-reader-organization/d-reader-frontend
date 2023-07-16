@@ -1,24 +1,22 @@
 import { Box, CircularProgress, Grid, GridProps } from '@mui/material'
-import { useFetchCreators } from 'api/creator'
+import { useFetchComicIssues } from 'api/comicIssue'
 import { useEffect, useMemo } from 'react'
-import CreatorItem from 'components/CreatorItem'
+import ComicIssueItem from 'components/comicIssue/ComicIssueItem'
 import { useOnScreen, useBreakpoints } from 'hooks'
-import { SortOrder } from 'enums/sortOrder'
+import { ComicIssueParams } from 'models/comicIssue/comicIssueParams'
 
 interface Props extends GridProps {
-	genreSlugs: string[]
-	nameSubstring: string
-	sortOrder: SortOrder
+	params: Partial<ComicIssueParams>
 	enabled: boolean
-	narrow: boolean
+	narrow?: boolean
+	hideItemsCount?: boolean
 }
 
-const CreatorDiscoverList: React.FC<Props> = ({
-	genreSlugs,
-	nameSubstring,
-	sortOrder,
+const ComicIssueDiscoverList: React.FC<Props> = ({
+	params,
 	enabled,
 	narrow = false,
+	hideItemsCount = false,
 	...props
 }) => {
 	const [, showMore, showMoreRef] = useOnScreen()
@@ -27,18 +25,18 @@ const CreatorDiscoverList: React.FC<Props> = ({
 	const take = useMemo(() => {
 		if (xl) return narrow ? 12 : 18
 		else if (lg) return narrow ? 12 : 18
-		else if (md) return narrow ? 6 : 12
+		else if (md) return narrow ? 9 : 12
 		else if (sm) return 9
 		else if (xs) return 6
 		else return 0
 	}, [xl, narrow, lg, md, sm, xs])
 
 	const {
-		flatData: creators,
+		flatData: comicIssues,
 		fetchNextPage,
 		hasNextPage,
 		isFetching,
-	} = useFetchCreators({ genreSlugs, nameSubstring, skip: 0, take, sortOrder }, enabled)
+	} = useFetchComicIssues({ skip: 0, take, ...params }, enabled)
 
 	useEffect(() => {
 		if (showMore && hasNextPage && !isFetching) fetchNextPage()
@@ -47,18 +45,21 @@ const CreatorDiscoverList: React.FC<Props> = ({
 	return (
 		<>
 			<Grid container spacing={2} {...props}>
-				{creators.map((creator) => (
-					<Grid key={creator.slug} item xs={6} sm={4} md={narrow ? 6 : 3} lg={narrow ? 3 : 2}>
-						<CreatorItem creator={creator} />
+				{comicIssues.map((issue) => (
+					<Grid key={issue.id} item xs={6} sm={4} md={narrow ? 4 : 3} lg={narrow ? 3 : 2}>
+						<ComicIssueItem comicIssue={issue} />
 					</Grid>
 				))}
 			</Grid>
 			<Box ref={showMoreRef} display='flex' justifyContent='center' py={12}>
 				{isFetching && <CircularProgress />}
-				{!hasNextPage && !isFetching && `${creators.length} ${creators.length === 1 ? 'item' : 'items'} found`}
+				{!hasNextPage &&
+					!isFetching &&
+					!hideItemsCount &&
+					`${comicIssues.length} ${comicIssues.length === 1 ? 'item' : 'items'} found`}
 			</Box>
 		</>
 	)
 }
 
-export default CreatorDiscoverList
+export default ComicIssueDiscoverList

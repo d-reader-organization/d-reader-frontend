@@ -12,8 +12,11 @@ export type QueueHook<T> = {
 	isEmpty: boolean
 }
 
-export const useQueue = <T>(options: { size?: number; identity?: keyof T } = { size: Infinity }): QueueHook<T> => {
-	const [items, setItems] = useState<T[]>([])
+type QueueOptions<T> = { size?: number; identity?: keyof T; initialState?: T[] }
+const defaultOptions = { size: Infinity, initialState: [], identity: undefined }
+
+export const useQueue = <T>(options: QueueOptions<T> = defaultOptions): QueueHook<T> => {
+	const [items, setItems] = useState(options.initialState || [])
 	const isEmpty = useMemo(() => items.length === 0, [items.length])
 	const length = useMemo(() => items.length, [items.length])
 	const { size = Infinity, identity } = options

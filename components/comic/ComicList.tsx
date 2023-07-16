@@ -3,8 +3,8 @@ import ComicItem from './ComicItem'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import clsx from 'clsx'
 import { ComicParams } from 'models/comic/comicParams'
+import clsx from 'clsx'
 
 interface Props {
 	params: ComicParams
