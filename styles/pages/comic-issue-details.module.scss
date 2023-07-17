@@ -56,8 +56,9 @@
 		img {
 			aspect-ratio: $comic-issue-cover-ratio;
 			width: 100%;
-			max-height: 520px;
+			max-height: 480px;
 			border-radius: 0.5rem;
+			height: auto;
 		}
 	}
 
@@ -65,10 +66,30 @@
 		@include flexColumn;
 		max-width: 680px;
 
+		margin-top: 3rem;
+		@include md {
+			margin-top: 0;
+		}
+
+		.comic-title {
+			width: 100%;
+			color: $lightgray;
+		}
+
+		.comic-title {
+			width: 100%;
+			color: lightgray;
+		}
+
 		.comic-issue-genre-list {
 			@include flexRow;
 			flex-wrap: wrap;
-			margin: 3rem 0 1rem 0;
+
+			margin-bottom: 1rem;
+			margin-top: 2rem;
+			@include md {
+				margin-top: 3rem;
+			}
 
 			.genre-item {
 				@include flexRow;
@@ -175,4 +196,10 @@
 			);
 		}
 	}
+}
+
+.button--preview {
+	margin-right: 0.5rem;
+	padding: 0.5rem 1rem;
+	min-width: 92px;
 }

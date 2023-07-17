@@ -71,7 +71,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 								EP {comicIssue.number}/{comicIssue.stats.totalIssuesCount}
 							</Box>
 						)}
-						{comicIssue.stats && <PriceTag from size={14} price={comicIssue.stats.price} />}
+						{comicIssue.stats && <PriceTag from colorfulIcon size={14} price={comicIssue.stats.price} />}
 					</Box>
 				</Box>
 			</Link>

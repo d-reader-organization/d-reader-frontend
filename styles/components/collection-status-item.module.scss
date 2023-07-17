@@ -1,5 +1,6 @@
 @use '../variables/theme.module.scss' as *;
 @use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .collection-status-item {
 	width: 100%;
@@ -23,6 +24,11 @@
 		color: $secondary-lightgray;
 		text-transform: uppercase;
 		font-weight: 16px;
+
+		font-size: 1rem;
+		@include md {
+			font-size: 1.1rem;
+		}
 	}
 
 	.collection-status-value {

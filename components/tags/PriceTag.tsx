@@ -1,5 +1,6 @@
 import { Typography, TypographyProps } from '@mui/material'
 import SolanaIcon from 'public/assets/vector-icons/solana-icon.svg'
+import SolanaColoredIcon from 'public/assets/vector-icons/solana-colored-icon.svg'
 import { formatPrice } from 'utils/helpers'
 import { isNil } from 'lodash'
 import { roundNumber } from 'utils/numbers'
@@ -11,6 +12,8 @@ interface Props extends Omit<TypographyProps<React.ElementType>, 'children'> {
 	reverse?: boolean
 	from?: boolean
 	symbol?: boolean
+	icon?: boolean
+	colorfulIcon?: boolean
 	inline?: boolean
 	maxDecimals?: number
 }
@@ -21,8 +24,10 @@ const PriceTag: React.FC<Props> = ({
 	bold = false,
 	reverse = false,
 	from = false,
-	symbol = false,
 	inline = true,
+	symbol = false,
+	icon = false,
+	colorfulIcon = false,
 	maxDecimals,
 	...props
 }) => {
@@ -47,16 +52,26 @@ const PriceTag: React.FC<Props> = ({
 	if (price == 0) return <TypographyWrapper>FREE</TypographyWrapper>
 
 	const formattedPrice = formatPrice(price)
-	const roundedPrice = !isNil(maxDecimals) && formattedPrice ? roundNumber(formattedPrice, maxDecimals) : formattedPrice
-	const displayPrice = roundedPrice || '-.--'
+	const roundedPrice = !isNil(maxDecimals) ? roundNumber(formattedPrice, maxDecimals) : formattedPrice
 
 	return (
 		<TypographyWrapper>
 			{from ? 'from ' : ''}
-			{symbol ? (
-				<span>◎</span>
-			) : (
+			{symbol && <span>◎</span>}
+			{icon && (
 				<SolanaIcon
+					style={{
+						width: size,
+						height: size,
+						marginLeft: reverse ? '0.2rem' : '0.5rem',
+						marginRight: reverse ? '0.5rem' : '0.2rem',
+						color: 'inherit',
+						fill: 'inherit',
+					}}
+				/>
+			)}
+			{colorfulIcon && (
+				<SolanaColoredIcon
 					style={{
 						width: size,
 						height: size,
@@ -65,7 +80,8 @@ const PriceTag: React.FC<Props> = ({
 					}}
 				/>
 			)}
-			{displayPrice}
+
+			{roundedPrice}
 		</TypographyWrapper>
 	)
 }

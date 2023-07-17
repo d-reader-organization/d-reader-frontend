@@ -62,6 +62,7 @@ const defaultTheme = createTheme({
 					minWidth: '40px',
 					textTransform: 'none',
 					color: variables.secondaryColor,
+					borderRadius: '0.5rem',
 					'&.Mui-disabled': {
 						backgroundColor: variables.primaryColorDark,
 						border: 'none',
@@ -80,6 +81,12 @@ const defaultTheme = createTheme({
 						backgroundColor: variables.primaryColor,
 						filter: 'brightness(0.85)',
 						border: 'none',
+					},
+				},
+				outlined: {
+					borderColor: variables.lightgray,
+					'&:hover': {
+						borderColor: variables.lightgray,
 					},
 				},
 			},

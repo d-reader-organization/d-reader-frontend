@@ -6,16 +6,31 @@ import PageBanner from 'public/assets/page-banner.png'
 import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
 import CollectionStatusItem from 'components/ui/CollectionStatusItem'
 import ProtectedContent from 'components/ProtectedContent'
+import ActionButton from 'components/buttons/ActionButton'
 import AvatarImage from 'components/AvatarImage'
 import PriceTag from 'components/tags/PriceTag'
+import InfoList from 'components/ui/InfoList'
 import { useFetchCandyMachine, useFetchCandyMachineReceipts } from 'api/candyMachine'
 import { useFetchComicIssue } from 'api/comicIssue'
-import InfoList from 'components/ui/InfoList'
 import { roundNumber } from 'utils/numbers'
 import FlexRow from 'components/ui/FlexRow'
 import Image from 'next/image'
 import { useCountdown } from 'hooks'
 import clsx from 'clsx'
+
+const ActionButtons: React.FC<{ price: number }> = ({ price }) => {
+	return (
+		<FlexRow>
+			<Button variant='outlined' className='button--preview'>
+				Preview
+			</Button>
+			<ActionButton fullWidth>
+				Buy&nbsp;
+				<PriceTag component='span' maxDecimals={2} price={price} bold icon />
+			</ActionButton>
+		</FlexRow>
+	)
+}
 
 const ComicIssueDetails: NextPage = () => {
 	const router = useRouter()
@@ -62,7 +77,7 @@ const ComicIssueDetails: NextPage = () => {
 			<Container className='comic-issue-details' maxWidth='xl'>
 				<Box className='comic-issue-details-header'>
 					<Box className='comic-issue-details--left'>
-						<FlexRow className='comic-issue-stats'>
+						<FlexRow className='comic-issue-stats' visibility={isMobile ? 'hidden' : 'visible'}>
 							<InfoList orientation='vertical'>
 								<Button>
 									⭐&nbsp;<span>{roundNumber(comicIssue.stats.averageRating) || '-'}</span>
@@ -77,6 +92,7 @@ const ComicIssueDetails: NextPage = () => {
 					{!isMobile && (
 						<Box className='comic-issue-details--middle'>
 							<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
+							<ActionButtons price={candyMachine.baseMintPrice} />
 						</Box>
 					)}
 
@@ -138,6 +154,11 @@ const ComicIssueDetails: NextPage = () => {
 								}
 							/>
 						</InfoList>
+						{isMobile && (
+							<Box mt={2}>
+								<ActionButtons price={candyMachine.baseMintPrice} />
+							</Box>
+						)}
 					</Box>
 				</Box>
 

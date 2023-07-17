@@ -5,16 +5,19 @@
 	border-radius: 0.5rem;
 	border: 1px solid $lightgray;
 	height: min-content;
-	width: max-content;
 	padding: 0 !important;
 
 	& > * {
 		border-radius: 0 !important;
-		padding: 1rem 1.2rem !important;
+		width: 100% !important;
 	}
 
 	&--vertical {
 		@include flexColumn;
+
+		& > * {
+			padding: 1rem !important;
+		}
 
 		& > *:not(:last-child) {
 			border-bottom: 1px solid $lightgray;
@@ -33,6 +36,10 @@
 
 	&--horizontal {
 		@include flexRow;
+
+		& > * {
+			padding: 1rem 0.5rem !important;
+		}
 
 		& > *:not(:last-child) {
 			border-right: 1px solid $lightgray;
