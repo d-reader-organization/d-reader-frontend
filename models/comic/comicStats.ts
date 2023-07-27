@@ -5,4 +5,5 @@ export interface ComicStats {
 	issuesCount: number
 	readersCount: number
 	viewersCount: number
+	totalVolume?: number
 }
