@@ -30,4 +30,5 @@ export interface Comic {
 	myStats?: ComicMyStats
 	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color' | 'icon'>>
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
+	creatorAddress?: string
 }
