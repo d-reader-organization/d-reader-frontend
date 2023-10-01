@@ -3,11 +3,23 @@ import { CreatorParams } from 'models/creator/creatorParams'
 export const CREATOR_QUERY_KEYS = Object.freeze({
 	CREATOR: 'creator',
 	GET: 'get',
+	ME: 'me',
+	UPDATE: 'update',
+	UPDATE_PASSWORD: 'update-password',
+	RESET_PASSWORD: 'reset-password',
+	REQUEST_EMAIL_VERIFICATION: 'request-email-verification',
+	VERIFY_EMAIL: 'verify-email',
+	FILES: 'files',
+	AVATAR: 'avatar',
+	BANNER: 'banner',
+	LOGO: 'logo',
+	DELETE: 'delete',
+	RECOVER: 'recover',
+	FOLLOW: 'follow',
 })
 
 export const creatorKeys = Object.freeze({
-	creator: [CREATOR_QUERY_KEYS.CREATOR],
-	getCreators: (params: CreatorParams) => [
+	getMany: (params: CreatorParams) => [
 		CREATOR_QUERY_KEYS.CREATOR,
 		CREATOR_QUERY_KEYS.GET,
 		params.nameSubstring,
@@ -18,5 +30,6 @@ export const creatorKeys = Object.freeze({
 		params.skip,
 		params.take,
 	],
-	getCreator: (slug: string) => [CREATOR_QUERY_KEYS.CREATOR, CREATOR_QUERY_KEYS.GET, slug],
+	get: (slug: string) => [CREATOR_QUERY_KEYS.CREATOR, CREATOR_QUERY_KEYS.GET, slug],
+	getMe: [CREATOR_QUERY_KEYS.CREATOR, CREATOR_QUERY_KEYS.GET, CREATOR_QUERY_KEYS.ME],
 })

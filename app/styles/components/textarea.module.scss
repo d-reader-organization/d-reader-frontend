@@ -1,0 +1,30 @@
+@use '../variables/theme.module.scss' as *;
+
+.textarea-wrapper {
+	margin-bottom: 34px;
+
+	.textarea {
+		width: 100%;
+		padding: 15px;
+		margin-bottom: 10px;
+		border: 1px solid $grey-300;
+		border-radius: 8px;
+		background: $grey-500;
+		color: $white;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 19px;
+		resize: none;
+
+		&::placeholder {
+			color: $grey-100;
+		}
+	}
+
+	.remaining-characters {
+		font-weight: 500;
+		font-size: 12px;
+		line-height: 14px;
+		color: $grey-200;
+	}
+}

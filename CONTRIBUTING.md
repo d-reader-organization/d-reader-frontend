@@ -6,17 +6,13 @@
 
 ### Branching
 
-- `master` is the production branch. CI/CD will reflect all changes on [dreader.app](https://www.dreader.app)
-
-- ~~`staging` - [staging.dreader.app](https://staging.dreader.app)~~
-
-- ~~`qa` - [qa.dreader.app](https://qa.dreader.app)~~
+- `main` is the production branch. CI/CD will reflect all changes on [dreader.app](https://www.dreader.app)
 
 - `dev` - [dev.dreader.app](https://dev.dreader.app)
 
 - `[chore | feat | fix | hotfix]/[task-name]` for active branches
 
-e.g. `feat/candy-machine-integration` into `dev`, then `qa`, `staging`, and finally `master`
+e.g. `feat/candy-machine-integration` into `dev` and then into `main`
 
 ### Commits
 

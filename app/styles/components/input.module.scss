@@ -1,0 +1,56 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.input-wrapper {
+	margin-bottom: 28px;
+
+	@include sm {
+		margin-bottom: 32px;
+	}
+
+	&--prefix {
+		@include flexRow;
+
+		.input {
+			border-top-left-radius: 0px !important;
+			border-bottom-left-radius: 0px !important;
+		}
+	}
+
+	.input {
+		width: 100%;
+		padding: 16px;
+		padding-left: 16px;
+		border: 1px solid $grey-300;
+		border-radius: 8px;
+		background: $grey-500;
+		color: $white;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 19px;
+
+		&::placeholder {
+			color: $grey-100;
+		}
+	}
+
+	.input-prefix {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 16px;
+		// height: 100%;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 22px;
+		color: $grey-300;
+
+		border-left: 1px solid $grey-300;
+		border-top: 1px solid $grey-300;
+		border-bottom: 1px solid $grey-300;
+		border-top-left-radius: 8px;
+		border-bottom-left-radius: 8px;
+		background: $grey-500;
+	}
+}

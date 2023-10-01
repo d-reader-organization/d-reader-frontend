@@ -1,0 +1,26 @@
+@use '../variables/theme.module.scss' as *;
+
+.checkbox {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background: $grey-500;
+	border: 1px solid $grey-300;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+
+	input[type="checkbox"] {
+		opacity: none;
+		pointer-events: none;
+		position: relative;
+		z-index: -1;
+	}
+
+	.checked-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}

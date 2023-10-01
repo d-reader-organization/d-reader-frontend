@@ -1,0 +1,170 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+	height: 100%;
+	padding: 1.5rem 0;
+	background: $grey-400;
+	border-right: 1px solid $grey-300;
+
+	width: 100%;
+
+	@include sm {
+		width: 240px;
+	}
+
+	&--hidden {
+		display: none;
+	}
+
+	.sidebar-upper {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+
+		@include sm {
+			align-items: center;
+		}
+	}
+
+	.sidebar-lower {
+		width: 100%;
+	}
+
+	.logo-link {
+		padding: 0 1.5rem;
+		width: min-content;
+	}
+
+	.create-button-link {
+		width: 196px;
+		margin: 20px 1.5rem;
+
+		@include sm {
+			margin: 40px 1.5rem;
+		}
+	}
+
+	.document-icon {
+		margin-right: 6px;
+		height: 16px;
+		width: 16px;
+		fill: none;
+	}
+
+	.navigation-list {
+		width: 100%;
+	}
+
+	.navigation-item {
+		&:hover {
+			li {
+				background-color: $grey-300;
+			}
+		}
+
+		&--disabled {
+			pointer-events: none;
+
+			&:last-of-type {
+				border-bottom: 1px solid $grey-300;
+			}
+
+			li {
+				& > * {
+					opacity: 0.2;
+				}
+
+				.soon-tag {
+					opacity: 1;
+				}
+			}
+		}
+
+		li {
+			width: 100%;
+			padding: 1.5rem;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			border-top: 1px solid $grey-300;
+		}
+	}
+
+	.soon-tag {
+		padding: 2px 4px;
+		margin-left: 12px;
+		background: $grey-200;
+		color: $grey-400;
+		border-radius: 2px;
+		font-size: 10px;
+		line-height: 12px;
+		font-weight: 600;
+	}
+
+	.navigation-item-icon {
+		margin-right: 13px;
+		width: 16px;
+		height: 16px;
+		color: white;
+
+		&--profile {
+			fill: white;
+		}
+	}
+
+	.actions {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 0 1.5rem;
+	}
+
+	.action {
+		margin-bottom: 50px;
+		font-weight: 600;
+		font-size: 16px;
+		cursor: pointer;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.menu-button {
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 999;
+	border: 1px solid $grey-100;
+	border-radius: 8px;
+	padding: 0.55rem;
+	margin: 1rem;
+	cursor: pointer;
+	@include centeredRow;
+	height: 40px;
+	width: 40px;
+
+	@include sm {
+		display: none;
+	}
+
+	&--open {
+		background-color: $grey-600;
+	}
+
+	&--close {
+		background-color: transparent;
+
+		svg {
+			padding: 0.25rem;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+@use '../mixins/common.module.scss' as *;
+
+.icon-link {
+	width: 32px;
+	height: 32px;
+	line-height: 0;
+	@include centeredRow;
+
+	&:hover {
+		filter: brightness(1.1);
+	}
+
+	&--clickable-effect {
+		@include clickable;
+	}
+}

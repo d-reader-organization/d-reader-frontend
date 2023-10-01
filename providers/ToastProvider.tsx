@@ -1,43 +1,69 @@
+'use client'
+
 import { useState, useMemo, useCallback, createContext, useContext } from 'react'
-import { Snackbar, Alert, AlertColor } from '@mui/material'
+
+import Snackbar from '@mui/material/Snackbar'
+import Alert, { AlertColor } from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
+import { FieldValues, FieldErrors } from 'react-hook-form'
 import axios, { AxiosError } from 'axios'
 
 interface Toast {
-	message: string
+	message: React.ReactNode
 	severity?: AlertColor
 	isOpen: boolean
+	duration: number | null
 }
 
 interface ToastContextState {
-	add: (message: string, severity: AlertColor) => void
+	add: (message: React.ReactNode, severity: AlertColor) => void
+	uploadingFiles: VoidFunction
 	onQueryError: (error: Error) => void
+	onFormError: <T extends FieldValues = FieldValues>(errors: FieldErrors<T>) => void
 }
 
 const initialContextValue: ToastContextState = {
-	add: () => {
-		return
-	},
-	onQueryError: () => {
-		return
-	},
+	add: () => {},
+	uploadingFiles: () => {},
+	onQueryError: () => {},
+	onFormError: () => {},
 }
 
 export const ToastContext = createContext<ToastContextState>(initialContextValue)
+
+const defaultAutoHideDuration = 4000
 
 export const initialToastState: Toast = {
 	message: '',
 	severity: undefined,
 	isOpen: false,
+	duration: defaultAutoHideDuration,
 }
 
 const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [toast, setToast] = useState(initialToastState)
 
-	const add = useCallback((message: string, severity: AlertColor) => {
-		setToast({ message: message || '', severity, isOpen: true })
+	const add = useCallback((message: React.ReactNode, severity: AlertColor, duration = defaultAutoHideDuration) => {
+		setToast({ message: message || '', severity, isOpen: true, duration })
 	}, [])
 
-	const remove = () => setToast((prevToast) => ({ ...prevToast, isOpen: false }))
+	const uploadingFiles = useCallback(() => {
+		setToast({ message: 'Uploading file(s)', severity: 'info', isOpen: true, duration: null })
+	}, [])
+
+	const remove = () => {
+		setToast((prevToast) => ({ ...prevToast, isOpen: false, duration: defaultAutoHideDuration }))
+	}
+
+	const onFormError = useCallback(
+		<T extends FieldValues = FieldValues>(errors: FieldErrors<T>) => {
+			const [, errorValue] = Object.entries(errors)[0]
+			if (errorValue?.message) {
+				add(<>{errorValue.message}</>, 'error')
+			}
+		},
+		[add]
+	)
 
 	const onQueryError = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +82,10 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 		[add]
 	)
 
-	const value = useMemo(() => ({ add, onQueryError }), [add, onQueryError])
+	const value = useMemo(
+		() => ({ add, uploadingFiles, onQueryError, onFormError }),
+		[add, uploadingFiles, onQueryError, onFormError]
+	)
 
 	return (
 		<ToastContext.Provider value={value}>
@@ -66,9 +95,9 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 					vertical: 'bottom',
 					horizontal: 'right',
 				}}
-				autoHideDuration={3000}
+				autoHideDuration={toast.duration}
 				open={toast.isOpen}
-				onClose={remove}
+				onClose={toast.duration === null ? undefined : remove}
 				style={{ zIndex: 2001 }}
 			>
 				<Alert
@@ -76,6 +105,8 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 					elevation={6}
 					variant='filled'
 					severity={toast.severity}
+					style={{ alignItems: 'center' }}
+					icon={toast.duration === null ? <CircularProgress size={18} /> : undefined}
 				>
 					{toast.message}
 				</Alert>

@@ -1,0 +1,35 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.register-page {
+	.loading-spinner {
+		width: 100%;
+		text-align: center;
+		padding: 160px 40px;
+	}
+
+	.title {
+		text-align: center;
+		padding-top: 40px;
+	}
+
+	.subtitle {
+		text-align: center;
+	}
+
+	.container {
+		@include centeredColumn;
+	}
+
+	&--submit {
+		.title {
+			padding-top: 20px;
+		}
+
+		.avatar-image {
+			border-radius: 90%;
+			border: 2px solid white;
+			background-color: $grey-300;
+		}
+	}
+}

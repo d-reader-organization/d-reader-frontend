@@ -1,0 +1,18 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.login-page {
+	.title {
+		text-align: center;
+		padding-top: 40px;
+	}
+
+	.subtitle {
+		margin-top: 0;
+		text-align: center;
+	}
+
+	.container {
+		@include centeredColumn;
+	}
+}

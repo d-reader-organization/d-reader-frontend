@@ -1,0 +1,117 @@
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
+
+.discover-page {
+	margin-top: 72px;
+	padding-top: 2rem;
+
+	.header-image {
+		background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(21, 23, 28) 100%), url('~/public/assets/page-banner.png');
+		background-size: cover;
+		background-repeat: no-repeat;
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 50%;
+	}
+
+	.tab-button {
+		text-transform: capitalize !important;
+		font-weight: bold;
+		color: white !important;
+
+		font-size: 1.6rem;
+
+		@include lg {
+			font-size: 2rem;
+		}
+
+		&--inactive {
+			color: $grey-100 !important;
+		}
+	}
+
+	.search-box {
+		margin-top: 1rem;
+		height: 40px;
+		@include flexRow {
+			align-items: stretch;
+			justify-content: space-between;
+		}
+
+		> *:not(:last-child) {
+			margin-right: 1rem;
+		}
+	}
+
+	.search-input {
+		border: 1px solid $grey-100;
+		background-color: transparent;
+		color: $text-color;
+		border-radius: 0.5rem;
+		padding: 0.2rem 1.2rem;
+		width: 100%;
+
+		&::placeholder {
+			color: $grey-100;
+			opacity: 1;
+		}
+	}
+
+	.search-button {
+		@include flexRow;
+		border-radius: 0.5rem;
+		min-width: max-content;
+		padding: 0 1rem;
+	}
+
+	.filter-box-wrapper {
+		display: none; // TODO: full screen react portal
+
+		@include md {
+			display: inherit;
+			max-width: 340px;
+
+			&--active {
+				margin-right: 0.5rem;
+			}
+		}
+
+		@include lg {
+			max-width: 380px;
+
+			&--active {
+				margin-right: 2rem;
+			}
+		}
+	}
+
+	.filter-box {
+		border-radius: 0.5rem;
+		border: 1px solid $grey-100;
+		height: 100%;
+		min-width: 340px;
+
+		@include lg {
+			min-width: 380px;
+			padding: 1rem;
+		}
+	}
+
+	.discover-body {
+		padding: 1rem 0;
+		min-height: 80vh;
+		@include flexRow;
+
+		@include sm {
+			padding: 2rem 0;
+		}
+	}
+
+	.discover-content {
+		width: 100%;
+	}
+}

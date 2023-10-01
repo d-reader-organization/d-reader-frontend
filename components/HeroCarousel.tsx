@@ -2,17 +2,17 @@ import { Box, Container, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useFetchCarouselSlides } from 'api/carousel'
 import { Carousel } from 'react-responsive-carousel'
 import { CarouselSlide } from 'models/carousel/carouselSlide'
-import ButtonLink from './buttons/ButtonLink'
 import { RoutePath } from 'enums/routePath'
 import Image from 'next/image'
 import clsx from 'clsx'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import ButtonLink from './ButtonLink'
 
 const getSlideUrl = (slide: CarouselSlide) => {
-	if (slide.comicIssueId) return `${RoutePath.ComicIssues}/${slide.comicIssueId}`
-	else if (slide.creatorSlug) return `${RoutePath.Creators}/${slide.creatorSlug}`
-	else if (slide.comicSlug) return `${RoutePath.Comics}/${slide.comicSlug}`
-	else return slide.externalLink
+	if (slide.comicIssueId) return RoutePath.ComicIssue(slide.comicIssueId)
+	else if (slide.creatorSlug) return RoutePath.Creator(slide.creatorSlug)
+	else if (slide.comicSlug) return RoutePath.Comic(slide.comicSlug)
+	else return slide.externalLink || '#'
 }
 
 const HeroCarousel: React.FC = () => {
@@ -45,13 +45,7 @@ const HeroCarousel: React.FC = () => {
 						priority={index === 0}
 					/>
 					<Container className='slide-text-area' maxWidth='xl'>
-						<ButtonLink
-							href={getSlideUrl(slide) || ''}
-							blank={!!slide.externalLink}
-							variant='contained'
-							className='slide-button'
-							size='large'
-						>
+						<ButtonLink href={getSlideUrl(slide)} blank={!!slide.externalLink} className='slide-button'>
 							VISIT
 						</ButtonLink>
 						<Typography variant='h2' className='slide-title'>

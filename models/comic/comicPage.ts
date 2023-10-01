@@ -4,3 +4,5 @@ export interface ComicPage {
 	isPreviewable: boolean
 	image: string
 }
+
+export type CreateComicPageData = Pick<ComicPage, 'pageNumber' | 'isPreviewable' | 'image'>

@@ -14,3 +14,23 @@ export interface CarouselSlide {
 	creatorSlug?: string
 	externalLink?: string
 }
+
+export type CreateCarouselSlideData = Pick<
+	CarouselSlide,
+	| 'image'
+	| 'priority'
+	| 'title'
+	| 'subtitle'
+	| 'location'
+	| 'comicIssueId'
+	| 'comicSlug'
+	| 'creatorSlug'
+	| 'externalLink'
+>
+
+export type UpdateCarouselSlideData = Partial<
+	Pick<
+		CreateCarouselSlideData,
+		'priority' | 'title' | 'subtitle' | 'location' | 'comicIssueId' | 'comicSlug' | 'creatorSlug' | 'externalLink'
+	>
+>

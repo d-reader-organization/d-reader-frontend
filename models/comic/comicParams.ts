@@ -22,3 +22,5 @@ export interface ComicParams extends Pagination {
 	filterTag?: ComicFilterTag
 	sortTag?: ComicSortTag
 }
+
+export type RawComicParams = Omit<ComicParams, 'filterTag'>

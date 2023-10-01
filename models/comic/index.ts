@@ -1,14 +1,13 @@
 import { ComicStats } from './comicStats'
 import { ComicMyStats } from './comicMyStats'
 import { Creator } from '../creator'
-import { Genre } from '../genre'
+import { PartialGenre } from '../genre'
 import { AudienceType } from 'enums/audienceType'
 
-export interface Comic {
+export interface BasicComic {
 	title: string
 	slug: string
 	audienceType: AudienceType
-	isDeleted: boolean
 	isCompleted: boolean
 	isVerified: boolean
 	isPublished: boolean
@@ -26,8 +25,61 @@ export interface Comic {
 	instagram: string
 	tikTok: string
 	youTube: string
+}
+
+export interface Comic extends BasicComic {
 	stats?: ComicStats
 	myStats?: ComicMyStats
-	genres?: Array<Pick<Genre, 'name' | 'slug' | 'color' | 'icon'>>
+	genres?: PartialGenre[]
 	creator?: Pick<Creator, 'name' | 'slug' | 'isVerified' | 'avatar'>
 }
+
+export interface CreateComicData
+	extends Pick<
+		Comic,
+		| 'title'
+		// | 'slug'
+		| 'isCompleted'
+		| 'audienceType'
+	> {
+	description?: BasicComic['description']
+	flavorText?: BasicComic['flavorText']
+	website?: BasicComic['website']
+	twitter?: BasicComic['twitter']
+	discord?: BasicComic['discord']
+	telegram?: BasicComic['telegram']
+	instagram?: BasicComic['instagram']
+	tikTok?: BasicComic['tikTok']
+	youTube?: BasicComic['youTube']
+	genres: string[]
+	// collaborators?: ComicCollaborator[]
+}
+
+export type UpdateComicData = Partial<
+	Pick<
+		CreateComicData,
+		| 'isCompleted'
+		| 'audienceType'
+		| 'description'
+		| 'flavorText'
+		| 'website'
+		| 'twitter'
+		| 'discord'
+		| 'telegram'
+		| 'instagram'
+		| 'tikTok'
+		| 'youTube'
+		| 'genres'
+	>
+>
+
+export type UpdateComicSocialsData = Partial<
+	Pick<CreateComicData, 'website' | 'twitter' | 'discord' | 'telegram' | 'instagram' | 'tikTok' | 'youTube'>
+>
+
+export type UpdateComicFilesData = Partial<{
+	cover: File
+	banner: File
+	pfp: File
+	logo: File
+}>

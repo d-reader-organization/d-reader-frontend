@@ -1,5 +1,6 @@
 export interface ComicMyStats {
 	rating?: number | null
-	isSubscribed: boolean
+	// isSubscribed: boolean
+	isBookmarked: boolean
 	isFavourite: boolean
 }

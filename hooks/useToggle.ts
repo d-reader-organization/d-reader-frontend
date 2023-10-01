@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type ToggleHook = (initialState?: boolean) => [boolean, () => void, () => void, () => void]
+type ToggleHook = (initialState?: boolean) => [boolean, VoidFunction, VoidFunction, VoidFunction]
 
 export const useToggle: ToggleHook = (initialState = false) => {
 	const [state, setState] = useState<boolean>(initialState)

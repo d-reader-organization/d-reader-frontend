@@ -7,30 +7,27 @@ import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
 import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
 import { RoutePath } from 'enums/routePath'
-import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import http from 'api/http'
+// import http from 'api/http'
 import clsx from 'clsx'
-import IconButtonLink from 'components/buttons/ButtonLink'
-
-const WalletButtonDynamic = dynamic(async () => (await import('@open-sauce/solomon')).WalletButton, { ssr: false })
+import IconLink from '../IconLink'
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
 	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: true })
-	const router = useRouter()
+	const pathname = usePathname()
 
-	const isDiscover = router.pathname.startsWith(RoutePath.Discover)
-	const isLibrary = router.pathname.startsWith(RoutePath.Library)
+	const isDiscover = pathname.startsWith(RoutePath.Discover)
+	const isLibrary = pathname.startsWith(RoutePath.Library)
 
 	return (
 		<AppBar
 			className={clsx(
 				'header',
 				trigger && 'header--with-background',
-				router.asPath.includes(RoutePath.Discover) && 'header--fixed'
+				pathname.includes(RoutePath.Discover) && 'header--fixed'
 			)}
 		>
 			<Toolbar component='nav' className='navigation' {...props}>
@@ -58,39 +55,35 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							anchorEl={menuAnchorEl}
 							open={Boolean(menuAnchorEl)}
 							onClose={resetMenuAnchorEl}
-							PaperProps={{ className: 'mobile-menu' }}
+							slotProps={{ paper: { className: 'mobile-menu' } }}
 							keepMounted
 						>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconButtonLink className={isDiscover ? 'active' : ''} href={RoutePath.DiscoverComics}>
+								<IconLink className={isDiscover ? 'active' : ''} href={RoutePath.DiscoverComics}>
 									<DiscoverIcon />
 									Discover
-								</IconButtonLink>
+								</IconLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconButtonLink className={isLibrary ? 'active' : ''} href={RoutePath.Library}>
+								<IconLink className={isLibrary ? 'active' : ''} href={RoutePath.Library}>
 									<LibraryIcon />
 									Library
-								</IconButtonLink>
+								</IconLink>
 							</MenuItem>
 						</Menu>
 					</Hidden>
 					{/* Desktop */}
 					<Hidden smDown>
-						<IconButtonLink
-							className={isDiscover ? 'active' : ''}
-							aria-label='discover'
-							href={RoutePath.DiscoverComics}
-						>
+						<IconLink className={isDiscover ? 'active' : ''} aria-label='discover' href={RoutePath.DiscoverComics}>
 							<DiscoverIcon />
 							Discover
-						</IconButtonLink>
-						<IconButtonLink className={isLibrary ? 'active' : ''} aria-label='library' href={RoutePath.Library}>
+						</IconLink>
+						<IconLink className={isLibrary ? 'active' : ''} aria-label='library' href={RoutePath.Library}>
 							<LibraryIcon />
 							Library
-						</IconButtonLink>
+						</IconLink>
 					</Hidden>
-					<WalletButtonDynamic http={http} className='wallet-button' />
+					{/* <WalletButtonDynamic http={http} className='wallet-button' /> */}
 				</Box>
 			</Toolbar>
 		</AppBar>

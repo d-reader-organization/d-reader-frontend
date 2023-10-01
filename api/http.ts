@@ -2,14 +2,17 @@ import axios from 'axios'
 
 export const http = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+	// withCredentials: true,
 })
 
-http.interceptors.response.use(
-	(response) => response,
-	(error) => {
-		// if (axios.isAxiosError(error)) return error.response?.data?.message
-		if (error.response?.data) return Promise.reject(error.response.data)
-		else return Promise.reject(error)
-	}
-)
+export const addAuthHeaders = (token: string | null): void => {
+	if (!token) return
+	if (token.startsWith('Bearer')) http.defaults.headers.common.Authorization = token
+	else http.defaults.headers.common.Authorization = `Bearer ${token}`
+}
+
+export const removeAuthHeaders = (): void => {
+	http.defaults.headers.common.Authorization = ''
+}
+
 export default http

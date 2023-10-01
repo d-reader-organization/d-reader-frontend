@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const path = require('path')
 
 const withPWA = require('next-pwa')({
@@ -12,23 +13,20 @@ module.exports = withPWA({
 		includePaths: [path.join(__dirname, 'styles')],
 	},
 	images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.amazonaws.com',
-      }
-    ],
-  },
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**.amazonaws.com',
+			}
+		],
+	},
+	experimental: {
+		appDir: true,
+	},
 	webpack(config) {
 		config.module.rules.push({
 			test: /\.svg$/,
 			use: ['@svgr/webpack'],
-		})
-
-		config.module.rules.push({
-			test: /\.md$/,
-			loader: 'frontmatter-markdown-loader',
-			options: { mode: ['react-component'] },
 		})
 
 		return config

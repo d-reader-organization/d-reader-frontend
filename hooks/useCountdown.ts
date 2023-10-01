@@ -28,7 +28,7 @@ const calculateRemaningSeconds = (expirationDate?: string) => {
 	return 0
 }
 
-type CountdownHook = (props: { expirationDate?: string; onExpire?: () => void }) => {
+type CountdownHook = (props: { expirationDate?: string; onExpire?: VoidFunction }) => {
 	seconds: number
 	minutes: number
 	hours: number

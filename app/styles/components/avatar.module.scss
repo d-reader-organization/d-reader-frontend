@@ -1,0 +1,7 @@
+@use '../variables/theme.module.scss' as *;
+
+.avatar {
+	border: 2px solid $grey-500;
+	background-color: $grey-600;
+	border-radius: 45%;
+}

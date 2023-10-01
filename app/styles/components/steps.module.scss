@@ -1,0 +1,43 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.steps {
+	display: flex;
+	width: 100%;
+
+	.steps-item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		font-weight: 600;
+		font-size: 14;
+		line-height: 19px;
+		color: $white;
+		border-bottom: 1px solid $grey-300;
+		border-right: 1px solid $grey-300;
+
+		padding: 12px;
+
+		@include sm {
+			padding: 24px;
+			font-size: 16px;
+		}
+
+		@media (min-height: $md-height) and (min-width: $md-width) {
+			padding: 40px;
+		}
+
+		& > * {
+			opacity: 0.2;
+		}
+
+		&--active > * {
+			opacity: 1;
+		}
+
+		&:last-of-type {
+			border-right: none;
+		}
+	}
+}

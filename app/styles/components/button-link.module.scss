@@ -1,0 +1,69 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.button-link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 160px;
+	padding: 14px;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 19px;
+	font-weight: 600;
+
+	&:hover {
+		filter: brightness(1.1);
+	}
+
+	&--clickable-effect {
+		@include clickable;
+	}
+
+	&--background-color-important {
+		background: $important-color;
+		color: $grey-600;
+	}
+
+	&--background-color-transparent {
+		background: transparent;
+		color: $grey-100;
+	}
+
+	&--background-color-grey-100 {
+		background: $grey-100;
+		color: $grey-600;
+	}
+
+	&--background-color-green-500 {
+		background: $green-500;
+		color: $grey-600;
+	}
+
+	&--background-color-yellow-500 {
+		background: $yellow-500;
+		color: $grey-600;
+	}
+
+	&--border-color-important {
+		border: 1px solid $important-color;
+	}
+
+	&--border-color--transparent {
+		border: none;
+	}
+
+	&--border-color-grey-100 {
+		border: 1px solid $grey-100;
+	}
+
+	&--border-color-grey-300 {
+		border: 1px solid $grey-300;
+	}
+
+	&--no-min-width {
+		min-width: unset;
+	}
+}

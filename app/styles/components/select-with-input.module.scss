@@ -1,0 +1,23 @@
+.select-with-input {
+	.input-row {
+		display: flex;
+		align-items: center;
+		margin-bottom: 22px;
+	}
+
+	.input-row-selected-value {
+		width: 100px;
+		font-weight: 700;
+	}
+
+	.input {
+		margin-right:  16px;
+		margin-bottom: 0;
+	}
+
+	.close-icon {
+		width: 14px;
+		height: 14px;
+		cursor: pointer;
+	}
+}

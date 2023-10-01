@@ -7,7 +7,7 @@ import {
 	AccordionProps,
 	styled,
 } from '@mui/material'
-import variables from 'styles/variables/theme.module.scss'
+import variables from '../../app/styles/variables/theme.module.scss'
 import { useQueue } from 'hooks'
 
 export interface AccordionItem {
@@ -24,7 +24,7 @@ const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters
 	background: 'transparent',
 	border: 'none',
 	'&:not(:last-child)': {
-		borderBottom: `1px solid ${variables.lightgray}`,
+		borderBottom: `1px solid ${variables.grey_300}`,
 	},
 }))
 

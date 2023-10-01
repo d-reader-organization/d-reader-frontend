@@ -1,0 +1,6 @@
+@use '../mixins/common.module.scss' as *;
+
+.profile-page {
+	margin: 0 auto;
+	@include pagePadding;
+}

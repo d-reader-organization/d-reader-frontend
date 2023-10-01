@@ -44,7 +44,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 
 	return (
 		<Box className={clsx('comic-issue-item', className)} {...props}>
-			<Link className='comic-issue-item-link' href={`${RoutePath.ComicIssues}/${comicIssue.id}`}>
+			<Link className='comic-issue-item-link' href={RoutePath.ComicIssue(comicIssue.id)}>
 				<Overlay borderRadius='1rem' />
 				<Image
 					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'

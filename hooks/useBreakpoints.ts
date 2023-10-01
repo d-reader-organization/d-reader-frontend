@@ -1,4 +1,5 @@
-import { Theme, useMediaQuery } from '@mui/material'
+import { Theme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 type BreakpointHook = () => { xs: boolean; sm: boolean; md: boolean; lg: boolean; xl: boolean }
 

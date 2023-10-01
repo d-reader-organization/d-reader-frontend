@@ -1,9 +1,0 @@
-@use '../../variables/theme.module.scss' as *;
-
-.action-button {
-	// text-transform: uppercase;
-	padding: 0.2rem 1rem;
-	color: $primary-color !important;
-	background-color: $action-color !important;
-	white-space: nowrap;
-}

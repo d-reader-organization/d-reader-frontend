@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type AnchorElementHook = () => [HTMLElement | null, (event: React.MouseEvent<HTMLElement>) => void, () => void]
+type AnchorElementHook = () => [HTMLElement | null, (event: React.MouseEvent<HTMLElement>) => void, VoidFunction]
 
 export const useAnchorElement: AnchorElementHook = () => {
 	const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)

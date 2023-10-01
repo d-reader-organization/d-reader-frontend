@@ -1,0 +1,16 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.genre-button {
+	@include centeredColumn;
+
+	padding: 0.8rem !important;
+	border-radius: 1rem !important;
+	white-space: nowrap;
+	width: 100%;
+
+	.genre-icon {
+		width: 24px;
+		height: 24px;
+	}
+}

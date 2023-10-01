@@ -1,0 +1,78 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.verify-email-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(rgb(18, 20, 28, 0), rgba(18, 20, 28, 0.4) 70%, rgba(18, 20, 28, 1)),
+		url('~/public/assets/images/background.jpg');
+	background-size: cover;
+	text-align: center;
+	@include pagePadding(20px, 30px, 40px, 50px);
+
+	.title {
+		font-weight: 700;
+		color: $white;
+		margin: auto auto 2rem auto;
+
+		font-size: 44px;
+		line-height: 44px;
+		text-align: center;
+
+		@include sm {
+			font-size: 66px;
+			line-height: 66px;
+			text-align: left;
+		}
+
+		@include md {
+			font-size: 88px;
+			line-height: 88px;
+			max-width: 402px;
+		}
+	}
+
+	.subtitle {
+		font-size: 88px;
+		line-height: 88px;
+		word-break: keep-all;
+	}
+
+	.logo {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.footer {
+		margin-top: auto;
+		margin-right: auto;
+		text-align: left;
+		max-width: 360px;
+	}
+
+	.description {
+		max-width: 480px;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 20px;
+		color: $white;
+		margin: 0 auto;
+
+		&--highlighted {
+			color: $yellow-500;
+		}
+	}
+
+	.actions {
+		margin: 2rem auto;
+		display: flex;
+
+		.action-button:not(:last-child) {
+			margin-right: 1rem;
+		}
+	}
+}

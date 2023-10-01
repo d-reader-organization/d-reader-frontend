@@ -1,0 +1,79 @@
+// colors
+$white: #ffffff;
+$red-100: #cf5656;
+$blue-100: #00a6ed;
+
+$grey-100: #c2c5ce;
+$grey-200: #777d8c;
+$grey-300: #414756;
+$grey-400: #2f333e;
+$grey-500: #1f222a;
+$grey-600: #15171c; // main
+$grey-700: #12141c;
+
+$green-400: #5fe1a2;
+$green-500: #49c187; // main
+$green-600: #34a26d;
+
+$yellow-400: #fff174;
+$yellow-500: #fceb54; // main
+$yellow-600: #cabc41;
+
+$important-color: #fceb54;
+$text-color: #fafafa;
+
+// breakpoints
+$xs-width: 0px;
+$sm-width: 580px;
+$md-width: 900px;
+$lg-width: 1200px;
+$xl-width: 1536px;
+
+$xs-height: 0px;
+$sm-height: 580px;
+$md-height: 860px;
+$lg-height: 1200px;
+$xl-height: 1536px;
+
+$comic-cover-aspect-ratio: 1000/900;
+$comic-banner-aspect-ratio: 1920/900;
+$comic-pfp-aspect-ratio: 500/500;
+$comic-logo-aspect-ratio: 800/450;
+
+$comic-issue-cover-aspect-ratio: 690/1000;
+$comic-issue-signature-aspect-ratio: 380/240;
+
+$creator-banner-aspect-ratio: 1920/900;
+$creator-avatar-aspect-ratio: 500/500;
+$creator-logo-aspect-ratio: 800/450;
+
+// other
+$spacing: 8px;
+
+:export {
+	white: $white;
+	red_100: $red-100;
+	blue_100: $blue-100;
+	grey_100: $grey-100;
+	grey_200: $grey-200;
+	grey_300: $grey-300;
+	grey_400: $grey-400;
+	grey_500: $grey-500;
+	grey_600: $grey-600;
+	grey_700: $grey-700;
+	green_400: $green-400;
+	green_500: $green-500;
+	green_600: $green-600;
+	yellow_500_400: $yellow-400;
+	yellow_500_500: $yellow-500;
+	yellow_500_600: $yellow-600;
+	important_color: $important-color;
+	text_color: $text-color;
+
+	xs_width: $xs-width;
+	sm_width: $sm-width;
+	md_width: $md-width;
+	lg_width: $lg-width;
+	xl_width: $xl-width;
+	spacing: $spacing;
+}

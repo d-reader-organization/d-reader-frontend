@@ -1,6 +1,5 @@
-import { genreKeys, GENRE_QUERY_KEYS } from 'api/genre'
+import { genreKeys, GENRE_QUERY_KEYS } from 'api/genre/genreKeys'
 import { useToaster } from 'providers/ToastProvider'
-import { useAuth } from '@open-sauce/solomon'
 import { Pagination } from 'models/pagination'
 import { useQuery } from 'react-query'
 import { Genre } from 'models/genre'
@@ -14,13 +13,12 @@ const fetchGenres = async (params?: Pagination): Promise<Genre[]> => {
 }
 
 export const useFetchGenres = (params?: Pagination) => {
-	const { isAuthenticated } = useAuth()
 	const toaster = useToaster()
 
-	return useQuery([...genreKeys.getGenres(params)], () => fetchGenres(params), {
-		staleTime: 1000 * 60 * 60 * 1, // Stale for 1 hour
-		enabled: !!isAuthenticated,
+	return useQuery({
+		queryFn: () => fetchGenres(params),
+		queryKey: genreKeys.getMany(params),
+		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
 		onError: toaster.onQueryError,
-		retry: 1,
 	})
 }

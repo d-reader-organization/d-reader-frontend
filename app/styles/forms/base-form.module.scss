@@ -1,0 +1,128 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.form {
+	min-width: $xs-width;
+
+	&--max-content {
+		width: max-content;
+	}
+
+	&--width-100 {
+		width: 100%;
+	}
+
+	&--base-padding {
+		padding: 20px;
+
+		@include sm {
+			padding: 40px 60px;
+		}
+
+		@include md {
+			padding: 40px 80px;
+		}
+	}
+
+	&--min-xs {
+		min-width: 480px;
+	}
+
+	&--min-sm {
+		min-width: 640px;
+	}
+
+	&--min-md {
+		min-width: 820px;
+	}
+
+	&--min-lg {
+		min-width: 980px;
+	}
+
+	&--max-xs {
+		max-width: 480px;
+	}
+
+	&--max-sm {
+		max-width: 640px;
+	}
+
+	&--max-md {
+		max-width: 820px;
+	}
+
+	&--max-lg {
+		max-width: 980px;
+	}
+
+	&--max-xl {
+		max-width: 1200px;
+	}
+
+	&--centered {
+		margin: 0 auto;
+	}
+
+	.description {
+		font-weight: 400;
+		margin-bottom: 12px;
+		font-size: 14px;
+		line-height: 18px;
+		color: $grey-100;
+	}
+
+	.checkmark-row {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+
+	.checkmark-text {
+		margin-left: 20px;
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 19px;
+		color: $white;
+
+		&--highlighted {
+			color: $yellow-500;
+		}
+	}
+}
+
+.form-actions {
+	@include flexRow;
+	align-items: center;
+	justify-content: left;
+
+	.action-button:not(:last-child) {
+		margin-right: 1rem;
+	}
+
+	&--column {
+		@include centeredColumn;
+
+		.action-button:not(:last-child) {
+			margin-bottom: 1rem;
+			margin-right: 0;
+		}
+	}
+
+	&--centered {
+		justify-content: center;
+	}
+
+	&--margin-top {
+		margin-top: 40px;
+	}
+
+	.action-button-icon {
+		margin-left: 8px;
+	}
+}

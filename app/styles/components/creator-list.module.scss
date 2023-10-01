@@ -1,0 +1,63 @@
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
+
+.creator-list {
+	@include flexRow;
+	// @include centeredRow;
+}
+
+.creator-item {
+	position: relative;
+	@include flexRow;
+	background: $grey-500;
+	border: 0.2rem solid $grey-500;
+	border-radius: 1.1rem;
+	padding: 0.8rem 1rem;
+	cursor: pointer;
+	pointer-events: all;
+	transition: transform 0.2s ease;
+
+	&:hover {
+		transform: translateY(-4px);
+		@include md {
+			transform: translateY(-6px);
+		}
+	}
+
+	.text-area {
+		@include flexColumn;
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		width: calc(100% - 60px);
+
+		.creator-name-wrapper {
+			@include flexRow;
+			align-items: center;
+			width: 100%;
+
+			.creator-name {
+				font-weight: bold;
+				@include textOverflow;
+			}
+
+			& > svg {
+				width: 14px;
+				height: 14px;
+				margin-left: 0.5rem;
+			}
+		}
+
+		.performance {
+			color: greenyellow;
+		}
+	}
+
+	.creator-image {
+		z-index: 0;
+		object-fit: cover;
+		border-radius: 45%;
+		@include unclickable;
+		background-color: $grey-700;
+		width: 60px;
+	}
+}

@@ -6,7 +6,7 @@ export type QueueHook<T> = {
 	add: (item: T) => void
 	update: (item: T) => void
 	remove: (item: T) => void
-	clear: () => void
+	clear: VoidFunction
 	contains: (item: T) => boolean
 	length: number
 	isEmpty: boolean

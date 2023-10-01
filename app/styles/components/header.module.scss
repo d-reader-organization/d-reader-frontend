@@ -1,0 +1,29 @@
+@use '../variables/theme.module.scss' as *;
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	border-bottom: 1px solid $grey-300;
+
+	padding: 24px;
+
+	@media (min-height: $md-height) and (min-width: $md-width) {
+		padding: 40px;
+	}
+
+	.title {
+		font-weight: 600;
+		font-size: 32px;
+		line-height: 38px;
+
+		&:empty::before {
+			content: '\200B';
+		}
+	}
+
+	.logo {
+		height: 40px;
+		width: auto;
+	}
+}
