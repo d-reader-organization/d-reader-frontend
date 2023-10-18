@@ -8,7 +8,7 @@ import { RoutePath } from 'enums/routePath'
 
 type AuthenticatedRouteHook = (redirectTo?: string) => void
 
-export const useAuthenticatedRoute: AuthenticatedRouteHook = (redirectTo = RoutePath.Home) => {
+export const useAuthenticatedRoute: AuthenticatedRouteHook = (redirectTo = RoutePath.Welcome) => {
 	const { push } = useRouter()
 	const { isAuthenticated, isAuthenticating } = useUserAuth()
 

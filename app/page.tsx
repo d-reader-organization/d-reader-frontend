@@ -3,7 +3,6 @@
 import { useMemo } from 'react'
 import Container from '@mui/material/Container'
 import { RoutePath } from 'enums/routePath'
-import useGuestRoute from '@/hooks/useUserGuestRoute'
 import ComicList from '@/components/ComicList'
 import GenreList from '@/components/GenreList'
 import HeroCarousel from '@/components/HeroCarousel'
@@ -13,6 +12,7 @@ import Section from '@/components/layout/Section'
 import { useOnScreen, useBreakpoints } from '@/hooks'
 import { ComicSortTag, ComicFilterTag } from '@/models/comic/comicParams'
 import { ComicIssueSortTag, ComicIssueFilterTag } from '@/models/comicIssue/comicIssueParams'
+import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 
 export default function Home() {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -24,7 +24,7 @@ export default function Home() {
 
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
-	useGuestRoute()
+	useAuthenticatedRoute()
 
 	const take = useMemo(() => {
 		if (xl) return { genres: 12, comics: 18, comicsPerPage: 6, comicIssues: 18, comicIssuesPerPage: 6, creators: 8 }

@@ -8,6 +8,7 @@ type Props = LinkProps &
 		clickableEffect?: boolean
 		blank?: boolean
 		noMinWidth?: boolean
+		bold?: boolean
 	}
 
 const ButtonLink: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const ButtonLink: React.FC<Props> = ({
 	clickableEffect = true,
 	noMinWidth = false,
 	blank = false,
+	bold = false,
 	className,
 	...props
 }) => {
@@ -25,7 +27,7 @@ const ButtonLink: React.FC<Props> = ({
 				'button-link--background-color-important': backgroundColor === 'important',
 				'button-link--background-color-transparent': backgroundColor === 'transparent',
 				'button-link--background-color-grey-100': backgroundColor === 'grey-100',
-				'button-link--background-color-green-500': backgroundColor === 'yellow-500',
+				'button-link--background-color-green-500': backgroundColor === 'green-500',
 				'button--background-color-yellow-500': backgroundColor === 'yellow-500',
 				'button-link--border-color-important': borderColor === 'important',
 				'button-link--border-color-transparent': borderColor === 'transparent',
@@ -33,6 +35,7 @@ const ButtonLink: React.FC<Props> = ({
 				'button-link--border-color-grey-300': borderColor === 'grey-300',
 				'button-link--clickable-effect': clickableEffect,
 				'button-link--no-min-width': noMinWidth,
+				'button-link--bold': bold,
 			})}
 			target={blank ? '_blank' : props.target}
 			{...props}

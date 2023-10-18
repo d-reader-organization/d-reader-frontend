@@ -15,7 +15,11 @@
 	font-weight: 600;
 
 	&:hover {
-		filter: brightness(1.1);
+		filter: brightness(1.05);
+	}
+
+	&--bold {
+		font-weight: 600;
 	}
 
 	&--clickable-effect {

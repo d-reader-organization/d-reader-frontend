@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 				'button--border-color-transparent': borderColor === 'transparent',
 				'button--border-color-grey-100': borderColor === 'grey-100',
 				'button--border-color-grey-300': borderColor === 'grey-300',
-				'button--border-bold': bold,
+				'button--bold': bold,
 			})}
 			type={type}
 			{...props}

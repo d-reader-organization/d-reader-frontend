@@ -49,11 +49,13 @@ export default function RegisterUserPage() {
 			<main className='register-page'>
 				<h1 className='title'>Welcome to dReader</h1>
 
-				<Form padding centered fullWidth maxSize='sm' className='form--register-creator'>
+				<Form padding centered fullWidth maxSize='sm' className='form--register-user'>
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
-					<div className='description'>Your username will be visible to dReader community</div>
+					<div className='description'>
+						Min 2 characters and max 20 characters. Only alphanumeric and &apos;-&apos; allowed
+					</div>
 					<Input {...register('name')} placeholder='John Doe' />
 
 					<Label isRequired>Email</Label>

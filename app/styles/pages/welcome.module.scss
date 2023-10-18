@@ -1,0 +1,96 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.welcome-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	height: 100%;
+	background: url('~/public/assets/images/background.jpg');
+	background-size: cover;
+	@include pagePadding(20px, 30px, 40px, 50px);
+
+	.logo {
+		margin-bottom: auto;
+
+		@include sm {
+			margin-right: auto;
+		}
+	}
+
+	.title {
+		font-weight: 700;
+		color: $white;
+		margin: 0 auto 1rem auto;
+		padding-top: 20px;
+		width: 100%;
+		max-width: 480px;
+		font-size: 33px;
+		line-height: 33px;
+		text-align: center;
+
+		@include sm {
+			font-size: 44px;
+			line-height: 44px;
+			max-width: 420px;
+			text-align: left;
+			margin: 0 auto 1rem 0;
+		}
+
+		@include md {
+			font-size: 55px;
+			line-height: 55px;
+		}
+	}
+
+	.description {
+		width: 100%;
+		max-width: 420px;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 18px;
+		text-align: center;
+		color: $white;
+		margin: 0 auto;
+
+		&--highlighted {
+			color: $yellow-500;
+		}
+
+		@include sm {
+			font-size: 18px;
+			line-height: 20px;
+			text-align: left;
+			margin: 0 auto 0 0;
+		}
+
+		@include md {
+			font-size: 20px;
+			line-height: 22px;
+		}
+	}
+
+	.actions {
+		margin: 2rem auto auto auto;
+
+		.action-button {
+			min-width: 120px;
+		}
+
+		@include sm {
+			margin: 2rem 0 auto 0;
+
+			.action-button {
+				min-width: 160px;
+			}
+		}
+
+		.mini-logo {
+			width: 20px;
+			height: auto;
+			margin-right: 0.4rem;
+		}
+	}
+}

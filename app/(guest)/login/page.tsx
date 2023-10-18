@@ -48,19 +48,19 @@ export default function LoginPage() {
 			<Header image={<LogoIcon className='logo' />} />
 
 			<main className='login-page'>
-				<h1 className='title'>Welcome back</h1>
-				<p className='subtitle'>let&apos;s get back to building!</p>
+				<h1 className='title'>Welcome</h1>
+				<p className='subtitle'>let&apos;s get back to enjoying comics!</p>
 
-				<Form padding centered maxSize='xs' fullWidth className='form--login-creator'>
-					<Label isRequired>Email</Label>
-					<Input {...register('nameOrEmail')} placeholder='john.doe@dreader.io' type='email' />
+				<Form padding centered maxSize='xs' fullWidth className='form--login-user'>
+					<Label isRequired>Email or username</Label>
+					<Input {...register('nameOrEmail')} type='email' placeholder='john.doe@dreader.io' />
 
 					<Label isRequired>Password</Label>
 					<Input {...register('password')} type='password' placeholder='********' />
 
 					<FormActions column centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
-							Let&apos;s go
+							Login
 						</Button>
 
 						<ButtonLink

@@ -35,14 +35,14 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 				<br />
 				<span className='subtitle'>{name}</span>
 			</h1>
-			<p className='description'>
-				Your email has been <span className='description--highlighted'>successfully verified </span>! Now lets get
-				started and create some awesome content!
+			<p className='description description--content'>
+				Your email has been <span className='description--highlighted'>successfully verified</span>! Now lets get
+				started and explore some awesome content!
 			</p>
 
 			<FormActions centered className='actions'>
 				{isAuthenticated ? (
-					<ButtonLink href={RoutePath.Home} backgroundColor='yellow-500' className='action-button'>
+					<ButtonLink href={RoutePath.Login} backgroundColor='yellow-500' className='action-button'>
 						Start exploring <ArrowRightIcon className='action-button-icon' />
 					</ButtonLink>
 				) : (
@@ -60,10 +60,11 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 			<div className='footer'>
 				<LogoWithTextIcon className='logo' />
 				<p className='description'>
-					dPublisher is the onboarding platform for creators on&nbsp;
-					<span className='description--highlighted'>dReader app</span>.
+					dReader is a platform for discovering, reading, collecting, and trading digital comics.
 				</p>
-				<p className='description'>Sign in & start creating.</p>
+				<p className='description'>
+					Sign in & <span className='description--highlighted'>start collecting</span>!
+				</p>
 			</div>
 		</main>
 	)
