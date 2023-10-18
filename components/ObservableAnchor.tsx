@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
 
 interface Props extends BoxProps {
 	anchorRef: BoxProps['ref']

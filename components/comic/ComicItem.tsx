@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
 import { Comic } from 'models/comic'
 import clsx from 'clsx'
 import Link from 'next/link'

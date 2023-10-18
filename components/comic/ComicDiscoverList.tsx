@@ -1,4 +1,6 @@
-import { Box, CircularProgress, Grid, GridProps } from '@mui/material'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import Grid, { GridProps } from '@mui/material/Grid'
 import { useFetchComics } from 'api/comic'
 import { useEffect, useMemo } from 'react'
 import ComicItem from 'components/comic/ComicItem'

@@ -1,5 +1,8 @@
 import React, { DetailedHTMLProps, HTMLAttributes, forwardRef, useRef } from 'react'
-import { Typography, Box, Slide, ButtonProps, Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Slide from '@mui/material/Slide'
+import Button, { ButtonProps } from '@mui/material/Button'
 import Link from 'next/link'
 import clsx from 'clsx'
 

@@ -1,4 +1,4 @@
-import { TypographyProps, Typography } from '@mui/material'
+import Typography, { TypographyProps } from '@mui/material/Typography'
 import clsx from 'clsx'
 
 interface Props extends TypographyProps<React.ElementType> {

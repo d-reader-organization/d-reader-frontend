@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Box, BoxProps, Skeleton, Typography } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
 import { ComicIssue } from 'models/comicIssue'
 import PriceTag from 'components/tags/PriceTag'
 import Overlay from '../ui/Overlay'

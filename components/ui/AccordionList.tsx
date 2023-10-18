@@ -1,12 +1,8 @@
-import {
-	Accordion as MuiAccordion,
-	AccordionDetails,
-	AccordionSummary,
-	Box,
-	BoxProps,
-	AccordionProps,
-	styled,
-} from '@mui/material'
+import { default as MuiAccordion, AccordionProps } from '@mui/material/Accordion'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import Box, { BoxProps } from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
 import variables from '../../app/styles/variables/theme.module.scss'
 import { useQueue } from 'hooks'
 

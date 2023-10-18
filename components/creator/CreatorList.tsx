@@ -1,4 +1,5 @@
-import { Box, BoxProps, Grid } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import { useFetchCreators } from 'api/creator'
 import AnimatedGridItem from '../ui/AnimatedGrid'
 import { Pagination } from 'models/pagination'

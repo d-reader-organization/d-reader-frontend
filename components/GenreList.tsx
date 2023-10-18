@@ -1,4 +1,7 @@
-import { Box, BoxProps, Button, Grid, Typography } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import { Pagination } from 'models/pagination'
 import { useFetchGenres } from 'api/genre'
 import Grow from '@mui/material/Grow'

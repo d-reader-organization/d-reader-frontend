@@ -1,4 +1,4 @@
-import { Grid, GridProps } from '@mui/material'
+import Grid, { GridProps } from '@mui/material/Grid'
 import clsx from 'clsx'
 
 type Props = Omit<GridProps, 'container' | 'item' | 'style'> & { animate?: boolean; itemOrder: number }

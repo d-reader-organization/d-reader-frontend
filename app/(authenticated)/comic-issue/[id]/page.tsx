@@ -1,7 +1,11 @@
 'use client'
 
 import React from 'react'
-import { Box, Container, Theme, Typography, useMediaQuery } from '@mui/material'
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { Theme } from '@mui/material/styles'
 import PageBanner from 'public/assets/page-banner.png'
 import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
 import CollectionStatusItem from 'components/ui/CollectionStatusItem'
@@ -12,10 +16,10 @@ import { useFetchCandyMachine, useFetchCandyMachineReceipts } from 'api/candyMac
 import { useFetchComicIssue } from 'api/comicIssue'
 import { roundNumber } from 'utils/numbers'
 import FlexRow from '@/components/FlexRow'
+import Button from '@/components/Button'
 import Image from 'next/image'
 // import { useCountdown } from 'hooks'
 import clsx from 'clsx'
-import Button from '@/components/Button'
 
 interface Params {
 	id: string

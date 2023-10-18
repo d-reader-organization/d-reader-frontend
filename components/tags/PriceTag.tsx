@@ -1,4 +1,4 @@
-import { Typography, TypographyProps } from '@mui/material'
+import Typography, { TypographyProps } from '@mui/material/Typography'
 import SolanaIcon from 'public/assets/vector-icons/solana-icon.svg'
 import SolanaColoredIcon from 'public/assets/vector-icons/solana-colored-icon.svg'
 import { formatPrice } from 'utils/helpers'
