@@ -41,20 +41,13 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 			</p>
 
 			<FormActions centered className='actions'>
-				{isAuthenticated ? (
-					<ButtonLink href={RoutePath.Login} backgroundColor='yellow-500' className='action-button'>
-						Start exploring <ArrowRightIcon className='action-button-icon' />
-					</ButtonLink>
-				) : (
-					<>
-						<ButtonLink href={RoutePath.Register} backgroundColor='grey-100' className='action-button'>
-							Register
-						</ButtonLink>
-						<ButtonLink href={RoutePath.Login} backgroundColor='yellow-500' className='action-button'>
-							Login
-						</ButtonLink>
-					</>
-				)}
+				<ButtonLink
+					href={isAuthenticated ? RoutePath.Home : RoutePath.Login}
+					backgroundColor='yellow-500'
+					className='action-button'
+				>
+					Start exploring <ArrowRightIcon className='action-button-icon' />
+				</ButtonLink>
 			</FormActions>
 
 			<div className='footer'>
