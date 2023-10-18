@@ -1,7 +1,7 @@
 import { transactionKeys, TRANSACTION_QUERY_KEYS } from 'api/transaction/transactionKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { MintOneParams } from 'models/transaction/mintOne'
-import { decodeTransaction } from 'utils/transactions'
+import { txFromBs64 } from 'utils/transactions'
 import { Transaction } from '@solana/web3.js'
 import { useQuery } from 'react-query'
 import http from 'api/http'
@@ -9,9 +9,9 @@ import http from 'api/http'
 const { TRANSACTION, MINT_ONE } = TRANSACTION_QUERY_KEYS
 
 /** @deprecated */
-const fetchMintOneTransaction = async (params: MintOneParams): Promise<Transaction> => {
-	const response = await http.get<string>(`${TRANSACTION}/${MINT_ONE}`, { params })
-	return decodeTransaction(response.data, 'base64')
+const fetchMintOneTransaction = async (params: MintOneParams): Promise<Transaction[]> => {
+	const response = await http.get<string[]>(`${TRANSACTION}/${MINT_ONE}`, { params })
+	return response.data.map(txFromBs64)
 }
 
 export const useFetchMintOneTransaction = (params: MintOneParams) => {

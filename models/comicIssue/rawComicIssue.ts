@@ -11,7 +11,7 @@ export interface RawComicIssue {
 	supply: number
 	discountMintPrice: number
 	mintPrice: number
-	sellerFee: number
+	sellerFeeBasisPoints: number
 	title: string
 	slug: string
 	description: string

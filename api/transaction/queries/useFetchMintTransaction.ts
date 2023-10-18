@@ -1,16 +1,16 @@
 import { transactionKeys, TRANSACTION_QUERY_KEYS } from 'api/transaction/transactionKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { MintParams } from 'models/transaction/mint'
-import { decodeTransaction } from 'utils/transactions'
+import { txFromBs64 } from 'utils/transactions'
 import { Transaction } from '@solana/web3.js'
 import { useQuery } from 'react-query'
 import http from 'api/http'
 
 const { TRANSACTION, MINT } = TRANSACTION_QUERY_KEYS
 
-const fetchMintTransaction = async (params: MintParams): Promise<Transaction> => {
-	const response = await http.get<string>(`${TRANSACTION}/${MINT}`, { params })
-	return decodeTransaction(response.data, 'base64')
+const fetchMintTransaction = async (params: MintParams): Promise<Transaction[]> => {
+	const response = await http.get<string[]>(`${TRANSACTION}/${MINT}`, { params })
+	return response.data.map(txFromBs64)
 }
 
 export const useFetchMintTransaction = (params: MintParams) => {

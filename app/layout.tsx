@@ -9,7 +9,6 @@ import 'app/styles/app.scss'
 
 /**
  * TODO:
- * - main mainnet CDN URL fix
  * - refactor localStorage auth handling to SWR
  * - deprecate next-sitemap and implement https://nextjs.org/docs/app/api-reference/file-conventions/metadata
  */

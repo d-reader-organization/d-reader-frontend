@@ -14,7 +14,7 @@ export interface CandyMachineGroup {
 export interface CandyMachineGroupWallet {
 	isEligible: boolean
 	itemsMinted: number
-	itemsRemaing: number
+	supply?: number
 }
 
 export interface CandyMachineGroupWithWallet extends CandyMachineGroup {

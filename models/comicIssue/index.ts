@@ -59,7 +59,7 @@ export interface CreateComicIssueData
 	supply?: BasicComicIssue['supply']
 	discountMintPrice?: BasicComicIssue['discountMintPrice']
 	mintPrice?: BasicComicIssue['mintPrice']
-	sellerFee?: BasicComicIssue['sellerFee']
+	sellerFeeBasisPoints?: BasicComicIssue['sellerFee']
 	creatorAddress?: BasicComicIssue['creatorAddress']
 	creatorBackupAddress?: string
 	collaborators?: ComicIssueCollaborator[]
@@ -74,7 +74,7 @@ export type UpdateComicIssueData = Partial<
 		| 'supply'
 		| 'discountMintPrice'
 		| 'mintPrice'
-		| 'sellerFee'
+		| 'sellerFeeBasisPoints'
 		| 'description'
 		| 'flavorText'
 		| 'releaseDate'
