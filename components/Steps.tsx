@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import { Step } from 'models/step'
 
-interface Props {
+export interface Props {
 	steps: Step[]
 }
 

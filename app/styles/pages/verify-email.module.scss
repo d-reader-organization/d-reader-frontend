@@ -20,6 +20,7 @@
 		margin: auto auto 1rem auto;
 		padding-top: 20px;
 		width: 100%;
+		min-width: min-content;
 		max-width: 480px;
 		font-size: 33px;
 		line-height: 33px;
@@ -39,19 +40,7 @@
 	}
 
 	.subtitle {
-		font-size: 44px;
-		line-height: 44px;
 		word-break: keep-all;
-
-		@include sm {
-			font-size: 55px;
-			line-height: 55px;
-		}
-
-		@include md {
-			font-size: 66px;
-			line-height: 66px;
-		}
 	}
 
 	.logo {

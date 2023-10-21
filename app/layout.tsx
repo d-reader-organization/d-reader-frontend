@@ -7,6 +7,8 @@ import localFont from 'next/font/local'
 import clsx from 'clsx'
 import 'app/styles/app.scss'
 
+require('@solana/wallet-adapter-react-ui/styles.css')
+
 /**
  * TODO:
  * - refactor localStorage auth handling to SWR

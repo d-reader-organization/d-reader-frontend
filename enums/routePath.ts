@@ -4,6 +4,8 @@ export const RoutePath = Object.freeze({
 	Profile: '/profile',
 	Login: '/login',
 	Register: '/register',
+	RegisterEmailVerification: '/register/email-verification',
+	RegisterConnectWallet: '/register/connect-wallet',
 	Discover: '/discover',
 	DiscoverComics: '/discover/comics',
 	DiscoverComicIssues: '/discover/comic-issues',

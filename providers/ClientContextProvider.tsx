@@ -28,7 +28,7 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={getWallets(network)} autoConnect>
+					<WalletProvider wallets={getWallets(network)} autoConnect={false}>
 						<WalletModalProvider className='wallet-dialog'>{children}</WalletModalProvider>
 					</WalletProvider>
 				</ConnectionProvider>

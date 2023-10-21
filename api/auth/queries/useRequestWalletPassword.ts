@@ -5,16 +5,16 @@ import http from 'api/http'
 
 const { AUTH, WALLET, REQUEST_PASSWORD } = AUTH_QUERY_KEYS
 
-const requestPassword = async (address: string): Promise<string> => {
+const requestWalletPassword = async (address: string): Promise<string> => {
 	const response = await http.patch<string>(`${AUTH}/${WALLET}/${REQUEST_PASSWORD}/${address}`)
 	return response.data
 }
 
-export const useRequestPassword = () => {
+export const useRequestWalletPassword = () => {
 	const toaster = useToaster()
 
 	return useMutation({
-		mutationFn: (address: string) => requestPassword(address),
+		mutationFn: (address: string) => requestWalletPassword(address),
 		onError: toaster.onQueryError,
 	})
 }

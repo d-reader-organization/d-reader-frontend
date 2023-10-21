@@ -11,15 +11,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRegisterUser } from 'api/auth'
 import { RoutePath } from 'enums/routePath'
 import { registerValidationSchema } from '@/components/forms/schemas'
+import { usernameTooltip } from '@/constants/tooltips'
 import Form from '@/components/forms/Form'
 import usePrefetchRoute from '@/hooks/usePrefetchRoute'
 import FormActions from '@/components/forms/FormActions'
 import Label from '@/components/forms/Label'
-import { usernameTooltip } from '@/constants/tooltips'
+import Steps from '@/components/Steps'
 
 export default function RegisterUserPage() {
 	const router = useRouter()
-	const nextPage = RoutePath.Home
+	const nextPage = RoutePath.RegisterEmailVerification
 
 	const { mutateAsync: registerUser } = useRegisterUser()
 	const { register, handleSubmit } = useForm<RegisterData>({
@@ -45,18 +46,23 @@ export default function RegisterUserPage() {
 	return (
 		<>
 			<Header image={<LogoIcon className='logo' />} />
+			<Steps
+				steps={[
+					{ label: '01 Create account', isActive: true },
+					{ label: '02 Verify email', isActive: false },
+					{ label: '03 Connect wallet', isActive: false },
+				]}
+			/>
 
 			<main className='register-page'>
 				<h1 className='title'>Welcome to dReader</h1>
 
-				<Form padding centered fullWidth maxSize='sm' className='form--register-user'>
+				<Form centered fullWidth maxSize='sm' className='form--register-user'>
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
-					<div className='description'>
-						Min 2 characters and max 20 characters. Only alphanumeric and &apos;-&apos; allowed
-					</div>
-					<Input {...register('name')} placeholder='John Doe' />
+					<div className='description'>2-20 characters, Letters, numbers, and dashes are allowed</div>
+					<Input {...register('name')} placeholder='john-doe' />
 
 					<Label isRequired>Email</Label>
 					<Input {...register('email')} placeholder='john.doe@dreader.io' />

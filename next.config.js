@@ -17,6 +17,10 @@ module.exports = withPWA({
 			{
 				protocol: 'https',
 				hostname: '**.amazonaws.com',
+			},
+			{
+				protocol: 'https',
+				hostname: '**.cloudfront.net',
 			}
 		],
 	},

@@ -1,7 +1,10 @@
 @use '../variables/theme.module.scss' as *;
 @use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .login-page {
+	@include pagePadding(10px, 0px, 0px, 0px);
+
 	.title {
 		text-align: center;
 		padding-top: 40px;
@@ -10,6 +13,18 @@
 	.subtitle {
 		margin-top: 0;
 		text-align: center;
+	}
+
+	.form {
+		padding: 0;
+
+		@include sm {
+			padding: 0 40px;
+		}
+
+		@include md {
+			padding: 0 80px;
+		}
 	}
 
 	.container {

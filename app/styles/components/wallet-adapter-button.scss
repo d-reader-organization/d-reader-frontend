@@ -1,0 +1,35 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.wallet-adapter-button-trigger {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 160px;
+	padding: 14px;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 19px;
+	font-weight: 600;
+	background: $yellow-500;
+	color: $grey-600;
+
+	&:hover {
+		filter: brightness(1.05);
+		background: $yellow-500 !important;
+	}
+}
+
+.wallet-adapter-modal-wrapper {
+	background-color: $grey-600;
+
+	.wallet-adapter-modal-button-close {
+		background-color: $grey-600;
+	}
+
+	.wallet-adapter-modal-list .wallet-adapter-button:hover {
+		background-color: $grey-500;
+	}
+}

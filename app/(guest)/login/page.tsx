@@ -51,7 +51,7 @@ export default function LoginPage() {
 				<h1 className='title'>Welcome</h1>
 				<p className='subtitle'>let&apos;s get back to enjoying comics!</p>
 
-				<Form padding centered maxSize='xs' fullWidth className='form--login-user'>
+				<Form centered maxSize='xs' fullWidth className='form--login-user'>
 					<Label isRequired>Email or username</Label>
 					<Input {...register('nameOrEmail')} type='email' placeholder='john.doe@dreader.io' />
 

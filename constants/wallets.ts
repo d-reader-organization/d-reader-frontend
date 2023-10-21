@@ -1,12 +1,22 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare'
-import { phantomLedger } from './phantomLedgerAdapter'
+import { ledger } from './ledgerAdapter'
 // import {
 // 	SolanaMobileWalletAdapter,
 // 	createDefaultAddressSelector,
 // 	createDefaultAuthorizationResultCache,
 // 	createDefaultWalletNotFoundHandler,
 // } from '@solana-mobile/wallet-adapter-mobile'
+
+export const WALLET_LABELS = {
+	'change-wallet': 'Change wallet',
+	connecting: 'Connecting',
+	'copy-address': 'Copy address',
+	copied: 'Copied',
+	disconnect: 'Disconnect',
+	'has-wallet': 'Connect',
+	'no-wallet': 'Connect',
+} as const
 
 export const getWallets = (network: WalletAdapterNetwork) => {
 	if (typeof window === 'undefined') return []
@@ -31,6 +41,6 @@ export const getWallets = (network: WalletAdapterNetwork) => {
 			// 	cluster: network,
 			// 	onWalletNotFound: createDefaultWalletNotFoundHandler(),
 			// }),
-			phantomLedger,
+			ledger,
 		]
 }

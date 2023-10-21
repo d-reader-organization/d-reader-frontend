@@ -97,7 +97,12 @@ export default function Home() {
 					actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
 				>
 					<ComicIssueList
-						params={{ skip: 0, take: take.comicIssues, filterTag: ComicIssueFilterTag.Free }}
+						params={{
+							skip: 0,
+							take: take.comicIssues,
+							filterTag: ComicIssueFilterTag.Free,
+							sortTag: ComicIssueSortTag.Likes,
+						}}
 						slidesToShow={take.comicIssuesPerPage}
 					/>
 				</Section>

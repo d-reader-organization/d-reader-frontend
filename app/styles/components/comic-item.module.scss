@@ -43,6 +43,9 @@
 		// aspect-ratio: $comic-logo-aspect-ratio;
 		z-index: 0;
 		max-width: 180px;
+		max-height: 80%;
+		object-fit: cover;
+		width: auto;
 		width: 80% !important;
 		height: auto !important;
 		position: absolute;

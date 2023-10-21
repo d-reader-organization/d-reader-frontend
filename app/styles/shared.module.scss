@@ -130,6 +130,18 @@ h6 {
 	margin: 0;
 }
 
+h1 {
+	font-size: 1.8rem;
+
+	@include sm {
+		font-size: 2rem;
+	}
+
+	@include md {
+		font-size: 2.2rem;
+	}
+}
+
 p {
 	margin: 8px 0;
 	color: $text-color;
