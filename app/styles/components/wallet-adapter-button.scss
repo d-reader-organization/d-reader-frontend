@@ -7,14 +7,14 @@
 	align-items: center;
 	min-width: 160px;
 	padding: 14px;
-	border-radius: 8px;
+	border-radius: 8px !important;
 	border: none;
 	cursor: pointer;
 	font-size: 16px;
 	line-height: 19px;
 	font-weight: 600;
-	background: $yellow-500;
-	color: $grey-600;
+	background: $yellow-500 !important;
+	color: $grey-600 !important;
 
 	&:hover {
 		filter: brightness(1.05);
@@ -23,13 +23,13 @@
 }
 
 .wallet-adapter-modal-wrapper {
-	background-color: $grey-600;
+	background-color: $grey-600 !important;
 
 	.wallet-adapter-modal-button-close {
-		background-color: $grey-600;
+		background-color: $grey-600 !important;
 	}
 
 	.wallet-adapter-modal-list .wallet-adapter-button:hover {
-		background-color: $grey-500;
+		background-color: $grey-500 !important;
 	}
 }
