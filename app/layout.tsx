@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<UserAuthProvider>
 						<ToastProvider>
 							<CssBaseline />
-							{children}
+							<div className='container'>{children}</div>
 						</ToastProvider>
 					</UserAuthProvider>
 				</ClientContext>

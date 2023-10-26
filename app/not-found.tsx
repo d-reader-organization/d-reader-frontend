@@ -6,7 +6,6 @@ import ArrowRightIcon from 'public/assets/vector-icons/arrow-right.svg'
 import FormActions from '@/components/forms/FormActions'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import { RoutePath } from '@/enums/routePath'
-import 'app/styles/app.scss'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/Button'
 

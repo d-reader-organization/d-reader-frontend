@@ -29,6 +29,7 @@ import { roundNumber } from '@/utils/numbers'
 import Button from '@/components/Button'
 import Image from 'next/image'
 import clsx from 'clsx'
+import Navigation from '@/components/layout/Navigation'
 
 interface Params {
 	slug: string
@@ -53,97 +54,100 @@ export default function ComicPage({ params }: { params: Params }) {
 	const heroImageWithFallback = heroImage || PageBanner.src
 
 	return (
-		<main className='comic-page'>
-			<div className='comic-banner-image' style={{ backgroundImage: `url('${heroImageWithFallback}')` }}>
-				<div className={clsx('bottom-overlay', `bottom-overlay--${hasHeroImage ? 'standard' : 'simpler'}`)} />
-				{comic.logo && <Image src={comic.logo} priority width={600} height={300} className='comic-logo' alt='' />}
-			</div>
+		<>
+			<Navigation />
+			<main className='comic-page'>
+				<div className='comic-banner-image' style={{ backgroundImage: `url('${heroImageWithFallback}')` }}>
+					<div className={clsx('bottom-overlay', `bottom-overlay--${hasHeroImage ? 'standard' : 'simpler'}`)} />
+					{comic.logo && <Image src={comic.logo} priority width={600} height={300} className='comic-logo' alt='' />}
+				</div>
 
-			<Container className='comic' maxWidth='xl'>
-				<Box className='comic-header'>
-					<Box className='comic-page--left'>
-						<FlexRow>
-							<Typography variant='h4' component='h1'>
-								{comic.title}
-							</Typography>
-						</FlexRow>
-						{comic.genres && (
+				<Container className='comic' maxWidth='xl'>
+					<Box className='comic-header'>
+						<Box className='comic-page--left'>
 							<FlexRow>
-								<Box className='comic-genre-list'>
-									{comic.genres.map((genre) => (
-										<Box className='genre-item' key={genre.slug}>
-											<img src={genre.icon} alt='' className='genre-icon' />
-											<Typography variant='body1'>{genre.name}</Typography>
-										</Box>
-									))}
+								<Typography variant='h4' component='h1'>
+									{comic.title}
+								</Typography>
+							</FlexRow>
+							{comic.genres && (
+								<FlexRow>
+									<Box className='comic-genre-list'>
+										{comic.genres.map((genre) => (
+											<Box className='genre-item' key={genre.slug}>
+												<img src={genre.icon} alt='' className='genre-icon' />
+												<Typography variant='body1'>{genre.name}</Typography>
+											</Box>
+										))}
+									</Box>
+								</FlexRow>
+							)}
+							{comic.flavorText && (
+								<Typography variant='body2' className='comic-flavor-text'>
+									{comic.flavorText}
+								</Typography>
+							)}
+							{/* TODO: add "view more" if more than 2-3 rows */}
+							<Typography className='comic-description'>{comic.description}</Typography>
+							{comic.creator && (
+								<Box className='comic-creator-wrapper'>
+									<AvatarImage src={comic.creator.avatar} size={48} />
+									<Box ml={2}>
+										<Typography className='text--author'>author</Typography>
+										<Typography fontWeight='bold'>
+											{comic.creator.name} {comic.creator.isVerified ? <VerifiedIcon /> : ''}
+										</Typography>
+									</Box>
+								</Box>
+							)}
+						</Box>
+						<Box className='comic-page--right'>
+							<FlexRow className='comic-links-wrapper'>
+								<FlexRow className='comic-links'>
+									{/* TODO: if too many links, show a linktree dropdown */}
+									<IconLink href={comic.website} Icon={WebsiteIcon} blank />
+									<IconLink href={comic.twitter} Icon={TwitterIcon} blank />
+									<IconLink href={comic.discord} Icon={DiscordIcon} blank />
+									<IconLink href={comic.telegram} Icon={TelegramIcon} blank />
+									<IconLink href={comic.instagram} Icon={InstagramIcon} blank />
+									<IconLink href={comic.tikTok} Icon={TikTokIcon} blank />
+									<IconLink href={comic.youTube} Icon={YouTubeIcon} blank />
+								</FlexRow>
+								<Box width='max-content'>
+									{/* TODO: enable this */}
+									{/* <Button onClick={toggleBookmark}>+ Add to Library</Button> */}
 								</Box>
 							</FlexRow>
-						)}
-						{comic.flavorText && (
-							<Typography variant='body2' className='comic-flavor-text'>
-								{comic.flavorText}
-							</Typography>
-						)}
-						{/* TODO: add "view more" if more than 2-3 rows */}
-						<Typography className='comic-description'>{comic.description}</Typography>
-						{comic.creator && (
-							<Box className='comic-creator-wrapper'>
-								<AvatarImage src={comic.creator.avatar} size={48} />
-								<Box ml={2}>
-									<Typography className='text--author'>author</Typography>
-									<Typography fontWeight='bold'>
-										{comic.creator.name} {comic.creator.isVerified ? <VerifiedIcon /> : ''}
-									</Typography>
-								</Box>
-							</Box>
-						)}
-					</Box>
-					<Box className='comic-page--right'>
-						<FlexRow className='comic-links-wrapper'>
-							<FlexRow className='comic-links'>
-								{/* TODO: if too many links, show a linktree dropdown */}
-								<IconLink href={comic.website} Icon={WebsiteIcon} blank />
-								<IconLink href={comic.twitter} Icon={TwitterIcon} blank />
-								<IconLink href={comic.discord} Icon={DiscordIcon} blank />
-								<IconLink href={comic.telegram} Icon={TelegramIcon} blank />
-								<IconLink href={comic.instagram} Icon={InstagramIcon} blank />
-								<IconLink href={comic.tikTok} Icon={TikTokIcon} blank />
-								<IconLink href={comic.youTube} Icon={YouTubeIcon} blank />
+							<FlexRow className='comic-stats'>
+								<InfoList orientation='vertical'>
+									<Button backgroundColor='transparent' noMinWidth>
+										⭐&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
+									</Button>
+									<Button backgroundColor='transparent' noMinWidth>
+										❤️&nbsp;<span>{comic.stats.favouritesCount}</span>
+									</Button>
+								</InfoList>
+
+								<InfoList orientation='vertical'>
+									<CollectionStatusItem
+										label='volume'
+										value={<PriceTag component='span' maxDecimals={0} price={1030220000000} bold symbol reverse />}
+									/>
+									<CollectionStatusItem label='issues' value={comic.stats.issuesCount} />
+									<CollectionStatusItem label='readers' value={comic.stats.viewersCount} />
+									<CollectionStatusItem label='ongoing' value={comic.isCompleted ? 'no ' : 'yes'} />
+								</InfoList>
 							</FlexRow>
-							<Box width='max-content'>
-								{/* TODO: enable this */}
-								{/* <Button onClick={toggleBookmark}>+ Add to Library</Button> */}
-							</Box>
-						</FlexRow>
-						<FlexRow className='comic-stats'>
-							<InfoList orientation='vertical'>
-								<Button backgroundColor='transparent' noMinWidth>
-									⭐&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
-								</Button>
-								<Button backgroundColor='transparent' noMinWidth>
-									❤️&nbsp;<span>{comic.stats.favouritesCount}</span>
-								</Button>
-							</InfoList>
-
-							<InfoList orientation='vertical'>
-								<CollectionStatusItem
-									label='volume'
-									value={<PriceTag component='span' maxDecimals={0} price={1030220000000} bold symbol reverse />}
-								/>
-								<CollectionStatusItem label='issues' value={comic.stats.issuesCount} />
-								<CollectionStatusItem label='readers' value={comic.stats.viewersCount} />
-								<CollectionStatusItem label='ongoing' value={comic.isCompleted ? 'no ' : 'yes'} />
-							</InfoList>
-						</FlexRow>
+						</Box>
 					</Box>
-				</Box>
 
-				<Typography className='section-title' variant='h5' component='h2'>
-					Issues ( {`${comic.stats.issuesCount}`} )
-				</Typography>
-				<ComicIssueDiscoverList params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC }} enabled hideItemsCount />
-				{comicIssues.length === 0 && <Box>No issues found for this comic</Box>}
-			</Container>
-		</main>
+					<Typography className='section-title' variant='h5' component='h2'>
+						Issues ( {`${comic.stats.issuesCount}`} )
+					</Typography>
+					<ComicIssueDiscoverList params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC }} enabled hideItemsCount />
+					{comicIssues.length === 0 && <Box>No issues found for this comic</Box>}
+				</Container>
+			</main>
+		</>
 	)
 }

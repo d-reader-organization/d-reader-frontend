@@ -42,14 +42,17 @@ const tabs: TabType[] = [
 const findPathByIndex = (index: number): TabType['path'] => {
 	return tabs.find((tab) => tab.index === index)?.path || RoutePath.DiscoverComics
 }
-const findIndexByPath = (path: string): TabType['index'] => tabs.find((tab) => tab.path === path)?.index || 0
+const findKeyByIndex = (index: number): TabType['key'] => {
+	return tabs.find((tab) => tab.index === index)?.key || 'comics'
+}
+const findIndexByKey = (key: string): TabType['index'] => tabs.find((tab) => tab.key === key)?.index || 0
 
 interface Params {
 	entity: string
 }
 
 function DiscoverPage({ params }: { params: Params }) {
-	const [activeTab, setActiveTab] = useState(findIndexByPath(params.entity))
+	const [activeTab, setActiveTab] = useState(findIndexByKey(params.entity))
 	const [searchString, setSearchString] = useState('')
 	const [filterDrawer, toggleFilterDrawer] = useToggle()
 	const [isAscending, toggleSortOrder] = useToggle()
@@ -57,12 +60,9 @@ function DiscoverPage({ params }: { params: Params }) {
 	const { data: genres = [] } = useFetchGenres()
 
 	const sortOrder = isAscending ? SortOrder.ASC : SortOrder.DESC
-	const comicsTab = params.entity === 'comics'
-	const comicIssuesTab = params.entity === 'comic-issues'
-	const creatorsTab = params.entity === 'creators'
-
-	console.log(comicsTab, comicIssuesTab, creatorsTab, params, activeTab)
-	// route back to discover/comics if page 404
+	const comicsTab = findKeyByIndex(activeTab) === 'comics'
+	const comicIssuesTab = findKeyByIndex(activeTab) === 'comic-issues'
+	const creatorsTab = findKeyByIndex(activeTab) === 'creators'
 
 	const clearFilters = () => {
 		setSearchString('')
@@ -70,11 +70,9 @@ function DiscoverPage({ params }: { params: Params }) {
 	}
 
 	const handleTabChange = async (_: React.SyntheticEvent, newValue: number) => {
-		console.log(newValue)
 		setActiveTab(newValue)
 		// https://github.com/vercel/next.js/discussions/48320
 		window.history.pushState({}, '', findPathByIndex(newValue))
-		// router.replace(findPathByIndex(newValue), undefined, { shallow: true })
 	}
 
 	const filterItems: AccordionItem[] = [
@@ -122,18 +120,21 @@ function DiscoverPage({ params }: { params: Params }) {
 						<Tab
 							label='Comics'
 							disableRipple
+							// href={findPathByIndex(0)}
 							id={RoutePath.DiscoverComics}
 							className={clsx('tab-button', !comicsTab && 'tab-button--inactive')}
 						/>
 						<Tab
 							label='Issues'
 							disableRipple
+							// href={findPathByIndex(1)}
 							id={RoutePath.DiscoverComicIssues}
 							className={clsx('tab-button', !comicIssuesTab && 'tab-button--inactive')}
 						/>
 						<Tab
 							label='Creators'
 							disableRipple
+							// href={findPathByIndex(2)}
 							id={RoutePath.DiscoverCreators}
 							className={clsx('tab-button', !creatorsTab && 'tab-button--inactive')}
 						/>

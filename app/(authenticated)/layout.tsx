@@ -1,7 +1,6 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-import 'app/styles/app.scss'
+// import dynamic from 'next/dynamic'
 
 // const DynamicSidebar = dynamic(() => import('components/layout/Sidebar'), { ssr: false })
 
@@ -9,7 +8,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
 	return (
 		<>
 			{/* <DynamicSidebar /> */}
-			<div className='container'>{children}</div>
+			{children}
 		</>
 	)
 }

@@ -8,7 +8,7 @@
 	border: none !important;
 	border-radius: 0 !important;
 	transition: background-color 0.3s !important;
-	position: fixed !important;
+	position: sticky !important; // on mobile maybe it should be fixed
 	padding: 0 !important;
 
 	&--with-background {

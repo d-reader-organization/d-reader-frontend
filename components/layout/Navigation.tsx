@@ -28,8 +28,9 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	const trigger = useScrollTrigger({ threshold: 0, disableHysteresis: false })
 	const pathname = usePathname()
 
-	console.log(trigger)
+	// console.log(trigger)
 
+	const isHome = pathname === RoutePath.Home
 	const isDiscover = pathname.startsWith(RoutePath.Discover)
 	const isLibrary = pathname.startsWith(RoutePath.Library)
 	const isProfile = pathname.startsWith(RoutePath.Profile)
@@ -43,7 +44,11 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 			// 		setScrollTarget(node)
 			// 	}
 			// }}
-			className={clsx('header', trigger && 'header--with-background', isDiscover && false && 'header--fixed')}
+			className={clsx(
+				'header',
+				trigger && 'header--with-background',
+				(isDiscover || isHome) && false && 'header--fixed'
+			)}
 		>
 			<Toolbar component='nav' className='navigation' {...props}>
 				<Link href={RoutePath.Home} className='company-logo-wrapper'>

@@ -8,6 +8,8 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { createContext, useContext } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import theme from 'app/styles/theme'
+import { usePathname } from 'next/navigation'
+import { RoutePath } from '@/enums/routePath'
 
 export const ClientContext = createContext(null)
 
@@ -24,11 +26,14 @@ const queryClient = new QueryClient({
 })
 
 const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const pathname = usePathname()
+	const autoConnect = pathname.startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={getWallets(network)} autoConnect={false}>
+					<WalletProvider wallets={getWallets(network)} autoConnect={autoConnect}>
 						<WalletModalProvider className='wallet-dialog'>{children}</WalletModalProvider>
 					</WalletProvider>
 				</ConnectionProvider>
