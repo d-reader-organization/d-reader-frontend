@@ -45,7 +45,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 			// 	}
 			// }}
 			className={clsx(
-				'header',
+				'header-navigation',
 				trigger && 'header--with-background',
 				(isDiscover || isHome) && false && 'header--fixed'
 			)}

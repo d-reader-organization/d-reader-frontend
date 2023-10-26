@@ -79,25 +79,3 @@
 		}
 	}
 }
-
-.why-wallet-dialog {
-	margin: 0 !important;
-	height: 100% !important;
-	padding: 1rem !important;
-	max-height: 100% !important;
-	overflow: auto !important;
-	white-space: pre-wrap;
-
-	.close-icon-wrapper {
-		margin-left: auto;
-		position: absolute;
-		right: 1rem;
-
-		.close-icon {
-			width: 16px;
-			height: 16px;
-			color: white;
-			fill: white;
-		}
-	}
-}

@@ -23,7 +23,7 @@ export const useFetchUsers = (params: UserParams, enabled = true) => {
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 5, // stale for 5 minutes
-		enabled: enabled,
+		enabled: enabled && !!params.take,
 		onError: toaster.onQueryError,
 	})
 

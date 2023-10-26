@@ -23,7 +23,7 @@ export const useFetchCreators = (params: CreatorParams, enabled = true) => {
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
-		enabled: enabled && !!params.take, // TODO: this params.take condition was added
+		enabled: enabled && !!params.take,
 		onError: toaster.onQueryError,
 	})
 

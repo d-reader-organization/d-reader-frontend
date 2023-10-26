@@ -14,6 +14,10 @@ import { ComicSortTag, ComicFilterTag } from '@/models/comic/comicParams'
 import { ComicIssueSortTag, ComicIssueFilterTag } from '@/models/comicIssue/comicIssueParams'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import Navigation from '@/components/layout/Navigation'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import CloseIcon from 'public/assets/vector-icons/close.svg'
+import Dialog from '@mui/material/Dialog'
+import { IMPORTANT_NOTICE } from '@/constants/staticText'
 
 export default function Home() {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -22,6 +26,7 @@ export default function Home() {
 	const [showTopCreators, , topCreatorsRef] = useOnScreen()
 	const [showNewComics, , newComicsRef] = useOnScreen()
 	const [showFreeComicIssues, , freeComicIssuesRef] = useOnScreen()
+	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstVisit', true)
 
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
@@ -134,6 +139,19 @@ export default function Home() {
 					</Section>
 				</Container>
 			</main>
+
+			<Dialog
+				style={{ backdropFilter: 'blur(4px)' }}
+				open={isFirstTimeVisitor}
+				onClose={() => setIsFirstTimeVisitor(false)}
+				PaperProps={{ className: 'text-dialog' }}
+			>
+				<div className='close-icon-wrapper'>
+					<CloseIcon className='close-icon' onClick={() => setIsFirstTimeVisitor(false)} />
+				</div>
+				<strong>🚧 IMPORTANT NOTICE! 🚧</strong>
+				<p>{IMPORTANT_NOTICE}</p>
+			</Dialog>
 		</>
 	)
 }

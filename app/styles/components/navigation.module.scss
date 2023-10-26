@@ -3,7 +3,7 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../variables/theme.module.scss' as *;
 
-.header {
+.header-navigation {
 	background: $grey-600 !important;
 	border: none !important;
 	border-radius: 0 !important;

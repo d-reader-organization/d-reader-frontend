@@ -41,3 +41,13 @@ Access exclusive content and benefits that are only available to wallet-connecte
 
 Community Engagement
 Engage with our community of users, artists, and collectors with the trust and security that a wallet provides.`
+
+export const IMPORTANT_NOTICE = `dReader web app is still under heavy development. We understand that there are bugs and missing features.
+
+The reason why we've opened the web app is so that iOS users are able to register and grab free comics!
+
+dReader team will be off during the Breakpoint Conference (~5th of November). Web app development will resume around November 15th after the backlog is cleared up!
+
+Appreciate the patience 👏
+Josip Volarević - founder
+`

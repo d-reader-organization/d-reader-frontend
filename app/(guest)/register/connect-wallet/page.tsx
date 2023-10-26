@@ -129,7 +129,7 @@ export default function ConnectWalletPage() {
 						style={{ backdropFilter: 'blur(4px)' }}
 						open={whyWalletDialogOpen}
 						onClose={toggleWhyWalletDialog}
-						PaperProps={{ className: 'why-wallet-dialog' }}
+						PaperProps={{ className: 'text-dialog' }}
 					>
 						<div className='close-icon-wrapper'>
 							<CloseIcon className='close-icon' onClick={toggleWhyWalletDialog} />

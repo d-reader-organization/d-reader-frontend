@@ -6,5 +6,5 @@ export interface CandyMachineReceiptParams extends Pagination {
 
 export interface CandyMachineParams {
 	candyMachineAddress: string
-	walletAddress: string
+	walletAddress?: string
 }

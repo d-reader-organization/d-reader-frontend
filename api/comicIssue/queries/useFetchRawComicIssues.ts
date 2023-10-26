@@ -25,7 +25,7 @@ export const useFetchRawComicIssues = (params: RawComicIssueParams, enabled = tr
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
-		enabled: isAuthenticated && enabled,
+		enabled: isAuthenticated && enabled && !!params.take,
 		onError: toaster.onQueryError,
 	})
 

@@ -7,7 +7,6 @@ interface Props extends ButtonProps {
 	genre: Genre
 }
 
-// TODO: use our custom Button component
 const GenreButton: React.FC<Props> = ({ genre, active = false, className, ...props }) => {
 	return (
 		<Button

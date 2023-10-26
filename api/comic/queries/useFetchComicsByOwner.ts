@@ -23,7 +23,7 @@ export const useFetchComicsByOwner = (params: ComicParams, userId: number, enabl
 			if (lastPage.length >= params.take) return allPages.length
 		},
 		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
-		enabled: enabled,
+		enabled: enabled && !!params.take,
 		onError: toaster.onQueryError,
 	})
 

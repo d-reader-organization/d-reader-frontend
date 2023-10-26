@@ -13,7 +13,7 @@ export interface CandyMachineGroup {
 
 export interface CandyMachineGroupWallet {
 	isEligible: boolean
-	itemsMinted: number
+	itemsMinted?: number
 	supply?: number
 }
 
