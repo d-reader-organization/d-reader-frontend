@@ -11,13 +11,13 @@
 		align-items: center;
 		width: 100%;
 		font-weight: 600;
-		font-size: 14;
 		line-height: 19px;
 		color: $white;
 		border-bottom: 1px solid $grey-300;
 		border-right: 1px solid $grey-300;
 
-		padding: 12px;
+		padding: 8px;
+		font-size: 11px;
 
 		@include sm {
 			padding: 24px;

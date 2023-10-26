@@ -20,6 +20,7 @@ import Button from '@/components/Button'
 import Image from 'next/image'
 // import { useCountdown } from 'hooks'
 import clsx from 'clsx'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 interface Params {
 	id: string
@@ -27,11 +28,13 @@ interface Params {
 
 const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const { data: comicIssue, error } = useFetchComicIssue(params.id)
+	const { publicKey } = useWallet()
 
-	const candyMachineAddress = comicIssue?.candyMachineAddress || ''
+	const walletAddress = publicKey?.toBase58() || ''
+	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const isPrimarySale = !!candyMachineAddress
 
-	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress: '' })
+	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress })
 	const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
@@ -52,7 +55,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	// }
 
 	if (error) return <Box p={2}>{error.message}</Box>
-	// if (!comicIssue || !comicIssue.stats || !comicIssue.myStats || !candyMachine) return null
 	if (!comicIssue || !comicIssue.stats || !comicIssue.myStats) return null
 
 	const heroImage = comicIssue.cover || PageBanner.src
@@ -69,12 +71,12 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			<Container className='comic-issue-container' maxWidth='xl'>
 				<Box className='comic-issue-header'>
 					<Box className='comic-issue-page--left'>
-						<FlexRow className='comic-issue-stats' visibility={isMobile ? 'hidden' : 'visible'}>
+						<FlexRow className='comic-issue-stats' display={isMobile ? 'none' : 'inherit	'}>
 							<InfoList orientation='vertical'>
-								<Button backgroundColor='transparent'>
+								<Button backgroundColor='transparent' noMinWidth>
 									⭐&nbsp;<span>{roundNumber(comicIssue.stats.averageRating) || '-'}</span>
 								</Button>
-								<Button backgroundColor='transparent'>
+								<Button backgroundColor='transparent' noMinWidth>
 									❤️&nbsp;<span>{comicIssue.stats.favouritesCount}</span>
 								</Button>
 							</InfoList>
@@ -88,16 +90,18 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 								<Button backgroundColor='transparent' borderColor='grey-100' className='button--preview'>
 									Preview
 								</Button>
-								<Button backgroundColor='yellow-500'>
-									Buy&nbsp;
-									<PriceTag
-										component='span'
-										maxDecimals={2}
-										price={candyMachine?.groups[0]?.mintPrice || 0}
-										bold
-										icon
-									/>
-								</Button>
+								{candyMachine && (
+									<Button backgroundColor='yellow-500'>
+										Buy&nbsp;
+										<PriceTag
+											component='span'
+											maxDecimals={2}
+											price={candyMachine.groups[0]?.mintPrice || 0}
+											bold
+											icon
+										/>
+									</Button>
+								)}
 							</FlexRow>
 						</Box>
 					)}
@@ -107,8 +111,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							<Typography variant='h4' component='h1'>
 								{comicIssue.title}
 							</Typography>
-							{/* TODO: implement this */}
-							{/* <Button onClick={toggleFavorite}>❤️</Button> */}
 						</FlexRow>
 						{comicIssue.genres && (
 							<FlexRow>
@@ -140,47 +142,51 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 								</Box>
 							</Box>
 						)}
-						<InfoList orientation='horizontal' mt={6}>
-							{/* <CollectionStatusItem
+						{candyMachine && (
+							<InfoList orientation='horizontal' mt={6}>
+								{/* <CollectionStatusItem
 									orientation="vertical" label='volume'
 									value={<PriceTag component='span' maxDecimals={0} price={1030220000000} bold symbol reverse />}
 								/> */}
 
-							{/* <CollectionStatusItem orientation='vertical' label='ends in' value={countdownString} /> */}
-							<CollectionStatusItem orientation='vertical' label='supply' value={candyMachine?.supply} />
-							<CollectionStatusItem orientation='vertical' label='minted' value={candyMachine?.itemsMinted} />
-							{/* <CollectionStatusItem orientation="vertical" label='listed' value={auctionHouse.itemsListed} /> */}
-							<CollectionStatusItem
-								orientation='vertical'
-								label='price'
-								value={
-									<PriceTag
-										component='span'
-										maxDecimals={2}
-										price={candyMachine?.groups[0]?.mintPrice || 0}
-										bold
-										symbol
-										reverse
-									/>
-								}
-							/>
-						</InfoList>
+								{/* <CollectionStatusItem orientation='vertical' label='ends in' value={countdownString} /> */}
+								<CollectionStatusItem orientation='vertical' label='supply' value={candyMachine.supply} />
+								<CollectionStatusItem orientation='vertical' label='minted' value={candyMachine.itemsMinted} />
+								{/* <CollectionStatusItem orientation="vertical" label='listed' value={auctionHouse.itemsListed} /> */}
+								<CollectionStatusItem
+									orientation='vertical'
+									label='price'
+									value={
+										<PriceTag
+											component='span'
+											maxDecimals={2}
+											price={candyMachine.groups[0]?.mintPrice || 0}
+											bold
+											symbol
+											reverse
+										/>
+									}
+								/>
+							</InfoList>
+						)}
 						{isMobile && (
 							<Box mt={2}>
 								<FlexRow>
 									<Button backgroundColor='transparent' borderColor='grey-100' className='button--preview'>
 										Preview
 									</Button>
-									<Button backgroundColor='yellow-500'>
-										Buy&nbsp;
-										<PriceTag
-											component='span'
-											maxDecimals={2}
-											price={candyMachine?.groups[0]?.mintPrice || 0}
-											bold
-											icon
-										/>
-									</Button>
+									{candyMachine && (
+										<Button backgroundColor='yellow-500'>
+											Buy&nbsp;
+											<PriceTag
+												component='span'
+												maxDecimals={2}
+												price={candyMachine.groups[0].mintPrice || 0}
+												bold
+												icon
+											/>
+										</Button>
+									)}
 								</FlexRow>
 							</Box>
 						)}

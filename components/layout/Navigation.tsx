@@ -7,11 +7,12 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AppBar from '@mui/material/AppBar'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
-import logoWithTextImage from 'public/assets/logo-with-text.png'
+import logoWithTextImage from 'public/assets/logo-with-text-colored.png'
 import logoImage from 'public/assets/logo.png'
+import HamburgerMenuIcon from 'public/assets/vector-icons/hamburger-menu.svg'
 import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
 import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
-import SocialIcon from 'public/assets/vector-icons/social-icon.svg'
+import ProfileIcon from 'public/assets/vector-icons/profile.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
 import { RoutePath } from 'enums/routePath'
 import { usePathname } from 'next/navigation'
@@ -22,20 +23,27 @@ import clsx from 'clsx'
 import IconLink from '../IconLink'
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
+	// const [scrollTarget, setScrollTarget] = useState<Node | Window | undefined>()
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
-	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: true })
+	const trigger = useScrollTrigger({ threshold: 0, disableHysteresis: false })
 	const pathname = usePathname()
+
+	console.log(trigger)
 
 	const isDiscover = pathname.startsWith(RoutePath.Discover)
 	const isLibrary = pathname.startsWith(RoutePath.Library)
+	const isProfile = pathname.startsWith(RoutePath.Profile)
 
 	return (
 		<AppBar
-			className={clsx(
-				'header',
-				trigger && 'header--with-background',
-				pathname.includes(RoutePath.Discover) && 'header--fixed'
-			)}
+			// ref={scrollTarget}
+			// ref={(node) => {
+			// 	if (node) {
+			// 		console.log('TARGET SET!')
+			// 		setScrollTarget(node)
+			// 	}
+			// }}
+			className={clsx('header', trigger && 'header--with-background', isDiscover && false && 'header--fixed')}
 		>
 			<Toolbar component='nav' className='navigation' {...props}>
 				<Link href={RoutePath.Home} className='company-logo-wrapper'>
@@ -53,10 +61,10 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 						<Button
 							variant='contained'
 							aria-label='social-media'
-							className='navigation-social-button'
+							className='navigation-hamburger-button'
 							onClick={setMenuAnchorEl}
 						>
-							<SocialIcon />
+							<HamburgerMenuIcon />
 						</Button>
 						<Menu
 							anchorEl={menuAnchorEl}
@@ -72,23 +80,33 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 								</IconLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconLink className={isLibrary ? 'active' : ''} href={RoutePath.Library}>
+								<IconLink className={isLibrary ? 'active' : ''} href={'#' || RoutePath.Library}>
 									<LibraryIcon />
 									Library
+								</IconLink>
+							</MenuItem>
+							<MenuItem onClick={resetMenuAnchorEl}>
+								<IconLink className={isProfile ? 'active' : ''} href={'#' || RoutePath.Profile}>
+									<ProfileIcon />
+									Profile
 								</IconLink>
 							</MenuItem>
 						</Menu>
 					</Hidden>
 					{/* Desktop */}
 					<Hidden smDown>
-						<IconLink className={isDiscover ? 'active' : ''} aria-label='discover' href={RoutePath.DiscoverComics}>
+						<Link className={isDiscover ? 'active' : ''} aria-label='discover' href={RoutePath.DiscoverComics}>
 							<DiscoverIcon />
 							Discover
-						</IconLink>
-						<IconLink className={isLibrary ? 'active' : ''} aria-label='library' href={RoutePath.Library}>
+						</Link>
+						<Link className={isLibrary ? 'active' : ''} aria-label='library' href={'#' || RoutePath.Library}>
 							<LibraryIcon />
 							Library
-						</IconLink>
+						</Link>
+						<Link className={isProfile ? 'active' : ''} aria-label='library' href={'#' || RoutePath.Profile}>
+							<ProfileIcon />
+							Profile
+						</Link>
 					</Hidden>
 					{/* <WalletButtonDynamic http={http} className='wallet-button' /> */}
 				</Box>

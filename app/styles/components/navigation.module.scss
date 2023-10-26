@@ -3,35 +3,50 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../variables/theme.module.scss' as *;
 
-// .header {
-// 	background: $grey-600 !important;
-// 	border: none !important;
-// 	border-radius: 0 !important;
-// 	transition: background-color 0.3s !important;
-// 	position: sticky !important;
+.header {
+	background: $grey-600 !important;
+	border: none !important;
+	border-radius: 0 !important;
+	transition: background-color 0.3s !important;
+	position: fixed !important;
+	padding: 0 !important;
 
-// 	&--with-background {
-// 		backdrop-filter: blur(10px) !important;
-// 		background: rgba($grey-500, 0.75) !important;
-// 	}
+	&--with-background {
+		backdrop-filter: blur(10px) !important;
+		background: rgba($grey-500, 0.75) !important;
+	}
 
-// 	&--fixed {
-// 		position: fixed !important;
-// 		background-color: transparent !important;
-// 	}
-// }
+	&--fixed {
+		position: fixed !important;
+		background-color: transparent !important;
+	}
+}
 
 .navigation {
 	// @include defaultFadeIn;
 	width: 100%;
 	margin: 0 auto;
-	padding: 0 1.5rem !important;
 	height: 72px;
 	max-width: $xl-width;
 
+	padding: 0 2rem !important;
+
+	@include xl {
+		padding: 0 !important;
+	}
+
 	@media (max-width: 300px) {
-		.navigation-social-button {
+		.navigation-hamburger-button {
 			display: none;
+		}
+	}
+
+	.navigation-hamburger-button {
+		width: 100%;
+		height: auto;
+
+		svg {
+			fill: white;
 		}
 	}
 
@@ -70,7 +85,7 @@
 			width: auto;
 		}
 
-		&:not(.navigation-social-button) svg {
+		&:not(.navigation-hamburger-button) svg {
 			margin-right: 0.4rem;
 		}
 	}
@@ -92,12 +107,18 @@
 
 	.navigation-items {
 		margin-left: auto;
+		display: flex;
 	}
 
 	.navigation-items {
 		> a:not(:last-child),
 		> button:not(:last-child) {
-			margin-right: 1rem;
+			margin-right: 1.4rem;
+		}
+
+		a {
+			display: flex;
+			align-items: center;
 		}
 	}
 }

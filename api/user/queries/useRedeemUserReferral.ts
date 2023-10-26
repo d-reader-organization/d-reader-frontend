@@ -11,12 +11,12 @@ const redeemUserReferral = async (referrer: string): Promise<User> => {
 	return response.data
 }
 
-export const useRedeemUserReferral = (referrer: string) => {
+export const useRedeemUserReferral = () => {
 	const toaster = useToaster()
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationFn: () => redeemUserReferral(referrer),
+		mutationFn: (referrer: string) => redeemUserReferral(referrer),
 		onSuccess: (user) => {
 			toaster.add('Referral claimed!', 'success')
 			queryClient.invalidateQueries(userKeys.getMe)

@@ -13,6 +13,7 @@ import { useOnScreen, useBreakpoints } from '@/hooks'
 import { ComicSortTag, ComicFilterTag } from '@/models/comic/comicParams'
 import { ComicIssueSortTag, ComicIssueFilterTag } from '@/models/comicIssue/comicIssueParams'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
+import Navigation from '@/components/layout/Navigation'
 
 export default function Home() {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -38,98 +39,101 @@ export default function Home() {
 	if (!take) return null
 
 	return (
-		<main className='index'>
-			<HeroCarousel />
+		<>
+			<Navigation />
+			<main className='index'>
+				<HeroCarousel />
 
-			<Container className='home-container' maxWidth='xl'>
-				<Section
-					id='promoted-comics'
-					title='Get started'
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
-				>
-					<ComicList
-						params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Rating }}
-						slidesToShow={take.comicsPerPage}
-					/>
-				</Section>
+				<Container className='home-container' maxWidth='xl'>
+					<Section
+						id='promoted-comics'
+						title='Get started'
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
+					>
+						<ComicList
+							params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Rating }}
+							slidesToShow={take.comicsPerPage}
+						/>
+					</Section>
 
-				<Section
-					id='popular-comics'
-					title='Popular comics'
-					show={showPopularComics}
-					ref={popularComicsRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
-				>
-					<ComicList
-						params={{ skip: 0, take: take.comics, filterTag: ComicFilterTag.Popular }}
-						slidesToShow={take.comicsPerPage}
-					/>
-				</Section>
+					<Section
+						id='popular-comics'
+						title='Popular comics'
+						show={showPopularComics}
+						ref={popularComicsRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
+					>
+						<ComicList
+							params={{ skip: 0, take: take.comics, filterTag: ComicFilterTag.Popular }}
+							slidesToShow={take.comicsPerPage}
+						/>
+					</Section>
 
-				<Section
-					id='genres'
-					title='Genres'
-					show={showGenres}
-					ref={genresRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
-				>
-					<GenreList skip={0} take={take.genres} animate={showGenres} />
-				</Section>
+					<Section
+						id='genres'
+						title='Genres'
+						show={showGenres}
+						ref={genresRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
+					>
+						<GenreList skip={0} take={take.genres} animate={showGenres} />
+					</Section>
 
-				<Section
-					id='new-episodes'
-					title='New episodes'
-					show={showNewComicIssues}
-					ref={newComicIssuesRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
-				>
-					<ComicIssueList
-						params={{ skip: 0, take: take.comicIssues, sortTag: ComicIssueSortTag.Latest }}
-						slidesToShow={take.comicIssuesPerPage}
-					/>
-				</Section>
+					<Section
+						id='new-episodes'
+						title='New episodes'
+						show={showNewComicIssues}
+						ref={newComicIssuesRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
+					>
+						<ComicIssueList
+							params={{ skip: 0, take: take.comicIssues, sortTag: ComicIssueSortTag.Latest }}
+							slidesToShow={take.comicIssuesPerPage}
+						/>
+					</Section>
 
-				<Section
-					id='free-comic-issues'
-					title='Free episodes'
-					show={showFreeComicIssues}
-					ref={freeComicIssuesRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
-				>
-					<ComicIssueList
-						params={{
-							skip: 0,
-							take: take.comicIssues,
-							filterTag: ComicIssueFilterTag.Free,
-							sortTag: ComicIssueSortTag.Likes,
-						}}
-						slidesToShow={take.comicIssuesPerPage}
-					/>
-				</Section>
+					<Section
+						id='free-comic-issues'
+						title='Free episodes'
+						show={showFreeComicIssues}
+						ref={freeComicIssuesRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComicIssues }}
+					>
+						<ComicIssueList
+							params={{
+								skip: 0,
+								take: take.comicIssues,
+								filterTag: ComicIssueFilterTag.Free,
+								sortTag: ComicIssueSortTag.Likes,
+							}}
+							slidesToShow={take.comicIssuesPerPage}
+						/>
+					</Section>
 
-				<Section
-					id='top-creators'
-					title='Top creators'
-					show={showTopCreators}
-					ref={topCreatorsRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverCreators }}
-				>
-					<CreatorList skip={0} take={take.creators} animate={showTopCreators} />
-				</Section>
+					<Section
+						id='top-creators'
+						title='Top creators'
+						show={showTopCreators}
+						ref={topCreatorsRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverCreators }}
+					>
+						<CreatorList skip={0} take={take.creators} animate={showTopCreators} />
+					</Section>
 
-				<Section
-					id='new-comics'
-					title='New comics'
-					show={showNewComics}
-					ref={newComicsRef}
-					actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
-				>
-					<ComicList
-						params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Published }}
-						slidesToShow={take.comicsPerPage}
-					/>
-				</Section>
-			</Container>
-		</main>
+					<Section
+						id='new-comics'
+						title='New comics'
+						show={showNewComics}
+						ref={newComicsRef}
+						actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
+					>
+						<ComicList
+							params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Published }}
+							slidesToShow={take.comicsPerPage}
+						/>
+					</Section>
+				</Container>
+			</main>
+		</>
 	)
 }

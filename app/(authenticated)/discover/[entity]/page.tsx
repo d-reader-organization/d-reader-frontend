@@ -19,6 +19,7 @@ import { SortOrder } from 'enums/sortOrder'
 import { useFetchGenres } from 'api/genre'
 import clsx from 'clsx'
 import Button from '@/components/Button'
+import Navigation from '@/components/layout/Navigation'
 
 type TabKey = 'comics' | 'comic-issues' | 'creators'
 
@@ -106,106 +107,109 @@ function DiscoverPage({ params }: { params: Params }) {
 	]
 
 	return (
-		<main className='discover-page'>
-			<Container className='discover-page-container' maxWidth='xl'>
-				<div className='header-image' />
-				<Tabs
-					indicatorColor='secondary'
-					textColor='secondary'
-					value={activeTab}
-					onChange={handleTabChange}
-					aria-label=''
-				>
-					<Tab
-						label='Comics'
-						disableRipple
-						id={RoutePath.DiscoverComics}
-						className={clsx('tab-button', !comicsTab && 'tab-button--inactive')}
-					/>
-					<Tab
-						label='Issues'
-						disableRipple
-						id={RoutePath.DiscoverComicIssues}
-						className={clsx('tab-button', !comicIssuesTab && 'tab-button--inactive')}
-					/>
-					<Tab
-						label='Creators'
-						disableRipple
-						id={RoutePath.DiscoverCreators}
-						className={clsx('tab-button', !creatorsTab && 'tab-button--inactive')}
-					/>
-				</Tabs>
-
-				<Box className='search-box'>
-					<Button backgroundColor='grey-300' className='search-button' onClick={toggleFilterDrawer}>
-						{filterDrawer ? '➡️' : '⬅️'}
-						<Hidden smDown> Filters</Hidden>
-					</Button>
-					<Button backgroundColor='grey-300' className='search-button' onClick={clearFilters}>
-						Clear
-					</Button>
-					<input
-						value={searchString}
-						type='text'
-						name='search'
-						placeholder='Search comics, episodes, games, and creators'
-						onChange={(e) => {
-							setSearchString(e.target.value)
-						}}
-						className='search-input'
-					/>
-					<Button backgroundColor='grey-300' className='search-button' onClick={toggleSortOrder}>
-						{isAscending ? '👆' : '👇'}
-					</Button>
-				</Box>
-
-				<Box className='discover-body'>
-					<Collapse
-						className={clsx('filter-box-wrapper', filterDrawer && 'filter-box-wrapper--active')}
-						orientation='horizontal'
-						in={filterDrawer}
+		<>
+			<Navigation />
+			<main className='discover-page'>
+				<Container className='discover-page-container' maxWidth='xl'>
+					<div className='header-image' />
+					<Tabs
+						indicatorColor='secondary'
+						textColor='secondary'
+						value={activeTab}
+						onChange={handleTabChange}
+						aria-label=''
 					>
-						<Box className='filter-box'>
-							<AccordionList items={filterItems} defaultOpened={[0]} />
-						</Box>
-					</Collapse>
+						<Tab
+							label='Comics'
+							disableRipple
+							id={RoutePath.DiscoverComics}
+							className={clsx('tab-button', !comicsTab && 'tab-button--inactive')}
+						/>
+						<Tab
+							label='Issues'
+							disableRipple
+							id={RoutePath.DiscoverComicIssues}
+							className={clsx('tab-button', !comicIssuesTab && 'tab-button--inactive')}
+						/>
+						<Tab
+							label='Creators'
+							disableRipple
+							id={RoutePath.DiscoverCreators}
+							className={clsx('tab-button', !creatorsTab && 'tab-button--inactive')}
+						/>
+					</Tabs>
 
-					<Box hidden={!comicsTab} className='discover-content'>
-						<ComicDiscoverList
-							params={{
-								genreSlugs: genresQueue.items,
-								titleSubstring: searchString,
-								sortOrder: sortOrder,
+					<Box className='search-box'>
+						<Button backgroundColor='grey-300' className='search-button' onClick={toggleFilterDrawer}>
+							{filterDrawer ? '➡️' : '⬅️'}
+							<Hidden smDown> Filters</Hidden>
+						</Button>
+						<Button backgroundColor='grey-300' className='search-button' onClick={clearFilters}>
+							Clear
+						</Button>
+						<input
+							value={searchString}
+							type='text'
+							name='search'
+							placeholder='Search comics, episodes, games, and creators'
+							onChange={(e) => {
+								setSearchString(e.target.value)
 							}}
-							enabled={comicsTab}
-							narrow={filterDrawer}
+							className='search-input'
 						/>
+						<Button backgroundColor='grey-300' className='search-button' onClick={toggleSortOrder}>
+							{isAscending ? '👆' : '👇'}
+						</Button>
 					</Box>
-					<Box hidden={!comicIssuesTab} className='discover-content'>
-						<ComicIssueDiscoverList
-							params={{
-								genreSlugs: genresQueue.items,
-								titleSubstring: searchString,
-								sortOrder: sortOrder,
-							}}
-							enabled={comicIssuesTab}
-							narrow={filterDrawer}
-						/>
+
+					<Box className='discover-body'>
+						<Collapse
+							className={clsx('filter-box-wrapper', filterDrawer && 'filter-box-wrapper--active')}
+							orientation='horizontal'
+							in={filterDrawer}
+						>
+							<Box className='filter-box'>
+								<AccordionList items={filterItems} defaultOpened={[0]} />
+							</Box>
+						</Collapse>
+
+						<Box hidden={!comicsTab} className='discover-content'>
+							<ComicDiscoverList
+								params={{
+									genreSlugs: genresQueue.items,
+									titleSubstring: searchString,
+									sortOrder: sortOrder,
+								}}
+								enabled={comicsTab}
+								narrow={filterDrawer}
+							/>
+						</Box>
+						<Box hidden={!comicIssuesTab} className='discover-content'>
+							<ComicIssueDiscoverList
+								params={{
+									genreSlugs: genresQueue.items,
+									titleSubstring: searchString,
+									sortOrder: sortOrder,
+								}}
+								enabled={comicIssuesTab}
+								narrow={filterDrawer}
+							/>
+						</Box>
+						<Box hidden={!creatorsTab} className='discover-content'>
+							<CreatorDiscoverList
+								params={{
+									genreSlugs: genresQueue.items,
+									nameSubstring: searchString,
+									sortOrder: sortOrder,
+								}}
+								enabled={creatorsTab}
+								narrow={filterDrawer}
+							/>
+						</Box>
 					</Box>
-					<Box hidden={!creatorsTab} className='discover-content'>
-						<CreatorDiscoverList
-							params={{
-								genreSlugs: genresQueue.items,
-								nameSubstring: searchString,
-								sortOrder: sortOrder,
-							}}
-							enabled={creatorsTab}
-							narrow={filterDrawer}
-						/>
-					</Box>
-				</Box>
-			</Container>
-		</main>
+				</Container>
+			</main>
+		</>
 	)
 }
 

@@ -3,6 +3,17 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../mixins/common.module.scss' as *;
 
+.carousel-root {
+	@include portrait {
+		height: 60vh !important;
+	}
+
+	@include landscape {
+		height: 84vh !important;
+		max-height: 780px !important;
+	}
+}
+
 .hero-carousel {
 	@include defaultFadeIn;
 	position: relative;
@@ -97,11 +108,16 @@
 		}
 
 		.slide-button {
+			.mini-logo {
+				padding-right: 1rem;
+			}
+
 			background-color: $important-color !important;
 			color: $grey-600 !important;
 			padding: 0.5rem 1rem !important;
 			box-shadow: 3px 3px 3px black;
 			width: min-content;
+			min-width: unset;
 			@include clickable;
 		}
 	}

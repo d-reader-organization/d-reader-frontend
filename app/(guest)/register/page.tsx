@@ -4,7 +4,7 @@ import Header from 'components/layout/Header'
 import Button from 'components/Button'
 import Input from '@/components/forms/Input'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { RegisterData } from 'models/auth/register'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -17,12 +17,16 @@ import usePrefetchRoute from '@/hooks/usePrefetchRoute'
 import FormActions from '@/components/forms/FormActions'
 import Label from '@/components/forms/Label'
 import Steps from '@/components/Steps'
+import { useRedeemUserReferral } from '@/api/user'
 
 export default function RegisterUserPage() {
 	const router = useRouter()
-	const nextPage = RoutePath.RegisterEmailVerification
+	const searchParams = useSearchParams()
+	const referrer = searchParams.get('referrer') || ''
+	const nextPage = RoutePath.RegisterConnectWallet
 
 	const { mutateAsync: registerUser } = useRegisterUser()
+	const { mutateAsync: redeemReferral } = useRedeemUserReferral()
 	const { register, handleSubmit } = useForm<RegisterData>({
 		defaultValues: {
 			name: '',
@@ -39,6 +43,7 @@ export default function RegisterUserPage() {
 
 		handleSubmit(async (data) => {
 			await registerUser(data)
+			if (referrer) await redeemReferral(referrer)
 			router.push(nextPage)
 		})()
 	}
@@ -49,8 +54,8 @@ export default function RegisterUserPage() {
 			<Steps
 				steps={[
 					{ label: '01 Create account', isActive: true },
-					{ label: '02 Verify email', isActive: false },
-					{ label: '03 Connect wallet', isActive: false },
+					{ label: '02 Connect wallet', isActive: false },
+					{ label: '03 Verify email', isActive: false },
 				]}
 			/>
 
@@ -61,7 +66,7 @@ export default function RegisterUserPage() {
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
-					<div className='description'>2-20 characters, Letters, numbers, and dashes are allowed</div>
+					<div className='description'>2-20 characters. Letters, numbers, and dashes are allowed</div>
 					<Input {...register('name')} placeholder='john-doe' />
 
 					<Label isRequired>Email</Label>

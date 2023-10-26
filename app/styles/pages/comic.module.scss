@@ -3,9 +3,9 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .comic-page {
-	margin-top: -100px;
-
 	.comic-header {
+		margin-top: -100px;
+
 		@include flexColumn;
 
 		@include md {
@@ -202,14 +202,17 @@
 		max-width: 75%;
 		@include sm {
 			max-width: 60%;
+			max-height: 120px;
 		}
 
 		@include md {
 			max-width: 50%;
+			max-height: 140px;
 		}
 
 		@include lg {
 			max-width: 33%;
+			max-height: 160px;
 		}
 	}
 }

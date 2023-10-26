@@ -3,7 +3,7 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .comic-issue-page {
-	padding-top: 1rem;
+	// padding-top: 1rem;
 
 	@include md {
 		padding-top: 2rem;
@@ -14,9 +14,11 @@
 	}
 
 	.comic-issue-header {
+		margin-top: -100px;
 		@include flexColumn;
 
 		@include md {
+			margin-top: 0;
 			@include flexRow;
 			justify-content: center;
 
@@ -158,12 +160,17 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	position: absolute;
 	z-index: -1;
 	width: 100%;
 	height: 65vh;
 	max-height: 620px;
 	// filter: blur(10px);
+
+	position: relative;
+
+	@include md {
+		position: absolute;
+	}
 
 	.bottom-overlay {
 		left: 0;

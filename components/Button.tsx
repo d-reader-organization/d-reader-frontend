@@ -4,6 +4,7 @@ import clsx from 'clsx'
 export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	backgroundColor?: 'important' | 'transparent' | 'grey-100' | 'grey-300' | 'green-500' | 'yellow-500'
 	borderColor?: 'important' | 'transparent' | 'grey-100' | 'grey-300'
+	noMinWidth?: boolean
 	bold?: boolean
 }
 
@@ -11,6 +12,7 @@ const Button: React.FC<ButtonProps> = ({
 	backgroundColor = 'grey-100',
 	borderColor = 'transparent',
 	type = 'button',
+	noMinWidth = false,
 	bold = true,
 	className,
 	...props
@@ -28,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
 				'button--border-color-transparent': borderColor === 'transparent',
 				'button--border-color-grey-100': borderColor === 'grey-100',
 				'button--border-color-grey-300': borderColor === 'grey-300',
+				'button--no-min-width': noMinWidth,
 				'button--bold': bold,
 			})}
 			type={type}

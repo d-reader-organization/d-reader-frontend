@@ -67,4 +67,8 @@
 	&--border-color-grey-300 {
 		border: 1px solid $grey-300;
 	}
+
+	&--no-min-width {
+		min-width: unset;
+	}
 }

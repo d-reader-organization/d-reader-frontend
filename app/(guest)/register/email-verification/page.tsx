@@ -6,19 +6,25 @@ import MailIcon from 'public/assets/vector-icons/mail-icon.svg'
 import Form from '@/components/forms/Form'
 import FormActions from '@/components/forms/FormActions'
 import ButtonLink from '@/components/ButtonLink'
-import Steps from '@/components/Steps'
-import { RoutePath } from '@/enums/routePath'
 import Button from '@/components/Button'
+import Steps from '@/components/Steps'
+import { useRequestUserEmailVerification } from '@/api/user'
+import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
+import { RoutePath } from '@/enums/routePath'
 
-export default function VerifyEmailPage() {
+export default function EmailVerificationPage() {
+	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
+
+	useAuthenticatedRoute()
+
 	return (
 		<>
 			<Header image={<LogoIcon className='logo' />} />
 			<Steps
 				steps={[
 					{ label: '01 Create account', isActive: false },
-					{ label: '02 Verify email', isActive: true },
-					{ label: '03 Connect wallet', isActive: false },
+					{ label: '02 Connect wallet', isActive: false },
+					{ label: '03 Verify email', isActive: true },
 				]}
 			/>
 
@@ -33,7 +39,7 @@ export default function VerifyEmailPage() {
 					</p>
 
 					<FormActions centered>
-						<ButtonLink href={RoutePath.RegisterConnectWallet} backgroundColor='yellow-500' className='action-button'>
+						<ButtonLink href={RoutePath.Home} backgroundColor='yellow-500' className='action-button'>
 							Next
 						</ButtonLink>
 					</FormActions>
@@ -43,18 +49,16 @@ export default function VerifyEmailPage() {
 						<br />
 						Check your spam folder{/* before resending */}
 					</p>
-					{false && (
-						<Button
-							onClick={() => {
-								console.log('TODO: resend email confirmation')
-							}}
-							bold={false}
-							backgroundColor='transparent'
-							className='action-button action-button--resend-email'
-						>
-							Resend email confirmation link
-						</Button>
-					)}
+					<Button
+						onClick={async () => {
+							await requestUserEmailVerification()
+						}}
+						bold={false}
+						backgroundColor='transparent'
+						className='action-button action-button--resend-email'
+					>
+						Resend email confirmation link
+					</Button>
 				</Form>
 			</main>
 		</>

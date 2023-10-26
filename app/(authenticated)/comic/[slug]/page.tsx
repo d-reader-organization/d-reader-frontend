@@ -22,11 +22,11 @@ import { SortOrder } from '@/enums/sortOrder'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material/styles'
 import IconLink from '@/components/IconLink'
 import { roundNumber } from '@/utils/numbers'
+import Button from '@/components/Button'
 import Image from 'next/image'
 import clsx from 'clsx'
 
@@ -66,8 +66,6 @@ export default function ComicPage({ params }: { params: Params }) {
 							<Typography variant='h4' component='h1'>
 								{comic.title}
 							</Typography>
-							{/* TODO: implement this + import heart icons */}
-							{/* <Button onClick={toggleFavorite}>❤️</Button> */}
 						</FlexRow>
 						{comic.genres && (
 							<FlexRow>
@@ -119,10 +117,10 @@ export default function ComicPage({ params }: { params: Params }) {
 						</FlexRow>
 						<FlexRow className='comic-stats'>
 							<InfoList orientation='vertical'>
-								<Button>
+								<Button backgroundColor='transparent' noMinWidth>
 									⭐&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
 								</Button>
-								<Button>
+								<Button backgroundColor='transparent' noMinWidth>
 									❤️&nbsp;<span>{comic.stats.favouritesCount}</span>
 								</Button>
 							</InfoList>
