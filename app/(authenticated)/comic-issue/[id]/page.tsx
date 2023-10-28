@@ -31,7 +31,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const { data: comicIssue, error } = useFetchComicIssue(params.id)
 	const { publicKey } = useWallet()
 
-	const walletAddress = publicKey?.toBase58() || ''
+	const walletAddress = publicKey?.toBase58()
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const isPrimarySale = !!candyMachineAddress
 

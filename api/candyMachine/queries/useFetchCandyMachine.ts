@@ -19,7 +19,7 @@ export const useFetchCandyMachine = (params: CandyMachineParams) => {
 		queryFn: () => fetchCandyMachine(params),
 		queryKey: candyMachineKeys.get(params),
 		staleTime: 1000 * 60 * 3, // stale for 3 minutes
-		enabled: !!params.candyMachineAddress && !!params.walletAddress,
+		enabled: !!params.candyMachineAddress,
 		onError: toaster.onQueryError,
 	})
 }
