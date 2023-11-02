@@ -26,6 +26,7 @@ export interface BasicComicIssue {
 	releaseDate: string
 	isFreeToRead: boolean
 	isFullyUploaded: boolean
+	isSecondarySaleActive: boolean
 	isPublished: boolean
 	isPopular: boolean
 	isVerified: boolean

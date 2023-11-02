@@ -7,9 +7,14 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { createContext, useContext } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import theme from 'app/styles/theme'
 import { usePathname } from 'next/navigation'
 import { RoutePath } from '@/enums/routePath'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { IMPORTANT_NOTICE } from '@/constants/staticText'
+import CloseIcon from 'public/assets/vector-icons/close.svg'
+import Dialog from '@mui/material/Dialog'
+import theme from 'app/styles/theme'
+import { Keypair } from '@solana/web3.js'
 
 export const ClientContext = createContext(null)
 
@@ -28,13 +33,31 @@ const queryClient = new QueryClient({
 const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const pathname = usePathname()
 	const autoConnect = pathname.startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
+	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstVisit', true)
+
+	// TODO: if there is a user connected and if there is a wallet connected
+	// check if the wallet is assigned to the user on backend and if not, prompt to sign a message
 
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
 					<WalletProvider wallets={getWallets(network)} autoConnect={autoConnect}>
-						<WalletModalProvider className='wallet-dialog'>{children}</WalletModalProvider>
+						<WalletModalProvider className='wallet-dialog'>
+							{children}
+							<Dialog
+								style={{ backdropFilter: 'blur(4px)' }}
+								PaperProps={{ className: 'text-dialog' }}
+								onClose={() => setIsFirstTimeVisitor(false)}
+								open={isFirstTimeVisitor}
+							>
+								<div className='close-icon-wrapper'>
+									<CloseIcon className='close-icon' onClick={() => setIsFirstTimeVisitor(false)} />
+								</div>
+								<strong>🚧 IMPORTANT NOTICE! 🚧</strong>
+								<p>{IMPORTANT_NOTICE}</p>
+							</Dialog>
+						</WalletModalProvider>
 					</WalletProvider>
 				</ConnectionProvider>
 			</ThemeProvider>

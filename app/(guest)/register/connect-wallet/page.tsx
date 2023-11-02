@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation'
 import Dialog from '@mui/material/Dialog'
 import { useToggle } from '@/hooks'
 import dynamic from 'next/dynamic'
+import { useFetchMe, useFetchUserWallets } from '@/api/user'
 import bs58 from 'bs58'
 
 const BaseWalletMultiButtonDynamic = dynamic(
@@ -38,10 +39,18 @@ export default function ConnectWalletPage() {
 	const { mutateAsync: requestWalletPassword } = useRequestWalletPassword()
 	const { mutateAsync: connectUserWallet } = useConnectUserWallet()
 
+	const { data: me } = useFetchMe()
+	const { data: connectedWallets = [], isLoading, isFetched } = useFetchUserWallets(me?.id || 0)
+
+	const walletAddress = publicKey?.toBase58()
+	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
+	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
+
 	useAuthenticatedRoute()
 
 	const authorizeWallet = useCallback(async () => {
 		if (!publicKey) return
+		if (!isFetched || isLoading || hasWalletConnected) return
 
 		const address = publicKey.toBase58()
 		const otp = await requestWalletPassword(address)
@@ -71,6 +80,9 @@ export default function ConnectWalletPage() {
 		router.push(RoutePath.RegisterEmailVerification)
 	}, [
 		publicKey,
+		isFetched,
+		isLoading,
+		hasWalletConnected,
 		requestWalletPassword,
 		signMessage,
 		wallet?.adapter.name,

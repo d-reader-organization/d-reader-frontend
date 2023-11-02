@@ -87,7 +87,6 @@ export default function ComicPage({ params }: { params: Params }) {
 									{comic.flavorText}
 								</Typography>
 							)}
-							{/* TODO: add "view more" if more than 2-3 rows */}
 							<Typography className='comic-description'>{comic.description}</Typography>
 							{comic.creator && (
 								<Box className='comic-creator-wrapper'>
@@ -104,7 +103,6 @@ export default function ComicPage({ params }: { params: Params }) {
 						<Box className='comic-page--right'>
 							<FlexRow className='comic-links-wrapper'>
 								<FlexRow className='comic-links'>
-									{/* TODO: if too many links, show a linktree dropdown */}
 									<IconLink href={comic.website} Icon={WebsiteIcon} blank />
 									<IconLink href={comic.twitter} Icon={TwitterIcon} blank />
 									<IconLink href={comic.discord} Icon={DiscordIcon} blank />
@@ -113,10 +111,7 @@ export default function ComicPage({ params }: { params: Params }) {
 									<IconLink href={comic.tikTok} Icon={TikTokIcon} blank />
 									<IconLink href={comic.youTube} Icon={YouTubeIcon} blank />
 								</FlexRow>
-								<Box width='max-content'>
-									{/* TODO: enable this */}
-									{/* <Button onClick={toggleBookmark}>+ Add to Library</Button> */}
-								</Box>
+								<Box width='max-content'>{/* <Button onClick={toggleBookmark}>+ Add to Library</Button> */}</Box>
 							</FlexRow>
 							<FlexRow className='comic-stats'>
 								<InfoList orientation='vertical'>

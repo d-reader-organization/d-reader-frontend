@@ -22,6 +22,10 @@
 	}
 }
 
+.wallet-adapter-modal {
+	z-index: 9999 !important;
+}
+
 .wallet-adapter-modal-wrapper {
 	background-color: $grey-600 !important;
 

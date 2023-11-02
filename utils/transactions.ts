@@ -1,4 +1,4 @@
-import { Transaction } from '@solana/web3.js'
+import { Transaction, VersionedTransaction } from '@solana/web3.js'
 
 export function decodeBs58(encodedString: string) {
 	return new TextEncoder().encode(encodedString)
@@ -14,6 +14,14 @@ export function txFromBs58(encodedString: string) {
 
 export function txFromBs64(encodedString: string) {
 	return Transaction.from(decodeBs64(encodedString))
+}
+
+export function versionedTransactionFromBs58(encodedString: string) {
+	return VersionedTransaction.deserialize(decodeBs58(encodedString))
+}
+
+export function versionedTransactionFromBs64(encodedString: string) {
+	return VersionedTransaction.deserialize(decodeBs64(encodedString))
 }
 
 export type SupportedEncoding = 'base58' | 'base64'

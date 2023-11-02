@@ -17,8 +17,6 @@ import CloseIcon from 'public/assets/vector-icons/close.svg'
 import { convertFileToBlob } from 'utils/file'
 import SkeletonImage from '../SkeletonImage'
 
-// TODO v2: switch to https://github.com/atlassian/react-beautiful-dnd
-
 type UploadedFile = { url: string; file: File }
 
 function arrayMove<T>(arr: T[], fromIndex: number, toIndex: number) {

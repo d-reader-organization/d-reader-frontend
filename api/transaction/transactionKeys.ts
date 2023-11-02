@@ -30,6 +30,7 @@ export const transactionKeys = Object.freeze({
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
 		TRANSACTION_QUERY_KEYS.MINT_ONE,
 		params.candyMachineAddress,
+		params.label,
 		params.minterAddress,
 	],
 

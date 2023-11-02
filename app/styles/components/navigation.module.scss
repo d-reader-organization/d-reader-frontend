@@ -31,10 +31,6 @@
 
 	padding: 0 2rem !important;
 
-	@include xl {
-		padding: 0 !important;
-	}
-
 	@media (max-width: 300px) {
 		.navigation-hamburger-button {
 			display: none;
