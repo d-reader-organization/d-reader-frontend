@@ -1,8 +1,14 @@
 export enum CollaboratorRole {
-	Writer = 'Writer',
+	Advisor = 'Advisor',
 	Artist = 'Artist',
+	CoWriter = 'CoWriter',
 	Colorist = 'Colorist',
-	Editor = 'Editor',
-	Letterer = 'Letterer',
 	CoverArtist = 'CoverArtist',
+	Editor = 'Editor',
+	Illustrator = 'Illustrator',
+	Inker = 'Inker',
+	Letterer = 'Letterer',
+	Penciler = 'Penciler',
+	Translator = 'Translator',
+	Writer = 'Writer',
 }
