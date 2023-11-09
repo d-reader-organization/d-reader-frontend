@@ -17,12 +17,10 @@ const fetchMintOneTransaction = async (params: MintOneParams): Promise<Versioned
 
 export const useFetchMintOneTransaction = (params: MintOneParams) => {
 	const toaster = useToaster()
-
 	return useQuery({
 		queryFn: () => fetchMintOneTransaction(params),
 		queryKey: transactionKeys.mintOne(params),
-		staleTime: 1000 * 60 * 10, // stale for 10 minutes
-		enabled: !!params.candyMachineAddress && !!params.minterAddress && !!params.label,
+		enabled: false,
 		onError: toaster.onQueryError,
 	})
 }

@@ -70,8 +70,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
-	// change this in a way that it only fetches on demand?
-	const { data: mintTransactions = [] } = useFetchMintOneTransaction({
+	const { refetch } = useFetchMintOneTransaction({
 		candyMachineAddress,
 		minterAddress: walletAddress || '',
 		label: 'dFree', // TODO: currently active group
@@ -148,7 +147,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		if (!hasWalletConnected) toggleWalletNotConnectedDialog()
 		else if (!hasVerifiedEmail) toggleEmailNotVerifiedDialog()
 		else {
-			console.log('mintTransaction: ', mintTransactions)
+			const {data: mintTransactions = []} = await refetch();
 			if (!signAllTransactions) {
 				toaster.add('Wallet does not support signing multiple transactions', 'error')
 				return
