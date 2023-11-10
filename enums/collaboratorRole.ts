@@ -4,6 +4,7 @@ export enum CollaboratorRole {
 	CoWriter = 'CoWriter',
 	Colorist = 'Colorist',
 	CoverArtist = 'CoverArtist',
+	CreativeDirector = 'CreativeDirector',
 	Editor = 'Editor',
 	Illustrator = 'Illustrator',
 	Inker = 'Inker',

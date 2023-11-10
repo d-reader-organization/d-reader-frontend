@@ -70,11 +70,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
-	const { refetch } = useFetchMintOneTransaction({
-		candyMachineAddress,
-		minterAddress: walletAddress || '',
-		label: 'dFree', // TODO: currently active group
-	})
+	const { refetch } = useFetchMintOneTransaction(
+		{
+			candyMachineAddress,
+			minterAddress: walletAddress || '',
+			label: 'dFree', // TODO: currently active group,
+		},
+		false
+	)
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -147,7 +150,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		if (!hasWalletConnected) toggleWalletNotConnectedDialog()
 		else if (!hasVerifiedEmail) toggleEmailNotVerifiedDialog()
 		else {
-			const {data: mintTransactions = []} = await refetch();
+			const { data: mintTransactions = [] } = await refetch()
 			if (!signAllTransactions) {
 				toaster.add('Wallet does not support signing multiple transactions', 'error')
 				return

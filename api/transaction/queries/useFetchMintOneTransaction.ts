@@ -15,12 +15,13 @@ const fetchMintOneTransaction = async (params: MintOneParams): Promise<Versioned
 	return response.data.map(versionedTransactionFromBs64)
 }
 
-export const useFetchMintOneTransaction = (params: MintOneParams) => {
+export const useFetchMintOneTransaction = (params: MintOneParams, enabled?: boolean) => {
 	const toaster = useToaster()
 	return useQuery({
 		queryFn: () => fetchMintOneTransaction(params),
 		queryKey: transactionKeys.mintOne(params),
-		enabled: false,
+		staleTime: 1000 * 4, // stale for 4 seconds
+		enabled: enabled && !!params.candyMachineAddress && !!params.minterAddress && !!params.label,
 		onError: toaster.onQueryError,
 	})
 }
