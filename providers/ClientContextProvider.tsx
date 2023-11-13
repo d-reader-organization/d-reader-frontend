@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
 const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const pathname = usePathname()
 	const autoConnect = pathname.startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
-	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstVisit', true)
+	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
 
 	// TODO: if there is a user connected and if there is a wallet connected
 	// check if the wallet is assigned to the user on backend and if not, prompt to sign a message

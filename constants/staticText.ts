@@ -44,9 +44,9 @@ Engage with our community of users, artists, and collectors with the trust and s
 
 export const IMPORTANT_NOTICE = `dReader web app is still under heavy development. We understand that there are bugs and missing features.
 
-The reason why we've opened the web app is so that iOS users are able to register and grab free comics!
+The reason why we've opened the web app prematurely is so that iOS users are not discriminated as we're only live on google play store at the moment!
 
-dReader team will be off during the Breakpoint Conference (~5th of November). Web app development will resume around November 15th after the backlog is cleared up!
+Web will get more love from our developers in 2024 as our short term focus lies elsewhere.
 
 Appreciate the patience 👏
 Josip Volarević - founder
