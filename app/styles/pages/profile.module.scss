@@ -1,6 +1,71 @@
 @use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
 
 .profile-page {
 	margin: 0 auto;
-	@include pagePadding;
+	@include pagePadding(10px, 20px, 40px, 40px);
+
+	.title {
+		padding: 2rem 0;
+
+		@include sm {
+			padding: 2.5rem 0;
+		}
+	}
+
+	.tabs {
+		border-bottom: 1px solid $grey-300;
+	}
+
+	.tab-button {
+		text-transform: capitalize !important;
+		font-weight: bold;
+		color: white !important;
+
+		font-size: 1rem;
+
+		@include lg {
+			font-size: 1.1rem;
+		}
+
+		&--active {
+			color: $grey-100 !important;
+			border-color: red !important;
+		}
+	}
+
+	.form-actions {
+		padding-bottom: 2rem;
+
+		@include sm {
+			padding-bottom: 2.5rem;
+		}
+	}
+
+	.profile-settings-section {
+		color: $grey-100;
+		border-bottom: 1px solid $grey-100;
+		font-size: 0.9rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		padding-bottom: 0.4rem;
+		margin-bottom: 1rem;
+	}
+
+	.input-row {
+		.input-wrapper {
+			margin-bottom: 0;
+			margin-right: 0.5rem;
+			width: 100%;
+		}
+
+		.button {
+			min-width: 100px;
+
+			@include sm {
+				min-width: 120px;
+			}
+		}
+	}
 }

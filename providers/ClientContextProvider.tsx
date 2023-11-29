@@ -14,7 +14,6 @@ import { IMPORTANT_NOTICE } from '@/constants/staticText'
 import CloseIcon from 'public/assets/vector-icons/close.svg'
 import Dialog from '@mui/material/Dialog'
 import theme from 'app/styles/theme'
-import { Keypair } from '@solana/web3.js'
 
 export const ClientContext = createContext(null)
 

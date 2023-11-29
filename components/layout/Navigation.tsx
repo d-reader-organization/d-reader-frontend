@@ -91,7 +91,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 								</IconLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconLink className={isProfile ? 'active' : ''} href={'#' || RoutePath.Profile}>
+								<IconLink className={isProfile ? 'active' : ''} href={RoutePath.Profile}>
 									<ProfileIcon />
 									Profile
 								</IconLink>
@@ -108,7 +108,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							<LibraryIcon />
 							Library
 						</Link>
-						<Link className={isProfile ? 'active' : ''} aria-label='library' href={'#' || RoutePath.Profile}>
+						<Link className={isProfile ? 'active' : ''} aria-label='library' href={RoutePath.Profile}>
 							<ProfileIcon />
 							Profile
 						</Link>

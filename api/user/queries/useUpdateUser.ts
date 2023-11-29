@@ -18,6 +18,7 @@ export const useUpdateUser = (id: string | number) => {
 	return useMutation({
 		mutationFn: (updateData: UpdateUserData) => updateUser(id, updateData),
 		onSuccess: () => {
+			// TODO: if the email has been updated, make a toast 'verification email sent to the new address!'
 			toaster.add('Account updated!', 'success')
 			queryClient.invalidateQueries(userKeys.getMe)
 			queryClient.invalidateQueries(userKeys.get(id))

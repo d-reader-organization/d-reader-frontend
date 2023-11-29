@@ -171,10 +171,12 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					toaster.add('confirming transaction...', 'info')
 					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
 				} catch (e) {
+					console.log('ENDPOINT: ', connection.rpcEndpoint)
 					if (signedTransactions.length === 2 && i === 0) {
 						toaster.add('Wallet is not allowlisted to mint this comic', 'error')
+					} else {
+						toaster.add('Something went wrong', 'error')
 					}
-					toaster.add('Something went wrong', 'error')
 					console.log('error: ', e)
 				}
 				i += 1

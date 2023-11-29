@@ -50,7 +50,11 @@ export default function ConnectWalletPage() {
 
 	const authorizeWallet = useCallback(async () => {
 		if (!publicKey) return
-		if (!isFetched || isLoading || hasWalletConnected) return
+		if (!isFetched || isLoading) return
+		if (hasWalletConnected) {
+			router.push(RoutePath.RegisterEmailVerification)
+			return
+		}
 
 		const address = publicKey.toBase58()
 		const otp = await requestWalletPassword(address)
