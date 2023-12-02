@@ -8,8 +8,8 @@ import http from 'api/http'
 
 const { COMIC_ISSUE, GET, PAGES } = COMIC_ISSUE_QUERY_KEYS
 
-const fetchComicIssuePages = async (id: string | number): Promise<ComicPage> => {
-	const response = await http.get<ComicPage>(`${COMIC_ISSUE}/${GET}/${id}/${PAGES}`)
+const fetchComicIssuePages = async (id: string | number): Promise<ComicPage[]> => {
+	const response = await http.get<ComicPage[]>(`${COMIC_ISSUE}/${GET}/${id}/${PAGES}`)
 	return response.data
 }
 
@@ -19,7 +19,7 @@ export const useFetchComicIssuePages = (id: string | number) => {
 
 	return useQuery({
 		queryFn: () => fetchComicIssuePages(id),
-		queryKey: comicIssueKeys.get(id),
+		queryKey: comicIssueKeys.getPages(id),
 		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
 		enabled: isAuthenticated && !isNil(id),
 		onError: toaster.onQueryError,

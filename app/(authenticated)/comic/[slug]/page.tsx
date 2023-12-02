@@ -11,7 +11,7 @@ import TikTokIcon from 'public/assets/vector-icons/tiktok-icon.svg'
 import YouTubeIcon from 'public/assets/vector-icons/youtube-icon.svg'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import { useFetchComicIssues } from '@/api/comicIssue'
-import { useFetchComic } from '@/api/comic'
+import { useFavouritiseComic, useFetchComic, useRateComic } from '@/api/comic'
 import FlexRow from '@/components/FlexRow'
 import AvatarImage from '@/components/AvatarImage'
 import ComicIssueDiscoverList from '@/components/comicIssue/ComicIssueDiscoverList'
@@ -30,18 +30,28 @@ import Button from '@/components/Button'
 import Image from 'next/image'
 import clsx from 'clsx'
 import Navigation from '@/components/layout/Navigation'
+import HeartIcon from '@/components/icons/HeartIcon'
+import { isNil } from 'lodash'
+import StarIcon from '@/components/icons/StarIcon'
+import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
+import useToggle from '@/hooks/useToggle'
 
 interface Params {
 	slug: string
 }
 
 export default function ComicPage({ params }: { params: Params }) {
+	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
+
 	const { data: comic } = useFetchComic(params.slug)
 	const { flatData: comicIssues } = useFetchComicIssues({
 		comicSlug: params.slug,
 		skip: 0,
 		take: 20,
 	})
+
+	const { mutateAsync: toggleFavoriteComic, isLoading: loadingToggleFavoriteComic } = useFavouritiseComic(params.slug)
+	const { mutateAsync: rateComic } = useRateComic(params.slug)
 
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
@@ -115,11 +125,19 @@ export default function ComicPage({ params }: { params: Params }) {
 							</FlexRow>
 							<FlexRow className='comic-stats'>
 								<InfoList orientation='vertical'>
-									<Button backgroundColor='transparent' noMinWidth>
-										⭐&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
+									<Button naked onClick={openStarRatingDialog}>
+										<StarIcon size='lg' solid={!isNil(comic.myStats?.rating)} />
+										&nbsp;<span>{roundNumber(comic.stats.averageRating) || '-'}</span>
 									</Button>
-									<Button backgroundColor='transparent' noMinWidth>
-										❤️&nbsp;<span>{comic.stats.favouritesCount}</span>
+									<Button
+										naked
+										disabled={loadingToggleFavoriteComic}
+										onClick={async () => {
+											await toggleFavoriteComic()
+										}}
+									>
+										<HeartIcon solid={comic.myStats?.isFavourite} />
+										&nbsp;<span>{comic.stats.favouritesCount}</span>
 									</Button>
 								</InfoList>
 
@@ -142,6 +160,16 @@ export default function ComicPage({ params }: { params: Params }) {
 					<ComicIssueDiscoverList params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC }} enabled hideItemsCount />
 					{comicIssues.length === 0 && <Box>No issues found for this comic</Box>}
 				</Container>
+
+				<StarRatingDialog
+					title='Rate this comic series'
+					open={starRatingDialog}
+					onClose={closeStarRatingDialog}
+					onSubmit={async (rating: number) => {
+						await rateComic({ rating })
+						closeStarRatingDialog()
+					}}
+				/>
 			</main>
 		</>
 	)

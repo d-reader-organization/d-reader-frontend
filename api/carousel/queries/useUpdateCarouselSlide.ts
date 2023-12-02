@@ -7,7 +7,7 @@ import http from 'api/http'
 const { CAROUSEL, SLIDES, UPDATE } = CAROUSEL_QUERY_KEYS
 
 const updateCarouselSlide = async (id: string | number, request: UpdateCarouselSlideData): Promise<CarouselSlide> => {
-	const response = await http.patch<CarouselSlide>(`${CAROUSEL}/${SLIDES}/${UPDATE}/${id}`, { request })
+	const response = await http.patch<CarouselSlide>(`${CAROUSEL}/${SLIDES}/${UPDATE}/${id}`, request)
 	return response.data
 }
 

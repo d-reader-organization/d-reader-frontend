@@ -8,7 +8,7 @@ const { GENRE, CREATE } = GENRE_QUERY_KEYS
 
 // CreateGenereData
 const createGenre = async (request: FormData): Promise<Genre> => {
-	const response = await http.post<Genre>(`${GENRE}/${CREATE}`, { request })
+	const response = await http.post<Genre>(`${GENRE}/${CREATE}`, request)
 	return response.data
 }
 

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import CssBaseline from '@mui/material/CssBaseline'
 import ClientContext from '@/providers/ClientContextProvider'
 import UserAuthProvider from 'providers/UserAuthProvider'
@@ -32,14 +32,20 @@ const satoshi = localFont({
 	preload: true,
 })
 
+export const viewport: Viewport = {
+	themeColor: '#15171c',
+	viewportFit: 'cover',
+	initialScale: 1,
+	maximumScale: 1,
+	width: 'device-width',
+}
+
 export const metadata: Metadata = {
 	title: 'dReader',
 	metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),
 	description:
 		'📚 Affordable, Authentic & Limited Edition - from manga to comics. dReader is a new kind of platform for discovering, trading, collecting, and reading digital comics.',
 	keywords: 'NFT, dReader, dPublisher, Comic, Solana, SOL, mint, collection, manga, manwha',
-	themeColor: '#15171c',
-	viewport: 'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
 	openGraph: {
 		type: 'website',
 		title: 'dReader',

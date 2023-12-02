@@ -7,7 +7,7 @@ import http from 'api/http'
 const { GENRE, UPDATE, ICON } = GENRE_QUERY_KEYS
 
 const updateGenreIcon = async (slug: string, request: FormData): Promise<Genre> => {
-	const response = await http.patch<Genre>(`${GENRE}/${UPDATE}/${slug}/${ICON}`, { request })
+	const response = await http.patch<Genre>(`${GENRE}/${UPDATE}/${slug}/${ICON}`, request)
 	return response.data
 }
 

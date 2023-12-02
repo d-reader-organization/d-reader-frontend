@@ -23,12 +23,9 @@ import clsx from 'clsx'
 import IconLink from '../IconLink'
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
-	// const [scrollTarget, setScrollTarget] = useState<Node | Window | undefined>()
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
 	const trigger = useScrollTrigger({ threshold: 0, disableHysteresis: false })
 	const pathname = usePathname()
-
-	// console.log(trigger)
 
 	const isHome = pathname === RoutePath.Home
 	const isDiscover = pathname.startsWith(RoutePath.Discover)
@@ -37,13 +34,6 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 
 	return (
 		<AppBar
-			// ref={scrollTarget}
-			// ref={(node) => {
-			// 	if (node) {
-			// 		console.log('TARGET SET!')
-			// 		setScrollTarget(node)
-			// 	}
-			// }}
 			className={clsx(
 				'header-navigation',
 				trigger && 'header--with-background',
@@ -79,19 +69,19 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							keepMounted
 						>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconLink className={isDiscover ? 'active' : ''} href={RoutePath.DiscoverComics}>
+								<IconLink className={clsx('navigation-item', isDiscover && 'active')} href={RoutePath.DiscoverComics}>
 									<DiscoverIcon />
 									Discover
 								</IconLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconLink className={isLibrary ? 'active' : ''} href={'#' || RoutePath.Library}>
+								<IconLink className={clsx('navigation-item', isLibrary && 'active')} href={'#' || RoutePath.Library}>
 									<LibraryIcon />
 									Library
 								</IconLink>
 							</MenuItem>
 							<MenuItem onClick={resetMenuAnchorEl}>
-								<IconLink className={isProfile ? 'active' : ''} href={RoutePath.Profile}>
+								<IconLink className={clsx('navigation-item', isProfile && 'active')} href={RoutePath.Profile}>
 									<ProfileIcon />
 									Profile
 								</IconLink>
@@ -100,15 +90,27 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 					</Hidden>
 					{/* Desktop */}
 					<Hidden smDown>
-						<Link className={isDiscover ? 'active' : ''} aria-label='discover' href={RoutePath.DiscoverComics}>
+						<Link
+							className={clsx('navigation-item', isDiscover && 'active')}
+							aria-label='discover'
+							href={RoutePath.DiscoverComics}
+						>
 							<DiscoverIcon />
 							Discover
 						</Link>
-						<Link className={isLibrary ? 'active' : ''} aria-label='library' href={'#' || RoutePath.Library}>
+						<Link
+							className={clsx('navigation-item', isLibrary && 'active')}
+							aria-label='library'
+							href={'#' || RoutePath.Library}
+						>
 							<LibraryIcon />
 							Library
 						</Link>
-						<Link className={isProfile ? 'active' : ''} aria-label='library' href={RoutePath.Profile}>
+						<Link
+							className={clsx('navigation-item', isProfile && 'active')}
+							aria-label='library'
+							href={RoutePath.Profile}
+						>
 							<ProfileIcon />
 							Profile
 						</Link>

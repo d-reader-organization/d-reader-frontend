@@ -1,6 +1,6 @@
 'use client'
 
-import { endpoint, network } from '@/constants/environment'
+import { endpoint } from '@/constants/environment'
 import { getWallets } from '@/constants/wallets'
 import { ThemeProvider } from '@mui/material/styles'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
@@ -41,7 +41,7 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={getWallets(network)} autoConnect={autoConnect}>
+					<WalletProvider wallets={getWallets()} autoConnect={autoConnect}>
 						<WalletModalProvider className='wallet-dialog'>
 							{children}
 							<Dialog

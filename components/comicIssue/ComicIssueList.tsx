@@ -15,12 +15,20 @@ interface Props {
 const ComicIssueList: React.FC<Props> = ({ params, slidesToShow, className }) => {
 	const { flatData: comicIssues = [] } = useFetchComicIssues(params)
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	const SliderComponent = typeof window === 'undefined' ? Slider.default : Slider
+
 	return (
-		<Slider className={clsx('comic-issue-list', className)} slidesToShow={slidesToShow} slidesToScroll={slidesToShow}>
+		<SliderComponent
+			className={clsx('comic-issue-list', className)}
+			slidesToShow={slidesToShow}
+			slidesToScroll={slidesToShow}
+		>
 			{comicIssues.map((issue) => (
 				<ComicIssueItem key={issue.id} comicIssue={issue} />
 			))}
-		</Slider>
+		</SliderComponent>
 	)
 }
 

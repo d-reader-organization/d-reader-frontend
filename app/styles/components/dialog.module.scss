@@ -1,0 +1,98 @@
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+@use '../variables/theme.module.scss' as *;
+
+.text-dialog {
+	margin: 0 !important;
+	padding: 1rem !important;
+	overflow: auto !important;
+	white-space: pre-wrap;
+	height: 100% !important;
+	max-height: 100% !important;
+	width: 100% !important;
+
+	@include sm {
+		height: unset !important;
+		max-height: calc(100% - 128px) !important;
+	}
+
+	.close-icon-wrapper {
+		z-index: 999;
+		margin-left: auto;
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		line-height: 16px;
+
+		.close-icon {
+			@include clickable;
+			width: 16px;
+			height: 16px;
+			color: white;
+			fill: white;
+		}
+	}
+}
+
+.action-dialog {
+	background-color: $grey-400;
+	overflow: hidden;
+
+	.close-icon-wrapper {
+		z-index: 999;
+		margin-left: auto;
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		line-height: 16px;
+
+		.close-icon {
+			@include clickable;
+			width: 16px;
+			height: 16px;
+			color: white;
+			fill: white;
+		}
+	}
+
+	.stars-row {
+		margin-top: 1rem;
+
+		& > *:not(:last-child) {
+			margin-right: 0.8rem;
+		}
+
+		& > * {
+			color: $yellow-500;
+		}
+	}
+
+	.dialog-content {
+		@include centeredColumn;
+		text-align: center;
+		padding: 2rem 1rem !important;
+
+		@include sm {
+			padding: 2rem 1rem !important;
+		}
+	}
+
+	.dialog-actions {
+		@include flexRow;
+
+		border-top: 2px solid $grey-600;
+
+		& > * {
+			padding: 1rem !important;
+			width: 160px;
+
+			&:hover {
+				background-color: $grey-300;
+			}
+		}
+
+		& > *:not(:last-child) {
+			border-right: 2px solid $grey-600;
+		}
+	}
+}

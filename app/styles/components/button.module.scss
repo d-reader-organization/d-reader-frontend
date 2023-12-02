@@ -18,6 +18,14 @@
 		filter: brightness(1.05);
 	}
 
+	&--naked {
+		background: transparent;
+		color: $grey-100;
+		border-radius: 0;
+		padding: 0;
+		min-width: unset;
+	}
+
 	&--bold {
 		font-weight: 600;
 	}

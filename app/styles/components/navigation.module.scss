@@ -3,7 +3,8 @@
 @use '../mixins/animations.module.scss' as *;
 @use '../variables/theme.module.scss' as *;
 
-.header-navigation {
+.header-navigation,
+.footer-navigation {
 	background: $grey-600 !important;
 	border: none !important;
 	border-radius: 0 !important;
@@ -20,6 +21,12 @@
 		position: fixed !important;
 		background-color: transparent !important;
 	}
+}
+
+.footer-navigation {
+	position: fixed !important;
+	top: unset !important;
+	bottom: 0 !important;
 }
 
 .navigation {
@@ -42,7 +49,7 @@
 		height: auto;
 
 		svg {
-			fill: white;
+			fill: $text-color;
 		}
 	}
 
@@ -57,32 +64,6 @@
 
 		&:hover {
 			filter: brightness(0.8);
-		}
-	}
-
-	a,
-	button {
-		@include clickable;
-		height: 28px;
-
-		&:hover,
-		&.active {
-			color: $important-color;
-
-			svg {
-				color: $important-color;
-			}
-		}
-
-		svg {
-			color: $grey-300;
-			height: 100%;
-			padding: 1px;
-			width: auto;
-		}
-
-		&:not(.navigation-hamburger-button) svg {
-			margin-right: 0.4rem;
 		}
 	}
 
@@ -115,6 +96,111 @@
 		a {
 			display: flex;
 			align-items: center;
+		}
+	}
+
+	.navigation-item {
+		@include clickable;
+		height: 28px;
+
+		&:hover,
+		&.active {
+			color: $important-color;
+
+			svg {
+				color: $important-color;
+			}
+		}
+
+		svg {
+			height: 100%;
+			padding: 1px;
+			width: auto;
+		}
+
+		&:not(.navigation-hamburger-button) svg {
+			margin-right: 0.5rem;
+		}
+	}
+
+	.e-reader-navigation-items {
+		@include flexRow;
+		align-items: center;
+		justify-content: space-between;
+		max-width: $md-width;
+		margin: 0 auto;
+		width: 100%;
+
+		.e-reader-navigation {
+			&--left {
+				width: 264px;
+				margin-right: auto;
+				justify-content: flex-start !important;
+			}
+
+			&--right {
+				width: 264px;
+				margin-left: auto;
+				justify-content: flex-end !important;
+			}
+		}
+
+		&:not(.navigation-hamburger-button) svg {
+			margin-right: 0.5rem;
+		}
+
+		.navigation-link {
+			&:hover {
+				color: $yellow-500 !important;
+
+				* {
+					color: $yellow-500 !important;
+				}
+			}
+		}
+
+		.e-reader-navigation-item {
+			@include centeredRow;
+			@include clickable;
+			height: 28px;
+
+			svg {
+				padding: 1px;
+				width: auto;
+			}
+
+			.arrow-right--reversed {
+				height: 18px;
+				color: $text-color;
+				transform: rotate(180deg);
+			}
+
+			.grey-100 {
+				color: $grey-100;
+			}
+		}
+
+		.switch-root {
+			border: 2px solid $grey-100 !important;
+			border-radius: 2rem !important;
+			height: 28px !important;
+			width: 52px !important;
+			padding: 0 !important;
+			margin: 0 0.5rem;
+		}
+
+		.switch-base {
+			padding: 3px;
+		}
+
+		.switch-icon {
+			height: 24px;
+			width: 24px;
+			color: $grey-200;
+
+			&--active {
+				color: $text-color;
+			}
 		}
 	}
 }
@@ -154,7 +240,7 @@
 		svg {
 			height: 24px;
 			padding: 1px;
-			margin-right: 0.4rem;
+			margin-right: 0.5rem;
 			width: auto;
 		}
 	}

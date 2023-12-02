@@ -44,9 +44,9 @@ Engage with our community of users, artists, and collectors with the trust and s
 
 export const IMPORTANT_NOTICE = `dReader web app is still under heavy development. We understand that there are bugs and missing features.
 
-The reason why we've opened the web app prematurely is so that iOS users are not discriminated as we're only live on google play store at the moment!
+The web app is opened prematurely so that iOS users until we get our mobile app on apple store!
 
-Web will get more love from our developers in 2024 as our short term focus lies elsewhere.
+We're working on improving our web experience.
 
 Appreciate the patience 👏
 Josip Volarević - founder

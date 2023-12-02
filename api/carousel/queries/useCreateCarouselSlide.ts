@@ -8,7 +8,7 @@ const { CAROUSEL, SLIDES, CREATE } = CAROUSEL_QUERY_KEYS
 
 // CreateCarouselSlideData
 const createCarouselSlide = async (request: FormData): Promise<CarouselSlide> => {
-	const response = await http.post<CarouselSlide>(`${CAROUSEL}/${SLIDES}/${CREATE}`, { request })
+	const response = await http.post<CarouselSlide>(`${CAROUSEL}/${SLIDES}/${CREATE}`, request)
 	return response.data
 }
 

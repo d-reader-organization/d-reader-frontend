@@ -15,7 +15,7 @@ import PriceTag from 'components/tags/PriceTag'
 import InfoList from 'components/ui/InfoList'
 import { useFetchCandyMachine } from 'api/candyMachine'
 // import { useFetchCandyMachine, useFetchCandyMachineReceipts } from 'api/candyMachine'
-import { useFetchComicIssue } from 'api/comicIssue'
+import { useFavouritiseComicIssue, useFetchComicIssue, useRateComicIssue } from 'api/comicIssue'
 import { roundNumber } from 'utils/numbers'
 import FlexRow from '@/components/FlexRow'
 import Button from '@/components/Button'
@@ -28,12 +28,18 @@ import Dialog from '@mui/material/Dialog'
 import { useFetchMe, useFetchUserWallets, useRequestUserEmailVerification } from '@/api/user'
 import { useToggle } from '@/hooks'
 import { useRequestWalletPassword, useConnectUserWallet } from '@/api/auth'
-import { Transaction, PublicKey, sendAndConfirmTransaction } from '@solana/web3.js'
+import { Transaction, PublicKey } from '@solana/web3.js'
 import { WALLET_LABELS } from '@/constants/wallets'
 import dynamic from 'next/dynamic'
 import bs58 from 'bs58'
 import clsx from 'clsx'
 import { useToaster } from '@/providers/ToastProvider'
+import ButtonLink from '@/components/ButtonLink'
+import { RoutePath } from '@/enums/routePath'
+import HeartIcon from '@/components/icons/HeartIcon'
+import StarIcon from '@/components/icons/StarIcon'
+import { isNil } from 'lodash'
+import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 
 interface Params {
 	id: string
@@ -47,12 +53,17 @@ const BaseWalletMultiButtonDynamic = dynamic(
 const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
+	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
+
 	const { wallet, publicKey, signMessage, signTransaction, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
 	const toaster = useToaster()
 
 	const { mutateAsync: requestWalletPassword } = useRequestWalletPassword()
 	const { mutateAsync: connectUserWallet } = useConnectUserWallet()
+	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
+		useFavouritiseComicIssue(params.id)
+	const { mutateAsync: rateComicIssue } = useRateComicIssue(params.id)
 
 	const { data: comicIssue, error } = useFetchComicIssue(params.id)
 	const { data: me } = useFetchMe()
@@ -202,26 +213,42 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 				<Container className='comic-issue-container' maxWidth='xl'>
 					<Box className='comic-issue-header'>
-						<Box className='comic-issue-page--left'>
-							<FlexRow className='comic-issue-stats' display={isMobile ? 'none' : 'inherit	'}>
-								<InfoList orientation='vertical'>
-									<Button backgroundColor='transparent' noMinWidth>
-										⭐&nbsp;<span>{roundNumber(comicIssue.stats.averageRating) || '-'}</span>
-									</Button>
-									<Button backgroundColor='transparent' noMinWidth>
-										❤️&nbsp;<span>{comicIssue.stats.favouritesCount}</span>
-									</Button>
-								</InfoList>
-							</FlexRow>
-						</Box>
+						{!isMobile && (
+							<Box className='comic-issue-page--left'>
+								<FlexRow className='comic-issue-stats'>
+									<InfoList orientation='vertical'>
+										<Button naked onClick={openStarRatingDialog}>
+											<StarIcon size='lg' solid={!isNil(comicIssue.myStats?.rating)} />
+											&nbsp;
+											<span>{roundNumber(comicIssue.stats.averageRating) || '-'}</span>
+										</Button>
+										<Button
+											naked
+											disabled={loadingToggleFavoriteComicIssue}
+											onClick={async () => {
+												await toggleFavoriteComicIssue()
+											}}
+										>
+											<HeartIcon size='lg' solid={comicIssue.myStats?.isFavourite} />
+											&nbsp;<span>{comicIssue.stats.favouritesCount}</span>
+										</Button>
+									</InfoList>
+								</FlexRow>
+							</Box>
+						)}
 
 						{!isMobile && (
 							<Box className='comic-issue-page--middle'>
 								<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
 								<FlexRow>
-									<Button backgroundColor='transparent' borderColor='grey-100' className='button--preview'>
+									<ButtonLink
+										href={RoutePath.ReadComicIssue(comicIssue.id)}
+										backgroundColor='transparent'
+										borderColor='grey-100'
+										className='button--preview'
+									>
 										Preview
-									</Button>
+									</ButtonLink>
 									{candyMachine && (
 										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 											Buy&nbsp;
@@ -273,6 +300,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 									</Box>
 								</Box>
 							)}
+
 							{candyMachine && (
 								<>
 									<FlexRow justifyContent='space-between' alignItems='center' mt={2}>
@@ -308,12 +336,41 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 									})}
 								</>
 							)}
+
+							{isMobile && (
+								<Box className='comic-issue-page--left'>
+									<FlexRow className='comic-issue-stats' display={isMobile ? 'none' : 'inherit	'}>
+										<InfoList orientation='horizontal'>
+											<Button naked onClick={openStarRatingDialog}>
+												<StarIcon size='lg' solid={!isNil(comicIssue.myStats?.rating)} />
+												&nbsp;<span>{roundNumber(comicIssue.stats.averageRating) || '-'}</span>
+											</Button>
+											<Button
+												naked
+												disabled={loadingToggleFavoriteComicIssue}
+												onClick={async () => {
+													await toggleFavoriteComicIssue()
+												}}
+											>
+												<HeartIcon size='lg' solid={comicIssue.myStats?.isFavourite} />
+												&nbsp;<span>{comicIssue.stats.favouritesCount}</span>
+											</Button>
+										</InfoList>
+									</FlexRow>
+								</Box>
+							)}
+
 							{isMobile && (
 								<Box my={2}>
 									<FlexRow>
-										<Button backgroundColor='transparent' borderColor='grey-100' className='button--preview'>
+										<ButtonLink
+											href={RoutePath.ReadComicIssue(comicIssue.id)}
+											backgroundColor='transparent'
+											borderColor='grey-100'
+											className='button--preview'
+										>
 											Preview
-										</Button>
+										</ButtonLink>
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 												Buy&nbsp;
@@ -380,6 +437,16 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					<hr />
 					<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
 				</Dialog>
+
+				<StarRatingDialog
+					title='Rate the episode'
+					open={starRatingDialog}
+					onClose={closeStarRatingDialog}
+					onSubmit={async (rating: number) => {
+						await rateComicIssue({ rating })
+						closeStarRatingDialog()
+					}}
+				/>
 			</main>
 		</>
 	)

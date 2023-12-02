@@ -131,6 +131,7 @@ function ProfilePage() {
 						security - privacy policy
 						redeem-referral get input working (get user.referrer from backend)
 						connect wallets
+						logout button
 						*/}
 						<Label isRequired>Referrer</Label>
 						<div className='description'>

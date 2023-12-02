@@ -25,7 +25,7 @@
 		.comic-genre-list {
 			@include flexRow;
 			// flex-wrap: wrap;
-			margin: 3rem 0 1rem 0;
+			margin: 2rem 0 1rem 0;
 			overflow-y: auto;
 
 			.genre-item {
@@ -106,14 +106,13 @@
 			& svg {
 				height: 18px;
 				width: 18px;
-				color: $white;
 				fill: $white;
 				@include unclickable;
 			}
 		}
 
 		.comic-stats {
-			margin: 3rem 0 1rem 0;
+			margin: 2rem 0 1rem 0;
 
 			& > *:not(:last-child) {
 				margin-left: 1rem;

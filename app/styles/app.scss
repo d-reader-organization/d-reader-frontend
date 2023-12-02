@@ -4,6 +4,8 @@
 @use 'mixins/animations.module.scss';
 
 // Components
+@use 'components/icon.module.scss';
+@use 'components/dialog.module.scss';
 @use 'components/avatar.module.scss';
 @use 'components/button-link.module.scss';
 @use 'components/button.module.scss';
@@ -49,6 +51,7 @@
 @use 'pages/login.module.scss';
 @use 'pages/not-found.module.scss';
 @use 'pages/profile.module.scss';
+@use 'pages/e-reader.module.scss';
 @use 'pages/register.module.scss';
 @use 'pages/verify-email.module.scss';
 

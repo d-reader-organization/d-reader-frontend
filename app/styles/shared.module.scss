@@ -14,7 +14,7 @@ body {
 svg {
 	height: 24px;
 	width: auto;
-	color: $grey-300;
+	color: $text-color;
 }
 
 .text--important {
@@ -166,34 +166,4 @@ p {
 
 .column--centered {
 	@include centeredColumn;
-}
-
-.text-dialog {
-	margin: 0 !important;
-	padding: 1rem !important;
-	overflow: auto !important;
-	white-space: pre-wrap;
-	height: 100% !important;
-	max-height: 100% !important;
-	width: 100% !important;
-
-	@include sm {
-		height: unset !important;
-		max-height: calc(100% - 128px) !important;
-	}
-
-	.close-icon-wrapper {
-		z-index: 999;
-		margin-left: auto;
-		position: absolute;
-		right: 1rem;
-
-		.close-icon {
-			@include clickable;
-			width: 16px;
-			height: 16px;
-			color: white;
-			fill: white;
-		}
-	}
 }

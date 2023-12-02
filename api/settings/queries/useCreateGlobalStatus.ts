@@ -7,7 +7,7 @@ import http from 'api/http'
 const { SETTINGS, GLOBAL_STATUS, CREATE } = SETTINGS_QUERY_KEYS
 
 const createGlobalStatus = async (request: CreateGlobalStatusData): Promise<GlobalStatus> => {
-	const response = await http.post<GlobalStatus>(`${SETTINGS}/${GLOBAL_STATUS}/${CREATE}`, { request })
+	const response = await http.post<GlobalStatus>(`${SETTINGS}/${GLOBAL_STATUS}/${CREATE}`, request)
 	return response.data
 }
 

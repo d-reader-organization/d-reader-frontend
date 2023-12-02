@@ -1,0 +1,33 @@
+@use '../variables/theme.module.scss' as *;
+
+.heart-icon--solid {
+	color: $red-500;
+}
+
+.star-icon--solid {
+	color: $yellow-500;
+}
+
+.icon {
+	width: auto;
+
+	&--xs {
+		height: 14px;
+	}
+
+	&--sm {
+		height: 16px;
+	}
+
+	&--md {
+		height: 18px;
+	}
+
+	&--lg {
+		height: 20px;
+	}
+
+	&--xl {
+		height: 22px;
+	}
+}
