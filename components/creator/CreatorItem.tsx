@@ -25,7 +25,7 @@ const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 					style={{ visibility: 'hidden' }}
 					className='cover-image'
 					src={creator.avatar}
-					loading='lazy'
+					loading='eager'
 					alt=''
 					fill
 				/>
@@ -39,7 +39,7 @@ const CreatorItem: React.FC<Props> = ({ creator, className, ...props }) => {
 
 	return (
 		<Box className={clsx('creator-item', className)} {...props}>
-			<Image width={60} height={60} className='creator-image' src={creator.avatar} loading='lazy' alt='' />
+			<Image width={60} height={60} className='creator-image' src={creator.avatar} loading='eager' alt='' />
 			<Box className='text-area'>
 				<Box className='creator-name-wrapper'>
 					<Typography variant='body2' className='creator-name'>

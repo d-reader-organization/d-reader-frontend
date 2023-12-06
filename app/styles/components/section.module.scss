@@ -17,6 +17,11 @@
 		@include flexRow;
 		justify-content: space-between;
 		padding-bottom: 0.5rem;
+		overflow-x: hidden;
+
+		@include xl {
+			overflow-x: visible;
+		}
 
 		.section-title {
 			text-transform: capitalize;

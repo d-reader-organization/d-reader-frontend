@@ -35,8 +35,8 @@
 }
 
 .action-dialog {
-	background-color: $grey-400;
-	overflow: hidden;
+	background-color: $grey-400 !important;
+	overflow: hidden !important;
 
 	.close-icon-wrapper {
 		z-index: 999;
@@ -80,19 +80,19 @@
 	.dialog-actions {
 		@include flexRow;
 
-		border-top: 2px solid $grey-600;
+		border-top: 2px solid $grey-600 !important;
 
 		& > * {
 			padding: 1rem !important;
-			width: 160px;
+			width: 160px !important;
 
 			&:hover {
-				background-color: $grey-300;
+				background-color: $grey-300 !important;
 			}
 		}
 
 		& > *:not(:last-child) {
-			border-right: 2px solid $grey-600;
+			border-right: 2px solid $grey-600 !important;
 		}
 	}
 }

@@ -67,6 +67,7 @@ const HeroCarousel: React.FC = () => {
 								sizes='100vw'
 								className={clsx('slide-image', isDesktop ? 'slide-image--compact' : '')}
 								priority={index === 0}
+								fetchPriority={index === 0 ? 'high' : 'low'}
 							/>
 						)}
 						<Container className='slide-text-area' maxWidth='xl'>

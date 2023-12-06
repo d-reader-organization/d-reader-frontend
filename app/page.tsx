@@ -53,6 +53,8 @@ export default function Home() {
 						<ComicList
 							params={{ skip: 0, take: take.comics, sortTag: ComicSortTag.Rating }}
 							slidesToShow={take.comicsPerPage}
+							priority
+							fetchPriority='low'
 						/>
 					</Section>
 

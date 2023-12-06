@@ -28,7 +28,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 					style={{ visibility: 'hidden' }}
 					className='cover-image'
 					src={comicIssue.cover}
-					loading='lazy'
+					loading='eager'
 					alt=''
 					fill
 				/>
@@ -52,7 +52,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
 					className='cover-image'
 					src={comicIssue.cover}
-					loading='lazy'
+					loading='eager'
 					alt=''
 					fill
 				/>

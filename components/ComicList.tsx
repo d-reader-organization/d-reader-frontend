@@ -10,9 +10,11 @@ interface Props {
 	params: ComicParams
 	slidesToShow: number
 	className?: string
+	priority?: boolean
+	fetchPriority?: 'auto' | 'high' | 'low'
 }
 
-const ComicList: React.FC<Props> = ({ params, slidesToShow, className }) => {
+const ComicList: React.FC<Props> = ({ params, slidesToShow, className, priority, fetchPriority }) => {
 	const { flatData: comics } = useFetchComics(params)
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -26,7 +28,7 @@ const ComicList: React.FC<Props> = ({ params, slidesToShow, className }) => {
 			slidesToScroll={slidesToShow}
 		>
 			{comics.map((comic) => (
-				<ComicItem key={comic.slug} comic={comic} />
+				<ComicItem key={comic.slug} comic={comic} priority={priority} fetchPriority={fetchPriority} />
 			))}
 		</SliderComponent>
 	)
