@@ -65,8 +65,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		useFavouritiseComicIssue(params.id)
 	const { mutateAsync: rateComicIssue } = useRateComicIssue(params.id)
 
-	const { data: comicIssue, error } = useFetchComicIssue(params.id)
 	const { data: me } = useFetchMe()
+	const { data: comicIssue, error } = useFetchComicIssue(params.id)
 	const { data: connectedWallets = [], isLoading, isFetched } = useFetchUserWallets(me?.id || 0)
 
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -74,8 +74,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
-
-	console.log(connectedWalletAddresses, hasWalletConnected)
 
 	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress })
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
@@ -93,25 +91,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
-	// TRANSPARENT BACKGROUND NAVIGATION
-	// TODO: It might not have a CM nor AH (offchain)
-	// console.log(candyMachine)
-	// console.log(receipts)
-	// TODO: auctionHouse
-
-	// const toggleFavorite = () => {
-	// 	console.log('Toggle favorite')
-	// }
-
-	// const toggleBookmark = () => {
-	// 	console.log('Toggle bookmark')
-	// }
-
 	const authorizeWallet = useCallback(async () => {
-		console.log(publicKey, isFetched, isLoading, hasWalletConnected)
-		console.log('TRIED!')
 		if (!publicKey || !isFetched || isLoading || hasWalletConnected) return
-		console.log('INSIDE')
 
 		const address = publicKey.toBase58()
 		const otp = await requestWalletPassword(address)
@@ -170,25 +151,23 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			let i = 0
 			for (const transaction of signedTransactions) {
 				try {
-					console.log('inside')
-					const signature = await connection.sendTransaction(transaction, {
-						skipPreflight: true,
-					})
+					const signature = await connection.sendTransaction(transaction)
 
-					console.log(signature)
 					const latestBlockhash = await connection.getLatestBlockhash()
 					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
-					console.log('response: ', response)
-					toaster.add('confirming transaction...', 'info')
+					if (!!response.value.err) {
+						console.log('Response error log: ', response.value.err)
+						throw new Error()
+					}
 					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
+					// TODO: fire confetti
 				} catch (e) {
-					console.log('ENDPOINT: ', connection.rpcEndpoint)
+					console.log('error: ', e)
 					if (signedTransactions.length === 2 && i === 0) {
 						toaster.add('Wallet is not allowlisted to mint this comic', 'error')
 					} else {
 						toaster.add('Something went wrong', 'error')
 					}
-					console.log('error: ', e)
 				}
 				i += 1
 			}

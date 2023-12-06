@@ -19,7 +19,7 @@ export const useFetchUserWallets = (id: string | number) => {
 		queryFn: () => fetchUserWallets(id),
 		queryKey: userKeys.getWallets(id),
 		staleTime: 1000 * 60 * 5, // stale for 5 minutes
-		enabled: !isNil(id) || id === 0, // TODO: fix and then apply at dPublisher
+		enabled: !isNil(id) && id !== 0, // TODO: fix and then apply at dPublisher
 		onError: toaster.onQueryError,
 	})
 }
