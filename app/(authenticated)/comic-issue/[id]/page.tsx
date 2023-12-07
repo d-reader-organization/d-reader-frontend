@@ -40,6 +40,7 @@ import HeartIcon from '@/components/icons/HeartIcon'
 import StarIcon from '@/components/icons/StarIcon'
 import { isNil } from 'lodash'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
+import { CandyMachine } from '@/models/candyMachine'
 
 interface Params {
 	id: string
@@ -75,19 +76,29 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
 
-	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress })
+	const { data: fetchedCandyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
+		candyMachineAddress,
+		walletAddress,
+	})
+	let candyMachine = fetchedCandyMachine
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
-	const getActiveGroup = useCallback(() => {
-		return candyMachine?.groups.find((group) => group.isActive)
-	}, [candyMachine])
+	const getActiveGroup = (candyMachineData: CandyMachine | undefined) => {
+		return candyMachineData?.groups.find((group) => {
+			const startDate = new Date(group.startDate)
+			const endDate = new Date(group.endDate)
+			const currentDate = new Date(new Date().toUTCString())
+
+			return startDate <= currentDate && currentDate <= endDate
+		})
+	}
 
 	const { refetch } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
-			label: getActiveGroup()?.label || '',
+			label: getActiveGroup(candyMachine)?.label || '',
 		},
 		false
 	)
@@ -143,15 +154,34 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	}, [authorizeWallet])
 
 	const handleBuyClick = async () => {
-		if (!hasWalletConnected) toggleWalletNotConnectedDialog()
-		else if (!hasVerifiedEmail) toggleEmailNotVerifiedDialog()
-		else if (!getActiveGroup()?.wallet.isEligible) {
-			return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error');
+		if (!hasWalletConnected) {
+			return toggleWalletNotConnectedDialog()
+		}
+
+		if (!hasVerifiedEmail) {
+			return toggleEmailNotVerifiedDialog()
+		}
+
+		const activeGroup = getActiveGroup(candyMachine)
+
+		if (!activeGroup?.wallet.isEligible) {
+			const { data: updatedCandyMachine } = await fetchCandyMachine()
+			candyMachine = updatedCandyMachine
+			const updatedActiveGroup = getActiveGroup(candyMachine)
+
+			if (
+				updatedActiveGroup?.wallet.itemsMinted &&
+				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
+			) {
+				return toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
+			}
+			if (!updatedActiveGroup?.wallet.isEligible) {
+				return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
+			}
 		} else {
 			const { data: mintTransactions = [] } = await refetch()
 			if (!signAllTransactions) {
-				toaster.add('Wallet does not support signing multiple transactions', 'error')
-				return
+				return toaster.add('Wallet does not support signing multiple transactions', 'error')
 			}
 			const signedTransactions = await signAllTransactions(mintTransactions)
 			let i = 0
