@@ -75,15 +75,19 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
 
-	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress })
+	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress });
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
+
+	const getActiveGroup = useCallback(()=>{
+		return candyMachine?.groups.find((group)=>group.isActive);
+	},[candyMachine])
 
 	const { refetch } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
-			label: 'dFree', // TODO: currently active group,
+			label: getActiveGroup()?.label || '',
 		},
 		false
 	)
