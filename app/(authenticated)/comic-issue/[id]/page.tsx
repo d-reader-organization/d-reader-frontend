@@ -75,13 +75,13 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
 
-	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress });
+	const { data: candyMachine } = useFetchCandyMachine({ candyMachineAddress, walletAddress })
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
-	const getActiveGroup = useCallback(()=>{
-		return candyMachine?.groups.find((group)=>group.isActive);
-	},[candyMachine])
+	const getActiveGroup = useCallback(() => {
+		return candyMachine?.groups.find((group) => group.isActive)
+	}, [candyMachine])
 
 	const { refetch } = useFetchMintOneTransaction(
 		{
@@ -145,7 +145,9 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const handleBuyClick = async () => {
 		if (!hasWalletConnected) toggleWalletNotConnectedDialog()
 		else if (!hasVerifiedEmail) toggleEmailNotVerifiedDialog()
-		else {
+		else if (!getActiveGroup()?.wallet.isEligible) {
+			return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error');
+		} else {
 			const { data: mintTransactions = [] } = await refetch()
 			if (!signAllTransactions) {
 				toaster.add('Wallet does not support signing multiple transactions', 'error')
