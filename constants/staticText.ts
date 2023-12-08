@@ -44,7 +44,7 @@ Engage with our community of users, artists, and collectors with the trust and s
 
 export const IMPORTANT_NOTICE = `dReader web app is still under heavy development. We understand that there are bugs and missing features.
 
-The web app is opened prematurely so that iOS users until we get our mobile app on apple store!
+Web is opened prematurely so iOS users are not discriminated while we're fighting to get listed on the apple store!
 
 We're working on improving our web experience.
 
