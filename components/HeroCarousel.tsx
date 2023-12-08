@@ -63,7 +63,7 @@ const HeroCarousel: React.FC = () => {
 								src={slide.image}
 								alt=''
 								fill
-								quality={100} // TODO: do we really need quality 100 here?
+								quality={isDesktop ? 100 : 90}
 								sizes='100vw'
 								className={clsx('slide-image', isDesktop ? 'slide-image--compact' : '')}
 								priority={index === 0}

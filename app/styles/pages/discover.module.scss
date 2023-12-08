@@ -69,7 +69,7 @@
 	}
 
 	.filter-box-wrapper {
-		display: none; // TODO: full screen react portal
+		display: none;
 
 		@include md {
 			display: inherit;

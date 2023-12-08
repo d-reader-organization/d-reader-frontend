@@ -45,6 +45,7 @@ function ProfilePage() {
 	const toaster = useToaster()
 	const { publicKey } = useWallet()
 	const [activeTab, setActiveTab] = useState('1')
+	const [referrer, setReferrer] = useState('')
 
 	const { data: me } = useFetchMe()
 	const { data: connectedWallets = [] } = useFetchUserWallets(me?.id || 0)
@@ -86,6 +87,10 @@ function ProfilePage() {
 		setActiveTab(newValue)
 	}
 
+	const handleReferrerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setReferrer(event.target.value)
+	}
+
 	return (
 		<>
 			<Navigation />
@@ -120,69 +125,70 @@ function ProfilePage() {
 						</TabList>
 
 						<TabPanel value='1'>
-							<Form fullWidth maxSize='sm'>
-								<div className='title-box'>
-									<h2>Account settings</h2>
-									<p>Manage your dReader user profile</p>
-								</div>
+							{me && (
+								<Form fullWidth maxSize='sm'>
+									<div className='title-box'>
+										<h2>Account settings</h2>
+										<p>Manage your dReader user profile</p>
+									</div>
 
-								<div className='profile-settings-section'>Basic details</div>
-								<Label isRequired>Email</Label>
-								<div className='description'>If changed, verification email will be sent to the new address</div>
-								<Input {...register('email')} placeholder={me?.email} />
-								<Label isRequired>Username</Label>
-								<div className='description'>
-									Must be 2 to 20 characters long. Leters, numbers, and dashes are allowed
-								</div>
-								<Input {...register('name')} placeholder={me?.name} />
-								<FormActions mobileColumn className='form-actions--mobile'>
-									{!me?.isEmailVerified && (
+									<div className='profile-settings-section'>Basic details</div>
+									<Label isRequired>Email</Label>
+									<div className='description'>If changed, verification email will be sent to the new address</div>
+									<Input {...register('email')} placeholder={me.email} />
+									<Label isRequired>Username</Label>
+									<div className='description'>
+										Must be 2 to 20 characters long. Leters, numbers, and dashes are allowed
+									</div>
+									<Input {...register('name')} placeholder={me.name} />
+									<FormActions mobileColumn className='form-actions--mobile'>
+										{!me.isEmailVerified && (
+											<Button
+												onClick={async () => {
+													await requestUserEmailVerification()
+												}}
+												bold={false}
+												className='action-button'
+											>
+												Resend verification email
+											</Button>
+										)}
 										<Button
-											onClick={async () => {
-												await requestUserEmailVerification()
-											}}
 											bold={false}
+											type='submit'
+											onClick={onSubmitClick}
+											backgroundColor='yellow-500'
 											className='action-button'
 										>
-											Resend verification email
+											Save
 										</Button>
+									</FormActions>
+
+									{me.hasBetaAccess && (
+										<>
+											<div className='profile-settings-section'>Other</div>
+
+											<Label isRequired>Referrer</Label>
+											<div className='description'>
+												Type in the username, email, or wallet address from your referrer to unlock all the features
+											</div>
+											<FlexRow className='input-row'>
+												<Input placeholder='username or wallet address' onChange={handleReferrerChange} />
+												<Button
+													onClick={async () => {
+														if (referrer) await redeemReferral(referrer)
+													}}
+													bold={false}
+													backgroundColor='yellow-500'
+													className='action-button'
+												>
+													Redeem
+												</Button>
+											</FlexRow>
+										</>
 									)}
-									<Button
-										bold={false}
-										type='submit'
-										onClick={onSubmitClick}
-										backgroundColor='yellow-500'
-										className='action-button'
-									>
-										Save
-									</Button>
-								</FormActions>
-								<div className='profile-settings-section'>Other</div>
-								{/*
-						TODO: Avatar
-						update email new endpoint
-						update password
-						security - privacy policy
-						redeem-referral get input working (get user.referrer from backend)
-						*/}
-								<Label isRequired>Referrer</Label>
-								<div className='description'>
-									Type in the username, email, or wallet address from your referrer to unlock all the features
-								</div>
-								<FlexRow className='input-row'>
-									<Input placeholder='username or wallet address' />
-									<Button
-										onClick={async () => {
-											await redeemReferral('')
-										}}
-										bold={false}
-										backgroundColor='yellow-500'
-										className='action-button'
-									>
-										Redeem
-									</Button>
-								</FlexRow>
-							</Form>
+								</Form>
+							)}
 						</TabPanel>
 
 						{/* <TabPanel value='2'>

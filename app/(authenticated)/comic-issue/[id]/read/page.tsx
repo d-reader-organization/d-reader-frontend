@@ -20,8 +20,9 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 
 	useAuthenticatedRoute()
 
-	// TODO: skeleton loading images
-	// TODO: if the screen is large, offer the 'zoom' option
+	// TODO:
+	// - skeleton loading images
+	// - if the screen is large, offer the 'zoom' option
 	// const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
 	if (!pages || !comicIssue) return null

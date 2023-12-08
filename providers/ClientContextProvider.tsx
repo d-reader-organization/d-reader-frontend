@@ -34,9 +34,6 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 	const autoConnect = pathname.startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
 	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
 
-	// TODO: if there is a user connected and if there is a wallet connected
-	// check if the wallet is assigned to the user on backend and if not, prompt to sign a message
-
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
