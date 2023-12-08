@@ -6,7 +6,7 @@
 	margin: 0 auto;
 	@include pagePadding(10px, 20px, 40px, 40px);
 
-	.title {
+	.title-box {
 		padding: 2rem 0;
 
 		@include sm {
@@ -21,7 +21,7 @@
 	.tab-button {
 		text-transform: capitalize !important;
 		font-weight: bold;
-		color: white !important;
+		color: $grey-100 !important;
 
 		font-size: 1rem;
 
@@ -30,7 +30,7 @@
 		}
 
 		&--active {
-			color: $grey-100 !important;
+			color: white !important;
 			border-color: red !important;
 		}
 	}
@@ -66,6 +66,43 @@
 			@include sm {
 				min-width: 120px;
 			}
+		}
+	}
+
+	.wallet-list {
+		border: 1px solid $grey-300;
+		border-radius: 1rem;
+
+		li {
+			padding: 1rem;
+
+			@include md {
+				padding: 1rem 2rem;
+			}
+
+			&:not(:last-child) {
+				border-bottom: 1px solid $grey-300;
+			}
+		}
+
+		.wallet-item {
+			@include flexRow;
+			justify-content: space-between;
+
+			&--active {
+				color: $yellow-500;
+			}
+		}
+
+		.wallet-adapter-dropdown,
+		.wallet-adapter-button,
+		.wallet-adapter-dropdown-list {
+			width: 100%;
+		}
+
+		.close-icon {
+			width: 16px;
+			height: 16px;
 		}
 	}
 }

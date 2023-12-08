@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -27,20 +27,18 @@ import { useFetchMintOneTransaction } from '@/api/transaction'
 import Dialog from '@mui/material/Dialog'
 import { useFetchMe, useFetchUserWallets, useRequestUserEmailVerification } from '@/api/user'
 import { useToggle } from '@/hooks'
-import { useRequestWalletPassword, useConnectUserWallet } from '@/api/auth'
-import { Transaction, PublicKey } from '@solana/web3.js'
 import { WALLET_LABELS } from '@/constants/wallets'
-import dynamic from 'next/dynamic'
-import bs58 from 'bs58'
-import clsx from 'clsx'
 import { useToaster } from '@/providers/ToastProvider'
 import ButtonLink from '@/components/ButtonLink'
 import { RoutePath } from '@/enums/routePath'
 import HeartIcon from '@/components/icons/HeartIcon'
 import StarIcon from '@/components/icons/StarIcon'
-import { isNil } from 'lodash'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 import { CandyMachine } from '@/models/candyMachine'
+import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
+import { isNil } from 'lodash'
+import dynamic from 'next/dynamic'
+import clsx from 'clsx'
 
 interface Params {
 	id: string
@@ -56,19 +54,17 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
 
-	const { wallet, publicKey, signMessage, signTransaction, signAllTransactions } = useWallet()
+	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
 	const toaster = useToaster()
 
-	const { mutateAsync: requestWalletPassword } = useRequestWalletPassword()
-	const { mutateAsync: connectUserWallet } = useConnectUserWallet()
 	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
 		useFavouritiseComicIssue(params.id)
 	const { mutateAsync: rateComicIssue } = useRateComicIssue(params.id)
 
 	const { data: me } = useFetchMe()
 	const { data: comicIssue, error } = useFetchComicIssue(params.id)
-	const { data: connectedWallets = [], isLoading, isFetched } = useFetchUserWallets(me?.id || 0)
+	const { data: connectedWallets = [] } = useFetchUserWallets(me?.id || 0)
 
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
@@ -83,6 +79,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	let candyMachine = fetchedCandyMachine
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
+
+	useAuthorizeWallet()
 
 	const getActiveGroup = (candyMachineData: CandyMachine | undefined) => {
 		return candyMachineData?.groups.find((group) => {
@@ -105,53 +103,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-
-	const authorizeWallet = useCallback(async () => {
-		if (!publicKey || !isFetched || isLoading || hasWalletConnected) return
-
-		const address = publicKey.toBase58()
-		const otp = await requestWalletPassword(address)
-		const message = new TextEncoder().encode(otp)
-
-		let encoding = ''
-		// If wallet supports message signing, go with that option
-		if (signMessage && wallet?.adapter.name !== 'Ledger') {
-			const signedMessage = await signMessage(message)
-			encoding = bs58.encode(signedMessage)
-		}
-		// Otherwise sign a transaction with OTP stored in its instruction
-		else if (signTransaction) {
-			const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash()
-
-			const transaction = new Transaction({ feePayer: publicKey, blockhash, lastValidBlockHeight }).add({
-				keys: [],
-				programId: PublicKey.default,
-				data: Buffer.from(message),
-			})
-
-			const signedTransaction = await signTransaction(transaction)
-			encoding = bs58.encode(signedTransaction.serialize())
-		} else throw new Error('Wallet does not support message or transaction signing!')
-
-		await connectUserWallet({ address, encoding })
-	}, [
-		publicKey,
-		isFetched,
-		isLoading,
-		hasWalletConnected,
-		requestWalletPassword,
-		signMessage,
-		wallet?.adapter.name,
-		signTransaction,
-		connectUserWallet,
-		connection,
-	])
-
-	// Trigger this useEffect only if it's not a mobile device
-	// otherwise, show a "verify wallet" button or use a custom "Connect and Sign" button
-	useEffect(() => {
-		authorizeWallet()
-	}, [authorizeWallet])
 
 	const handleBuyClick = async () => {
 		if (!hasWalletConnected) {

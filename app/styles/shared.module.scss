@@ -167,3 +167,6 @@ p {
 .column--centered {
 	@include centeredColumn;
 }
+.MuiTabPanel-root {
+	padding: 0 !important;
+}

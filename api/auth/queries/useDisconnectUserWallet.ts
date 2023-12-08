@@ -18,7 +18,7 @@ export const useDisconnectUserWallet = () => {
 	return useMutation({
 		mutationFn: (address: string) => disconnectUserWallet(address),
 		onSuccess: () => {
-			toaster.add('Wallet connected!', 'success')
+			toaster.add('Wallet disconnected!', 'success')
 			queryClient.invalidateQueries({
 				predicate: (query) => {
 					return (

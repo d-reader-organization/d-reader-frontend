@@ -77,7 +77,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<UserAuthProvider>
 						<ToastProvider>
 							<CssBaseline />
-							<div className='container'>{children}</div>
+							App is under attack. We went on a coffee break in hopes of attack stopping by the time we are back.
+							<br />
+							Thank you for your patience
+							{/* <div className='container'>{children}</div> */}
 						</ToastProvider>
 					</UserAuthProvider>
 				</ClientContext>
