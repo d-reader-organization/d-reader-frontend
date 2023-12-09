@@ -13,13 +13,14 @@ const fetchUseComicIssueNftTransaction = async (params: UseComicIssueNftParams):
 	return decodeTransaction(response.data, 'base64')
 }
 
-export const useFetchUseComicIssueNftTransaction = (params: UseComicIssueNftParams) => {
+export const useFetchUseComicIssueNftTransaction = (params: UseComicIssueNftParams, enabled = true) => {
 	const toaster = useToaster()
 
 	return useQuery({
 		queryFn: () => fetchUseComicIssueNftTransaction(params),
 		queryKey: transactionKeys.useComicIssueNft(params),
-		staleTime: 1000 * 60 * 10, // stale for 10 minutes
+		staleTime: 1000 * 60 * 10, // stale for 10 minutes,
+		enabled,
 		onError: toaster.onQueryError,
 	})
 }
