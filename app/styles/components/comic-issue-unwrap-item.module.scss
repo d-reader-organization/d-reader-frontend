@@ -21,8 +21,18 @@
         cursor: pointer;
         margin-bottom: 4px;
         width: 30%;
-    }
+        height: 50px;
 
+        .loader {
+            height: 25px;
+            width: 25px;        
+        }
+
+        .loader--root{
+            height: fit-content !important;
+            width: fit-content !important;
+        }
+    }
     svg {
         height: 12px;
         width: 12px;

@@ -358,14 +358,25 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							{isMobile && (
 								<Box my={2}>
 									<FlexRow>
-										<ButtonLink
-											href={RoutePath.ReadComicIssue(comicIssue.id)}
-											backgroundColor='transparent'
-											borderColor='grey-100'
-											className='button--preview'
-										>
-											Preview
-										</ButtonLink>
+										{!comicIssue.myStats.canRead && nfts && nfts.length > 0 ? (
+											<Button
+												onClick={handleTriggerUnwrap}
+												backgroundColor='transparent'
+												borderColor='grey-100'
+												className='button--preview'
+											>
+												Unwrap
+											</Button>
+										) : (
+											<ButtonLink
+												href={RoutePath.ReadComicIssue(comicIssue.id)}
+												backgroundColor='transparent'
+												borderColor='grey-100'
+												className='button--preview'
+											>
+												{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+											</ButtonLink>
+										)}
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 												Buy&nbsp;

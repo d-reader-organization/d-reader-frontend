@@ -10,6 +10,8 @@ import LegendaryRarityIcon from 'public/assets/vector-icons/legendary-rarity-ico
 import EpicRarityIcon from 'public/assets/vector-icons/epic-rarity-icon.svg'
 import CommonRarityIcon from 'public/assets/vector-icons/common-rarity-icon.svg'
 import UncommonRarityIcon from 'public/assets/vector-icons/uncommon-rarity-icon.svg'
+import { useState } from 'react'
+import { CircularProgress } from '@mui/material'
 
 interface Props {
 	nft: Nft
@@ -19,6 +21,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 	const { signTransaction } = useWallet()
 	const { connection } = useConnection()
 	const toaster = useToaster()
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
@@ -30,16 +33,25 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 
 	const handleUnwrap = async () => {
 		if (signTransaction) {
-			const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
-			if (unwrapTransaction) {
-				const latestBlockhash = await connection.getLatestBlockhash()
-				const signedTransaction = await signTransaction(unwrapTransaction)
-				const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-				const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
-				if (!!response.value.err) {
-					console.log('Response error log: ', response.value.err)
-					toaster.add('Error unwrapping comic', 'error')
+			try {
+				setIsLoading(true)
+				const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
+				if (unwrapTransaction) {
+					const latestBlockhash = await connection.getLatestBlockhash()
+					const signedTransaction = await signTransaction(unwrapTransaction)
+					const signature = await connection.sendRawTransaction(signedTransaction.serialize())
+					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+					if (!!response.value.err) {
+						console.log('Response error log: ', response.value.err)
+						toaster.add('Error unwrapping comic', 'error')
+						throw Error()
+					}
+					toaster.add('Hooray! 🎉 Your comic adventure begins now. Enjoy the journey!', 'success')
 				}
+			} catch (e) {
+				console.error('Error unwrapping comic', e)
+			} finally {
+				setIsLoading(false)
 			}
 		}
 	}
@@ -96,7 +108,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 				</div>
 			</div>
 			<Button className='button--unwrap' noMinWidth onClick={handleUnwrap}>
-				Open
+				{isLoading ? <CircularProgress thickness={6} classes={{ svg: 'loader', root: 'loader--root' }} /> : 'Open'}
 			</Button>
 		</div>
 	)
