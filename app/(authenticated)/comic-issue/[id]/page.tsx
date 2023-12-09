@@ -147,7 +147,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						throw new Error()
 					}
 					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
-					// TODO: fire confetti
 				} catch (e) {
 					console.log('error: ', e)
 					if (signedTransactions.length === 2 && i === 0) {

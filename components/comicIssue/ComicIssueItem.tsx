@@ -24,7 +24,7 @@ const ComicIssueItem: React.FC<Props> = ({ comicIssue, className, ...props }) =>
 				<Skeleton variant='rectangular' width='100%' height='100%' className='cover-image' />
 				<Image
 					sizes='(max-width: 580px) 100vw,(max-width: 900px) 50vw,(max-width: 1200)33vw,25vw'
-					onLoadingComplete={() => setIsLoaded(true)}
+					onLoad={() => setIsLoaded(true)}
 					style={{ visibility: 'hidden' }}
 					className='cover-image'
 					src={comicIssue.cover}

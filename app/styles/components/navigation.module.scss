@@ -8,13 +8,19 @@
 	background: $grey-600 !important;
 	border: none !important;
 	border-radius: 0 !important;
-	transition: background-color 0.3s !important;
+	transition:
+		background-color 0.3s,
+		opacity 0.5s !important;
 	position: sticky !important; // on mobile maybe it should be fixed
 	padding: 0 !important;
 
-	&--with-background {
+	&--blurred {
 		backdrop-filter: blur(10px) !important;
 		background: rgba($grey-500, 0.75) !important;
+	}
+
+	&--hidden {
+		opacity: 0 !important;
 	}
 
 	&--fixed {
@@ -27,6 +33,10 @@
 	position: fixed !important;
 	top: unset !important;
 	bottom: 0 !important;
+
+	&--hidden {
+		opacity: 0 !important;
+	}
 }
 
 .navigation {
@@ -244,4 +254,14 @@
 			width: auto;
 		}
 	}
+}
+
+.end-of-page-anchor {
+	position: absolute;
+	background-color: red;
+	bottom: 0;
+}
+
+.container {
+	position: relative;
 }

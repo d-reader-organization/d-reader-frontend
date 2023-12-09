@@ -1,4 +1,4 @@
-;('')
+'use client'
 
 import React from 'react'
 import Toolbar, { ToolbarProps } from '@mui/material/Toolbar'
@@ -20,7 +20,7 @@ import HeartIcon from '../icons/HeartIcon'
 import StarIcon from '../icons/StarIcon'
 import { isNil } from 'lodash'
 import Button from '../Button'
-import { useToggle } from '@/hooks'
+import { useOnScreen, useToggle } from '@/hooks'
 import StarRatingDialog from '../dialogs/StarRatingDialog'
 import { useFavouritiseComicIssue, useRateComicIssue } from '@/api/comicIssue'
 
@@ -29,18 +29,16 @@ interface Props extends ToolbarProps {
 }
 
 const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
-	// const [scrollTarget, setScrollTarget] = useState<Node | Window | undefined>()
-	const trigger = useScrollTrigger({ threshold: 0, disableHysteresis: false })
+	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: true })
+	const [, touchingPageBottom, pageBottomRef] = useOnScreen()
+	const hideNavigation = trigger && !touchingPageBottom
+
 	const [isInfiniteScrollView, setIsInfiniteScrollView] = useLocalStorage('isInfiniteScrollView', true)
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
 
 	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
 		useFavouritiseComicIssue(comicIssue.id)
 	const { mutateAsync: rateComicIssue } = useRateComicIssue(comicIssue.id)
-
-	// console.log(trigger)
-	// TODO: FIX THE DAMN TRIGGER
-	// TODO: page by page reading mode
 
 	const commands = (
 		<FlexRow className='e-reader-navigation--right'>
@@ -89,7 +87,13 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 
 	return (
 		<>
-			<AppBar className={clsx('header-navigation header-navigation--reader', trigger && 'header--with-background')}>
+			<AppBar
+				className={clsx(
+					'header-navigation',
+					'header-navigation--reader',
+					hideNavigation && 'header-navigation--hidden'
+				)}
+			>
 				<Toolbar component='nav' className='navigation' {...props}>
 					<Box className='e-reader-navigation-items'>
 						<Hidden mdUp>
@@ -101,7 +105,6 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 								<span className='grey-100'>{comicIssue.title}</span>
 							</Link>
 						</Hidden>
-
 						<Hidden mdDown>
 							<Link
 								href={RoutePath.ComicIssue(comicIssue.id)}
@@ -115,7 +118,6 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 								<strong>EP {comicIssue.number}</strong>&nbsp;&nbsp;<span className='grey-100'>{comicIssue.title}</span>
 							</Link>
 						</Hidden>
-
 						<Hidden smDown>{commands}</Hidden>
 					</Box>
 				</Toolbar>
@@ -124,13 +126,15 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 			<Hidden smUp>
 				<AppBar
 					component='footer'
-					className={clsx('footer-navigation footer-navigation--reader', trigger && 'footer--with-background')}
+					className={clsx('footer-navigation footer-navigation--reader', hideNavigation && 'footer-navigation--hidden')}
 				>
 					<Toolbar component='nav' className='navigation' {...props}>
 						<Box className='e-reader-navigation-items'>{commands}</Box>
 					</Toolbar>
 				</AppBar>
 			</Hidden>
+
+			<div ref={pageBottomRef} className='end-of-page-anchor' />
 		</>
 	)
 }

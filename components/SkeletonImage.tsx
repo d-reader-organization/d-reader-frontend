@@ -36,7 +36,7 @@ const SkeletonImage: React.FC<Props> = ({
 					src={src}
 					width={width}
 					height={height}
-					onLoadingComplete={() => {
+					onLoad={() => {
 						setIsLoaded(true)
 						if (typeof onLoaded === 'function') {
 							onLoaded()

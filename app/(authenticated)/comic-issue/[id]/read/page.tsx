@@ -23,6 +23,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 	// TODO:
 	// - skeleton loading images
 	// - if the screen is large, offer the 'zoom' option
+	// - page by page reading mode
 	// const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
 	if (!pages || !comicIssue) return null
@@ -42,6 +43,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 								alt={`Page ${page.pageNumber}`}
 								style={{ width: '100%', height: 'auto' }}
 								loading='eager'
+								className='e-reader-comic-page'
 							/>
 						</div>
 					))}

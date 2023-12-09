@@ -18,13 +18,12 @@ import { RoutePath } from 'enums/routePath'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-// import http from 'api/http'
 import clsx from 'clsx'
 import IconLink from '../IconLink'
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
-	const trigger = useScrollTrigger({ threshold: 0, disableHysteresis: false })
+	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: false })
 	const pathname = usePathname()
 
 	const isHome = pathname === RoutePath.Home
@@ -36,8 +35,8 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 		<AppBar
 			className={clsx(
 				'header-navigation',
-				trigger && 'header--with-background',
-				(isDiscover || isHome) && false && 'header--fixed'
+				trigger && 'header-navigation--blurred',
+				(isDiscover || isHome) && 'header--fixed'
 			)}
 		>
 			<Toolbar component='nav' className='navigation' {...props}>
@@ -115,7 +114,6 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							Profile
 						</Link>
 					</Hidden>
-					{/* <WalletButtonDynamic http={http} className='wallet-button' /> */}
 				</Box>
 			</Toolbar>
 		</AppBar>

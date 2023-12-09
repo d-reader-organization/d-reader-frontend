@@ -41,4 +41,8 @@
 			font-weight: bold;
 		}
 	}
+
+	.e-reader-comic-page {
+		@include unclickable;
+	}
 }
