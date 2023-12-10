@@ -11,13 +11,12 @@ const updateUserAvatar = async (id: string | number, request: FormData): Promise
 	return response.data
 }
 
-export const useUpdateUserAvatar = (id: string) => {
+export const useUpdateUserAvatar = (id: string | number) => {
 	const toaster = useToaster()
 	const queryClient = useQueryClient()
 
 	return useMutation({
 		mutationFn: (updateData: FormData) => updateUserAvatar(id, updateData),
-
 		onSuccess: () => {
 			toaster.add('Avatar updated!', 'success')
 			queryClient.invalidateQueries(userKeys.get(id))

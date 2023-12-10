@@ -4,7 +4,7 @@ export interface User {
 	id: number
 	name: string
 	email: string
-	avatar: boolean
+	avatar: string
 	isEmailVerified: boolean
 	hasBetaAccess: boolean
 	referralsRemaining: number
@@ -14,3 +14,5 @@ export interface User {
 export interface UpdateUserData extends Partial<Pick<User, 'email' | 'name'>> {
 	referrer?: string
 }
+
+export type UpdateUserAvatarData = Partial<{ avatar: File }>

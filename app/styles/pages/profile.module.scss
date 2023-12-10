@@ -100,9 +100,28 @@
 			width: 100%;
 		}
 
+		.wallet-adapter-button {
+			background: $grey-100 !important;
+		}
+
 		.close-icon {
 			width: 16px;
 			height: 16px;
 		}
+	}
+
+	.avatar-upload {
+		border-radius: 90%;
+		width: 120px;
+		height: 120px;
+		margin-bottom: 0;
+
+		.preview-image {
+			border-radius: 90%;
+		}
+	}
+
+	.update-avatar-button {
+		width: min-content;
 	}
 }
