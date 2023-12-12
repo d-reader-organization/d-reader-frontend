@@ -271,13 +271,13 @@ function ProfilePage() {
 												)}
 											>
 												<span>{shortenString(wallet.address)}</span>
-												<Button naked>
-													<CloseIcon
-														className='close-icon'
-														onClick={async () => {
-															await disconnectWallet(wallet.address)
-														}}
-													/>
+												<Button
+													onClick={async () => {
+														await disconnectWallet(wallet.address)
+													}}
+													naked
+												>
+													<CloseIcon className='close-icon' />
 												</Button>
 											</li>
 										)

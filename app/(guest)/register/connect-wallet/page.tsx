@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback } from 'react'
 import Header from 'components/layout/Header'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
 import { WHAT_IS_A_WALLET, WHY_DO_I_NEED_A_WALLET } from '@/constants/staticText'
@@ -38,10 +39,12 @@ export default function ConnectWalletPage() {
 	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 
-	useAuthenticatedRoute()
-	useAuthorizeWallet(() => {
+	const moveToNextPage = useCallback(() => {
 		router.push(RoutePath.RegisterEmailVerification)
-	})
+	}, [router])
+
+	useAuthenticatedRoute()
+	useAuthorizeWallet(moveToNextPage)
 
 	if (hasWalletConnected) {
 		router.push(RoutePath.RegisterEmailVerification)
