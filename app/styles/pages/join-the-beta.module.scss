@@ -1,0 +1,67 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.join-the-beta-page {
+	@include flexColumn;
+	align-items: center;
+	margin-top: 3rem;
+
+	@include md-height {
+		margin-top: 5rem;
+	}
+
+	.title {
+		padding: 1rem 0;
+	}
+
+	.input-row {
+		.input-wrapper {
+			margin-bottom: 0;
+			margin-right: 0.5rem;
+			width: 100%;
+		}
+
+		.button {
+			min-width: 80px;
+
+			@include sm {
+				min-width: 120px;
+			}
+		}
+	}
+
+	.links-container {
+		background-color: $grey-500;
+		border-radius: 0.5rem;
+		text-align: center;
+		padding: 1rem;
+		margin-top: 2rem;
+		width: 100%;
+
+		.links-container-title {
+			margin: 0;
+			font-weight: bold;
+		}
+
+		.description {
+			font-weight: 400;
+			margin-bottom: 12px;
+			font-size: 14px;
+			line-height: 18px;
+			color: $grey-100;
+		}
+
+		.invite-button {
+			width: 100%;
+
+			&:not(:last-child) {
+				margin-right: 1rem;
+			}
+		}
+
+		.button-icon {
+			margin-right: 0.5rem;
+		}
+	}
+}

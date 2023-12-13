@@ -163,7 +163,7 @@ function ProfilePage() {
 												<Label isRequired tooltipText={'test test'}>
 													Update avatar image
 												</Label>
-												<div className='description'>Recommended size is 500 x 500px, 3mb max size</div>
+												<p className='description'>Recommended size is 500 x 500px, 3mb max size</p>
 												<Button
 													bold={false}
 													type='submit'
@@ -192,12 +192,12 @@ function ProfilePage() {
 									</Form>
 									<Form fullWidth>
 										<Label isRequired>Email</Label>
-										<div className='description'>If changed, verification email will be sent to the new address</div>
+										<p className='description'>If changed, verification email will be sent to the new address</p>
 										<Input {...register('email')} placeholder={me.email} />
 										<Label isRequired>Username</Label>
-										<div className='description'>
+										<p className='description'>
 											Must be 2 to 20 characters long. Leters, numbers, and dashes are allowed
-										</div>
+										</p>
 										<Input {...register('name')} placeholder={me.name} />
 										<FormActions mobileColumn className='form-actions--mobile'>
 											{!me.isEmailVerified && (
@@ -227,9 +227,9 @@ function ProfilePage() {
 												<div className='profile-settings-section'>Other</div>
 
 												<Label isRequired>Referrer</Label>
-												<div className='description'>
+												<p className='description'>
 													Type in the username, email, or wallet address from your referrer to unlock all the features
-												</div>
+												</p>
 												<FlexRow className='input-row'>
 													<Input placeholder='username or wallet address' onChange={handleReferrerChange} />
 													<Button

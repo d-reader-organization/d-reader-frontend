@@ -20,8 +20,6 @@
 
 	.input {
 		width: 100%;
-		padding: 16px;
-		padding-left: 16px;
 		border: 1px solid $grey-300;
 		border-radius: 8px;
 		background: $grey-500;
@@ -29,6 +27,13 @@
 		font-weight: 500;
 		font-size: 16px;
 		line-height: 19px;
+		padding: 14px;
+		padding-left: 14px;
+
+		@include sm {
+			padding: 16px;
+			padding-left: 16px;
+		}
 
 		&::placeholder {
 			color: $grey-100;

@@ -66,14 +66,14 @@ export default function RegisterUserPage() {
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
-					<div className='description'>2-20 characters. Letters, numbers, and dashes are allowed</div>
+					<p className='description'>2-20 characters. Letters, numbers, and dashes are allowed</p>
 					<Input {...register('name')} placeholder='john-doe' />
 
 					<Label isRequired>Email</Label>
 					<Input {...register('email')} placeholder='john.doe@dreader.io' />
 
 					<Label isRequired>Password</Label>
-					<div className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</div>
+					<p className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</p>
 					<Input {...register('password')} type='password' placeholder='********' />
 
 					<FormActions centered>
