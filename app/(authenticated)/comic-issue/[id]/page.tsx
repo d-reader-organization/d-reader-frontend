@@ -40,8 +40,8 @@ import { isNil } from 'lodash'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
-import { useFetchNfts } from '@/api/nft'
 import { shortenString } from '@/utils/helpers'
+import { useFetchNfts } from '@/api/nft'
 
 interface Params {
 	id: string
@@ -110,10 +110,10 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			ownerAddress: walletAddress,
 			comicIssueId: params.id,
 		},
-		!!publicKey
+		!!walletAddress
 	)
 
-	const handleTriggerUnwrap = async () => {
+	const handleOpenUnwrapDialog = async () => {
 		await fetchNfts()
 		openUnwrapIssueDialog()
 	}
@@ -222,25 +222,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							<Box className='comic-issue-page--middle'>
 								<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
 								<FlexRow>
-									{!comicIssue.myStats.canRead && nfts.length > 0 ? (
-										<Button
-											onClick={handleTriggerUnwrap}
-											backgroundColor='transparent'
-											borderColor='grey-100'
-											className='button--preview'
-										>
-											Unwrap (& read)
-										</Button>
-									) : (
-										<ButtonLink
-											href={RoutePath.ReadComicIssue(comicIssue.id)}
-											backgroundColor='transparent'
-											borderColor='grey-100'
-											className='button--preview'
-										>
-											{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
-										</ButtonLink>
-									)}
+									<ButtonLink
+										href={RoutePath.ReadComicIssue(comicIssue.id)}
+										backgroundColor='transparent'
+										borderColor='grey-100'
+										className='button--preview'
+									>
+										{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+									</ButtonLink>
 									{candyMachine && (
 										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 											Buy&nbsp;
@@ -254,6 +243,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										</Button>
 									)}
 								</FlexRow>
+								{!comicIssue.myStats.canRead && nfts.length > 0 ? (
+									<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
+										Unwrap
+									</Button>
+								) : null}
 							</Box>
 						)}
 
@@ -355,25 +349,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							{isMobile && (
 								<Box my={2}>
 									<FlexRow>
-										{!comicIssue.myStats.canRead && nfts && nfts.length > 0 ? (
-											<Button
-												onClick={handleTriggerUnwrap}
-												backgroundColor='transparent'
-												borderColor='grey-100'
-												className='button--preview'
-											>
-												Unwrap
-											</Button>
-										) : (
-											<ButtonLink
-												href={RoutePath.ReadComicIssue(comicIssue.id)}
-												backgroundColor='transparent'
-												borderColor='grey-100'
-												className='button--preview'
-											>
-												{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
-											</ButtonLink>
-										)}
+										<ButtonLink
+											href={RoutePath.ReadComicIssue(comicIssue.id)}
+											backgroundColor='transparent'
+											borderColor='grey-100'
+											className='button--preview'
+										>
+											{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+										</ButtonLink>
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 												Buy&nbsp;
@@ -387,6 +370,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											</Button>
 										)}
 									</FlexRow>
+									{!comicIssue.myStats.canRead && nfts.length > 0 ? (
+										<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
+											Unwrap
+										</Button>
+									) : null}
 								</Box>
 							)}
 						</Box>

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import Container from '@mui/material/Container'
 // import useMediaQuery from '@mui/material/useMediaQuery'
 // import { Theme } from '@mui/material/styles'
@@ -9,6 +9,11 @@ import EReaderNavigation from '@/components/layout/EReaderNavigation'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import PreviewPagesIcon from 'public/assets/vector-icons/preview-pages-icon.svg'
 import Image from 'next/image'
+import { useToggle } from '@/hooks'
+import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
+import { useFetchNfts } from '@/api/nft'
+import { useWallet } from '@solana/wallet-adapter-react'
+import { Nft } from '@/models/nft'
 
 interface Params {
 	id: string
@@ -17,8 +22,27 @@ interface Params {
 const ReadComicIssuePage = ({ params }: { params: Params }) => {
 	const { data: pages = [] } = useFetchComicIssuePages(params.id)
 	const { data: comicIssue } = useFetchComicIssue(params.id)
+	const [unwrapIssueDialog, , closeUnwrapIssueDialog, openUnwrapIssueDialog] = useToggle()
 
 	useAuthenticatedRoute()
+	const { publicKey } = useWallet()
+	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts(
+		{
+			ownerAddress: publicKey?.toString(),
+			comicIssueId: params.id,
+		},
+		!!publicKey
+	)
+
+	const haveUnusedNfts = (nfts: Nft[]) => nfts.find((nft) => !nft.isUsed)
+	const handleOpenUnwrapDialog = useCallback(async () => {
+		await fetchNfts()
+		openUnwrapIssueDialog()
+	}, [fetchNfts, openUnwrapIssueDialog])
+
+	if (publicKey && haveUnusedNfts(nfts)) {
+		handleOpenUnwrapDialog()
+	}
 
 	// TODO:
 	// - skeleton loading images
@@ -64,6 +88,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 							</div>
 						</div>
 					)}
+					<UnwrapIssueDialog nfts={nfts} open={unwrapIssueDialog} onClose={closeUnwrapIssueDialog} />
 				</Container>
 			</main>
 		</>

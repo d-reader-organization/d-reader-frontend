@@ -1,11 +1,11 @@
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 import CloseIcon from 'public/assets/vector-icons/close.svg'
-import { Nft } from '@/models/nft'
 import UnwrapIssueDialogItem from '../comicIssue/UnwrapIssueDialogItem'
+import { Nft } from '@/models/nft'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
-	nfts?: Nft[]
+	nfts: Nft[]
 }
 
 const UnwrapIssueDialog: React.FC<Props> = ({ nfts, onClose, open, ...props }) => {
@@ -25,7 +25,7 @@ const UnwrapIssueDialog: React.FC<Props> = ({ nfts, onClose, open, ...props }) =
 			<div className='dialog-content'>
 				<strong>Choose to open</strong>
 				<p>In order to read comic issue you need to open it from its package.</p>
-				{nfts?.map((nft) => <UnwrapIssueDialogItem key={nft.address} nft={nft} />)}
+				{nfts?.map((nft) => (!nft.isUsed ? <UnwrapIssueDialogItem key={nft.address} nft={nft} /> : null))}
 			</div>
 		</Dialog>
 	)
