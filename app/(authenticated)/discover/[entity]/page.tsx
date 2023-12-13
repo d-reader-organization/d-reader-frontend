@@ -151,7 +151,6 @@ function DiscoverPage({ params }: { params: Params }) {
 						<input
 							value={searchString}
 							type='text'
-							name='search'
 							placeholder='Search comics, episodes, games, and creators'
 							onChange={(e) => {
 								setSearchString(e.target.value)

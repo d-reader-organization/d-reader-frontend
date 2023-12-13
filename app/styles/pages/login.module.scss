@@ -30,4 +30,10 @@
 	.container {
 		@include centeredColumn;
 	}
+
+	.download-mobile-promo-banner {
+		margin: 2rem 0;
+		width: 100%;
+		height: auto;
+	}
 }

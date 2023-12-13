@@ -4,6 +4,7 @@ import Header from 'components/layout/Header'
 import Button from 'components/Button'
 import Input from '@/components/forms/Input'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
+import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -17,8 +18,15 @@ import usePrefetchRoute from '@/hooks/usePrefetchRoute'
 import ButtonLink from '@/components/ButtonLink'
 import FormActions from '@/components/forms/FormActions'
 import Label from '@/components/forms/Label'
+import Image from 'next/image'
+import Link from 'next/link'
+import { GOOGLE_PLAY_LINK } from '@/constants/links'
+import Box from '@mui/material/Box'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export default function LoginPage() {
+	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
+
 	const router = useRouter()
 	const nextPage = RoutePath.Home
 
@@ -39,6 +47,7 @@ export default function LoginPage() {
 
 		handleSubmit(async (data) => {
 			await login(data)
+			setIsFirstTimeLogin(false)
 			router.push(nextPage)
 		})()
 	}
@@ -53,10 +62,10 @@ export default function LoginPage() {
 
 				<Form centered maxSize='xs' fullWidth className='form--login-user'>
 					<Label isRequired>Email or username</Label>
-					<Input {...register('nameOrEmail')} type='email' placeholder='john.doe@dreader.io' name='name-or-email' />
+					<Input {...register('nameOrEmail')} placeholder='john.doe@dreader.io' />
 
 					<Label isRequired>Password</Label>
-					<Input {...register('password')} type='password' placeholder='********' name='password' />
+					<Input {...register('password')} type='password' placeholder='********' />
 
 					<FormActions column centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
@@ -73,6 +82,20 @@ export default function LoginPage() {
 						</ButtonLink>
 					</FormActions>
 				</Form>
+
+				{isFirstTimeLogin && (
+					<Box maxWidth='sm' margin='1rem auto'>
+						<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+							<Image
+								src={MobileAppBannerDesktop}
+								width={480}
+								height={171}
+								alt='Download on Google Play'
+								className='download-mobile-promo-banner'
+							/>
+						</Link>
+					</Box>
+				)}
 			</main>
 		</>
 	)

@@ -4,6 +4,7 @@ import Header from 'components/layout/Header'
 import Button from 'components/Button'
 import Input from '@/components/forms/Input'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
+import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { RegisterData } from 'models/auth/register'
@@ -18,6 +19,9 @@ import FormActions from '@/components/forms/FormActions'
 import Label from '@/components/forms/Label'
 import Steps from '@/components/Steps'
 import { useRedeemUserReferral } from '@/api/user'
+import Image from 'next/image'
+import Link from 'next/link'
+import { GOOGLE_PLAY_LINK } from '@/constants/links'
 
 export default function RegisterUserPage() {
 	const router = useRouter()
@@ -60,27 +64,37 @@ export default function RegisterUserPage() {
 			/>
 
 			<main className='register-page'>
-				<h1 className='title'>Welcome to dReader</h1>
-
+				{/* <h1 className='title'>Welcome to dReader</h1> */}
+				<div style={{ marginTop: '2rem' }}></div>
 				<Form centered fullWidth maxSize='sm' className='form--register-user'>
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
 					<p className='description'>2-20 characters. Letters, numbers, and dashes are allowed</p>
-					<Input {...register('name')} placeholder='john-doe' name='name' />
+					<Input {...register('name')} placeholder='john-doe' />
 
 					<Label isRequired>Email</Label>
-					<Input {...register('email')} placeholder='john.doe@dreader.io' name='email' />
+					<Input {...register('email')} placeholder='john.doe@dreader.io' />
 
 					<Label isRequired>Password</Label>
 					<p className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</p>
-					<Input {...register('password')} type='password' placeholder='********' name='password' />
+					<Input {...register('password')} type='password' placeholder='********' />
 
 					<FormActions centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
 							Register
 						</Button>
 					</FormActions>
+
+					<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+						<Image
+							src={MobileAppBannerDesktop}
+							width={480}
+							height={171}
+							alt='Download on Google Play'
+							className='download-mobile-promo-banner'
+						/>
+					</Link>
 				</Form>
 			</main>
 		</>
