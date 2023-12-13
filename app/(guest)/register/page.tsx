@@ -67,14 +67,14 @@ export default function RegisterUserPage() {
 						Username
 					</Label>
 					<p className='description'>2-20 characters. Letters, numbers, and dashes are allowed</p>
-					<Input {...register('name')} placeholder='john-doe' />
+					<Input {...register('name')} placeholder='john-doe' name='name' />
 
 					<Label isRequired>Email</Label>
-					<Input {...register('email')} placeholder='john.doe@dreader.io' />
+					<Input {...register('email')} placeholder='john.doe@dreader.io' name='email' />
 
 					<Label isRequired>Password</Label>
 					<p className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</p>
-					<Input {...register('password')} type='password' placeholder='********' />
+					<Input {...register('password')} type='password' placeholder='********' name='password' />
 
 					<FormActions centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>

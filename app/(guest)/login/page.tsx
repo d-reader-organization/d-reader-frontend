@@ -53,10 +53,10 @@ export default function LoginPage() {
 
 				<Form centered maxSize='xs' fullWidth className='form--login-user'>
 					<Label isRequired>Email or username</Label>
-					<Input {...register('nameOrEmail')} type='email' placeholder='john.doe@dreader.io' />
+					<Input {...register('nameOrEmail')} type='email' placeholder='john.doe@dreader.io' name='name-or-email' />
 
 					<Label isRequired>Password</Label>
-					<Input {...register('password')} type='password' placeholder='********' />
+					<Input {...register('password')} type='password' placeholder='********' name='password' />
 
 					<FormActions column centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>

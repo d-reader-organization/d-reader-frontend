@@ -193,12 +193,12 @@ function ProfilePage() {
 									<Form fullWidth>
 										<Label isRequired>Email</Label>
 										<p className='description'>If changed, verification email will be sent to the new address</p>
-										<Input {...register('email')} placeholder={me.email} />
+										<Input {...register('email')} placeholder={me.email} name='email' />
 										<Label isRequired>Username</Label>
 										<p className='description'>
 											Must be 2 to 20 characters long. Leters, numbers, and dashes are allowed
 										</p>
-										<Input {...register('name')} placeholder={me.name} />
+										<Input {...register('name')} placeholder={me.name} name='name' />
 										<FormActions mobileColumn className='form-actions--mobile'>
 											{!me.isEmailVerified && (
 												<Button
@@ -222,7 +222,7 @@ function ProfilePage() {
 											</Button>
 										</FormActions>
 
-										{me.hasBetaAccess && (
+										{!me.hasBetaAccess && (
 											<>
 												<div className='profile-settings-section'>Other</div>
 
@@ -231,7 +231,11 @@ function ProfilePage() {
 													Type in the username, email, or wallet address from your referrer to unlock all the features
 												</p>
 												<FlexRow className='input-row'>
-													<Input placeholder='username or wallet address' onChange={handleReferrerChange} />
+													<Input
+														placeholder='username or wallet address'
+														onChange={handleReferrerChange}
+														name='invite-code'
+													/>
 													<Button
 														onClick={async () => {
 															if (referrer) await redeemReferral(referrer)
