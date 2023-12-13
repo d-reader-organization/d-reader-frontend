@@ -39,6 +39,8 @@ import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import { isNil } from 'lodash'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
+import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
+import { useFetchNfts } from '@/api/nft'
 
 interface Params {
 	id: string
@@ -53,6 +55,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
+	const [unwrapIssueDialog, , closeUnwrapIssueDialog, openUnwrapIssueDialog] = useToggle()
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
@@ -100,6 +103,21 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		},
 		false
 	)
+
+	const { data: fetchedNfts, refetch: fetchNfts } = useFetchNfts(
+		{
+			ownerAddress: publicKey?.toString(),
+			comicIssueId: params.id,
+		},
+		!!publicKey
+	)
+	let nfts = fetchedNfts
+
+	const handleTriggerUnwrap = async () => {
+		const { data } = await fetchNfts()
+		nfts = data
+		openUnwrapIssueDialog()
+	}
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -206,14 +224,25 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							<Box className='comic-issue-page--middle'>
 								<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
 								<FlexRow>
-									<ButtonLink
-										href={RoutePath.ReadComicIssue(comicIssue.id)}
-										backgroundColor='transparent'
-										borderColor='grey-100'
-										className='button--preview'
-									>
-										Preview
-									</ButtonLink>
+									{!comicIssue.myStats.canRead && nfts && nfts.length > 0 ? (
+										<Button
+											onClick={handleTriggerUnwrap}
+											backgroundColor='transparent'
+											borderColor='grey-100'
+											className='button--preview'
+										>
+											Unwrap
+										</Button>
+									) : (
+										<ButtonLink
+											href={RoutePath.ReadComicIssue(comicIssue.id)}
+											backgroundColor='transparent'
+											borderColor='grey-100'
+											className='button--preview'
+										>
+											{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+										</ButtonLink>
+									)}
 									{candyMachine && (
 										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 											Buy&nbsp;
@@ -328,14 +357,25 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							{isMobile && (
 								<Box my={2}>
 									<FlexRow>
-										<ButtonLink
-											href={RoutePath.ReadComicIssue(comicIssue.id)}
-											backgroundColor='transparent'
-											borderColor='grey-100'
-											className='button--preview'
-										>
-											Preview
-										</ButtonLink>
+										{!comicIssue.myStats.canRead && nfts && nfts.length > 0 ? (
+											<Button
+												onClick={handleTriggerUnwrap}
+												backgroundColor='transparent'
+												borderColor='grey-100'
+												className='button--preview'
+											>
+												Unwrap
+											</Button>
+										) : (
+											<ButtonLink
+												href={RoutePath.ReadComicIssue(comicIssue.id)}
+												backgroundColor='transparent'
+												borderColor='grey-100'
+												className='button--preview'
+											>
+												{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+											</ButtonLink>
+										)}
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
 												Buy&nbsp;
@@ -402,7 +442,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					<hr />
 					<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
 				</Dialog>
-
+				<UnwrapIssueDialog nfts={nfts} open={unwrapIssueDialog} onClose={closeUnwrapIssueDialog} />
 				<StarRatingDialog
 					title='Rate the episode'
 					open={starRatingDialog}

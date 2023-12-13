@@ -11,13 +11,14 @@ const fetchWalletAssets = async (address: string): Promise<WalletAsset[]> => {
 	return response.data
 }
 
-export const useFetchWalletAssets = (address: string) => {
+export const useFetchWalletAssets = (address: string, enabled = true) => {
 	const toaster = useToaster()
 
 	return useQuery({
 		queryFn: () => fetchWalletAssets(address),
 		queryKey: walletKeys.getAssets(address),
-		staleTime: 1000 * 60 * 30, // stale for 30 minutes
+		staleTime: 1000 * 60 * 30, // stale for 30 minutes,
+		enabled,
 		onError: toaster.onQueryError,
 	})
 }
