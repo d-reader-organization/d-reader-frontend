@@ -181,7 +181,8 @@
 	cursor: pointer;
 }
 
-.close-icon {
+.file-upload .close-icon,
+.file-preview .close-icon {
 	pointer-events: none;
 	position: absolute;
 	top: 50%;
