@@ -41,6 +41,7 @@ import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
 import { useFetchNfts } from '@/api/nft'
+import { shortenString } from '@/utils/helpers'
 
 interface Params {
 	id: string
@@ -75,11 +76,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
 
-	const { data: fetchedCandyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
+	const { data: candyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
 		candyMachineAddress,
 		walletAddress,
 	})
-	let candyMachine = fetchedCandyMachine
+
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
@@ -95,7 +96,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		})
 	}
 
-	const { refetch } = useFetchMintOneTransaction(
+	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
@@ -104,18 +105,16 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		false
 	)
 
-	const { data: fetchedNfts, refetch: fetchNfts } = useFetchNfts(
+	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts(
 		{
-			ownerAddress: publicKey?.toString(),
+			ownerAddress: walletAddress,
 			comicIssueId: params.id,
 		},
 		!!publicKey
 	)
-	let nfts = fetchedNfts
 
 	const handleTriggerUnwrap = async () => {
-		const { data } = await fetchNfts()
-		nfts = data
+		await fetchNfts()
 		openUnwrapIssueDialog()
 	}
 
@@ -135,20 +134,19 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 		if (!activeGroup?.wallet.isEligible) {
 			const { data: updatedCandyMachine } = await fetchCandyMachine()
-			candyMachine = updatedCandyMachine
-			const updatedActiveGroup = getActiveGroup(candyMachine)
+			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
 
 			if (
 				updatedActiveGroup?.wallet.itemsMinted &&
 				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 			) {
-				return toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
+				return toaster.add(`The wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
 			}
 			if (!updatedActiveGroup?.wallet.isEligible) {
-				return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
+				return toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
 			}
 		} else {
-			const { data: mintTransactions = [] } = await refetch()
+			const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 			if (!signAllTransactions) {
 				return toaster.add('Wallet does not support signing multiple transactions', 'error')
 			}
@@ -224,14 +222,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							<Box className='comic-issue-page--middle'>
 								<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
 								<FlexRow>
-									{!comicIssue.myStats.canRead && nfts && nfts.length > 0 ? (
+									{!comicIssue.myStats.canRead && nfts.length > 0 ? (
 										<Button
 											onClick={handleTriggerUnwrap}
 											backgroundColor='transparent'
 											borderColor='grey-100'
 											className='button--preview'
 										>
-											Unwrap
+											Unwrap (& read)
 										</Button>
 									) : (
 										<ButtonLink

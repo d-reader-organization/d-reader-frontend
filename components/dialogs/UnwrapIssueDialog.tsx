@@ -15,6 +15,7 @@ const UnwrapIssueDialog: React.FC<Props> = ({ nfts, onClose, open, ...props }) =
 			PaperProps={{ className: 'unwrap-dialog' }}
 			onClose={onClose}
 			open={open}
+			maxWidth='xs'
 			{...props}
 		>
 			<div className='close-icon-wrapper'>
