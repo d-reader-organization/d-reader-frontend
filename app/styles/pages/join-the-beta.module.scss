@@ -3,7 +3,8 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .join-the-beta-page {
-	@include flexColumn;
+	display: flex !important;
+	flex-direction: column;
 	align-items: center;
 	margin-top: 3rem;
 
