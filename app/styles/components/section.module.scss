@@ -19,7 +19,11 @@
 		padding-bottom: 0.5rem;
 		overflow-x: hidden;
 
-		@include xl {
+		// @include xl {
+		// 	overflow-x: visible;
+		// }
+
+		@media (min-width: 1600px) {
 			overflow-x: visible;
 		}
 

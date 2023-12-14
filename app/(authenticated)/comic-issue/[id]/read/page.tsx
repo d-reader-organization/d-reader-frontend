@@ -15,7 +15,7 @@ interface Params {
 }
 
 const ReadComicIssuePage = ({ params }: { params: Params }) => {
-	const { data: pages = [] } = useFetchComicIssuePages(params.id)
+	const { data: pages = [], isFetched } = useFetchComicIssuePages(params.id)
 	const { data: comicIssue } = useFetchComicIssue(params.id)
 
 	useAuthenticatedRoute()
@@ -47,7 +47,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 							/>
 						</div>
 					))}
-					{(!comicIssue.myStats?.canRead || !comicIssue.isFullyUploaded) && (
+					{isFetched && (!comicIssue.myStats?.canRead || !comicIssue.isFullyUploaded) && (
 						<div className='preview-message'>
 							<PreviewPagesIcon className='preview-message-icon' />
 							<div className='preview-message-content'>

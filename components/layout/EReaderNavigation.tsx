@@ -29,7 +29,7 @@ interface Props extends ToolbarProps {
 }
 
 const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
-	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: true })
+	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: false })
 	const [, touchingPageBottom, pageBottomRef] = useOnScreen()
 	const hideNavigation = trigger && !touchingPageBottom
 
