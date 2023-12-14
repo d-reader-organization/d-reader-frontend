@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import Navigation from '@/components/layout/Navigation'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
+import AlphaBunnyIcon from 'public/assets/vector-icons/alpha-bunny-icon.svg'
 import { UpdateUserAvatarData, UpdateUserData } from '@/models/user'
 import {
 	useFetchMe,
 	useFetchUserWallets,
-	useRedeemUserReferral,
 	useRequestUserEmailVerification,
 	useUpdateUser,
 	useUpdateUserAvatar,
@@ -39,6 +39,7 @@ import { useDisconnectUserWallet } from '@/api/auth'
 import FileUpload from '@/components/forms/FileUpload'
 import { imageTypes } from '@/constants/fileTypes'
 import FlexColumn from '@/components/FlexColumn'
+import JoinTheBeta from '@/components/JoinTheBeta'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -49,14 +50,12 @@ function ProfilePage() {
 	const toaster = useToaster()
 	const { publicKey } = useWallet()
 	const [activeTab, setActiveTab] = useState('1')
-	const [referrer, setReferrer] = useState('')
 
 	const { data: me } = useFetchMe()
 	const { data: connectedWallets = [] } = useFetchUserWallets(me?.id || 0)
 
 	const { mutateAsync: updateUser } = useUpdateUser(me?.id || 0)
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
-	const { mutateAsync: redeemReferral } = useRedeemUserReferral()
 	const { mutateAsync: disconnectWallet } = useDisconnectUserWallet()
 	const { mutateAsync: updateUserAvatar } = useUpdateUserAvatar(me?.id || 0)
 
@@ -111,10 +110,6 @@ function ProfilePage() {
 		setActiveTab(newValue)
 	}
 
-	const handleReferrerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setReferrer(event.target.value)
-	}
-
 	return (
 		<>
 			<Navigation />
@@ -141,10 +136,16 @@ function ProfilePage() {
 								className={clsx('tab-button', activeTab === '2' && 'tab-button--active')}
 							/>
 							<Tab
-								label='Security'
+								label='Referrals'
 								disableRipple
 								value='3'
 								className={clsx('tab-button', activeTab === '3' && 'tab-button--active')}
+							/>
+							<Tab
+								label='Security'
+								disableRipple
+								value='4'
+								className={clsx('tab-button', activeTab === '4' && 'tab-button--active')}
 							/>
 						</TabList>
 
@@ -155,7 +156,7 @@ function ProfilePage() {
 										<h2>Account settings</h2>
 										<p>Manage your dReader user profile</p>
 									</div>
-									<div className='profile-settings-section'>Basic details</div>
+									<div className='profile-settings-section'>Assets</div>
 
 									<Form fullWidth maxSize='sm'>
 										<FlexRow mb={4}>
@@ -190,6 +191,8 @@ function ProfilePage() {
 											</div>
 										</FlexRow>
 									</Form>
+
+									<div className='profile-settings-section'>Basic details</div>
 									<Form fullWidth>
 										<Label isRequired>Email</Label>
 										<p className='description'>If changed, verification email will be sent to the new address</p>
@@ -221,34 +224,6 @@ function ProfilePage() {
 												Save
 											</Button>
 										</FormActions>
-
-										{!me.hasBetaAccess && (
-											<>
-												<div className='profile-settings-section'>Other</div>
-
-												<Label isRequired>Referrer</Label>
-												<p className='description'>
-													Type in the username, email, or wallet address from your referrer to unlock all the features
-												</p>
-												<FlexRow className='input-row'>
-													<Input
-														placeholder='username or wallet address'
-														onChange={handleReferrerChange}
-														name='invite-code'
-													/>
-													<Button
-														onClick={async () => {
-															if (referrer) await redeemReferral(referrer)
-														}}
-														bold={false}
-														backgroundColor='yellow-500'
-														className='action-button'
-													>
-														Redeem
-													</Button>
-												</FlexRow>
-											</>
-										)}
 									</Form>
 								</Box>
 							)}
@@ -293,6 +268,46 @@ function ProfilePage() {
 							</Box>
 						</TabPanel>
 						<TabPanel value='3'>
+							{me && (
+								<Box maxWidth='sm'>
+									{!me.hasBetaAccess ? (
+										<>
+											<div className='title-box'>
+												<FlexRow>
+													<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
+													<h2>Join the Beta</h2>
+												</FlexRow>
+												<p>🎁 Give your referrer a bonus by typing their username</p>
+											</div>
+											<JoinTheBeta inForm />
+										</>
+									) : (
+										<>
+											<div className='title-box'>
+												<FlexRow>
+													<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
+													<h2>Invite your friends</h2>
+												</FlexRow>
+												<p>🎁 Invite friends and receive a referrer bonus</p>
+											</div>
+											<Button
+												bold={false}
+												backgroundColor='yellow-500'
+												onClick={() => {
+													navigator.clipboard.writeText(`https://dreader.app/register?referrer=${me.name}`)
+													toaster.add('Referral link copied to clipboard', 'success')
+												}}
+											>
+												copy referral link
+											</Button>
+											<p>Referrals remaining: {me.referralsRemaining}</p>
+										</>
+									)}
+								</Box>
+							)}
+						</TabPanel>
+
+						<TabPanel value='4'>
 							<Box maxWidth='sm'>
 								<div className='title-box'>
 									<h2>Security & Privacy</h2>
