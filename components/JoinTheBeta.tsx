@@ -46,7 +46,7 @@ const JoinTheBeta: React.FC<Props> = ({ inForm = false, ...props }) => {
 					</p>
 				)}
 				<FlexRow className='input-row'>
-					<Input placeholder='username or wallet address' onChange={handleReferrerChange} name='invite-code' />
+					<Input placeholder='username or wallet address' onChange={handleReferrerChange} />
 					<Button
 						onClick={async () => {
 							if (referrer) await redeemReferral(referrer)
