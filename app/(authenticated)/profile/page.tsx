@@ -295,10 +295,12 @@ function ProfilePage() {
 												</FlexRow>
 												<p>🎁 Invite friends and receive a referrer bonus</p>
 											</div>
-											<p>Referrals remaining: {me.referralsRemaining}</p>
 											<p>
-												Fully (verified email & wallet connected) onboarding 2 people to the platform will make you
-												eligible for a free comic mint!
+												Referrals remaining: <strong>{me.referralsRemaining}</strong>
+											</p>
+											<p>
+												Fully onboarding 2 people to the platform will make you eligible for a free comic mint!
+												&apos;Fully&apos; means that the users have verified their email and connected a wallet.
 											</p>
 											<Button
 												bold={false}
