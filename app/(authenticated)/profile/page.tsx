@@ -40,6 +40,7 @@ import FileUpload from '@/components/forms/FileUpload'
 import { imageTypes } from '@/constants/fileTypes'
 import FlexColumn from '@/components/FlexColumn'
 import JoinTheBeta from '@/components/JoinTheBeta'
+import { useUserAuth } from '@/providers/UserAuthProvider'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -50,6 +51,7 @@ function ProfilePage() {
 	const toaster = useToaster()
 	const { publicKey } = useWallet()
 	const [activeTab, setActiveTab] = useState('1')
+	const { logout } = useUserAuth()
 
 	const { data: me } = useFetchMe()
 	const { data: connectedWallets = [] } = useFetchUserWallets(me?.id || 0)
@@ -157,7 +159,6 @@ function ProfilePage() {
 										<p>Manage your dReader user profile</p>
 									</div>
 									<div className='profile-settings-section'>Assets</div>
-
 									<Form fullWidth maxSize='sm'>
 										<FlexRow mb={4}>
 											<FlexColumn mr='auto'>
@@ -191,7 +192,6 @@ function ProfilePage() {
 											</div>
 										</FlexRow>
 									</Form>
-
 									<div className='profile-settings-section'>Basic details</div>
 									<Form fullWidth>
 										<Label isRequired>Email</Label>
@@ -225,6 +225,11 @@ function ProfilePage() {
 											</Button>
 										</FormActions>
 									</Form>
+									<div className='profile-settings-section'>Other</div>
+
+									<Button bold={false} onClick={logout}>
+										Logout
+									</Button>
 								</Box>
 							)}
 						</TabPanel>
@@ -290,6 +295,11 @@ function ProfilePage() {
 												</FlexRow>
 												<p>🎁 Invite friends and receive a referrer bonus</p>
 											</div>
+											<p>Referrals remaining: {me.referralsRemaining}</p>
+											<p>
+												Fully (verified email & wallet connected) onboarding 2 people to the platform will make you
+												eligible for a free comic mint!
+											</p>
 											<Button
 												bold={false}
 												backgroundColor='yellow-500'
@@ -300,7 +310,6 @@ function ProfilePage() {
 											>
 												copy referral link
 											</Button>
-											<p>Referrals remaining: {me.referralsRemaining}</p>
 										</>
 									)}
 								</Box>

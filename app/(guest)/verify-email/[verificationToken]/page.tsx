@@ -17,7 +17,7 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 	const verificationToken = params?.verificationToken
 	const { isAuthenticated } = useUserAuth()
 
-	const { data: creator, mutateAsync: verifyEmail } = useVerifyUserEmail()
+	const { data: user, mutateAsync: verifyEmail } = useVerifyUserEmail()
 	const { data: me } = useFetchMe()
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 		}
 	}, [verificationToken, verifyEmail])
 
-	const name = creator?.name || me?.name || ''
+	const name = user?.name || me?.name || ''
 
 	return (
 		<main className='verify-email-page'>

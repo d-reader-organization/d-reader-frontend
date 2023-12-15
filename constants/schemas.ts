@@ -14,6 +14,11 @@ export const loginValidationSchema = yup.object().shape({
 	password: yup.string().required(yupRequiredMessage('Password')),
 })
 
+export const resetPasswordValidationSchema = yup.object().shape({
+	verificationToken: yup.string().required(yupRequiredMessage('Verification token')),
+	newPassword: yup.string().required(yupRequiredMessage('New password')),
+})
+
 export const registerValidationSchema = yup.object().shape({
 	name: yup
 		.string()
