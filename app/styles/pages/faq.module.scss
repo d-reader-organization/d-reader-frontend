@@ -1,0 +1,35 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
+
+.faq-page {
+	@include pagePadding;
+	margin-bottom: 6rem;
+	max-width: $md-width;
+
+	.title,
+	.subtitle,
+	.faq-section {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+	.subtitle {
+		margin-top: 0;
+		font-style: italic;
+	}
+
+	.faq-section {
+		color: $grey-100;
+		border-bottom: 1px solid $grey-100;
+		font-size: 0.9rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		padding-bottom: 0.4rem;
+		margin: 1rem 0;
+	}
+
+	.faq-link {
+		text-decoration: underline;
+	}
+}

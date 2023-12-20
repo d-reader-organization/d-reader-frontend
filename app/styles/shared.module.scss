@@ -31,6 +31,11 @@ svg {
 	color: $important-color;
 }
 
+.text--not-important {
+	color: $grey-100;
+	font-style: italic;
+}
+
 .text--underline {
 	text-decoration: underline;
 }

@@ -11,7 +11,7 @@
 	@include sm {
 		border-left: 1px solid $grey-300;
 		border-right: 1px solid $grey-300;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 		border-radius: 8px;
 	}
 
@@ -20,7 +20,7 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
-		padding: 30px;
+		padding: 12px;
 		font-weight: 700;
 		font-size: 16px;
 		line-height: 22px;
@@ -52,17 +52,5 @@
 	.expandable-content {
 		border-top: 1px solid $grey-400;
 		padding: 12px;
-
-		@include sm {
-			padding: 24px;
-		}
-
-		@include md {
-			padding: 36px;
-		}
-
-		@include lg {
-			padding: 48px;
-		}
 	}
 }
