@@ -4,8 +4,8 @@
 
 .faq-page {
 	@include pagePadding;
-	margin-bottom: 6rem;
 	max-width: $md-width;
+	margin: 0 auto 6rem auto;
 
 	.title,
 	.subtitle,
@@ -21,12 +21,15 @@
 
 	.faq-section {
 		color: $grey-100;
-		border-bottom: 1px solid $grey-100;
 		font-size: 0.9rem;
 		font-weight: bold;
 		text-transform: uppercase;
-		padding-bottom: 0.4rem;
-		margin: 1rem 0;
+		margin: 2rem 0 1rem 0;
+
+		@include md {
+			border-bottom: 1px solid $grey-100;
+			padding-bottom: 0.4rem;
+		}
 	}
 
 	.faq-link {
