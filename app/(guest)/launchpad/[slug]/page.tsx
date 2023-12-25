@@ -1,42 +1,27 @@
 'use client'
 
 import React, { useState } from 'react'
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material/styles'
 import PageBanner from 'public/assets/page-banner.png'
 import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
-import CloseIcon from 'public/assets/vector-icons/close.svg'
-import CollectionStatusItem from 'components/ui/CollectionStatusItem'
 import AvatarImage from 'components/AvatarImage'
-import PriceTag from 'components/tags/PriceTag'
-import InfoList from 'components/ui/InfoList'
 import { useFetchCandyMachine } from 'api/candyMachine'
-import { useFetchComicIssue, useFetchPublicComicIssue } from 'api/comicIssue'
+import { useFetchPublicComicIssue } from 'api/comicIssue'
 import FlexRow from '@/components/FlexRow'
 import Button from '@/components/Button'
 import Image from 'next/image'
-// import { useCountdown } from 'hooks'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import Navigation from '@/components/layout/Navigation'
 import { useFetchMintOneTransaction } from '@/api/transaction'
-import Dialog from '@mui/material/Dialog'
-import { useToggle } from '@/hooks'
 import { WALLET_LABELS } from '@/constants/wallets'
 import { useToaster } from '@/providers/ToastProvider'
-import ButtonLink from '@/components/ButtonLink'
-import { RoutePath } from '@/enums/routePath'
 import { CandyMachine } from '@/models/candyMachine'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
-import { Hidden, LinearProgress, Toolbar } from '@mui/material'
-import logoWithTextImage from 'public/assets/logo-with-text-colored.png'
-import logoImage from 'public/assets/logo.png'
-import Link from 'next/link'
-import { useUserAuth } from '@/providers/UserAuthProvider'
+import { CircularProgress, LinearProgress } from '@mui/material'
 import GuestNavigation from '@/components/layout/guestNavigation'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 
@@ -50,16 +35,13 @@ const BaseWalletMultiButtonDynamic = dynamic(
 )
 
 const ComicIssueDetails = ({ params }: { params: Params }) => {
-	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
-
 	const { publicKey, signAllTransactions } = useWallet()
 	const [toggleAbout, setToggleAbout] = useState<boolean>(false)
+	const [isMintTransactionLoading, setMintTransactionLoading] = useState<boolean>(false)
 	const { connection } = useConnection()
 	const toaster = useToaster()
-	const { isAuthenticated } = useUserAuth()
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(params.slug)
-
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 	const hasWalletConnected = !!walletAddress
@@ -93,53 +75,55 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
 	const handleMint = async () => {
-		if (!hasWalletConnected) {
-			return toggleWalletNotConnectedDialog()
-		}
-
+		setMintTransactionLoading(true)
 		const activeGroup = getActiveGroup(candyMachine)
+		try {
+			if (!activeGroup?.wallet.isEligible) {
+				const { data: updatedCandyMachine } = await fetchCandyMachine()
+				const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
 
-		if (!activeGroup?.wallet.isEligible) {
-			const { data: updatedCandyMachine } = await fetchCandyMachine()
-			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
-
-			if (
-				updatedActiveGroup?.wallet.itemsMinted &&
-				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
-			) {
-				return toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
-			}
-			if (!updatedActiveGroup?.wallet.isEligible) {
-				return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
-			}
-		} else {
-			const { data: mintTransactions = [] } = await fetchMintOneTransaction()
-			if (!signAllTransactions) {
-				return toaster.add('Wallet does not support signing multiple transactions', 'error')
-			}
-			const signedTransactions = await signAllTransactions(mintTransactions)
-			let i = 0
-			for (const transaction of signedTransactions) {
-				try {
-					const signature = await connection.sendTransaction(transaction)
-
-					const latestBlockhash = await connection.getLatestBlockhash()
-					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
-					if (!!response.value.err) {
-						console.log('Response error log: ', response.value.err)
-						throw new Error()
-					}
-					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
-				} catch (e) {
-					console.log('error: ', e)
-					if (signedTransactions.length === 2 && i === 0) {
-						toaster.add('Wallet is not allowlisted to mint this comic', 'error')
-					} else {
-						toaster.add('Something went wrong', 'error')
-					}
+				if (
+					updatedActiveGroup?.wallet.itemsMinted &&
+					updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
+				) {
+					toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
+				} else if (!updatedActiveGroup?.wallet.isEligible) {
+					toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
 				}
-				i += 1
+			} else {
+				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
+				if (!signAllTransactions) {
+					setMintTransactionLoading(false)
+					return toaster.add('Wallet does not support signing multiple transactions', 'error')
+				}
+				const signedTransactions = await signAllTransactions(mintTransactions)
+				let i = 0
+				for (const transaction of signedTransactions) {
+					try {
+						const signature = await connection.sendTransaction(transaction)
+
+						const latestBlockhash = await connection.getLatestBlockhash()
+						const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+						if (!!response.value.err) {
+							console.log('Response error log: ', response.value.err)
+							throw new Error()
+						}
+						toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
+					} catch (e) {
+						console.log('error: ', e)
+						if (signedTransactions.length === 2 && i === 0) {
+							toaster.add('Wallet is not allowlisted to mint this comic', 'error')
+						} else {
+							toaster.add('Something went wrong', 'error')
+						}
+					}
+					i += 1
+				}
 			}
+		} catch (e) {
+			console.error(e)
+		} finally {
+			setMintTransactionLoading(false)
 		}
 	}
 	if (error) return <Box p={2}>{error.message}</Box>
@@ -149,7 +133,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 	return (
 		<>
-			<GuestNavigation />
+			<GuestNavigation walletAddress={publicKey?.toString()} />
 			<main className='launchpad-page'>
 				<div
 					className='comic-issue-banner-image'
@@ -222,7 +206,20 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 														/>
 														{isLive ? (
 															<>
-																<Button>Mint</Button>
+																{hasWalletConnected ? (
+																	<Button onClick={handleMint}>
+																		{!isMintTransactionLoading ? (
+																			'Mint'
+																		) : (
+																			<CircularProgress
+																				thickness={6}
+																				classes={{ svg: 'loader', root: 'loader--root' }}
+																			/>
+																		)}
+																	</Button>
+																) : (
+																	<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} style={{ width: '100%' }} />
+																)}
 																<p className='mint-limit'>
 																	{group.mintLimit ? `Limit ${group.mintLimit} per wallet` : null}
 																</p>
@@ -273,20 +270,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					</Box>
 				</div>
 			</main>
-			<Dialog
-				style={{ backdropFilter: 'blur(4px)' }}
-				PaperProps={{ className: 'text-dialog' }}
-				onClose={toggleWalletNotConnectedDialog}
-				open={walletNotConnectedDialogOpen}
-			>
-				<div className='close-icon-wrapper'>
-					<CloseIcon className='close-icon' onClick={toggleWalletNotConnectedDialog} />
-				</div>
-				<strong>⚠️ Wallet not connected</strong>
-				Please connect your wallet first to be eligible for a free mint
-				<hr />
-				<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
-			</Dialog>
 		</>
 	)
 }
@@ -295,9 +278,7 @@ export default ComicIssueDetails
 
 /**
  * TODO
- * Wallet connection
- * Responsive
+ * Skeleton images on launchpad
  * Show the live group , then upcoming group , then ended ones
- * Test the flow
  * websocket for progress
  */

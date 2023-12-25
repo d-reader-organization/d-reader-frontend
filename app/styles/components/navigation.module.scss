@@ -39,6 +39,11 @@
 	}
 }
 
+.guest-navigation{
+	display: flex;
+	justify-content: space-between;
+}
+
 .navigation {
 	// @include defaultFadeIn;
 	width: 100%;

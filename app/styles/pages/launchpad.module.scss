@@ -24,6 +24,16 @@
         align-items: center;
     }
 
+    .loader {
+        height: 25px;
+        width: 25px;        
+    }
+
+    .loader--root{
+        height: fit-content !important;
+        width: fit-content !important;
+    }
+
     .mint-header p {
         @include xs {
             font-size: 15px;
