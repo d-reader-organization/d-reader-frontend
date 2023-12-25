@@ -23,6 +23,7 @@ import { CircularProgress, LinearProgress } from '@mui/material'
 import GuestNavigation from '@/components/layout/guestNavigation'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import SkeletonImage from '@/components/SkeletonImage'
+import { shortenString } from '@/utils/helpers'
 
 interface Params {
 	slug: string
@@ -33,9 +34,9 @@ const BaseWalletMultiButtonDynamic = dynamic(
 	{ ssr: false }
 )
 
-const ComicIssueDetails = ({ params }: { params: Params }) => {
+const LaunchpadPage = ({ params }: { params: Params }) => {
 	const { publicKey, signAllTransactions } = useWallet()
-	const [toggleAbout, setToggleAbout] = useState<boolean>(false)
+	const [toggleMintDetails, setToggleMintDetails] = useState<boolean>(false)
 	const [isMintTransactionLoading, setMintTransactionLoading] = useState<boolean>(false)
 	const { connection } = useConnection()
 	const toaster = useToaster()
@@ -48,7 +49,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const {
 		data: candyMachine,
 		refetch: fetchCandyMachine,
-		isLoading,
+		isLoading: isCandyMachineDetailsLoading,
 	} = useFetchCandyMachine({
 		candyMachineAddress,
 		walletAddress,
@@ -94,9 +95,9 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					updatedActiveGroup?.wallet.itemsMinted &&
 					updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 				) {
-					toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
+					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
 				} else if (!updatedActiveGroup?.wallet.isEligible) {
-					toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
+					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible to mint`, 'error')
 				}
 			} else {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
@@ -141,7 +142,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 	return (
 		<>
-			<GuestNavigation walletAddress={publicKey?.toString()} />
+			<GuestNavigation />
 			<main className='launchpad-page'>
 				<div
 					className='comic-issue-banner-image'
@@ -150,7 +151,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					<div className={clsx('bottom-overlay', `bottom-overlay--standard`)} />
 				</div>
 				<div className='details'>
-					<div className='launchpad-page--right'>
+					<div className='details--left'>
 						<SkeletonImage
 							src={heroImage}
 							width={400}
@@ -160,7 +161,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 							className='comic-issue-cover'
 						/>
 					</div>
-					<Box className='launchpad-page--left' width={isMobile ? 400 : 600}>
+					<Box className='details--right' width={isMobile ? 400 : 600}>
 						<div>
 							<div>
 								<p className='comic-issue-title'>{comicIssue.title}</p>
@@ -168,18 +169,21 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						</div>
 						<div className='detail-toggle'>
 							<p
-								onClick={() => setToggleAbout(false)}
-								style={!toggleAbout ? { borderBottom: '2px solid #fceb54' } : {}}
+								onClick={() => setToggleMintDetails(false)}
+								style={!toggleMintDetails ? { borderBottom: '2px solid #fceb54' } : {}}
 							>
 								Mint
 							</p>
-							<p onClick={() => setToggleAbout(true)} style={toggleAbout ? { borderBottom: '2px solid #fceb54' } : {}}>
+							<p
+								onClick={() => setToggleMintDetails(true)}
+								style={toggleMintDetails ? { borderBottom: '2px solid #fceb54' } : {}}
+							>
 								About
 							</p>
 						</div>
-						{isLoading ? (
+						{isCandyMachineDetailsLoading ? (
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
-						) : !toggleAbout ? (
+						) : !toggleMintDetails ? (
 							<Box>
 								{candyMachine && (
 									<>
@@ -291,4 +295,4 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	)
 }
 
-export default ComicIssueDetails
+export default LaunchpadPage

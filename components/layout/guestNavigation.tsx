@@ -14,16 +14,12 @@ import { Theme, useMediaQuery } from '@mui/material'
 import dynamic from 'next/dynamic'
 import { WALLET_LABELS } from '@/constants/wallets'
 
-interface Props extends ToolbarProps {
-	walletAddress?: string
-}
-
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
 	{ ssr: false }
 )
 
-const GuestNavigation: React.FC<Props> = ({ walletAddress, ...props }) => {
+const GuestNavigation: React.FC<ToolbarProps> = () => {
 	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: false })
 	const { isAuthenticated } = useUserAuth()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
