@@ -2,7 +2,6 @@ import { comicIssueKeys, COMIC_ISSUE_QUERY_KEYS } from 'api/comicIssue/comicIssu
 import { useToaster } from 'providers/ToastProvider'
 import { ComicIssue } from 'models/comicIssue'
 import { useQuery } from 'react-query'
-import { isNil } from 'lodash'
 import http from 'api/http'
 
 const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS

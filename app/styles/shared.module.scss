@@ -31,6 +31,14 @@ svg {
 	color: $important-color;
 }
 
+.text--error{
+	color:$red-500
+}
+
+.text--success {
+	color: $green-400
+}
+
 .text--not-important {
 	color: $grey-100;
 	font-style: italic;

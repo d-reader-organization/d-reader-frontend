@@ -10,9 +10,7 @@ import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
 import AvatarImage from 'components/AvatarImage'
 import { useFetchCandyMachine } from 'api/candyMachine'
 import { useFetchPublicComicIssue } from 'api/comicIssue'
-import FlexRow from '@/components/FlexRow'
 import Button from '@/components/Button'
-import Image from 'next/image'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useFetchMintOneTransaction } from '@/api/transaction'
 import { WALLET_LABELS } from '@/constants/wallets'
@@ -24,6 +22,7 @@ import clsx from 'clsx'
 import { CircularProgress, LinearProgress } from '@mui/material'
 import GuestNavigation from '@/components/layout/guestNavigation'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+import SkeletonImage from '@/components/SkeletonImage'
 
 interface Params {
 	slug: string
@@ -46,7 +45,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const walletAddress = publicKey?.toBase58()
 	const hasWalletConnected = !!walletAddress
 
-	const { data: candyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
+	const {
+		data: candyMachine,
+		refetch: fetchCandyMachine,
+		isLoading,
+	} = useFetchCandyMachine({
 		candyMachineAddress,
 		walletAddress,
 	})
@@ -73,6 +76,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const normalise = (value: number, MAX: number) => (value * 100) / MAX
 	const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+	const hasMintingStarted = () => {
+		if (candyMachine?.groups.at(0)?.startDate)
+			return !(new Date(candyMachine?.groups.at(0)?.startDate || '') > new Date())
+		return false
+	}
 
 	const handleMint = async () => {
 		setMintTransactionLoading(true)
@@ -143,7 +151,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 				</div>
 				<div className='details'>
 					<div className='launchpad-page--right'>
-						<Image src={heroImage} width={400} height={550} className='comic-issue-cover' alt='comic' />
+						<SkeletonImage
+							src={heroImage}
+							width={400}
+							height={550}
+							loading='eager'
+							alt='comic-cover'
+							className='comic-issue-cover'
+						/>
 					</div>
 					<Box className='launchpad-page--left' width={isMobile ? 400 : 600}>
 						<div>
@@ -162,12 +177,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 								About
 							</p>
 						</div>
-						{!toggleAbout ? (
+						{isLoading ? (
+							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
+						) : !toggleAbout ? (
 							<Box>
 								{candyMachine && (
 									<>
 										<div className='mint-header'>
-											<p className='text--important'>● Minting in progress</p>
+											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
 											<p>
 												Total: {candyMachine.itemsMinted}/{candyMachine.supply}
 											</p>
@@ -177,17 +194,17 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 												const isLive = new Date(group.startDate) <= new Date() && new Date(group.endDate) > new Date()
 												const isEnded = new Date() > new Date(group.endDate)
 												return (
-													<div className='mint-group'>
+													<div className='mint-group' key={group.label}>
 														<div className='group-detail-wrapper'>
 															<div>
 																<p>{group.displayLabel}</p>
 																<p>
 																	{isLive ? (
-																		<span style={{ color: '#5fe1a2' }}>Live</span>
+																		<span className='text--success'>Live</span>
 																	) : isEnded ? (
-																		<span style={{ color: '#e3635b' }}>Ended</span>
+																		<span className='text--error'>Ended</span>
 																	) : (
-																		<span style={{ color: '#fff174' }}>Upcoming</span>
+																		<span className='text--important'>Upcoming</span>
 																	)}
 																</p>
 															</div>
@@ -206,7 +223,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 														/>
 														{isLive ? (
 															<>
-																{hasWalletConnected ? (
+																{hasWalletConnected || isMobile ? (
 																	<Button onClick={handleMint}>
 																		{!isMintTransactionLoading ? (
 																			'Mint'
@@ -275,10 +292,3 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 }
 
 export default ComicIssueDetails
-
-/**
- * TODO
- * Skeleton images on launchpad
- * Show the live group , then upcoming group , then ended ones
- * websocket for progress
- */
