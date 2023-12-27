@@ -1,21 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface Props {
 	targetDateTime: string
 }
 
 const Countdown: React.FC<Props> = ({ targetDateTime }) => {
-	const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining())
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setTimeRemaining(calculateTimeRemaining())
-		}, 1000)
-
-		return () => clearInterval(interval)
-	}, [])
-
-	function calculateTimeRemaining() {
+	const calculateTimeRemaining = useCallback(() => {
 		const now = new Date()
 		const targetDate = new Date(targetDateTime)
 		const timeDifference = targetDate.getTime() - now.getTime()
@@ -30,7 +20,17 @@ const Countdown: React.FC<Props> = ({ targetDateTime }) => {
 		const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000)
 
 		return { days, hours, minutes, seconds }
-	}
+	}, [targetDateTime])
+
+	const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining())
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setTimeRemaining(calculateTimeRemaining())
+		}, 1000)
+		console.log('yez')
+		return () => clearInterval(interval)
+	}, [calculateTimeRemaining])
 
 	const renderTimeUnit = (unit: number, label: string) => {
 		return unit > 0 ? (
