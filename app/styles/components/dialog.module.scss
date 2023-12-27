@@ -34,6 +34,53 @@
 	}
 }
 
+.confirm-transaction-dialog {
+	.confirming-animation {
+		height: 300px;
+		width: 300px;
+
+		@include xs {
+			height: 200px;
+			width: 200px;
+		}
+	}
+}
+
+.minted-nft-dialog {
+	height: 500px;
+	width: 400px;
+
+	.loader {
+		height: 25px;
+		width: 25px;
+
+		&--root {
+			top: 40%;
+			left: 46%;
+			position: relative;
+			height: fit-content !important;
+			width: fit-content !important;
+		}
+	}
+
+	.close-icon-wrapper {
+		z-index: 999;
+		margin-left: auto;
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		line-height: 16px;
+
+		.close-icon {
+			@include clickable;
+			width: 16px;
+			height: 16px;
+			color: white;
+			fill: white;
+		}
+	}
+}
+
 .action-dialog {
 	background-color: $grey-400 !important;
 	overflow: hidden !important;
@@ -58,11 +105,11 @@
 	.stars-row {
 		margin-top: 1rem;
 
-		& > *:not(:last-child) {
+		&>*:not(:last-child) {
 			margin-right: 0.8rem;
 		}
 
-		& > * {
+		&>* {
 			color: $yellow-500;
 		}
 	}
@@ -82,7 +129,7 @@
 
 		border-top: 2px solid $grey-600 !important;
 
-		& > * {
+		&>* {
 			padding: 1rem !important;
 			width: 160px !important;
 
@@ -91,7 +138,7 @@
 			}
 		}
 
-		& > *:not(:last-child) {
+		&>*:not(:last-child) {
 			border-right: 2px solid $grey-600 !important;
 		}
 	}

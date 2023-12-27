@@ -6,19 +6,19 @@ import http from 'api/http'
 
 const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
 
-const fetchPublicComicIssue = async (slug: string): Promise<ComicIssue> => {
-	console.log(`${COMIC_ISSUE}/${GET_PUBLIC}/${slug}`)
-	const response = await http.get<ComicIssue>(`${COMIC_ISSUE}/${GET_PUBLIC}/${slug}`)
+const fetchPublicComicIssue = async (id: string | number): Promise<ComicIssue> => {
+	console.log(`${COMIC_ISSUE}/${GET_PUBLIC}/${id}`)
+	const response = await http.get<ComicIssue>(`${COMIC_ISSUE}/${GET_PUBLIC}/${id}`)
 	return response.data
 }
 
-export const useFetchPublicComicIssue = (slug: string) => {
+export const useFetchPublicComicIssue = (id: string | number) => {
 	const toaster = useToaster()
 	return useQuery({
-		queryFn: () => fetchPublicComicIssue(slug),
-		queryKey: comicIssueKeys.getPublic(slug),
+		queryFn: () => fetchPublicComicIssue(id),
+		queryKey: comicIssueKeys.getPublic(id),
 		staleTime: 1000 * 60 * 60 * 1, // stale for 1 hour
-		enabled: !!slug,
+		enabled: !!id,
 		onError: toaster.onQueryError,
 	})
 }

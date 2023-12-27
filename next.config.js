@@ -21,6 +21,10 @@ module.exports = withPWA({
 			{
 				protocol: 'https',
 				hostname: '**.cloudfront.net',
+			},
+			{
+				protocol: 'https',
+				hostname: 'arweave.net',
 			}
 		],
 	},

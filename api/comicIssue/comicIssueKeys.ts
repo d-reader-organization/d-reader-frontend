@@ -52,7 +52,7 @@ export const comicIssueKeys = Object.freeze({
 	],
 	get: (id: string | number) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET, `${id}`],
 	getRaw: (id: string | number) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_RAW, `${id}`],
-	getPublic: (slug: string) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_PUBLIC, slug],
+	getPublic: (id: string | number) => [COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_PUBLIC, `${id}`],
 	getByOwner: (userId: string) => [
 		COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE,
 		COMIC_ISSUE_QUERY_KEYS.GET,

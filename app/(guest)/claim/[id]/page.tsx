@@ -27,10 +27,12 @@ import { shortenString } from '@/utils/helpers'
 import Countdown from '@/components/ui/Countdown'
 import io from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
-import MintTransactionDialog from '@/components/dialogs/ConfirmTransactionDialog'
+import MintedNftDialog from '@/components/dialogs/MintedNftDialog'
+import { useToggle } from '@/hooks'
+import ConfirmTransactionDialog from '@/components/dialogs/ConfirmationTransactionDialog'
 
 interface Params {
-	slug: string
+	id: string | number
 }
 
 const BaseWalletMultiButtonDynamic = dynamic(
@@ -40,21 +42,26 @@ const BaseWalletMultiButtonDynamic = dynamic(
 
 const ClaimPage = ({ params }: { params: Params }) => {
 	const { publicKey, signAllTransactions } = useWallet()
-	const [toggleMintDetails, setToggleMintDetails] = useState<boolean>(false)
-	const [isMintTransactionLoading, setMintTransactionLoading] = useState<boolean>(false)
+	const [mintDetailsSection, openMintDetailsSection, closeMintDetailsSection] = useToggle(false)
+	const [transactionConfirmationDialog, , closeTransactionConfirmationDialog, openTransactionConfirmationDialog] =
+		useToggle()
+	const [isMintTransactionLoading, openMintTransactionLoading, closeMintTransactionLoading] = useToggle(false)
+	const [showMintedNftDialog, openMintedNftDialog, closeMintedNftDialog] = useToggle()
+	const [nftAddress, setNftAddress] = useState<string>()
 	const { connection } = useConnection()
 	const toaster = useToaster()
 
-	const { data: comicIssue, error } = useFetchPublicComicIssue(params.slug)
+	const { data: comicIssue, error } = useFetchPublicComicIssue(params.id)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 	const hasWalletConnected = !!walletAddress
 
 	useEffect(() => {
+		// process.env.NEXT_PUBLIC_API_ENDPOINT
 		if (!walletAddress) return
-		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
-		socket.on(`wallet/${walletAddress}/item-minted`, (data: CandyMachineReceipt) => {
-			console.log('Item successfully minted !', data)
+		const socket = io('https://api-dev-devnet.dreader.io' || '')
+		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
+			setNftAddress(data.nft.address)
 		})
 		return () => {
 			socket.disconnect()
@@ -89,6 +96,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		},
 		false
 	)
+
 	const normalise = (value: number, MAX: number) => (value * 100) / MAX
 	const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
@@ -99,7 +107,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	}
 
 	const handleMint = async () => {
-		setMintTransactionLoading(true)
+		openMintTransactionLoading()
 		const activeGroup = getActiveGroup(candyMachine)
 		try {
 			if (!activeGroup?.wallet.isEligible) {
@@ -117,10 +125,11 @@ const ClaimPage = ({ params }: { params: Params }) => {
 			} else {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 				if (!signAllTransactions) {
-					setMintTransactionLoading(false)
 					return toaster.add('Wallet does not support signing multiple transactions', 'error')
 				}
 				const signedTransactions = await signAllTransactions(mintTransactions)
+				closeMintTransactionLoading()
+				openTransactionConfirmationDialog()
 				let i = 0
 				for (const transaction of signedTransactions) {
 					try {
@@ -132,6 +141,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 							console.log('Response error log: ', response.value.err)
 							throw new Error()
 						}
+						openMintedNftDialog()
 						toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
 					} catch (e) {
 						console.log('error: ', e)
@@ -147,7 +157,8 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		} catch (e) {
 			console.error(e)
 		} finally {
-			setMintTransactionLoading(false)
+			closeMintTransactionLoading()
+			closeTransactionConfirmationDialog()
 		}
 	}
 	if (error) return <Box p={2}>{error.message}</Box>
@@ -184,21 +195,21 @@ const ClaimPage = ({ params }: { params: Params }) => {
 						</div>
 						<div className='detail-toggle'>
 							<p
-								onClick={() => setToggleMintDetails(false)}
-								style={!toggleMintDetails ? { borderBottom: '2px solid #fceb54' } : {}}
+								onClick={closeMintDetailsSection}
+								style={!mintDetailsSection ? { borderBottom: '2px solid #fceb54' } : {}}
 							>
 								Mint
 							</p>
 							<p
-								onClick={() => setToggleMintDetails(true)}
-								style={toggleMintDetails ? { borderBottom: '2px solid #fceb54' } : {}}
+								onClick={openMintDetailsSection}
+								style={mintDetailsSection ? { borderBottom: '2px solid #fceb54' } : {}}
 							>
 								About
 							</p>
 						</div>
 						{isCandyMachineDetailsLoading ? (
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
-						) : !toggleMintDetails ? (
+						) : !mintDetailsSection ? (
 							<Box>
 								{candyMachine && (
 									<>
@@ -308,6 +319,8 @@ const ClaimPage = ({ params }: { params: Params }) => {
 					</Box>
 				</div>
 			</main>
+			<MintedNftDialog nftAddress={nftAddress} open={showMintedNftDialog} onClose={closeMintedNftDialog} />
+			<ConfirmTransactionDialog open={transactionConfirmationDialog} onClose={closeTransactionConfirmationDialog} />
 		</>
 	)
 }
