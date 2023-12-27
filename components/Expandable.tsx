@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { DetailedHTMLProps, HTMLAttributes, useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import ArrowDownIcon from 'public/assets/vector-icons/arrow-down-2.svg'
 import useEventListener from '@/hooks/useEventListener'
 
-interface Props {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	title: string
 	children?: React.ReactNode
 	open?: boolean
 }
 
-const Expandable: React.FC<Props> = ({ title, open = false, children }) => {
+const Expandable: React.FC<Props> = ({ title, open = false, children, ...props }) => {
 	const [isExpanded, setIsExpanded] = useState(open)
 	const [contentHeight, setContentHeight] = useState(0)
 	const [contentRef, setContentRef] = useState<HTMLDivElement | null>(null)
@@ -31,7 +31,7 @@ const Expandable: React.FC<Props> = ({ title, open = false, children }) => {
 	useEventListener('resize', handleContentHeightChange)
 
 	return (
-		<div className='expandable'>
+		<div className='expandable' {...props}>
 			<div className='expandable-header' onClick={() => setIsExpanded((currentIsExpanded) => !currentIsExpanded)}>
 				{title}
 				<ArrowDownIcon
