@@ -36,6 +36,7 @@
 @use 'components/sidebar.module.scss';
 @use 'components/steps.module.scss';
 @use 'components/textarea.module.scss';
+@use 'components/countdown.module.scss';
 
 // Forms
 @use 'forms/base-form.module.scss';
@@ -56,7 +57,7 @@
 @use 'pages/verify-email.module.scss';
 @use 'pages/reset-password.module.scss';
 @use 'pages/faq.module.scss';
-@use 'pages/launchpad.module.scss';
+@use 'pages/claim.module.scss';
 
 // Variables
 @use 'variables/theme.module.scss';

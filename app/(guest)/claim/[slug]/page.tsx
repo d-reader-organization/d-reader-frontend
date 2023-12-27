@@ -24,6 +24,7 @@ import GuestNavigation from '@/components/layout/guestNavigation'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import SkeletonImage from '@/components/SkeletonImage'
 import { shortenString } from '@/utils/helpers'
+import Countdown from '@/components/ui/Countdown'
 
 interface Params {
 	slug: string
@@ -34,7 +35,7 @@ const BaseWalletMultiButtonDynamic = dynamic(
 	{ ssr: false }
 )
 
-const LaunchpadPage = ({ params }: { params: Params }) => {
+const ClaimPage = ({ params }: { params: Params }) => {
 	const { publicKey, signAllTransactions } = useWallet()
 	const [toggleMintDetails, setToggleMintDetails] = useState<boolean>(false)
 	const [isMintTransactionLoading, setMintTransactionLoading] = useState<boolean>(false)
@@ -143,7 +144,7 @@ const LaunchpadPage = ({ params }: { params: Params }) => {
 	return (
 		<>
 			<GuestNavigation />
-			<main className='launchpad-page'>
+			<main className='claim-page'>
 				<div
 					className='comic-issue-banner-image'
 					style={{ backgroundImage: `url('${heroImage}')`, filter: 'blur(10px)' }}
@@ -208,7 +209,9 @@ const LaunchpadPage = ({ params }: { params: Params }) => {
 																	) : isEnded ? (
 																		<span className='text--error'>Ended</span>
 																	) : (
-																		<span className='text--important'>Upcoming</span>
+																		<span className='text--important'>
+																			Upcoming <Countdown targetDateTime={group.startDate} />
+																		</span>
 																	)}
 																</p>
 															</div>
@@ -295,4 +298,4 @@ const LaunchpadPage = ({ params }: { params: Params }) => {
 	)
 }
 
-export default LaunchpadPage
+export default ClaimPage

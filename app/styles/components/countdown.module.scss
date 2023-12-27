@@ -1,0 +1,13 @@
+@use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+
+.countdown {
+    .timer {
+        font-size: 15px;
+
+
+        &:nth-child(2n) {
+            margin-left: 5px;
+        }
+    }
+}
