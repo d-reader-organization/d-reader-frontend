@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -25,6 +25,8 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import SkeletonImage from '@/components/SkeletonImage'
 import { shortenString } from '@/utils/helpers'
 import Countdown from '@/components/ui/Countdown'
+import io from 'socket.io-client'
+import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 
 interface Params {
 	slug: string
@@ -46,6 +48,17 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 	const hasWalletConnected = !!walletAddress
+
+	useEffect(() => {
+		if (!walletAddress) return
+		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
+		socket.on(`wallet/${walletAddress}/item-minted`, (data: CandyMachineReceipt) => {
+			console.log('Item successfully minted !', data)
+		})
+		return () => {
+			socket.disconnect()
+		}
+	}, [walletAddress])
 
 	const {
 		data: candyMachine,
@@ -203,7 +216,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 														<div className='group-detail-wrapper'>
 															<div>
 																<p>{group.displayLabel}</p>
-																<p>
+																<div className='group-status'>
 																	{isLive ? (
 																		<span className='text--success'>Live</span>
 																	) : isEnded ? (
@@ -213,7 +226,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 																			Upcoming <Countdown targetDateTime={group.startDate} />
 																		</span>
 																	)}
-																</p>
+																</div>
 															</div>
 															<div>
 																<p>{group.mintPrice == 0 ? '*Free' : `${toSol(group.mintPrice)} SOL`}</p>
