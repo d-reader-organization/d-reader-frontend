@@ -39,6 +39,9 @@ import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import { isNil } from 'lodash'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
+import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
+import { shortenString } from '@/utils/helpers'
+import { useFetchNfts } from '@/api/nft'
 
 interface Params {
 	id: string
@@ -53,6 +56,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
+	const [unwrapIssueDialog, , closeUnwrapIssueDialog, openUnwrapIssueDialog] = useToggle()
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
@@ -72,11 +76,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
 
-	const { data: fetchedCandyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
+	const { data: candyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
 		candyMachineAddress,
 		walletAddress,
 	})
-	let candyMachine = fetchedCandyMachine
+
 	// const { data: receipts } = useFetchCandyMachineReceipts({ candyMachineAddress, skip: 0, take: 20 })
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
 
@@ -92,7 +96,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		})
 	}
 
-	const { refetch } = useFetchMintOneTransaction(
+	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
@@ -100,6 +104,19 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		},
 		false
 	)
+
+	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts(
+		{
+			ownerAddress: walletAddress,
+			comicIssueId: params.id,
+		},
+		!!walletAddress
+	)
+
+	const handleOpenUnwrapDialog = async () => {
+		await fetchNfts()
+		openUnwrapIssueDialog()
+	}
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -117,20 +134,19 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 		if (!activeGroup?.wallet.isEligible) {
 			const { data: updatedCandyMachine } = await fetchCandyMachine()
-			candyMachine = updatedCandyMachine
-			const updatedActiveGroup = getActiveGroup(candyMachine)
+			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
 
 			if (
 				updatedActiveGroup?.wallet.itemsMinted &&
 				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 			) {
-				return toaster.add(`Sorry, the wallet ${publicKey?.toString()} has reached its minting limit.`, 'error')
+				return toaster.add(`The wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
 			}
 			if (!updatedActiveGroup?.wallet.isEligible) {
-				return toaster.add(`Wallet ${publicKey?.toString()} is not eligible to mint`, 'error')
+				return toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
 			}
 		} else {
-			const { data: mintTransactions = [] } = await refetch()
+			const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 			if (!signAllTransactions) {
 				return toaster.add('Wallet does not support signing multiple transactions', 'error')
 			}
@@ -212,7 +228,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										borderColor='grey-100'
 										className='button--preview'
 									>
-										Preview
+										{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
 									</ButtonLink>
 									{candyMachine && (
 										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
@@ -227,6 +243,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										</Button>
 									)}
 								</FlexRow>
+								{!comicIssue.myStats.canRead && nfts.length > 0 ? (
+									<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
+										Unwrap
+									</Button>
+								) : null}
 							</Box>
 						)}
 
@@ -334,7 +355,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											borderColor='grey-100'
 											className='button--preview'
 										>
-											Preview
+											{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
 										</ButtonLink>
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
@@ -349,6 +370,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											</Button>
 										)}
 									</FlexRow>
+									{!comicIssue.myStats.canRead && nfts.length > 0 ? (
+										<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
+											Unwrap
+										</Button>
+									) : null}
 								</Box>
 							)}
 						</Box>
@@ -402,7 +428,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					<hr />
 					<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
 				</Dialog>
-
+				<UnwrapIssueDialog nfts={nfts} open={unwrapIssueDialog} onClose={closeUnwrapIssueDialog} />
 				<StarRatingDialog
 					title='Rate the episode'
 					open={starRatingDialog}

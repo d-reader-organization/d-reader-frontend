@@ -12,13 +12,14 @@ const fetchNfts = async (params: NftParams): Promise<Nft[]> => {
 	return response.data
 }
 
-export const useFetchNfts = (params: NftParams) => {
+export const useFetchNfts = (params: NftParams, enabled: boolean = true) => {
 	const toaster = useToaster()
 
 	return useQuery({
 		queryFn: () => fetchNfts(params),
 		queryKey: nftKeys.getMany(params),
-		staleTime: 1000 * 60 * 30, // stale for 30 minutes
+		staleTime: 1000 * 60 * 30, // stale for 30 minutes,
+		enabled,
 		onError: toaster.onQueryError,
 	})
 }

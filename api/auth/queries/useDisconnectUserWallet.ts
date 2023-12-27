@@ -3,6 +3,7 @@ import { useToaster } from 'providers/ToastProvider'
 import { useMutation, useQueryClient } from 'react-query'
 import { USER_QUERY_KEYS } from '@/api/user/userKeys'
 import http from 'api/http'
+import { COMIC_ISSUE_QUERY_KEYS } from '@/api/comicIssue'
 
 const { AUTH, WALLET, DISCONNECT } = AUTH_QUERY_KEYS
 

@@ -203,6 +203,12 @@
 	min-width: 92px !important;
 }
 
+.button--unwrap {
+	width: 100%;
+	max-width: 260px;
+	margin-top: 5px;
+}
+
 .action-button--resend-email-from-dialog {
 	margin-right: auto;
 	padding-left: 0;
