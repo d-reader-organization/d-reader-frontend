@@ -28,7 +28,6 @@ const Countdown: React.FC<Props> = ({ targetDateTime }) => {
 		const interval = setInterval(() => {
 			setTimeRemaining(calculateTimeRemaining())
 		}, 1000)
-		console.log('yez')
 		return () => clearInterval(interval)
 	}, [calculateTimeRemaining])
 

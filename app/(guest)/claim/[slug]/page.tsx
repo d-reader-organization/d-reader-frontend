@@ -27,6 +27,7 @@ import { shortenString } from '@/utils/helpers'
 import Countdown from '@/components/ui/Countdown'
 import io from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
+import MintTransactionDialog from '@/components/dialogs/ConfirmTransactionDialog'
 
 interface Params {
 	slug: string
