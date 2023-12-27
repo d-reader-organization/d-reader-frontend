@@ -22,9 +22,11 @@ import { useRedeemUserReferral } from '@/api/user'
 import Image from 'next/image'
 import Link from 'next/link'
 import { GOOGLE_PLAY_LINK } from '@/constants/links'
+import { useToaster } from '@/providers/ToastProvider'
 
 export default function RegisterUserPage() {
 	const router = useRouter()
+	const toaster = useToaster()
 	const searchParams = useSearchParams()
 	const referrer = searchParams.get('referrer') || ''
 	const nextPage = RoutePath.RegisterConnectWallet
@@ -49,7 +51,7 @@ export default function RegisterUserPage() {
 			await registerUser(data)
 			if (referrer) await redeemReferral(referrer)
 			router.push(nextPage)
-		})()
+		}, toaster.onFormError)()
 	}
 
 	return (

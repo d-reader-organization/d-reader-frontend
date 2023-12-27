@@ -23,10 +23,12 @@ import Link from 'next/link'
 import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import Box from '@mui/material/Box'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { useToaster } from '@/providers/ToastProvider'
 
 export default function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
 
+	const toaster = useToaster()
 	const router = useRouter()
 	const nextPage = RoutePath.Home
 
@@ -49,7 +51,7 @@ export default function LoginPage() {
 			await login(data)
 			setIsFirstTimeLogin(false)
 			router.push(nextPage)
-		})()
+		}, toaster.onFormError)()
 	}
 
 	return (

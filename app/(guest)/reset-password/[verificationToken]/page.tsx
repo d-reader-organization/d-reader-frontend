@@ -10,6 +10,7 @@ import { resetPasswordValidationSchema } from '@/constants/schemas'
 import Form from '@/components/forms/Form'
 import Label from '@/components/forms/Label'
 import Input from '@/components/forms/Input'
+import { useToaster } from '@/providers/ToastProvider'
 
 interface Params {
 	verificationToken: string
@@ -17,6 +18,7 @@ interface Params {
 
 export default function ResetPasswordPage({ params }: { params: Params }) {
 	const verificationToken = params?.verificationToken
+	const toaster = useToaster()
 
 	const { mutateAsync: resetPassword } = useResetUserPassword()
 	const { register, handleSubmit } = useForm<ResetPasswordData>({
@@ -32,7 +34,7 @@ export default function ResetPasswordPage({ params }: { params: Params }) {
 
 		handleSubmit(async (data) => {
 			await resetPassword(data)
-		})()
+		}, toaster.onFormError)()
 	}
 
 	return (

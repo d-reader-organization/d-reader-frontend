@@ -63,4 +63,4 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
 export default ClientContextProvider
 
-export const useToaster = (): null => useContext(ClientContext)
+export const useClientContext = (): null => useContext(ClientContext)
