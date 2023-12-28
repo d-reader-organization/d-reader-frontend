@@ -3,98 +3,98 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .comic-issue-unwrap-item {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    border-top: 1px inset;
-    text-align: start;
-    margin-top: 20px;
-    stroke-width: 1px;
-    stroke: $greyscale-greyscale-300;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+	border-top: 1px inset;
+	text-align: start;
+	margin-top: 20px;
+	stroke-width: 1px;
+	stroke: $greyscale-greyscale-300;
 
-    .button--unwrap {
-        align-self: flex-end;
-        border: 1px solid $green-400;
-        background-color: transparent;
-        color: $green-400;
-        cursor: pointer;
-        margin-bottom: 4px;
-        width: 30%;
-        height: 50px;
+	.button--unwrap {
+		align-self: flex-end;
+		border: 1px solid $green-400;
+		background-color: transparent;
+		color: $green-400;
+		cursor: pointer;
+		margin-bottom: 4px;
+		width: 30%;
+		height: 50px;
 
-        .loader {
-            height: 25px;
-            width: 25px;        
-        }
+		.loader {
+			height: 25px;
+			width: 25px;
+		}
 
-        .loader--root{
-            height: fit-content !important;
-            width: fit-content !important;
-        }
-    }
-    svg {
-        height: 12px;
-        width: 12px;
-    }
+		.loader--root {
+			height: fit-content !important;
+			width: fit-content !important;
+		}
+	}
+	svg {
+		height: 12px;
+		width: 12px;
+	}
 
-    .icon {
-        display: flex;
-        flex-wrap: wrap;
+	.icon {
+		display: flex;
+		flex-wrap: wrap;
 
-        @include xs {
-            width: 70%;
-        }
+		@include xs {
+			width: 70%;
+		}
 
-        @include md {
-            width: 100%;
-        }
+		@include md {
+			width: 100%;
+		}
 
-        .mint {
-            margin: 3px;
-            padding: 3.5px 5px 1px 5px;
-            font-size: small;
-            border: 1px solid $genres-comedy-green;
-            background-color: transparent;
-            border-radius: 4px;
-        }
+		.mint {
+			margin: 3px;
+			padding: 3.5px 5px 1px 5px;
+			font-size: small;
+			border: 1px solid $genres-comedy-green;
+			background-color: transparent;
+			border-radius: 4px;
+		}
 
-        .signed {
-            margin: 3px;
-            padding: 3.5px 5px 1px 5px;
-            font-size: small;
-            border: 1px solid $genres-action-orange;
-            background-color: transparent;
-            border-radius: 4px;
-        }
+		.signed {
+			margin: 3px;
+			padding: 3.5px 5px 1px 5px;
+			font-size: small;
+			border: 1px solid $genres-action-orange;
+			background-color: transparent;
+			border-radius: 4px;
+		}
 
-        .rarity {
-            margin: 3px;
-            padding: 3.5px 5px 1px 5px;
-            font-size: small;
-            border: 1px solid;
-            background-color: transparent;
-            border-radius: 4px;
-        }
+		.rarity {
+			margin: 3px;
+			padding: 3.5px 5px 1px 5px;
+			font-size: small;
+			border: 1px solid;
+			background-color: transparent;
+			border-radius: 4px;
+		}
 
-        .common {
-            border-color: $greyscale-white;
-        }
+		.common {
+			border-color: $greyscale-white;
+		}
 
-        .uncommon {
-            border-color: $primary-yellow-100;
-        }
+		.uncommon {
+			border-color: $primary-yellow-100;
+		}
 
-        .rare {
-            border-color: $genres-superhero-blue;
-        }
+		.rare {
+			border-color: $genres-superhero-blue;
+		}
 
-        .epic {
-            border-color: $genres-fantasy-purple;
-        }
+		.epic {
+			border-color: $genres-fantasy-purple;
+		}
 
-        .legendary {
-            border-color: $genres-non-fiction-blue;
-        }
-    }
+		.legendary {
+			border-color: $genres-non-fiction-blue;
+		}
+	}
 }

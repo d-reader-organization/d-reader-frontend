@@ -8,7 +8,7 @@ interface Props extends DialogProps {
 	nfts: Nft[]
 }
 
-const UnwrapIssueDialog: React.FC<Props> = ({ nfts, onClose, open, ...props }) => {
+const UnwrapIssueDialog: React.FC<Props> = ({ nfts = [], onClose, open, ...props }) => {
 	return (
 		<Dialog
 			style={{ backdropFilter: 'blur(4px)' }}
@@ -25,7 +25,7 @@ const UnwrapIssueDialog: React.FC<Props> = ({ nfts, onClose, open, ...props }) =
 			<div className='dialog-content'>
 				<strong>Choose to open</strong>
 				<p>In order to read comic issue you need to open it from its package.</p>
-				{nfts?.map((nft) => (!nft.isUsed ? <UnwrapIssueDialogItem key={nft.address} nft={nft} /> : null))}
+				{nfts.map((nft) => (!nft.isUsed ? <UnwrapIssueDialogItem key={nft.address} nft={nft} /> : null))}
 			</div>
 		</Dialog>
 	)
