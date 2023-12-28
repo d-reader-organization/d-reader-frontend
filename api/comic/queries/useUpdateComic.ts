@@ -1,4 +1,4 @@
-import { COMIC_QUERY_KEYS, comicKeys } from 'api/comic/comicKeys'
+import { COMIC_QUERY_KEYS } from 'api/comic/comicKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { BasicComic, UpdateComicData } from 'models/comic'
 import { useMutation, useQueryClient } from 'react-query'
@@ -19,8 +19,6 @@ export const useUpdateComic = (slug: string) => {
 		mutationFn: (request: UpdateComicData) => updateComic(slug, request),
 		onSuccess: () => {
 			toaster.add('Comic updated!', 'success')
-			queryClient.invalidateQueries(comicKeys.getRaw(slug))
-			// 👇 TODO: this also invalidates all the individual comics
 			queryClient.invalidateQueries([COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET_RAW])
 		},
 		onError: toaster.onQueryError,

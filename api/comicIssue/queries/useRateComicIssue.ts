@@ -2,6 +2,7 @@ import { COMIC_ISSUE_QUERY_KEYS, comicIssueKeys } from 'api/comicIssue/comicIssu
 import { useToaster } from 'providers/ToastProvider'
 import { RateComicIssue } from 'models/comicIssue/rateComicIssue'
 import { useMutation, useQueryClient } from 'react-query'
+import { useFetchMe } from '@/api/user/queries/useFetchMe'
 import http from 'api/http'
 
 const { COMIC_ISSUE, RATE } = COMIC_ISSUE_QUERY_KEYS
@@ -13,15 +14,15 @@ const rateComicIssue = async (id: string | number, request: RateComicIssue): Pro
 
 export const useRateComicIssue = (id: string | number) => {
 	const toaster = useToaster()
+	const { data: me } = useFetchMe()
 	const queryClient = useQueryClient()
 
 	return useMutation({
 		mutationFn: (request: RateComicIssue) => rateComicIssue(id, request),
 		onSuccess: () => {
-			queryClient.invalidateQueries(comicIssueKeys.get(id))
 			toaster.add('Comic issue rated!', 'success')
-			// 👇 TODO: this
-			// queryClient.invalidateQueries(comicIssueKeys.getMany())
+			queryClient.invalidateQueries(comicIssueKeys.get(id))
+			queryClient.invalidateQueries(comicIssueKeys.getByOwner(me?.id || 0))
 		},
 		onError: toaster.onQueryError,
 	})

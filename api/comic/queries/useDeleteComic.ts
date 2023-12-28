@@ -1,4 +1,4 @@
-import { COMIC_QUERY_KEYS, comicKeys } from 'api/comic/comicKeys'
+import { COMIC_QUERY_KEYS } from 'api/comic/comicKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { useMutation, useQueryClient } from 'react-query'
 import http from 'api/http'
@@ -18,8 +18,6 @@ export const useDeleteComic = (slug: string) => {
 		mutationFn: () => deleteComic(slug),
 		onSuccess: () => {
 			toaster.add('Comic deleted!', 'success')
-			queryClient.invalidateQueries(comicKeys.getRaw(slug))
-			// 👇 TODO: this also invalidates all the individual comics
 			queryClient.invalidateQueries([COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET_RAW])
 		},
 		onError: toaster.onQueryError,

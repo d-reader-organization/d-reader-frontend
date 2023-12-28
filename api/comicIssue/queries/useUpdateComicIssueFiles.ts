@@ -1,4 +1,4 @@
-import { comicIssueKeys, COMIC_ISSUE_QUERY_KEYS } from 'api/comicIssue/comicIssueKeys'
+import { COMIC_ISSUE_QUERY_KEYS } from 'api/comicIssue/comicIssueKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { BasicComicIssue } from 'models/comicIssue'
 import { useMutation, useQueryClient } from 'react-query'
@@ -19,9 +19,6 @@ export const useUpdateComicIssueFiles = (id: string | number) => {
 		mutationFn: (updateData: FormData) => updateComicIssueFiles(id, updateData),
 		onSuccess: () => {
 			toaster.add('Files updated!', 'success')
-			queryClient.invalidateQueries(comicIssueKeys.getRaw(id))
-			// queryClient.invalidateQueries(comicIssueKeys.getManyRaw())
-			// 👇 TODO: this also invalidates all the individual comic issues
 			queryClient.invalidateQueries([COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_RAW])
 		},
 		onMutate: toaster.uploadingFiles,

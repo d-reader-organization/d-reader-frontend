@@ -36,12 +36,12 @@ import StarIcon from '@/components/icons/StarIcon'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 import { CandyMachine } from '@/models/candyMachine'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
-import { isNil } from 'lodash'
-import dynamic from 'next/dynamic'
-import clsx from 'clsx'
 import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
 import { shortenString } from '@/utils/helpers'
 import { useFetchNfts } from '@/api/nft'
+import dynamic from 'next/dynamic'
+import { isNil } from 'lodash'
+import clsx from 'clsx'
 
 interface Params {
 	id: string
@@ -140,7 +140,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 				updatedActiveGroup?.wallet.itemsMinted &&
 				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 			) {
-				return toaster.add(`The wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
+				return toaster.add(`wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
 			}
 			if (!updatedActiveGroup?.wallet.isEligible) {
 				return toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
@@ -299,7 +299,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											<React.Fragment key={group.label}>
 												<FlexRow>{group.displayLabel}:</FlexRow>
 												<InfoList orientation='horizontal' mb={1}>
-													{/* TODO: websocket events here for updates */}
 													<CollectionStatusItem orientation='vertical' label='supply' value={group.supply} />
 													<CollectionStatusItem orientation='vertical' label='minted' value={group.itemsMinted} />
 													<CollectionStatusItem

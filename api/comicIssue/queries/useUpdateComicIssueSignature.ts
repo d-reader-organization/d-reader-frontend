@@ -1,4 +1,4 @@
-import { COMIC_ISSUE_QUERY_KEYS, comicIssueKeys } from 'api/comicIssue/comicIssueKeys'
+import { COMIC_ISSUE_QUERY_KEYS } from 'api/comicIssue/comicIssueKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { BasicComicIssue } from 'models/comicIssue'
 import { useMutation, useQueryClient } from 'react-query'
@@ -19,9 +19,6 @@ export const useUpdateComicIssueSignature = (id: string | number) => {
 		mutationFn: (updateData: FormData) => updateComicIssueSignature(id, updateData),
 		onSuccess: () => {
 			toaster.add('Signature updated!', 'success')
-			queryClient.invalidateQueries(comicIssueKeys.getRaw(id))
-			// queryClient.invalidateQueries(comicIssueKeys.getManyRaw())
-			// 👇 TODO: this also invalidates all the individual comic issues
 			queryClient.invalidateQueries([COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_RAW])
 		},
 		onError: toaster.onQueryError,

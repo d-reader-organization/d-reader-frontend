@@ -19,7 +19,6 @@ export const useCreateComic = () => {
 		mutationFn: (request: CreateComicData) => createComic(request),
 		onSuccess: () => {
 			toaster.add('Comic created! 🎉', 'success')
-			// 👇 TODO: this also invalidates all the individual comics
 			queryClient.invalidateQueries([COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET_RAW])
 		},
 		onError: toaster.onQueryError,

@@ -22,7 +22,6 @@ export const useSyncUserWallets = (id: string | number) => {
 		onSuccess: () => {
 			toaster.add('Wallets synced!', 'success')
 			queryClient.invalidateQueries(userKeys.getAssets(id))
-			// 👇 TODO: check if this is working
 			queryClient.invalidateQueries({
 				predicate: (query) => {
 					return (

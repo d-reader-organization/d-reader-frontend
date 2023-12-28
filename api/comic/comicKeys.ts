@@ -48,5 +48,10 @@ export const comicKeys = Object.freeze({
 	],
 	get: (slug: string) => [COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET, slug],
 	getRaw: (slug: string) => [COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET_RAW, slug],
-	getByOwner: (userId: number) => [COMIC_QUERY_KEYS.COMIC, COMIC_QUERY_KEYS.GET, COMIC_QUERY_KEYS.BY_OWNER, userId],
+	getByOwner: (userId: string | number) => [
+		COMIC_QUERY_KEYS.COMIC,
+		COMIC_QUERY_KEYS.GET,
+		COMIC_QUERY_KEYS.BY_OWNER,
+		userId,
+	],
 })

@@ -8,7 +8,6 @@ import http from 'api/http'
 
 const { TRANSACTION, MINT_ONE } = TRANSACTION_QUERY_KEYS
 
-// TODO: update in dPublisher, and update other transactions as well
 /** @deprecated */
 const fetchMintOneTransaction = async (params: MintOneParams): Promise<VersionedTransaction[]> => {
 	const response = await http.get<string[]>(`${TRANSACTION}/${MINT_ONE}`, { params })

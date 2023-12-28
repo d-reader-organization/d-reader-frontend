@@ -1,4 +1,4 @@
-import { COMIC_ISSUE_QUERY_KEYS, comicIssueKeys } from 'api/comicIssue/comicIssueKeys'
+import { COMIC_ISSUE_QUERY_KEYS } from 'api/comicIssue/comicIssueKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { PublishOnChainData } from 'models/comicIssue/publishOnChain'
 import { useMutation, useQueryClient } from 'react-query'
@@ -18,9 +18,7 @@ export const usePublishComicIssueOnChain = (id: string | number) => {
 	return useMutation({
 		mutationFn: (publishData: PublishOnChainData) => publishComicIssueOnChain(id, publishData),
 		onSuccess: () => {
-			queryClient.invalidateQueries(comicIssueKeys.getRaw(id))
-			// 👇 TODO: this
-			// queryClient.invalidateQueries(comicIssueKeys.getManyRaw())
+			queryClient.invalidateQueries([COMIC_ISSUE_QUERY_KEYS.COMIC_ISSUE, COMIC_ISSUE_QUERY_KEYS.GET_RAW])
 		},
 		onError: toaster.onQueryError,
 	})

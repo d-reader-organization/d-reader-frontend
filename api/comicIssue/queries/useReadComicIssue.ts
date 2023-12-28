@@ -18,8 +18,6 @@ export const useReadComicIssue = (id: string | number) => {
 		mutationFn: () => readComicIssue(id),
 		onSuccess: () => {
 			queryClient.invalidateQueries(comicIssueKeys.get(id))
-			// 👇 TODO: this
-			// queryClient.invalidateQueries(comicIssueKeys.getMany())
 		},
 		onError: toaster.onQueryError,
 	})

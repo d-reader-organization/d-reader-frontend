@@ -20,8 +20,6 @@ export const useBookmarkComic = (slug: string) => {
 		mutationFn: () => bookmarkComic(slug),
 		onSuccess: () => {
 			queryClient.invalidateQueries(comicKeys.get(slug))
-			// 👇 TODO: this
-			// queryClient.invalidateQueries(comicKeys.getMany())
 			queryClient.invalidateQueries(comicKeys.getByOwner(me?.id || 0))
 		},
 		onError: toaster.onQueryError,
