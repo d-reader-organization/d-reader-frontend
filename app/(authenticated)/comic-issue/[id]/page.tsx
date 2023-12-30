@@ -36,9 +36,7 @@ import StarIcon from '@/components/icons/StarIcon'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 import { CandyMachine } from '@/models/candyMachine'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
-import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
 import { shortenString } from '@/utils/helpers'
-import { useFetchNfts } from '@/api/nft'
 import dynamic from 'next/dynamic'
 import { isNil } from 'lodash'
 import clsx from 'clsx'
@@ -56,7 +54,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
-	const [unwrapIssueDialog, , closeUnwrapIssueDialog, openUnwrapIssueDialog] = useToggle()
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
@@ -104,19 +101,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		},
 		false
 	)
-
-	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts(
-		{
-			ownerAddress: walletAddress,
-			comicIssueId: params.id,
-		},
-		!!walletAddress
-	)
-
-	const handleOpenUnwrapDialog = async () => {
-		await fetchNfts()
-		openUnwrapIssueDialog()
-	}
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -228,7 +212,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										borderColor='grey-100'
 										className='button--preview'
 									>
-										{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+										Read
 									</ButtonLink>
 									{candyMachine && (
 										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
@@ -243,11 +227,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										</Button>
 									)}
 								</FlexRow>
-								{!comicIssue.myStats.canRead && nfts.length > 0 ? (
-									<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
-										Unwrap
-									</Button>
-								) : null}
 							</Box>
 						)}
 
@@ -354,7 +333,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											borderColor='grey-100'
 											className='button--preview'
 										>
-											{comicIssue.myStats.canRead ? 'Read' : 'Preview'}
+											Read
 										</ButtonLink>
 										{candyMachine && (
 											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
@@ -369,11 +348,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 											</Button>
 										)}
 									</FlexRow>
-									{!comicIssue.myStats.canRead && nfts.length > 0 ? (
-										<Button onClick={handleOpenUnwrapDialog} className='button--unwrap'>
-											Unwrap
-										</Button>
-									) : null}
 								</Box>
 							)}
 						</Box>
@@ -427,7 +401,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					<hr />
 					<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
 				</Dialog>
-				<UnwrapIssueDialog nfts={nfts} open={unwrapIssueDialog} onClose={closeUnwrapIssueDialog} />
 				<StarRatingDialog
 					title='Rate the episode'
 					open={starRatingDialog}

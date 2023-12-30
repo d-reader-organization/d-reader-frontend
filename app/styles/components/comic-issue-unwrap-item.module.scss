@@ -8,24 +8,25 @@
 	width: 100%;
 	justify-content: space-between;
 	border-top: 1px inset;
-	text-align: start;
 	margin-top: 20px;
-	stroke-width: 1px;
-	stroke: $greyscale-greyscale-300;
+	stroke: $grey-300;
+	align-items: flex-end;
+
+	.title {
+		text-align: left;
+		font-weight: bold;
+	}
 
 	.button--unwrap {
-		align-self: flex-end;
-		border: 1px solid $green-400;
+		border: 1px solid $green-500;
 		background-color: transparent;
-		color: $green-400;
+		color: $green-500;
 		cursor: pointer;
-		margin-bottom: 4px;
-		width: 30%;
-		height: 50px;
+		width: 80px;
 
 		.loader {
-			height: 25px;
-			width: 25px;
+			height: 24px;
+			width: 24px;
 		}
 
 		.loader--root {
@@ -38,63 +39,55 @@
 		width: 12px;
 	}
 
-	.icon {
+	.trait-label-list {
 		display: flex;
 		flex-wrap: wrap;
 
-		@include xs {
-			width: 70%;
-		}
-
-		@include md {
-			width: 100%;
-		}
-
-		.mint {
-			margin: 3px;
-			padding: 3.5px 5px 1px 5px;
-			font-size: small;
-			border: 1px solid $genres-comedy-green;
+		.trait-label {
+			padding: 0.04rem 0.4rem;
 			background-color: transparent;
 			border-radius: 4px;
-		}
+			border-width: 1px;
+			border-style: solid;
+			font-size: 12px;
+			@include flexRow;
+			align-items: center;
 
-		.signed {
-			margin: 3px;
-			padding: 3.5px 5px 1px 5px;
-			font-size: small;
-			border: 1px solid $genres-action-orange;
-			background-color: transparent;
-			border-radius: 4px;
-		}
+			&:not(:last-child) {
+				margin-right: 0.4rem;
+			}
 
-		.rarity {
-			margin: 3px;
-			padding: 3.5px 5px 1px 5px;
-			font-size: small;
-			border: 1px solid;
-			background-color: transparent;
-			border-radius: 4px;
-		}
+			&--mint {
+				border-color: $green-500;
+			}
 
-		.common {
-			border-color: $greyscale-white;
-		}
+			&--signed {
+				border-color: $orange-500;
+			}
 
-		.uncommon {
-			border-color: $primary-yellow-100;
-		}
+			&--common {
+				border-color: $white;
+			}
 
-		.rare {
-			border-color: $genres-superhero-blue;
-		}
+			&--uncommon {
+				border-color: $yellow-100;
+			}
 
-		.epic {
-			border-color: $genres-fantasy-purple;
-		}
+			&--rare {
+				border-color: $blue-500;
+			}
 
-		.legendary {
-			border-color: $genres-non-fiction-blue;
+			&--epic {
+				border-color: $pink-500;
+			}
+
+			&--legendary {
+				border-color: $purple-500;
+			}
+
+			svg {
+				margin-right: 4px;
+			}
 		}
 	}
 }

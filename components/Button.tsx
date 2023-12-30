@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	backgroundColor?: 'important' | 'transparent' | 'grey-100' | 'grey-300' | 'green-500' | 'yellow-500'
-	borderColor?: 'important' | 'transparent' | 'grey-100' | 'grey-300' | 'green-600'
+	borderColor?: 'important' | 'transparent' | 'grey-100' | 'grey-300'
 	noMinWidth?: boolean
 	bold?: boolean
 	naked?: boolean

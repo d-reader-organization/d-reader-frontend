@@ -34,41 +34,8 @@
 	}
 }
 
-.unwrap-dialog {
-	overflow: scroll !important;
-	background-color: $grey-400 !important;
-
-	.close-icon-wrapper {
-		z-index: 999;
-		margin-left: auto;
-		position: absolute;
-		right: 1rem;
-		top: 1rem;
-		line-height: 16px;
-
-		.close-icon {
-			@include clickable;
-			width: 16px;
-			height: 16px;
-			color: white;
-			fill: white;
-		}
-	}
-
-	.dialog-content {
-		@include centeredColumn;
-		text-align: center;
-		padding: 2rem 1rem !important;
-
-		@include sm {
-			padding: 2rem 1rem !important;
-		}
-	}
-}
-
 .action-dialog {
 	background-color: $grey-400 !important;
-	overflow: hidden !important;
 
 	.close-icon-wrapper {
 		z-index: 999;
@@ -103,10 +70,6 @@
 		@include centeredColumn;
 		text-align: center;
 		padding: 2rem 1rem !important;
-
-		@include sm {
-			padding: 2rem 1rem !important;
-		}
 	}
 
 	.dialog-actions {
@@ -126,5 +89,13 @@
 		& > *:not(:last-child) {
 			border-right: 2px solid $grey-600 !important;
 		}
+	}
+}
+
+.unwrap-dialog {
+	padding: 2rem 0 0 0 !important;
+
+	@include sm {
+		padding: 0 !important;
 	}
 }

@@ -17,6 +17,7 @@
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@hookform/resolvers": "^3.3.2",
+		"@metaplex-foundation/js": "^0.20.1",
 		"@mui/lab": "^5.0.0-alpha.155",
 		"@mui/material": "^5.14.20",
 		"@netlify/plugin-nextjs": "^4.41.2",

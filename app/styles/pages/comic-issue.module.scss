@@ -150,6 +150,18 @@
 			margin-top: 4rem;
 		}
 	}
+
+	.button--preview {
+		margin-right: 0.5rem !important;
+		padding: 0.5rem 1rem !important;
+		min-width: 92px !important;
+	}
+}
+
+.action-button--resend-email-from-dialog {
+	margin-right: auto;
+	padding-left: 0;
+	color: $yellow-500;
 }
 
 .comic-issue-banner-image {
@@ -195,22 +207,4 @@
 			);
 		}
 	}
-}
-
-.button--preview {
-	margin-right: 0.5rem !important;
-	padding: 0.5rem 1rem !important;
-	min-width: 92px !important;
-}
-
-.button--unwrap {
-	width: 100%;
-	max-width: 260px;
-	margin-top: 5px;
-}
-
-.action-button--resend-email-from-dialog {
-	margin-right: auto;
-	padding-left: 0;
-	color: $yellow-500;
 }
