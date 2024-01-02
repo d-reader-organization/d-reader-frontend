@@ -23,20 +23,7 @@
 		color: $green-500;
 		cursor: pointer;
 		width: 80px;
-
-		.loader {
-			height: 24px;
-			width: 24px;
-		}
-
-		.loader--root {
-			height: fit-content !important;
-			width: fit-content !important;
-		}
-	}
-	svg {
-		height: 12px;
-		width: 12px;
+		height: 48px;
 	}
 
 	.trait-label-list {
@@ -52,6 +39,11 @@
 			font-size: 12px;
 			@include flexRow;
 			align-items: center;
+
+			svg {
+				height: 12px;
+				width: 12px;
+			}
 
 			&:not(:last-child) {
 				margin-right: 0.4rem;

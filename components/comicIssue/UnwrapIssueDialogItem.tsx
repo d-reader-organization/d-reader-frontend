@@ -1,6 +1,7 @@
-import { useState } from 'react'
+'use client'
+
+import { useCallback, useState } from 'react'
 import { Nft } from '@/models/nft'
-import Button from '@/components/Button'
 import { useFetchUseComicIssueNftTransaction } from '@/api/transaction'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useToaster } from '@/providers/ToastProvider'
@@ -12,6 +13,7 @@ import EpicRarityIcon from 'public/assets/vector-icons/epic-rarity-icon.svg'
 import CommonRarityIcon from 'public/assets/vector-icons/common-rarity-icon.svg'
 import UncommonRarityIcon from 'public/assets/vector-icons/uncommon-rarity-icon.svg'
 import { CircularProgress } from '@mui/material'
+import ConnectButton from '../buttons/ConnectButton'
 
 interface Props {
 	nft: Nft
@@ -38,7 +40,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 	const { signTransaction } = useWallet()
 	const { connection } = useConnection()
 	const toaster = useToaster()
-	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
@@ -48,7 +50,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 		false
 	)
 
-	const handleUnwrap = async () => {
+	const handleUnwrap = useCallback(async () => {
 		if (signTransaction) {
 			try {
 				setIsLoading(true)
@@ -72,7 +74,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 				setIsLoading(false)
 			}
 		}
-	}
+	}, [connection, fetchUseComicIssueNftTransaction, signTransaction, toaster])
 
 	return (
 		<div className='comic-issue-unwrap-item'>
@@ -96,9 +98,9 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 					)}
 				</div>
 			</div>
-			<Button className='button--unwrap' noMinWidth onClick={handleUnwrap}>
-				{isLoading ? <CircularProgress thickness={6} classes={{ svg: 'loader', root: 'loader--root' }} /> : 'Open'}
-			</Button>
+			<ConnectButton className='button--unwrap' noMinWidth onClick={handleUnwrap}>
+				{isLoading ? <CircularProgress className='loading-spinner' size={24} /> : 'Open'}
+			</ConnectButton>
 		</div>
 	)
 }

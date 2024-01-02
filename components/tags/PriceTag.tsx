@@ -49,7 +49,7 @@ const PriceTag: React.FC<Props> = ({
 	}
 
 	if (isNil(price)) return <TypographyWrapper>-.--</TypographyWrapper>
-	if (price == 0) return <TypographyWrapper>FREE</TypographyWrapper>
+	if (price == 0) return <TypographyWrapper>free</TypographyWrapper>
 
 	const formattedPrice = formatPrice(price)
 	const roundedPrice = !isNil(maxDecimals) ? roundNumber(formattedPrice, maxDecimals) : formattedPrice

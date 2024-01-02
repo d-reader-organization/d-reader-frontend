@@ -25,10 +25,10 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 	const { data: pages = [], isFetched } = useFetchComicIssuePages(params.id)
 	const { data: comicIssue } = useFetchComicIssue(params.id)
 	const { data: me } = useFetchMe()
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { publicKey } = useWallet()
 
 	// TODO: highlight NFTs owned by this public key and disable "open" buttons on others
-	console.log(publicKey?.toString())
 
 	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts({ userId: me?.id, comicIssueId: params.id }, !!me)
 
@@ -75,7 +75,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 								<p className='preview-message-title'>This is a comic preview!</p>
 								{!comicIssue.myStats?.canRead && (
 									<p className='preview-message-text'>
-										To view all pages you need to own at least one <strong>opened</strong> comic issue NFT
+										To view all pages you need to own at least one <strong>opened</strong> comic issue NFT.
 									</p>
 								)}
 								{hasUnusedNfts && (
