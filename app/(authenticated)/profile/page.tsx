@@ -28,7 +28,7 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import clsx from 'clsx'
-import FlexRow from '@/components/FlexRow'
+import FlexRow from '@/components/ui/FlexRow'
 import Box from '@mui/material/Box'
 import dynamic from 'next/dynamic'
 import { WALLET_LABELS } from '@/constants/wallets'
@@ -38,9 +38,12 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useDisconnectUserWallet } from '@/api/auth'
 import FileUpload from '@/components/forms/FileUpload'
 import { imageTypes } from '@/constants/fileTypes'
-import FlexColumn from '@/components/FlexColumn'
+import FlexColumn from '@/components/ui/FlexColumn'
 import JoinTheBeta from '@/components/JoinTheBeta'
 import { useUserAuth } from '@/providers/UserAuthProvider'
+import Important from '@/components/ui/Important'
+import FAQ from '@/components/FAQ'
+import FaqLink from '@/components/ui/FaqLink'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -120,6 +123,7 @@ function ProfilePage() {
 					<TabContext value={activeTab}>
 						<TabList
 							TabIndicatorProps={{ style: { backgroundColor: '#fceb54' } }}
+							variant='scrollable'
 							textColor='secondary'
 							onChange={handleTabChange}
 							aria-label=''
@@ -149,14 +153,20 @@ function ProfilePage() {
 								value='4'
 								className={clsx('tab-button', activeTab === '4' && 'tab-button--active')}
 							/>
+							<Tab
+								label='FAQ'
+								disableRipple
+								value='5'
+								className={clsx('tab-button', activeTab === '5' && 'tab-button--active')}
+							/>
 						</TabList>
 
 						<TabPanel value='1'>
 							{me && (
-								<Box maxWidth='sm'>
+								<Box className='tab-content'>
 									<div className='title-box'>
 										<h2>Account settings</h2>
-										<p>Manage your dReader user profile</p>
+										<p className='subtitle'>Manage your dReader user profile</p>
 									</div>
 									<div className='profile-settings-section'>Assets</div>
 									<Form fullWidth maxSize='sm'>
@@ -235,10 +245,10 @@ function ProfilePage() {
 						</TabPanel>
 
 						<TabPanel value='2'>
-							<Box maxWidth='sm'>
+							<Box className='tab-content'>
 								<div className='title-box'>
 									<h2>Manage wallets</h2>
-									<p>
+									<p className='subtitle'>
 										Link any wallet you wish to have connected with your account. This will allow you see all your
 										comics & collectibles in one place.
 									</p>
@@ -274,7 +284,7 @@ function ProfilePage() {
 						</TabPanel>
 						<TabPanel value='3'>
 							{me && (
-								<Box maxWidth='sm'>
+								<Box className='tab-content'>
 									{!me.hasBetaAccess ? (
 										<>
 											<div className='title-box'>
@@ -293,14 +303,16 @@ function ProfilePage() {
 													<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
 													<h2>Invite your friends</h2>
 												</FlexRow>
-												<p>🎁 Invite friends and receive a referrer bonus</p>
+												<p className='subtitle'>
+													<span className='emoji'>🎁</span> Invite friends and receive a referrer bonus
+												</p>
 											</div>
 											<p>
 												Referrals remaining: <strong>{me.referralsRemaining}</strong>
 											</p>
-											<p>
-												Fully onboarding 2 people to the platform will make you eligible for a free comic mint!
-												&apos;Fully&apos; means that the users have verified their email and connected a wallet.
+											<p className='subtitle'>
+												Fully (email verified & wallet connected) onboarding 2 people to the platform will make you
+												eligible for a free comic mint!
 											</p>
 											<Button
 												bold={false}
@@ -319,10 +331,25 @@ function ProfilePage() {
 						</TabPanel>
 
 						<TabPanel value='4'>
-							<Box maxWidth='sm'>
+							<Box className='tab-content'>
 								<div className='title-box'>
 									<h2>Security & Privacy</h2>
-									<p>Change your security settings and review the privacy policy here.</p>
+									<p className='subtitle'>Change your security settings and review the privacy policy here</p>
+								</div>
+							</Box>
+						</TabPanel>
+
+						<TabPanel value='5'>
+							<Box className='tab-content'>
+								<div className='title-box'>
+									<h2>Frequent Questions</h2>
+									<p className='subtitle'>
+										If you&apos;d like to report your bug use the &nbsp;
+										<Important>
+											<FaqLink href='https://forms.gle/pXH2DFaVPyquv1Yv9'>bug report form</FaqLink>
+										</Important>
+									</p>
+									<FAQ />
 								</div>
 							</Box>
 						</TabPanel>

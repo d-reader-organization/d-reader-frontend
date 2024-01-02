@@ -3,7 +3,7 @@ import Dialog, { DialogProps } from '@mui/material/Dialog'
 import CloseIcon from 'public/assets/vector-icons/close.svg'
 import Button from '../Button'
 import StarIcon from '../icons/StarIcon'
-import FlexRow from '../FlexRow'
+import FlexRow from '../ui/FlexRow'
 
 interface Props extends Omit<DialogProps, 'onSubmit'> {
 	onClose: VoidFunction

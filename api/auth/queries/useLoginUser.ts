@@ -20,8 +20,8 @@ export const useLoginUser = () => {
 	return useMutation({
 		mutationFn: (request: LoginData) => login(request),
 		onSuccess: (data) => {
-			const user = addAuthorization(data)
-			toaster.add(`Welcome back ${user.name}! 🎉`, 'success')
+			addAuthorization(data)
+			// toaster.add(`Welcome back ${user.name}! 🎉`, 'success')
 		},
 		onError: toaster.onQueryError,
 	})

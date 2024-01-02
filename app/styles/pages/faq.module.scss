@@ -9,7 +9,7 @@
 
 	.title,
 	.subtitle,
-	.faq-section {
+	.faq-section-title {
 		padding-left: 12px;
 		padding-right: 12px;
 	}
@@ -18,21 +18,29 @@
 		margin-top: 0;
 		font-style: italic;
 	}
+}
 
-	.faq-section {
+.faq-section {
+	.faq-section-title {
 		color: $grey-100;
 		font-size: 0.9rem;
 		font-weight: bold;
 		text-transform: uppercase;
 		margin: 2rem 0 1rem 0;
 
-		@include md {
+		@include sm {
 			border-bottom: 1px solid $grey-100;
 			padding-bottom: 0.4rem;
 		}
 	}
 
-	.faq-link {
-		text-decoration: underline;
+	.expandable:not(:last-child) {
+		@include xs {
+			border-bottom: unset;
+		}
 	}
+}
+
+.faq-link {
+	text-decoration: underline;
 }

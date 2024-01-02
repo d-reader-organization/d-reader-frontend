@@ -4,13 +4,36 @@
 
 .profile-page {
 	margin: 0 auto;
-	@include pagePadding(10px, 20px, 40px, 40px);
+	// @include pagePadding(10px, 20px, 40px, 40px);
+	padding: 10px 0;
+
+	@include sm {
+		padding: 20px 0;
+	}
+
+	@include md {
+		padding: 40px 0;
+	}
+
+	.tab-content {
+		padding: 0 10px;
+		max-width: $sm-width;
+	}
 
 	.title-box {
 		padding: 2rem 0;
 
 		@include sm {
 			padding: 2.5rem 0;
+		}
+
+		.subtitle {
+			font-style: italic;
+			color: $grey-100;
+
+			.emoji {
+				font-style: normal;
+			}
 		}
 	}
 

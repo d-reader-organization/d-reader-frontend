@@ -79,7 +79,7 @@
 
 		& > * {
 			padding: 1rem !important;
-			width: 160px !important;
+			width: 100% !important;
 
 			&:hover {
 				background-color: $grey-300 !important;
@@ -92,6 +92,20 @@
 	}
 }
 
+.forgot-password-dialog {
+	margin: 0 !important;
+	padding: 1rem !important;
+	overflow: auto !important;
+	white-space: pre-wrap;
+	width: 100% !important;
+	overflow: hidden !important;
+
+	.forgot-password-input {
+		width: 100%;
+	}
+}
+
+.forgot-password-dialog,
 .unwrap-dialog {
 	padding: 2rem 0 0 0 !important;
 

@@ -5,10 +5,6 @@
 .input-wrapper {
 	margin-bottom: 28px;
 
-	@include sm {
-		margin-bottom: 32px;
-	}
-
 	&--prefix {
 		@include flexRow;
 

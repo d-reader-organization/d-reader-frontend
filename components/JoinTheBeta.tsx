@@ -7,7 +7,7 @@ import AlphaBunnyIcon from 'public/assets/vector-icons/alpha-bunny-icon.svg'
 import Container, { ContainerProps } from '@mui/material/Container'
 import ButtonLink from '@/components/ButtonLink'
 import Form from '@/components/forms/Form'
-import FlexRow from '@/components/FlexRow'
+import FlexRow from '@/components/ui/FlexRow'
 import Input from '@/components/forms/Input'
 import Button from '@/components/Button'
 import { useRedeemUserReferral } from '@/api/user/queries/useRedeemUserReferral'
@@ -46,7 +46,12 @@ const JoinTheBeta: React.FC<Props> = ({ inForm = false, ...props }) => {
 					</p>
 				)}
 				<FlexRow className='input-row'>
-					<Input placeholder='username or wallet address' onChange={handleReferrerChange} />
+					<Input
+						type='text'
+						value={referrer}
+						placeholder='username or wallet address'
+						onChange={handleReferrerChange}
+					/>
 					<Button
 						onClick={async () => {
 							if (referrer) await redeemReferral(referrer)

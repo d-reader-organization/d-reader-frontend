@@ -8,11 +8,7 @@
 	.title {
 		text-align: center;
 		padding-top: 40px;
-	}
-
-	.subtitle {
-		margin-top: 0;
-		text-align: center;
+		margin-bottom: 1rem;
 	}
 
 	.form {
@@ -25,6 +21,10 @@
 		@include md {
 			padding: 0 80px;
 		}
+
+		.action-button {
+			width: 100%;
+		}
 	}
 
 	.container {
@@ -35,5 +35,9 @@
 		margin: 2rem 0;
 		width: 100%;
 		height: auto;
+	}
+
+	.forgot-email-input {
+		width: 100%;
 	}
 }
