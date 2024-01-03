@@ -14,9 +14,16 @@ import CommonRarityIcon from 'public/assets/vector-icons/common-rarity-icon.svg'
 import UncommonRarityIcon from 'public/assets/vector-icons/uncommon-rarity-icon.svg'
 import { CircularProgress } from '@mui/material'
 import ConnectButton from '../buttons/ConnectButton'
+import { useQueryClient } from 'react-query'
+import { comicIssueKeys } from '@/api/comicIssue'
+import { ComicIssue } from '@/models/comicIssue'
+import { useFetchMe } from '@/api/user'
+import { nftKeys } from '@/api/nft'
+import { sleep } from '@/utils/helpers'
 
 interface Props {
 	nft: Nft
+	comicIssue: ComicIssue
 }
 
 const getRarityIcon = (rarity: string) => {
@@ -36,11 +43,14 @@ const getRarityIcon = (rarity: string) => {
 	}
 }
 
-const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
+const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
+	const toaster = useToaster()
+	const queryClient = useQueryClient()
 	const { signTransaction } = useWallet()
 	const { connection } = useConnection()
-	const toaster = useToaster()
 	const [isLoading, setIsLoading] = useState(false)
+	const { data: me } = useFetchMe()
+	const myId = me?.id || 0
 
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
@@ -58,6 +68,9 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 				if (unwrapTransaction) {
 					const latestBlockhash = await connection.getLatestBlockhash()
 					const signedTransaction = await signTransaction(unwrapTransaction)
+
+					toaster.confirmingTransactions()
+
 					const signature = await connection.sendRawTransaction(signedTransaction.serialize())
 					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
 					if (!!response.value.err) {
@@ -65,8 +78,13 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 						toaster.add('Error while unwrapping the comic', 'error')
 						throw Error()
 					}
-					// TODO: sleep & invalidate specific queries + close the dialog
-					toaster.add('Comic used! Lets get to reading 🎉', 'success')
+
+					await sleep(1000)
+
+					queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
+					queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
+					queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
+					toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
 				}
 			} catch (e) {
 				console.error('Error while unwrapping the comic', e)
@@ -74,7 +92,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft }) => {
 				setIsLoading(false)
 			}
 		}
-	}, [connection, fetchUseComicIssueNftTransaction, signTransaction, toaster])
+	}, [comicIssue.id, connection, fetchUseComicIssueNftTransaction, myId, queryClient, signTransaction, toaster])
 
 	return (
 		<div className='comic-issue-unwrap-item'>

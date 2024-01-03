@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -13,9 +13,9 @@ import CollectionStatusItem from 'components/ui/CollectionStatusItem'
 import AvatarImage from 'components/AvatarImage'
 import PriceTag from 'components/tags/PriceTag'
 import InfoList from 'components/ui/InfoList'
-import { useFetchCandyMachine } from 'api/candyMachine'
+import { CANDY_MACHINE_QUERY_KEYS, useFetchCandyMachine } from 'api/candyMachine'
 // import { useFetchCandyMachine, useFetchCandyMachineReceipts } from 'api/candyMachine'
-import { useFavouritiseComicIssue, useFetchComicIssue, useRateComicIssue } from 'api/comicIssue'
+import { comicIssueKeys, useFavouritiseComicIssue, useFetchComicIssue, useRateComicIssue } from 'api/comicIssue'
 import { roundNumber } from 'utils/numbers'
 import FlexRow from '@/components/ui/FlexRow'
 import Button from '@/components/Button'
@@ -36,10 +36,12 @@ import StarIcon from '@/components/icons/StarIcon'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 import { CandyMachine } from '@/models/candyMachine'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
-import { shortenString } from '@/utils/helpers'
+import { shortenString, sleep } from '@/utils/helpers'
 import dynamic from 'next/dynamic'
 import { isNil } from 'lodash'
 import clsx from 'clsx'
+import { nftKeys } from '@/api/nft'
+import { useQueryClient } from 'react-query'
 
 interface Params {
 	id: string
@@ -57,6 +59,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
+	const queryClient = useQueryClient()
 	const toaster = useToaster()
 
 	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
@@ -72,6 +75,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const hasVerifiedEmail = !!me?.isEmailVerified
+	const myId = me?.id || 0
 
 	const { data: candyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
 		candyMachineAddress,
@@ -105,7 +109,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
-	const handleBuyClick = async () => {
+	const handleBuyClick = useCallback(async () => {
 		if (!hasWalletConnected) {
 			return toggleWalletNotConnectedDialog()
 		}
@@ -124,17 +128,24 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 				updatedActiveGroup?.wallet.itemsMinted &&
 				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 			) {
-				return toaster.add(`wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
-			}
-			if (!updatedActiveGroup?.wallet.isEligible) {
-				return toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
+				toaster.add(`wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
+				return
+			} else if (!updatedActiveGroup?.wallet.isEligible) {
+				toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
+				return
 			}
 		} else {
-			const { data: mintTransactions = [] } = await fetchMintOneTransaction()
+			const { data: mintTransactions = [], error } = await fetchMintOneTransaction()
+			if (error) return
+
 			if (!signAllTransactions) {
-				return toaster.add('Wallet does not support signing multiple transactions', 'error')
+				toaster.add('Wallet does not support signing multiple transactions', 'error')
+				return
 			}
+
 			const signedTransactions = await signAllTransactions(mintTransactions)
+
+			toaster.confirmingTransactions()
 			let i = 0
 			for (const transaction of signedTransactions) {
 				try {
@@ -146,6 +157,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						console.log('Response error log: ', response.value.err)
 						throw new Error()
 					}
+
 					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
 				} catch (e) {
 					console.log('error: ', e)
@@ -154,11 +166,35 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					} else {
 						toaster.add('Something went wrong', 'error')
 					}
+					return
 				}
 				i += 1
 			}
+
+			await sleep(1000)
+			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
+			queryClient.invalidateQueries(comicIssueKeys.get(params.id))
+			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
+			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: params.id }))
+			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
+			queryClient.invalidateQueries(nftKeys.getMany({ userId: myId }))
 		}
-	}
+	}, [
+		candyMachine,
+		connection,
+		fetchCandyMachine,
+		fetchMintOneTransaction,
+		hasVerifiedEmail,
+		hasWalletConnected,
+		myId,
+		params.id,
+		queryClient,
+		signAllTransactions,
+		toaster,
+		toggleEmailNotVerifiedDialog,
+		toggleWalletNotConnectedDialog,
+		walletAddress,
+	])
 
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue || !comicIssue.stats || !comicIssue.myStats) return null
@@ -364,15 +400,16 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 				<Dialog
 					style={{ backdropFilter: 'blur(4px)' }}
-					PaperProps={{ className: 'text-dialog' }}
+					PaperProps={{ className: 'text-dialog ' }}
 					onClose={toggleEmailNotVerifiedDialog}
 					open={emailNotVerifiedDialogOpen}
+					maxWidth='xs'
 				>
 					<div className='close-icon-wrapper'>
 						<CloseIcon className='close-icon' onClick={toggleEmailNotVerifiedDialog} />
 					</div>
 					<strong>📖 Email not verified</strong>
-					Please verify your email to be eligible for a free mint
+					Verify your email to be eligible for a free mint
 					<small>Didn&apos;t get the email? check your spam folder{/* before resending */}</small>
 					<Button
 						onClick={async () => {
@@ -389,15 +426,16 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 				<Dialog
 					style={{ backdropFilter: 'blur(4px)' }}
-					PaperProps={{ className: 'text-dialog' }}
+					PaperProps={{ className: 'text-dialog connect-wallet-dialog' }}
 					onClose={toggleWalletNotConnectedDialog}
-					open={walletNotConnectedDialogOpen}
+					open={walletNotConnectedDialogOpen && !walletAddress}
+					maxWidth='xs'
 				>
 					<div className='close-icon-wrapper'>
 						<CloseIcon className='close-icon' onClick={toggleWalletNotConnectedDialog} />
 					</div>
 					<strong>⚠️ Wallet not connected</strong>
-					Please connect your wallet first to be eligible for a free mint
+					You need to connect your wallet first.
 					<hr />
 					<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} />
 				</Dialog>

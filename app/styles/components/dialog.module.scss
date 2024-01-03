@@ -113,3 +113,9 @@
 		padding: 0 !important;
 	}
 }
+
+.connect-wallet-dialog {
+	.wallet-adapter-dropdown {
+		width: min-content;
+	}
+}

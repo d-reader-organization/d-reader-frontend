@@ -92,7 +92,12 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 							</div>
 						</div>
 					)}
-					<UnwrapIssueDialog nfts={nfts} open={unwrapIssueDialog} onClose={closeUnwrapIssueDialog} />
+					<UnwrapIssueDialog
+						nfts={nfts}
+						open={unwrapIssueDialog}
+						onClose={closeUnwrapIssueDialog}
+						comicIssue={comicIssue}
+					/>
 				</Container>
 			</main>
 		</>

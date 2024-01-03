@@ -109,7 +109,7 @@ const ConnectButton: React.FC<Props> = ({ onClick, text, children, ...props }) =
 			>
 				{children || label}
 			</Button>
-			{/* TODO: this dialog will break af if the user clicks the "close" icon on the wallet selection menu
+			{/* This dialog will break af if the user clicks the "close" icon on the wallet selection menu
 			This is due to the fact that wallet-adapter has a few poorly exported states/components and we can't do anything about it */}
 			{/* {walletModalConfig ? <WalletModal /> : null} */}
 

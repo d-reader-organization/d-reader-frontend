@@ -17,6 +17,7 @@ interface Toast {
 
 interface ToastContextState {
 	add: (message: React.ReactNode, severity: AlertColor) => void
+	confirmingTransactions: VoidFunction
 	uploadingFiles: VoidFunction
 	onQueryError: (error: Error) => void
 	onFormError: <T extends FieldValues = FieldValues>(errors: FieldErrors<T>) => void
@@ -24,6 +25,7 @@ interface ToastContextState {
 
 const initialContextValue: ToastContextState = {
 	add: () => {},
+	confirmingTransactions: () => {},
 	uploadingFiles: () => {},
 	onQueryError: () => {},
 	onFormError: () => {},
@@ -45,6 +47,10 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
 	const add = useCallback((message: React.ReactNode, severity: AlertColor, duration = defaultAutoHideDuration) => {
 		setToast({ message: message || '', severity, isOpen: true, duration })
+	}, [])
+
+	const confirmingTransactions = useCallback(() => {
+		setToast({ message: 'Confirming transaction(s)', severity: 'info', isOpen: true, duration: null })
 	}, [])
 
 	const uploadingFiles = useCallback(() => {
@@ -83,8 +89,8 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 	)
 
 	const value = useMemo(
-		() => ({ add, uploadingFiles, onQueryError, onFormError }),
-		[add, uploadingFiles, onQueryError, onFormError]
+		() => ({ add, confirmingTransactions, uploadingFiles, onQueryError, onFormError }),
+		[add, confirmingTransactions, uploadingFiles, onQueryError, onFormError]
 	)
 
 	return (
@@ -106,7 +112,7 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 					variant='filled'
 					severity={toast.severity}
 					style={{ alignItems: 'center' }}
-					icon={toast.duration === null ? <CircularProgress size={18} /> : undefined}
+					icon={toast.duration === null ? <CircularProgress size={24} /> : undefined}
 				>
 					{toast.message}
 				</Alert>

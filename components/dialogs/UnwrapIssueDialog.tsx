@@ -3,13 +3,15 @@ import CloseIcon from 'public/assets/vector-icons/close.svg'
 import UnwrapIssueDialogItem from '../comicIssue/UnwrapIssueDialogItem'
 import { Nft } from '@/models/nft'
 import { useMemo } from 'react'
+import { ComicIssue } from '@/models/comicIssue'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
 	nfts: Nft[]
+	comicIssue: ComicIssue
 }
 
-const UnwrapIssueDialog: React.FC<Props> = ({ nfts = [], onClose, open, ...props }) => {
+const UnwrapIssueDialog: React.FC<Props> = ({ nfts = [], comicIssue, onClose, open, ...props }) => {
 	const unusedNfts = useMemo(() => nfts.filter((nft) => !nft.isUsed), [nfts])
 
 	return (
@@ -29,7 +31,7 @@ const UnwrapIssueDialog: React.FC<Props> = ({ nfts = [], onClose, open, ...props
 				<h3>Choose to open</h3>
 				<p>In order to read the full comic issue, at least one NFT should be unwrapped.</p>
 				{unusedNfts.map((nft) => (
-					<UnwrapIssueDialogItem key={nft.address} nft={nft} />
+					<UnwrapIssueDialogItem key={nft.address} nft={nft} comicIssue={comicIssue} />
 				))}
 			</div>
 		</Dialog>
