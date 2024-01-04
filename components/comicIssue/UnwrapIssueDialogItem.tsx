@@ -81,6 +81,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
 
 					await sleep(1000)
 
+					// TODO: make sure comic pages are also invalidated
 					queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
 					queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
 					queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))

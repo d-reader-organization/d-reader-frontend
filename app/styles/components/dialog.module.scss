@@ -5,7 +5,7 @@
 .text-dialog {
 	margin: 0 !important;
 	padding: 1rem !important;
-	overflow: auto !important;
+	overflow: auto !important; // TODO: this overflow will ruin the "connect wallet" dialog select menu
 	white-space: pre-wrap;
 	height: 100% !important;
 	max-height: 100% !important;

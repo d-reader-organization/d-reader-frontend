@@ -9,8 +9,6 @@ import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
 export default function FaqPage() {
 	return (
 		<>
-			<Header image={<LogoIcon className='logo' />} />
-
 			<main className='faq-page'>
 				<h1 className='title'>FAQ</h1>
 				<p className='subtitle'>
