@@ -9,10 +9,10 @@ import { createContext, useContext } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { usePathname } from 'next/navigation'
 import { RoutePath } from '@/enums/routePath'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { IMPORTANT_NOTICE } from '@/constants/staticText'
-import CloseIcon from 'public/assets/vector-icons/close.svg'
-import Dialog from '@mui/material/Dialog'
+// import { useLocalStorage } from '@/hooks/useLocalStorage'
+// import { IMPORTANT_NOTICE } from '@/constants/staticText'
+// import CloseIcon from 'public/assets/vector-icons/close.svg'
+// import Dialog from '@mui/material/Dialog'
 import theme from 'app/styles/theme'
 
 export const ClientContext = createContext(null)
@@ -32,7 +32,7 @@ const queryClient = new QueryClient({
 const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const pathname = usePathname()
 	const autoConnect = pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
-	const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
+	// const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -41,7 +41,7 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 					<WalletProvider wallets={getWallets()} autoConnect={autoConnect}>
 						<WalletModalProvider className='wallet-dialog'>
 							{children}
-							<Dialog
+							{/* <Dialog
 								style={{ backdropFilter: 'blur(4px)' }}
 								PaperProps={{ className: 'text-dialog' }}
 								onClose={() => setIsFirstTimeVisitor(false)}
@@ -52,7 +52,7 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 								</div>
 								<strong>🚧 IMPORTANT NOTICE! 🚧</strong>
 								<p>{IMPORTANT_NOTICE}</p>
-							</Dialog>
+							</Dialog> */}
 						</WalletModalProvider>
 					</WalletProvider>
 				</ConnectionProvider>
