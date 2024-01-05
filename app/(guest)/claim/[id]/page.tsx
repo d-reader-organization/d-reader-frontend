@@ -21,12 +21,12 @@ import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
 import { useToggle } from '@/hooks'
 import ConfirmingTransactionDialog from '@/components/dialogs/ConfirmingTransactionDialog'
-import CandyMachineGroup from './CandyMachineGroup'
 import io from 'socket.io-client'
 import { useQueryClient } from 'react-query'
 import { nftKeys } from '@/api/nft'
 import Grid from '@mui/material/Grid'
 import GuestNavigation from '@/components/layout/GuestNavigation'
+import CandyMachineGroup from '../CandyMachineGroup'
 
 interface Params {
 	id: string | number
