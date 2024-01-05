@@ -93,9 +93,9 @@
 }
 
 .confirm-transaction-dialog {
-	border-radius: 4rem;
+	border-radius: 4rem !important;
 	.confirming-animation {
-		border-radius: 4rem;
+		border-radius: 4rem !important;
 		max-height: 300px;
 		max-width: 300px;
 		height: 100%;
@@ -116,16 +116,19 @@
 
 	.trait-label {
 		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-		bottom: 3.5rem;
 		background: $grey-500;
 		border-radius: 8px;
 		padding: 4px 8px;
 		@include centeredRow;
 
-		&--bottom {
+		&--left {
 			bottom: 1rem;
+			left: 1rem;
+		}
+
+		&--right {
+			bottom: 1rem;
+			right: 1rem;
 		}
 
 		svg {

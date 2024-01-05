@@ -22,9 +22,6 @@ const NftMintedDialog: React.FC<Props> = ({ open, onClose, nftAddress, ...props 
 			maxWidth='xs'
 			{...props}
 		>
-			<div className='close-icon-wrapper'>
-				<CloseIcon className='close-icon' onClick={onClose} />
-			</div>
 			{nft ? (
 				<>
 					<div className={`trait-label trait-label--${nft.rarity}`}>
