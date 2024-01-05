@@ -42,12 +42,18 @@ Access exclusive content and benefits that are only available to wallet-connecte
 Community Engagement
 Engage with our community of users, artists, and collectors with the trust and security that a wallet provides.`
 
-export const IMPORTANT_NOTICE = `dReader web app is still under heavy development. We understand that there are bugs and missing features.
+export const IMPORTANT_NOTICE = `Welcome to our public mint page!
 
-Web is opened prematurely so iOS users are not discriminated while we're fighting to get listed on the apple store!
+Pro tip: For a slicker minting experience do it through the mobile app!
 
-We're working on improving our web experience.
+Download available on Saga dApp store and on Androids through the Google Play store.
 
-Appreciate the patience 👏
-Josip Volarević - founder
+After minting here, create an account to unwrap and read the comic + support more web3 storytellers! Use referral code 2084
+
+Then join the Discord to get your comics signed on-chain -- at the creator's discretion.
+
+Appreciate you all! ENjoy the first ever on-chain y00ts comic!
+
+Appreciate you 👏
+dReader team
 `

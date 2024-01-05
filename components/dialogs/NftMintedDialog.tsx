@@ -24,10 +24,10 @@ const NftMintedDialog: React.FC<Props> = ({ open, onClose, nftAddress, ...props 
 		>
 			{nft ? (
 				<>
-					<div className={`trait-label trait-label--${nft.rarity}`}>
+					<div className={`trait-label trait-label--left trait-label--${nft.rarity}`}>
 						{getRarityIcon(nft.rarity)} {nft.rarity}
 					</div>
-					<div className={`trait-label trait-label--bottom trait-label--${nft.rarity}`}>{nft.name}</div>
+					<div className={`trait-label trait-label--right trait-label--${nft.rarity}`}>{nft.name}</div>
 					<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
 				</>
 			) : (
