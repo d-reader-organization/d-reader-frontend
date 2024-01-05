@@ -42,18 +42,15 @@ Access exclusive content and benefits that are only available to wallet-connecte
 Community Engagement
 Engage with our community of users, artists, and collectors with the trust and security that a wallet provides.`
 
-export const IMPORTANT_NOTICE = `Welcome to our public mint page!
+export const IMPORTANT_NOTICE = `Welcome to our public mint page! 💥
 
-Pro tip: For a slicker minting experience do it through the mobile app!
+Pro tip: For a slicker minting experience do it through the mobile Android app, available on Google Play store and Solana dApp store!
 
-Download available on Saga dApp store and on Androids through the Google Play store.
-
-After minting here, create an account to unwrap and read the comic + support more web3 storytellers! Use referral code 2084
+After minting here, create an account to unwrap and read the comic + support more web3 storytellers!
+Use referral code '2084'
 
 Then join the Discord to get your comics signed on-chain -- at the creator's discretion.
 
-Appreciate you all! ENjoy the first ever on-chain y00ts comic!
-
-Appreciate you 👏
+Appreciate you all! Enjoy the first ever on-chain y00ts comic! 👏
 dReader team
 `
