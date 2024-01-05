@@ -36,7 +36,7 @@
 	}
 
 	.details-wrapper {
-		margin: 0 auto;
+		margin: 0 auto 40px 0;
 		justify-content: space-around;
 		@include pagePadding(20px, 30px, 40px, 50px);
 	}

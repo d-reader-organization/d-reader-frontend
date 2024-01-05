@@ -8,8 +8,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { CandyMachineGroupWithWallet } from '@/models/candyMachine/candyMachineGroup'
 import useCountdown from '@/hooks/useCountdown'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
-import { Theme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
 
@@ -28,7 +26,6 @@ const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
 const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransactionLoading }) => {
-	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const { countdownString } = useCountdown({ expirationDate: group.startDate })
 	const { publicKey } = useWallet()
 
@@ -70,7 +67,7 @@ const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransacti
 			/>
 			{isLive ? (
 				<>
-					{hasWalletConnected || isMobile ? (
+					{hasWalletConnected ? (
 						<Button onClick={handleMint}>
 							{!isMintTransactionLoading ? (
 								'Mint'

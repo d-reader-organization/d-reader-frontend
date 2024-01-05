@@ -27,6 +27,8 @@ import { nftKeys } from '@/api/nft'
 import Grid from '@mui/material/Grid'
 import GuestNavigation from '@/components/layout/GuestNavigation'
 import CandyMachineGroup from '../CandyMachineGroup'
+import { Theme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface Params {
 	id: string | number
@@ -43,6 +45,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const { connection } = useConnection()
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(params.id)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -183,7 +186,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 				>
 					<div className={clsx('bottom-overlay', `bottom-overlay--standard`)} />
 				</div>
-				<Grid container spacing={2} maxWidth='lg' className='details-wrapper'>
+				<Grid container spacing={isMobile ? 0 : 2} maxWidth='lg' className='details-wrapper'>
 					<Grid item className='details details--left' xs={12} md={6}>
 						<SkeletonImage
 							src={heroImage}
