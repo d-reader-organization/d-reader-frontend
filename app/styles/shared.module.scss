@@ -36,6 +36,14 @@ svg {
 	font-style: italic;
 }
 
+.text--error {
+	color: $red-500;
+}
+
+.text--success {
+	color: $green-400;
+}
+
 .text--underline {
 	text-decoration: underline;
 }

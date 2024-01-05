@@ -25,61 +25,61 @@
 		width: 80px;
 		height: 48px;
 	}
+}
 
-	.trait-label-list {
-		display: flex;
-		flex-wrap: wrap;
+.trait-label-list {
+	display: flex;
+	flex-wrap: wrap;
 
-		.trait-label {
-			padding: 0.04rem 0.4rem;
-			background-color: transparent;
-			border-radius: 4px;
-			border-width: 1px;
-			border-style: solid;
-			font-size: 12px;
-			@include flexRow;
-			align-items: center;
+	.trait-label {
+		padding: 0.04rem 0.4rem;
+		background-color: transparent;
+		border-radius: 4px;
+		border-width: 1px;
+		border-style: solid;
+		font-size: 12px;
+		@include flexRow;
+		align-items: center;
 
-			svg {
-				height: 12px;
-				width: 12px;
-			}
+		svg {
+			height: 12px;
+			width: 12px;
+		}
 
-			&:not(:last-child) {
-				margin-right: 0.4rem;
-			}
+		&:not(:last-child) {
+			margin-right: 0.4rem;
+		}
 
-			&--mint {
-				border-color: $green-500;
-			}
+		&--mint {
+			border-color: $green-500;
+		}
 
-			&--signed {
-				border-color: $orange-500;
-			}
+		&--signed {
+			border-color: $orange-500;
+		}
 
-			&--common {
-				border-color: $white;
-			}
+		&--common {
+			border-color: $white;
+		}
 
-			&--uncommon {
-				border-color: $yellow-100;
-			}
+		&--uncommon {
+			border-color: $yellow-100;
+		}
 
-			&--rare {
-				border-color: $blue-500;
-			}
+		&--rare {
+			border-color: $blue-500;
+		}
 
-			&--epic {
-				border-color: $pink-500;
-			}
+		&--epic {
+			border-color: $pink-500;
+		}
 
-			&--legendary {
-				border-color: $purple-500;
-			}
+		&--legendary {
+			border-color: $purple-500;
+		}
 
-			svg {
-				margin-right: 4px;
-			}
+		svg {
+			margin-right: 4px;
 		}
 	}
 }

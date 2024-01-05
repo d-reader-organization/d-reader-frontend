@@ -3,8 +3,6 @@
 import FAQ from '@/components/FAQ'
 import FaqLink from '@/components/ui/FaqLink'
 import Important from '@/components/ui/Important'
-import Header from 'components/layout/Header'
-import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
 
 export default function FaqPage() {
 	return (

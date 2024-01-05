@@ -39,6 +39,16 @@
 	}
 }
 
+.guest-navigation {
+	display: flex;
+	justify-content: space-between;
+
+	.logo {
+		height: 32px;
+		width: auto;
+	}
+}
+
 .navigation {
 	// @include defaultFadeIn;
 	width: 100%;

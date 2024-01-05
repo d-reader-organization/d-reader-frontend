@@ -35,6 +35,7 @@ import { isNil } from 'lodash'
 import StarIcon from '@/components/icons/StarIcon'
 import StarRatingDialog from '@/components/dialogs/StarRatingDialog'
 import useToggle from '@/hooks/useToggle'
+import { ComicIssueSortTag } from '@/models/comicIssue/comicIssueParams'
 
 interface Params {
 	slug: string
@@ -46,6 +47,8 @@ export default function ComicPage({ params }: { params: Params }) {
 	const { data: comic } = useFetchComic(params.slug)
 	const { flatData: comicIssues } = useFetchComicIssues({
 		comicSlug: params.slug,
+		sortOrder: SortOrder.ASC,
+		sortTag: ComicIssueSortTag.Latest,
 		skip: 0,
 		take: 20,
 	})
@@ -157,7 +160,11 @@ export default function ComicPage({ params }: { params: Params }) {
 					<Typography className='section-title' variant='h5' component='h2'>
 						Issues ( {`${comic.stats.issuesCount}`} )
 					</Typography>
-					<ComicIssueDiscoverList params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC }} enabled hideItemsCount />
+					<ComicIssueDiscoverList
+						params={{ comicSlug: comic.slug, sortOrder: SortOrder.ASC, sortTag: ComicIssueSortTag.Latest }}
+						enabled
+						hideItemsCount
+					/>
 					{comicIssues.length === 0 && <Box>No issues found for this comic</Box>}
 				</Container>
 

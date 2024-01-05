@@ -92,6 +92,74 @@
 	}
 }
 
+.confirm-transaction-dialog {
+	border-radius: 4rem;
+	.confirming-animation {
+		border-radius: 4rem;
+		max-height: 300px;
+		max-width: 300px;
+		height: 100%;
+		width: 100%;
+	}
+}
+
+.minted-nft-dialog {
+	position: relative;
+
+	.cover-image {
+		// max-height: 400px;
+		// width: 100%;
+		// height: auto;
+		width: 400px;
+		height: 500px;
+	}
+
+	.trait-label {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 1rem;
+		background: $grey-500;
+		border-radius: 8px;
+		padding: 4px 8px;
+		@include centeredRow;
+
+		svg {
+			margin-right: 4px;
+		}
+	}
+
+	.loader {
+		height: 25px;
+		width: 25px;
+
+		&--root {
+			top: 40%;
+			left: 46%;
+			position: relative;
+			height: fit-content !important;
+			width: fit-content !important;
+		}
+	}
+
+	.close-icon-wrapper {
+		z-index: 999;
+		margin-left: auto;
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		line-height: 16px;
+
+		.close-icon {
+			@include clickable;
+			width: 16px;
+			height: 16px;
+			color: white;
+			fill: white;
+		}
+	}
+}
+
 .forgot-password-dialog {
 	margin: 0 !important;
 	padding: 1rem !important;
