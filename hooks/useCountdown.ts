@@ -10,12 +10,16 @@ const formatTime = (secs: number, expirationDate?: string) => {
 	const minutes = Math.floor((totalSeconds % (60 * 60)) / 60)
 	const seconds = Math.floor(totalSeconds % 60)
 
-	const countdownString =
-		totalSeconds > 0
-			? `${days ? `${days}d ` : null}
-	${hours ? `${hours}`.padStart(2, '0') + ':' : null}
-	${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`
-			: ''
+	let countdownString = ''
+	if (totalSeconds > 0) {
+		if (days) {
+			countdownString += `${days}d ${hours}h`
+		} else if (hours) {
+			countdownString += `${hours}h ${minutes}m`
+		} else if (minutes || seconds) {
+			countdownString += `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`
+		}
+	}
 
 	return { seconds, minutes, hours, days, isDue: totalSeconds === 0, countdownString }
 }

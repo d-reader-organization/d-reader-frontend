@@ -13,8 +13,9 @@
 		background-position: center;
 		z-index: -1;
 		width: 100%;
-		max-height: 700px;
+		max-height: 720px;
 		position: fixed;
+		height: 90vh;
 
 		.bottom-overlay {
 			left: 0;
@@ -231,13 +232,17 @@
 	.comic-issue-title {
 		font-size: 40px;
 		font-weight: bold;
+		text-align: center;
+
+		@include xs {
+			font-size: 25px;
+		}
 
 		@include sm {
 			font-size: 35px;
 		}
 
-		@include xs {
-			font-size: 25px;
+		@include md {
 			text-align: center;
 		}
 	}
