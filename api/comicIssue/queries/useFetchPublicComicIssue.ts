@@ -17,7 +17,7 @@ export const useFetchPublicComicIssue = (id: string | number) => {
 		queryFn: () => fetchPublicComicIssue(id),
 		queryKey: comicIssueKeys.getPublic(id),
 		staleTime: 1000 * 60 * 5, // stale for 5 minutes
-		enabled: !!id,
+		enabled: !!id && id !== 'tensorverse',
 		onError: toaster.onQueryError,
 	})
 }

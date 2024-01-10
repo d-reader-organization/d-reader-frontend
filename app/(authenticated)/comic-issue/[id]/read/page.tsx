@@ -78,7 +78,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 										To view all pages you need to own at least one <strong>opened</strong> comic issue NFT.
 									</p>
 								)}
-								{hasUnusedNfts && (
+								{hasUnusedNfts && !comicIssue.myStats?.canRead && (
 									<Button className='button--unwrap' backgroundColor='yellow-500' onClick={handleOpenUnwrapDialog}>
 										Unwrap
 									</Button>
