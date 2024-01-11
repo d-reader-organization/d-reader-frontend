@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 		title: 'dReader',
 		description:
 			'📚 Affordable, Authentic & Limited Edition - from manga to comics. dReader is a new kind of platform for discovering, trading, collecting, and reading digital comics.',
-		images: '/assets/images/home-metadata.jpg',
+		images: '/assets/images/tensorverse-mint.png',
 		url: process.env.NEXT_PUBLIC_SITE_URL,
 		siteName: 'Home for comics',
 	},
