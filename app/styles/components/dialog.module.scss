@@ -107,28 +107,71 @@
 	position: relative;
 
 	.cover-image {
-		// max-height: 400px;
-		// width: 100%;
-		// height: auto;
 		width: 400px;
-		height: 500px;
+		max-width: 100%;
+		height: auto;
 	}
 
 	.trait-label {
 		position: absolute;
 		background: $grey-500;
 		border-radius: 8px;
-		padding: 4px 8px;
-		@include centeredRow;
+		padding: 4px 16px;
+		@include centeredColumn;
+		top: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 90%;
+		max-width: max-content;
+		text-align: center;
 
-		&--left {
-			bottom: 1rem;
-			left: 1rem;
+		font-size: 16px;
+
+		@include sm {
+			font-size: 18px;
 		}
 
-		&--right {
-			bottom: 1rem;
-			right: 1rem;
+		@include md {
+			font-size: 20px;
+		}
+
+		.rarity {
+			@include centeredRow;
+
+			&--common {
+				color: $white;
+				svg {
+					color: $white;
+				}
+			}
+
+			&--uncommon {
+				color: $yellow-100;
+				svg {
+					color: $yellow-100;
+				}
+			}
+
+			&--rare {
+				color: $blue-500;
+				svg {
+					color: $blue-500;
+				}
+			}
+
+			&--epic {
+				color: $pink-500;
+				svg {
+					color: $pink-500;
+				}
+			}
+
+			&--legendary {
+				color: $purple-500;
+				svg {
+					color: $purple-500;
+				}
+			}
 		}
 
 		svg {

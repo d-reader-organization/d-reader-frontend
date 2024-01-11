@@ -29,7 +29,12 @@ import GuestNavigation from '@/components/layout/GuestNavigation'
 import CandyMachineGroup from '../CandyMachineGroup'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
+import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
+import Link from 'next/link'
+import Image from 'next/image'
+import { GOOGLE_PLAY_LINK } from '@/constants/links'
+import FlexRow from '@/components/ui/FlexRow'
+import FaqLink from '@/components/ui/FaqLink'
 
 interface Params {
 	id: string | number
@@ -47,14 +52,12 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 0, 11, 14, 0, 0) })
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(params.id)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 
 	useEffect(() => {
-		// process.env.NEXT_PUBLIC_API_ENDPOINT
 		if (!walletAddress) return
 		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
@@ -173,30 +176,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		toaster,
 	])
 
-	if (params.id === 'tensorverse') {
-		return (
-			<>
-				<GuestNavigation />
-				<Box
-					pt={{
-						xs: 8,
-						sm: 16,
-						md: 24,
-					}}
-					justifyContent='center'
-					display='flex'
-					flexDirection='column'
-					margin='0 auto'
-					textAlign='center'
-				>
-					<h3>starts in</h3>
-					<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
-					<em>details coming soon</em>
-				</Box>
-			</>
-		)
-	}
-
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
 
@@ -205,6 +184,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	return (
 		<>
 			<GuestNavigation />
+
 			<main className='claim-page'>
 				<div
 					className='comic-issue-banner-image'
@@ -259,6 +239,8 @@ const ClaimPage = ({ params }: { params: Params }) => {
 														group={group}
 														isMintTransactionLoading={isMintTransactionLoading}
 														handleMint={handleMint}
+														totalSupply={candyMachine.supply}
+														totalMinted={candyMachine.itemsMinted}
 													/>
 												)
 											})}
@@ -267,7 +249,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						) : (
-							<Box>
+							<Box pt={1}>
 								{comicIssue.flavorText && (
 									<Typography variant='body2' className='comic-issue-flavor-text'>
 										{comicIssue.flavorText}
@@ -288,7 +270,19 @@ const ClaimPage = ({ params }: { params: Params }) => {
 									</div>
 								)}
 
+								<p>📖 Pages: 9</p>
+
 								<p className='comic-issue-description'>{comicIssue.description}</p>
+								<p>
+									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and use the code
+									&quot;tensor&quot; to gain Beta access and read the comic.
+								</p>
+								<p>
+									<em>
+										*200 of the supply goes into the &apos;Comic Vault&apos; (further marketing efforts, giveaways and
+										such).
+									</em>
+								</p>
 								{comicIssue.creator && (
 									<Box className='comic-issue-creator-wrapper'>
 										<AvatarImage className='avatar' src={comicIssue.creator.avatar} size={60} />
@@ -302,8 +296,25 @@ const ClaimPage = ({ params }: { params: Params }) => {
 						)}
 					</Grid>
 				</Grid>
+				<FlexRow centered justifyContent='center' maxWidth='100%'>
+					<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+						<Image
+							src={MobileAppBannerDesktop}
+							width={480}
+							height={171}
+							alt='Download on Google Play'
+							className='download-mobile-promo-banner'
+						/>
+					</Link>
+				</FlexRow>
 			</main>
-			<NftMintedDialog nftAddress={nftAddress} open={showMintedNftDialog} onClose={closeMintedNftDialog} />
+			<NftMintedDialog
+				// nftAddress={'E76CAbi9g8SLegL6QpVExYtJp9teLQVwmQe4H1okB2Nj' || nftAddress}
+				// open={true || showMintedNftDialog}
+				nftAddress={nftAddress}
+				open={showMintedNftDialog}
+				onClose={closeMintedNftDialog}
+			/>
 			<ConfirmingTransactionDialog open={transactionConfirmationDialog} onClose={closeTransactionConfirmationDialog} />
 		</>
 	)

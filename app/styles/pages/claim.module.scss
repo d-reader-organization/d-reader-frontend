@@ -37,7 +37,7 @@
 	}
 
 	.details-wrapper {
-		margin: 0 auto 40px 0;
+		margin: 0 auto 40px auto;
 		justify-content: space-around;
 		@include pagePadding(20px, 30px, 40px, 50px);
 	}
@@ -273,5 +273,11 @@
 				margin-left: 5px;
 			}
 		}
+	}
+
+	.download-mobile-promo-banner {
+		margin: 2rem 0;
+		width: 100%;
+		height: auto;
 	}
 }

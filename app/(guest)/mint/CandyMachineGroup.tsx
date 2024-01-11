@@ -20,12 +20,20 @@ interface Props {
 	group: CandyMachineGroupWithWallet
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
+	totalSupply: number
+	totalMinted: number
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransactionLoading }) => {
+const CandyMachineGroup: React.FC<Props> = ({
+	group,
+	handleMint,
+	isMintTransactionLoading,
+	totalSupply,
+	totalMinted,
+}) => {
 	const { countdownString } = useCountdown({ expirationDate: group.startDate })
 	const { publicKey } = useWallet()
 
@@ -54,16 +62,35 @@ const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransacti
 				</div>
 				<div>
 					<p>{group.mintPrice == 0 ? '*Free' : `${toSol(group.mintPrice)} SOL`}</p>
-					<p>
-						{group.itemsMinted}/{group.supply}
-					</p>
+
+					{group.label === 'public' && (
+						<p>
+							{totalMinted}/{totalSupply}
+						</p>
+					)}
+					{group.label === 'users' && (
+						<p>
+							{totalMinted > 200 ? 200 : totalMinted}/{group.supply}
+						</p>
+					)}
+					{group.label !== 'public' && group.label !== 'users' && (
+						<p>
+							{group.itemsMinted}/{group.supply}
+						</p>
+					)}
 				</div>
 			</div>
 			<LinearProgress
 				variant='determinate'
 				className='progress-bar'
 				color='inherit'
-				value={normalise(group.itemsMinted, group.supply)}
+				value={
+					group.label === 'public'
+						? normalise(totalMinted, totalSupply)
+						: group.label === 'users'
+						  ? normalise(totalMinted > 200 ? 200 : totalMinted, group.supply)
+						  : normalise(group.itemsMinted, group.supply)
+				}
 			/>
 			{isLive ? (
 				<>

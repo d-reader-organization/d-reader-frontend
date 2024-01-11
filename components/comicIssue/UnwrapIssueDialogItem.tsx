@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const getRarityIcon = (rarity: string) => {
-	switch (rarity) {
+	switch (rarity.toLowerCase()) {
 		case 'common':
 			return <CommonRarityIcon />
 		case 'uncommon':
@@ -101,7 +101,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
 				<p className='title'>{nft.name}</p>
 				<div className='trait-label-list'>
 					{nft.rarity && (
-						<div className={`trait-label trait-label--${nft.rarity}`}>
+						<div className={`trait-label trait-label--${nft.rarity.toLowerCase()}`}>
 							{getRarityIcon(nft.rarity)} {nft.rarity}
 						</div>
 					)}
