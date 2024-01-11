@@ -130,10 +130,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			) {
 				toaster.add(`wallet ${shortenString(walletAddress)} has reached its minting limit.`, 'error')
 				return
-			} else if (!updatedActiveGroup?.wallet.isEligible) {
-				toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
-				return
 			}
+			// else if (!updatedActiveGroup?.wallet.isEligible) {
+			// 	toaster.add(`Wallet ${shortenString(walletAddress)} is not eligible to mint`, 'error')
+			// 	return
+			// }
 		} else {
 			const { data: mintTransactions = [], error } = await fetchMintOneTransaction()
 			if (error) return

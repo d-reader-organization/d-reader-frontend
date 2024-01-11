@@ -115,9 +115,10 @@ const ClaimPage = ({ params }: { params: Params }) => {
 					updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
 				) {
 					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
-				} else if (!updatedActiveGroup?.wallet.isEligible) {
-					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible to mint`, 'error')
 				}
+				// else if (!updatedActiveGroup?.wallet.isEligible) {
+				// 	toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible to mint`, 'error')
+				// }
 			} else {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 				if (!signAllTransactions) {
