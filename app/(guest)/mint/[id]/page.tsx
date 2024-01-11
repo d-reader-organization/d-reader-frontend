@@ -35,6 +35,7 @@ import Image from 'next/image'
 import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
+import ButtonLink from '@/components/ButtonLink'
 
 interface Params {
 	id: string | number
@@ -134,7 +135,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 			if (!signAllTransactions) {
 				return toaster.add('Wallet does not support signing multiple transactions', 'error')
 			}
-			console.log('TEST', mintTransactions)
 
 			const signedTransactions = await signAllTransactions(mintTransactions)
 
@@ -229,8 +229,8 @@ const ClaimPage = ({ params }: { params: Params }) => {
 						{isCandyMachineDetailsLoading ? (
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
 						) : !mintDetailsSection ? (
-							<Box>
-								{candyMachine && (
+							<Box pt={2}>
+								{candyMachine ? (
 									<>
 										<div className='mint-header'>
 											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
@@ -258,6 +258,10 @@ const ClaimPage = ({ params }: { params: Params }) => {
 											})}
 										</div>
 									</>
+								) : (
+									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/trade/tensorverse_episode_1'>
+										Trade on Tensor
+									</ButtonLink>
 								)}
 							</Box>
 						) : (
