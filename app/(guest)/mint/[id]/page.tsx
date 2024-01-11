@@ -92,13 +92,14 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		})
 	}
 
+	console.log('params: ', candyMachineAddress, walletAddress, getActiveGroup(candyMachine)?.label)
 	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
 			label: getActiveGroup(candyMachine)?.label || '',
 		},
-		false
+		!!walletAddress
 	)
 
 	const hasMintingStarted = () => {
