@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 		description: '👾 Enter the Tensorverse comic mint is live! Click on the link and get yours',
 		site: undefined,
 		card: 'summary_large_image',
+		images: '/assets/images/tensorverse-mint.png',
 	},
 	manifest: '/manifest.json',
 }
