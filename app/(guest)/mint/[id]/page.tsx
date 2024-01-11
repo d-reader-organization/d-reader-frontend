@@ -227,9 +227,14 @@ const ClaimPage = ({ params }: { params: Params }) => {
 									<>
 										<div className='mint-header'>
 											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
-											<p>
-												Total: {candyMachine.itemsMinted}/{candyMachine.supply}
-											</p>
+											<Box>
+												<h3 style={{ margin: '8px 0 0 0' }}>
+													Total: {candyMachine.itemsMinted}/{candyMachine.supply}
+												</h3>
+												<p style={{ margin: '0 0 4px 0' }}>
+													<em>*200 of which goes into the &apos;Comic Vault&apos;</em>
+												</p>
+											</Box>
 										</div>
 										<div className='mint-details'>
 											{candyMachine.groups.map((group) => {
@@ -276,12 +281,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 								<p>
 									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and use the code
 									&quot;tensor&quot; to gain Beta access and read the comic.
-								</p>
-								<p>
-									<em>
-										*200 of the supply goes into the &apos;Comic Vault&apos; (further marketing efforts, giveaways and
-										such).
-									</em>
 								</p>
 								{comicIssue.creator && (
 									<Box className='comic-issue-creator-wrapper'>

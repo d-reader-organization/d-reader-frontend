@@ -46,7 +46,9 @@
 		&--left {
 			max-width: 480px;
 			display: flex;
-			justify-content: center;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
 
 			.comic-issue-cover {
 				max-width: 100% !important;
