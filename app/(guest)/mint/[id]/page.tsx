@@ -308,13 +308,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 					</Link>
 				</FlexRow>
 			</main>
-			<NftMintedDialog
-				// nftAddress={'E76CAbi9g8SLegL6QpVExYtJp9teLQVwmQe4H1okB2Nj' || nftAddress}
-				// open={true || showMintedNftDialog}
-				nftAddress={nftAddress}
-				open={showMintedNftDialog}
-				onClose={closeMintedNftDialog}
-			/>
+			<NftMintedDialog nftAddress={nftAddress} open={showMintedNftDialog} onClose={closeMintedNftDialog} />
 			<ConfirmingTransactionDialog open={transactionConfirmationDialog} onClose={closeTransactionConfirmationDialog} />
 		</>
 	)

@@ -4,7 +4,7 @@ import { useFetchNft } from '@/api/nft'
 import Image from 'next/image'
 import { CircularProgress } from '@mui/material'
 import { getRarityIcon } from '../comicIssue/UnwrapIssueDialogItem'
-// import Link from 'next/link'
+import Link from 'next/link'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
@@ -32,15 +32,20 @@ const NftMintedDialog: React.FC<Props> = ({ open, onClose, nftAddress, ...props 
 						<br />
 						{nft.name}
 					</div>
-					{/* <Link
-						href={`https://twitter.com/intent/tweet?text=${`I just minted a legendary copy of the Enter the Tensorverse comic! 👾\n
+					<Link
+						href={encodeURI(
+							`https://twitter.com/intent/tweet?text=${`${
+								nft.rarity.toLowerCase() === 'legendary' ? 'Fock yea! ' : ''
+							}I just minted a ${nft.rarity.toLowerCase()} copy of the Enter the Tensorverse comic! 👾
 
-			Mint yours here while the supply lasts
-			👇 https://dreader.app/mint/tensorverse`}`}
+Mint yours here while the supply lasts.👇
+https://dreader.app/mint/tensorverse?utm_source=tensor`}`
+						)}
 						target='_blank'
+						className='twitter-button'
 					>
-						TWITTER
-					</Link> */}
+						Share on &#120143;
+					</Link>
 					<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
 				</>
 			) : (
