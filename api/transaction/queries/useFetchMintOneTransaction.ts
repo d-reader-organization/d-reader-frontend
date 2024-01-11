@@ -15,6 +15,7 @@ const fetchMintOneTransaction = async (params: MintOneParams): Promise<Versioned
 }
 
 export const useFetchMintOneTransaction = (params: MintOneParams, enabled?: boolean) => {
+	console.log('params', params, enabled)
 	const toaster = useToaster()
 	return useQuery({
 		queryFn: () => fetchMintOneTransaction(params),

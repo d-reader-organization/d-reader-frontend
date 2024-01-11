@@ -92,7 +92,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		})
 	}
 
-	console.log('params: ', candyMachineAddress, walletAddress, getActiveGroup(candyMachine)?.label)
 	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
@@ -112,51 +111,55 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		openMintTransactionLoading()
 		const activeGroup = getActiveGroup(candyMachine)
 		try {
-			if (!activeGroup?.wallet.isEligible) {
-				const { data: updatedCandyMachine } = await fetchCandyMachine()
-				const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
+			// if (!activeGroup?.wallet.isEligible) {
+			// 	const { data: updatedCandyMachine } = await fetchCandyMachine()
+			// 	const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
 
-				if (
-					updatedActiveGroup?.wallet.itemsMinted &&
-					updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
-				) {
-					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
-				}
-				//  else if (!updatedActiveGroup?.wallet.isEligible) {
-				// 	toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible to mint`, 'error')
-				// }
-			} else {
-				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
-				if (!signAllTransactions) {
-					return toaster.add('Wallet does not support signing multiple transactions', 'error')
-				}
-				const signedTransactions = await signAllTransactions(mintTransactions)
-				closeMintTransactionLoading()
-				openTransactionConfirmationDialog()
-				let i = 0
-				for (const transaction of signedTransactions) {
-					try {
-						const signature = await connection.sendTransaction(transaction)
-
-						const latestBlockhash = await connection.getLatestBlockhash()
-						const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
-						if (!!response.value.err) {
-							console.log('Response error log: ', response.value.err)
-							throw new Error()
-						}
-						openMintedNftDialog()
-						toaster.add('Successfully minted the comic! Find the NFT in your wallet', 'success')
-					} catch (e) {
-						console.log('error: ', e)
-						if (signedTransactions.length === 2 && i === 0) {
-							toaster.add('Wallet is not allowlisted to mint this comic', 'error')
-						} else {
-							toaster.add('Something went wrong', 'error')
-						}
-					}
-					i += 1
-				}
+			// 	if (
+			// 		updatedActiveGroup?.wallet.itemsMinted &&
+			// 		updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
+			// 	) {
+			// 		toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
+			// 	}
+			// 	//  else if (!updatedActiveGroup?.wallet.isEligible) {
+			// 	// 	toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible to mint`, 'error')
+			// 	// }
+			// }
+			// else {
+			const { data: mintTransactions = [] } = await fetchMintOneTransaction()
+			if (!signAllTransactions) {
+				return toaster.add('Wallet does not support signing multiple transactions', 'error')
 			}
+			console.log('TEST', mintTransactions)
+
+			const signedTransactions = await signAllTransactions(mintTransactions)
+
+			closeMintTransactionLoading()
+			openTransactionConfirmationDialog()
+			let i = 0
+			for (const transaction of signedTransactions) {
+				try {
+					const signature = await connection.sendTransaction(transaction)
+
+					const latestBlockhash = await connection.getLatestBlockhash()
+					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+					if (!!response.value.err) {
+						console.log('Response error log: ', response.value.err)
+						throw new Error()
+					}
+					openMintedNftDialog()
+					toaster.add('Successfully minted the comic! Find the NFT in your wallet', 'success')
+				} catch (e) {
+					console.log('error: ', e)
+					if (signedTransactions.length === 2 && i === 0) {
+						toaster.add('Wallet is not allowlisted to mint this comic', 'error')
+					} else {
+						toaster.add('Something went wrong', 'error')
+					}
+				}
+				i += 1
+			}
+			// }
 		} catch (e) {
 			console.error(e)
 		} finally {
@@ -168,12 +171,10 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		closeMintTransactionLoading,
 		closeTransactionConfirmationDialog,
 		connection,
-		fetchCandyMachine,
 		fetchMintOneTransaction,
 		openMintTransactionLoading,
 		openMintedNftDialog,
 		openTransactionConfirmationDialog,
-		publicKey,
 		signAllTransactions,
 		toaster,
 	])
