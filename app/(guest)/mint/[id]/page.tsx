@@ -111,6 +111,9 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		openMintTransactionLoading()
 		const activeGroup = getActiveGroup(candyMachine)
 		try {
+			if (activeGroup?.label === 'users') {
+				toaster.add('This group is completed', 'error')
+			}
 			// if (!activeGroup?.wallet.isEligible) {
 			// 	const { data: updatedCandyMachine } = await fetchCandyMachine()
 			// 	const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
