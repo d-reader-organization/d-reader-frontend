@@ -68,8 +68,8 @@ const CandyMachineGroup: React.FC<Props> = ({
 							{totalMinted}/{totalSupply}
 						</p>
 					)}
-					{group.label === 'users' && <p>200/{group.supply}</p>}
-					{group.label !== 'public' && group.label !== 'users' && (
+					{group.label === 'users2' && <p>200/{group.supply}</p>}
+					{group.label !== 'public' && group.label !== 'users2' && (
 						<p>
 							{group.itemsMinted}/{group.supply}
 						</p>
@@ -83,7 +83,7 @@ const CandyMachineGroup: React.FC<Props> = ({
 				value={
 					group.label === 'public'
 						? normalise(totalMinted, totalSupply)
-						: group.label === 'users'
+						: group.label === 'users2'
 						  ? normalise(200, group.supply)
 						  : normalise(group.itemsMinted, group.supply)
 				}
