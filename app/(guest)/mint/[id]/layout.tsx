@@ -20,8 +20,9 @@ export const metadata: Metadata = {
 	twitter: {
 		title: 'Tensorverse mint',
 		description: '👾 Enter the Tensorverse comic mint is live! Click on the link and get yours',
-		site: undefined,
 		card: 'summary_large_image',
+		site: '@dReaderApp',
+		creator: '@dReaderApp',
 		images: '/assets/images/tensorverse-mint.png',
 	},
 	manifest: '/manifest.json',
