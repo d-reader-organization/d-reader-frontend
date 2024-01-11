@@ -15,7 +15,7 @@ const formatTime = (secs: number, expirationDate?: number) => {
 		if (days) {
 			countdownString += `${days}d ${hours}h ${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`
 		} else if (hours) {
-			countdownString += `${hours}h ${minutes}m ${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`
+			countdownString += `${hours}h ${minutes}m ${`${seconds}`.padStart(2, '0')}s`
 		} else if (minutes || seconds) {
 			countdownString += `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`
 		}
