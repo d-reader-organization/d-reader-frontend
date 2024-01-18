@@ -51,21 +51,22 @@ export const metadata: Metadata = {
 		title: 'dReader',
 		description:
 			'📚 Affordable, Authentic & Limited Edition - from manga to comics. dReader is a new kind of platform for discovering, trading, collecting, and reading digital comics.',
-		images: '/assets/images/tensorverse-mint.png',
+		images: '/assets/images/home-metadata.png',
 		url: process.env.NEXT_PUBLIC_SITE_URL,
-		siteName: 'Home for comics',
+		siteName: 'dReader',
 	},
 	appleWebApp: {
 		title: 'dReader',
 		startupImage: '/assets/apple-touch-icon.png',
 	},
 	twitter: {
-		title: 'Tensorverse mint',
-		description: '👾 Enter the Tensorverse comic mint is live! Click on the link and get yours',
+		title: 'dReader',
+		description:
+			'📚 Affordable, Authentic & Limited Edition - from manga to comics. dReader is a new kind of platform for discovering, trading, collecting, and reading digital comics.',
 		card: 'summary_large_image',
 		site: '@dReaderApp',
 		creator: '@dReaderApp',
-		images: '/assets/images/tensorverse-mint.png',
+		images: '/assets/images/home-metadata.png',
 	},
 	manifest: '/manifest.json',
 }
