@@ -57,11 +57,11 @@
 	.stars-row {
 		margin-top: 1rem;
 
-		& > *:not(:last-child) {
+		&>*:not(:last-child) {
 			margin-right: 0.8rem;
 		}
 
-		& > * {
+		&>* {
 			color: $yellow-500;
 		}
 	}
@@ -77,7 +77,7 @@
 
 		border-top: 2px solid $grey-600 !important;
 
-		& > * {
+		&>* {
 			padding: 1rem !important;
 			width: 100% !important;
 
@@ -86,7 +86,7 @@
 			}
 		}
 
-		& > *:not(:last-child) {
+		&>*:not(:last-child) {
 			border-right: 2px solid $grey-600 !important;
 		}
 	}
@@ -94,6 +94,7 @@
 
 .confirm-transaction-dialog {
 	border-radius: 4rem !important;
+
 	.confirming-animation {
 		border-radius: 4rem !important;
 		max-height: 300px;
@@ -105,12 +106,12 @@
 
 .minted-nft-dialog {
 	position: relative;
+	overflow-y: scroll;
 
 	.twitter-button {
-		position: absolute;
-		bottom: 1rem;
-		left: 50%;
-		transform: translateX(-50%);
+		width: max-content;
+		align-self: center;
+		margin-top: 10px;
 		box-sizing: border-box;
 		padding: 4px 12px 4px 12px;
 		border: 2px solid white;
@@ -128,19 +129,20 @@
 	}
 
 	.trait-label {
-		position: absolute;
-		background: $grey-500;
-		border-radius: 8px;
-		padding: 4px 16px;
-		@include centeredColumn;
-		top: 1rem;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 90%;
-		max-width: max-content;
+		background: $grey-400;
+		padding: 4px 10px;
 		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		flex-direction: row;
+		font-weight: 400;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
 
-		font-size: 16px;
+		@include xs {
+			font-size: 15px;
+		}
 
 		@include sm {
 			font-size: 18px;
@@ -150,11 +152,14 @@
 			font-size: 20px;
 		}
 
-		.rarity {
-			@include centeredRow;
+		.issue-tag {
+			font-weight: bold;
+		}
 
+		.rarity {
 			&--common {
 				color: $white;
+
 				svg {
 					color: $white;
 				}
@@ -162,6 +167,7 @@
 
 			&--uncommon {
 				color: $yellow-100;
+
 				svg {
 					color: $yellow-100;
 				}
@@ -169,6 +175,7 @@
 
 			&--rare {
 				color: $blue-500;
+
 				svg {
 					color: $blue-500;
 				}
@@ -176,6 +183,7 @@
 
 			&--epic {
 				color: $pink-500;
+
 				svg {
 					color: $pink-500;
 				}
@@ -183,6 +191,7 @@
 
 			&--legendary {
 				color: $purple-500;
+
 				svg {
 					color: $purple-500;
 				}
@@ -193,6 +202,12 @@
 			margin-right: 4px;
 			height: 18px;
 			width: 18px;
+
+			@include xs {
+				margin-right: 2px;
+				height: 14px;
+				width: 14px;
+			}
 		}
 	}
 

@@ -9,15 +9,22 @@ import Link from 'next/link'
 interface Props extends DialogProps {
 	onClose: VoidFunction
 	nftAddress?: string
+	id?: string
 }
 
-const NftMintedDialog: React.FC<Props> = ({ open, onClose, nftAddress, ...props }) => {
+const NftMintedDialog: React.FC<Props> = ({ id, open, onClose, nftAddress, ...props }) => {
 	const { data: nft } = useFetchNft(nftAddress || '')
 
 	return (
 		<Dialog
 			style={{ backdropFilter: 'blur(4px)' }}
-			PaperProps={{ className: 'minted-nft-dialog' }}
+			PaperProps={{
+				className: 'minted-nft-dialog',
+				style: {
+					backgroundColor: 'transparent',
+					boxShadow: 'none',
+				},
+			}}
 			onClose={onClose}
 			open={open}
 			maxWidth='xs'
@@ -29,24 +36,24 @@ const NftMintedDialog: React.FC<Props> = ({ open, onClose, nftAddress, ...props 
 						<div className={`rarity rarity--${nft.rarity.toLowerCase()}`}>
 							{getRarityIcon(nft.rarity)} {nft.rarity}
 						</div>
-						<br />
-						{nft.name}
+						<div className='issue-tag'>#{nft.name.split('#')[1]}</div>
 					</div>
+					<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
+
 					<Link
 						href={encodeURI(
 							`https://twitter.com/intent/tweet?text=${`${
 								nft.rarity.toLowerCase() === 'legendary' ? 'Fock yea! ' : ''
-							}I just minted a ${nft.rarity.toLowerCase()} copy of the Enter the Tensorverse comic! 👾
+							}I just minted a ${nft.rarity.toLowerCase()} copy of the ${nft.name.split('#')[0]}!
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/tensorverse?utm_source=tensor`}`
+https://dreader.app/mint/tensorverse/${id}`}`
 						)}
 						target='_blank'
 						className='twitter-button'
 					>
 						Share on &#120143;
 					</Link>
-					<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
 				</>
 			) : (
 				<CircularProgress thickness={6} classes={{ svg: 'loader', root: 'loader--root' }} />
