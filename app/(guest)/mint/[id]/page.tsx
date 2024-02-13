@@ -110,17 +110,19 @@ const ClaimPage = ({ params }: { params: Params }) => {
 
 	const handleMint = useCallback(async () => {
 		openMintTransactionLoading()
-		const activeGroup = getActiveGroup(candyMachine)
 		try {
-			if (!activeGroup?.wallet.isEligible) {
-				const { data: updatedCandyMachine } = await fetchCandyMachine()
-				const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
-				if (
-					updatedActiveGroup?.wallet.itemsMinted &&
-					updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
-				) {
-					toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
-				}
+			const { data: updatedCandyMachine } = await fetchCandyMachine()
+			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
+			if (!updatedActiveGroup?.isActive) {
+				toaster.add(`Group is not active`, 'error')
+			} else if (
+				updatedActiveGroup?.mintLimit &&
+				updatedActiveGroup?.wallet.itemsMinted &&
+				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
+			) {
+				toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
+			} else if (!updatedActiveGroup?.wallet.isEligible) {
+				toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible`, 'error')
 			} else {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 				if (!signAllTransactions) {
@@ -160,7 +162,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 			closeTransactionConfirmationDialog()
 		}
 	}, [
-		candyMachine,
 		closeMintTransactionLoading,
 		closeTransactionConfirmationDialog,
 		connection,
