@@ -47,7 +47,7 @@ const NftMintedDialog: React.FC<Props> = ({ id, open, onClose, nftAddress, ...pr
 							}I just minted a ${nft.rarity.toLowerCase()} copy of the ${nft.name.split('#')[0]}!
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/tensorverse/${id}`}`
+https://dreader.app/mint/${id}`}`
 						)}
 						target='_blank'
 						className='twitter-button'

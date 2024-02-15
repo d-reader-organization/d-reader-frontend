@@ -36,6 +36,7 @@ import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
+import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 interface Params {
 	id: string | number
@@ -53,8 +54,10 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+	const paramsId = params.id === 'embers' ? 93 : params.id
+	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 1, 16, 14, 0, 0) })
 
-	const { data: comicIssue, error } = useFetchPublicComicIssue(params.id)
+	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 
@@ -64,14 +67,14 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
 			setNftAddress(data.nft.address)
 			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
-			queryClient.invalidateQueries(comicIssueKeys.get(params.id))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: params.id }))
+			queryClient.invalidateQueries(comicIssueKeys.get(paramsId))
+			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: paramsId }))
 			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
 		})
 		return () => {
 			socket.disconnect()
 		}
-	}, [params.id, queryClient, walletAddress])
+	}, [paramsId, queryClient, walletAddress])
 
 	const {
 		data: candyMachine,
@@ -175,6 +178,30 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		toaster,
 	])
 
+	if (params.id === 'embers') {
+		return (
+			<>
+				<GuestNavigation />
+				<Box
+					pt={{
+						xs: 8,
+						sm: 16,
+						md: 24,
+					}}
+					justifyContent='center'
+					display='flex'
+					flexDirection='column'
+					margin='0 auto'
+					textAlign='center'
+				>
+					<h3>starts in</h3>
+					<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
+					<em>details coming soon</em>
+				</Box>
+			</>
+		)
+	}
+
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
 
@@ -277,8 +304,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 										</Box>
 									</div>
 								)}
-								{/* TODO: Update the page count with actual data */}
-								<p>📖 Pages: 9</p>
+								<p>📖 Pages: {comicIssue.stats?.totalPagesCount || 30}</p>
 
 								<p className='comic-issue-description'>{comicIssue.description}</p>
 								<p>
