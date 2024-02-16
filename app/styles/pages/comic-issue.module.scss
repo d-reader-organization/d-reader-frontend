@@ -122,6 +122,7 @@
 
 			.avatar {
 				@include unclickable;
+				border-radius: 90%;
 			}
 
 			.text--author {
