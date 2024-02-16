@@ -55,7 +55,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const paramsId = params.id === 'embers' ? 93 : params.id
-	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 1, 16, 14, 0, 0) })
+	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 1, 16, 17, 0, 0) })
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
