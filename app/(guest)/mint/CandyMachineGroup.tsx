@@ -62,31 +62,16 @@ const CandyMachineGroup: React.FC<Props> = ({
 				</div>
 				<div>
 					<p>{group.mintPrice == 0 ? '*Free' : `${toSol(group.mintPrice)} SOL`}</p>
-
-					{group.label === 'public' && (
-						<p>
-							{totalMinted}/{totalSupply}
-						</p>
-					)}
-					{group.label === 'users2' && <p>200/{group.supply}</p>}
-					{group.label !== 'public' && group.label !== 'users2' && (
-						<p>
-							{group.itemsMinted}/{group.supply}
-						</p>
-					)}
+					<p>
+						{totalMinted > group.supply ? group.supply : totalMinted}/{group.supply}
+					</p>
 				</div>
 			</div>
 			<LinearProgress
 				variant='determinate'
 				className='progress-bar'
 				color='inherit'
-				value={
-					group.label === 'public'
-						? normalise(totalMinted, totalSupply)
-						: group.label === 'users2'
-						  ? normalise(200, group.supply)
-						  : normalise(group.itemsMinted, group.supply)
-				}
+				value={normalise(totalMinted > group.supply ? group.supply : totalMinted, group.supply)}
 			/>
 			{isLive ? (
 				<>

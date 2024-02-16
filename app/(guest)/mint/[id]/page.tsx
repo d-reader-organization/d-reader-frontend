@@ -41,7 +41,7 @@ interface Params {
 	id: string | number
 }
 
-const ClaimPage = ({ params }: { params: Params }) => {
+const MintPage = ({ params }: { params: Params }) => {
 	const { publicKey, signAllTransactions } = useWallet()
 	const [mintDetailsSection, openMintDetailsSection, closeMintDetailsSection] = useToggle(false)
 	const [transactionConfirmationDialog, , closeTransactionConfirmationDialog, openTransactionConfirmationDialog] =
@@ -185,7 +185,7 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		<>
 			<GuestNavigation />
 
-			<main className='claim-page'>
+			<main className='mint-page'>
 				<div
 					className='comic-issue-banner-image'
 					style={{ backgroundImage: `url('${heroImage}')`, filter: 'blur(10px)' }}
@@ -280,7 +280,17 @@ const ClaimPage = ({ params }: { params: Params }) => {
 								)}
 								<p>📖 Pages: {comicIssue.stats?.totalPagesCount || 30}</p>
 
-								<p className='comic-issue-description'>{comicIssue.description}</p>
+								<p className='comic-issue-description'>
+									{comicIssue.description.length > 281
+										? comicIssue.description.substring(0, 281) + '...'
+										: comicIssue.description}
+									{/* {words(comicIssue.description).length > 45
+										? comicIssue.description.substring(
+												0,
+												comicIssue.description.indexOf(words(comicIssue.description)[45])
+										  ) + '...'
+										: comicIssue.description} */}
+								</p>
 								<p>
 									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and use the code
 									&quot;embers&quot; to gain Beta access and read the comic.
@@ -321,4 +331,4 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	)
 }
 
-export default ClaimPage
+export default MintPage

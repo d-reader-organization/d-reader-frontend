@@ -2,7 +2,7 @@
 @use '../mixins/common.module.scss' as *;
 @use '../mixins/breakpoints.module.scss' as *;
 
-.claim-page {
+.mint-page {
 	width: 100%;
 	margin: 20px auto 0 auto;
 	display: block;
@@ -259,6 +259,7 @@
 			align-self: flex-end;
 			height: fit-content;
 			@include unclickable;
+			border-radius: 90%;
 		}
 
 		.verified-icon {
