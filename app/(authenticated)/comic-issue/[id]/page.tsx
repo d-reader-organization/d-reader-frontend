@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -42,6 +42,10 @@ import { isNil } from 'lodash'
 import clsx from 'clsx'
 import { nftKeys } from '@/api/nft'
 import { useQueryClient } from 'react-query'
+import CandyMachineGroup from '@/components/CandyMachineGroup'
+import { io } from 'socket.io-client'
+import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
+import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
 
 interface Params {
 	id: string
@@ -56,6 +60,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
+	const [showMintedNftDialog, openMintedNftDialog, closeMintedNftDialog] = useToggle()
+	const [nftAddress, setNftAddress] = useState<string>()
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
@@ -77,6 +83,21 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const hasVerifiedEmail = !!me?.isEmailVerified
 	const myId = me?.id || 0
 
+	useEffect(() => {
+		if (!walletAddress) return
+		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
+		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
+			setNftAddress(data.nft.address)
+			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
+			queryClient.invalidateQueries(comicIssueKeys.get(params.id))
+			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: params.id }))
+			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
+		})
+		return () => {
+			socket.disconnect()
+		}
+	}, [params.id, queryClient, walletAddress])
+
 	const { data: candyMachine, refetch: fetchCandyMachine } = useFetchCandyMachine({
 		candyMachineAddress,
 		walletAddress,
@@ -97,7 +118,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		})
 	}
 
-	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
+	const { refetch: fetchMintOneTransaction, isLoading: isMintTransactionLoading } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
@@ -105,6 +126,12 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		},
 		false
 	)
+
+	const hasMintingStarted = () => {
+		if (candyMachine?.groups.at(0)?.startDate)
+			return !(new Date(candyMachine?.groups.at(0)?.startDate || '') > new Date())
+		return false
+	}
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -136,7 +163,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			// 	return
 			// }
 		} else {
-			const { data: mintTransactions = [], error } = await fetchMintOneTransaction()
+			const {
+				data: mintTransactions = [],
+				error,
+				isLoading: isMintTransactionLoading,
+			} = await fetchMintOneTransaction()
 			if (error) return
 
 			if (!signAllTransactions) {
@@ -158,7 +189,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						console.log('Response error log: ', response.value.err)
 						throw new Error()
 					}
-
+					openMintedNftDialog()
 					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
 				} catch (e) {
 					console.log('error: ', e)
@@ -305,36 +336,31 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 							{candyMachine && (
 								<>
-									<FlexRow justifyContent='space-between' alignItems='center' mt={2}>
-										<p className='text--important'>● Minting in progress</p> Total: {candyMachine.itemsMinted}/
-										{candyMachine.supply}
-									</FlexRow>
-
-									{candyMachine.groups.map((group) => {
-										return (
-											<React.Fragment key={group.label}>
-												<FlexRow>{group.displayLabel}:</FlexRow>
-												<InfoList orientation='horizontal' mb={1}>
-													<CollectionStatusItem orientation='vertical' label='supply' value={group.supply} />
-													<CollectionStatusItem orientation='vertical' label='minted' value={group.itemsMinted} />
-													<CollectionStatusItem
-														orientation='vertical'
-														label='price'
-														value={
-															<PriceTag
-																component='span'
-																maxDecimals={2}
-																price={group.mintPrice || 0}
-																bold
-																symbol
-																reverse
-															/>
-														}
-													/>
-												</InfoList>
-											</React.Fragment>
-										)
-									})}
+									<div className='mint-header'>
+										{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
+										<Box>
+											<h3 style={{ margin: '8px 0 0 0' }}>
+												Total: {candyMachine.itemsMinted}/{candyMachine.supply}
+											</h3>
+											{/* <p style={{ margin: '0 0 4px 0' }}>
+											<em>*200 of which goes into the &apos;Comic Vault&apos;</em>
+										</p> */}
+										</Box>
+									</div>
+									<div className='mint-details'>
+										{candyMachine.groups.map((group) => {
+											return (
+												<CandyMachineGroup
+													key={group.label}
+													group={group}
+													isMintTransactionLoading={isMintTransactionLoading}
+													handleMint={handleBuyClick}
+													totalSupply={candyMachine.supply}
+													totalMinted={candyMachine.itemsMinted}
+												/>
+											)
+										})}
+									</div>
 								</>
 							)}
 
@@ -448,6 +474,12 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						await rateComicIssue({ rating })
 						closeStarRatingDialog()
 					}}
+				/>
+				<NftMintedDialog
+					nftAddress={nftAddress}
+					id={params.id.toString()}
+					open={showMintedNftDialog}
+					onClose={closeMintedNftDialog}
 				/>
 			</main>
 		</>

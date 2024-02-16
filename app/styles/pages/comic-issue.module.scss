@@ -13,7 +13,7 @@
 			@include flexRow;
 			justify-content: center;
 
-			& > *:not(:last-child) {
+			&>*:not(:last-child) {
 				margin-right: 1rem;
 			}
 		}
@@ -30,9 +30,10 @@
 		.comic-issue-stats {
 			margin: 0;
 
-			& > *:not(:last-child) {
+			&>*:not(:last-child) {
 				margin-left: 1rem;
 			}
+
 			flex-direction: row-reverse;
 			justify-content: flex-end;
 
@@ -41,7 +42,7 @@
 				justify-content: flex-start;
 				margin: 2rem 0 1rem 0;
 
-				& > *:not(:last-child) {
+				&>*:not(:last-child) {
 					margin-right: 1rem;
 				}
 			}
@@ -65,8 +66,130 @@
 		max-width: 680px;
 
 		margin-top: 3rem;
+
 		@include md {
 			margin-top: 0;
+		}
+
+		.details-wrapper {
+			margin: 0 auto 40px auto;
+			justify-content: space-around;
+			@include pagePadding(20px, 30px, 40px, 50px);
+		}
+
+		.details {
+			&--left {
+				max-width: 480px;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: center;
+
+				.comic-issue-cover {
+					max-width: 100% !important;
+					height: auto !important;
+				}
+			}
+
+			&--right {
+				max-width: 520px;
+
+				.comic-title {
+					width: 100%;
+					color: lightgray;
+				}
+
+				.detail-toggle {
+					display: flex;
+					border-bottom: 2px solid grey;
+					margin: 0;
+
+					p {
+						cursor: pointer;
+						margin-bottom: 0;
+
+						&:nth-child(2n) {
+							margin-left: 30px;
+						}
+					}
+				}
+
+				.details-loader {
+					height: 40px;
+					width: 40px;
+
+					&--root {
+						position: relative;
+						left: 40%;
+						top: 20%;
+						height: fit-content !important;
+						width: fit-content !important;
+					}
+				}
+
+				.mint-header {
+					display: flex;
+					justify-content: space-between;
+					// align-items: center;
+					flex-direction: column;
+				}
+			}
+		}
+
+		.loader {
+			height: 25px;
+			width: 25px;
+
+			&--root {
+				height: fit-content !important;
+				width: fit-content !important;
+			}
+		}
+
+		.mint-header p {
+			@include xs {
+				font-size: 15px;
+			}
+		}
+
+		.mint-details {
+			max-height: 370px;
+			overflow-y: scroll;
+			margin-top: 10px;
+
+			.mint-group {
+				display: flex;
+				flex-direction: column;
+				border-radius: 20px;
+				padding: 10px 25px;
+				background-color: rgba(9, 8, 8, 0.5);
+				margin-bottom: 10px;
+
+				.group-detail-wrapper {
+					display: flex;
+					justify-content: space-between;
+
+					p {
+						font-weight: bold;
+					}
+
+					.group-status {
+						font-weight: bold;
+					}
+				}
+
+				.mint-limit {
+					text-align: center;
+					color: $grey-100;
+					font-size: medium;
+				}
+
+				.progress-bar {
+					border-radius: 10px;
+					margin: 10px 0;
+					height: 10px;
+				}
+			}
 		}
 
 		.comic-title {
@@ -200,12 +323,10 @@
 		}
 
 		&--simpler {
-			background: linear-gradient(
-				rgba(21, 23, 28, 0.2) 0%,
-				rgba(21, 23, 28, 0.2) 16%,
-				rgba(21, 23, 28, 0.75) 72%,
-				rgb(21, 23, 28) 100%
-			);
+			background: linear-gradient(rgba(21, 23, 28, 0.2) 0%,
+					rgba(21, 23, 28, 0.2) 16%,
+					rgba(21, 23, 28, 0.75) 72%,
+					rgb(21, 23, 28) 100%);
 		}
 	}
 }
