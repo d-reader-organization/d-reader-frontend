@@ -36,7 +36,6 @@ import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
-import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 interface Params {
 	id: string | number
@@ -55,7 +54,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const paramsId = params.id === 'embers' ? 93 : params.id
-	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 1, 16, 17, 0, 0) })
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -177,30 +175,6 @@ const ClaimPage = ({ params }: { params: Params }) => {
 		signAllTransactions,
 		toaster,
 	])
-
-	if (params.id === 'embers') {
-		return (
-			<>
-				<GuestNavigation />
-				<Box
-					pt={{
-						xs: 8,
-						sm: 16,
-						md: 24,
-					}}
-					justifyContent='center'
-					display='flex'
-					flexDirection='column'
-					margin='0 auto'
-					textAlign='center'
-				>
-					<h3>starts in</h3>
-					<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
-					<em>details coming soon</em>
-				</Box>
-			</>
-		)
-	}
 
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
