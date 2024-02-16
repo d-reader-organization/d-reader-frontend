@@ -13,7 +13,7 @@
 			@include flexRow;
 			justify-content: center;
 
-			&>*:not(:last-child) {
+			& > *:not(:last-child) {
 				margin-right: 1rem;
 			}
 		}
@@ -30,7 +30,7 @@
 		.comic-issue-stats {
 			margin: 0;
 
-			&>*:not(:last-child) {
+			& > *:not(:last-child) {
 				margin-left: 1rem;
 			}
 
@@ -42,7 +42,7 @@
 				justify-content: flex-start;
 				margin: 2rem 0 1rem 0;
 
-				&>*:not(:last-child) {
+				& > *:not(:last-child) {
 					margin-right: 1rem;
 				}
 			}
@@ -153,9 +153,10 @@
 		}
 
 		.mint-details {
-			max-height: 370px;
-			overflow-y: scroll;
+			// max-height: 370px;
+			// overflow-y: scroll;
 			margin-top: 10px;
+			margin-bottom: 2rem;
 
 			.mint-group {
 				display: flex;
@@ -323,10 +324,12 @@
 		}
 
 		&--simpler {
-			background: linear-gradient(rgba(21, 23, 28, 0.2) 0%,
-					rgba(21, 23, 28, 0.2) 16%,
-					rgba(21, 23, 28, 0.75) 72%,
-					rgb(21, 23, 28) 100%);
+			background: linear-gradient(
+				rgba(21, 23, 28, 0.2) 0%,
+				rgba(21, 23, 28, 0.2) 16%,
+				rgba(21, 23, 28, 0.75) 72%,
+				rgb(21, 23, 28) 100%
+			);
 		}
 	}
 }

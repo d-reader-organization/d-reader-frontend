@@ -9,9 +9,7 @@ import { Theme } from '@mui/material/styles'
 import PageBanner from 'public/assets/page-banner.png'
 import VerifiedIcon from 'public/assets/vector-icons/verified-icon.svg'
 import CloseIcon from 'public/assets/vector-icons/close.svg'
-import CollectionStatusItem from 'components/ui/CollectionStatusItem'
 import AvatarImage from 'components/AvatarImage'
-import PriceTag from 'components/tags/PriceTag'
 import InfoList from 'components/ui/InfoList'
 import { CANDY_MACHINE_QUERY_KEYS, useFetchCandyMachine } from 'api/candyMachine'
 // import { useFetchCandyMachine, useFetchCandyMachineReceipts } from 'api/candyMachine'
@@ -273,28 +271,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						{!isMobile && (
 							<Box className='comic-issue-page--middle'>
 								<Image src={comicIssue.cover} alt='' priority width={600} height={800} />
-								<FlexRow>
-									<ButtonLink
-										href={RoutePath.ReadComicIssue(comicIssue.id)}
-										backgroundColor='transparent'
-										borderColor='grey-100'
-										className='button--preview'
-									>
-										Read
-									</ButtonLink>
-									{candyMachine && (
-										<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
-											Buy&nbsp;
-											<PriceTag
-												component='span'
-												maxDecimals={2}
-												price={candyMachine.groups[0]?.mintPrice || 0}
-												bold
-												icon
-											/>
-										</Button>
-									)}
-								</FlexRow>
+								<ButtonLink
+									href={RoutePath.ReadComicIssue(comicIssue.id)}
+									backgroundColor='transparent'
+									borderColor='grey-100'
+									className='button--preview'
+								>
+									Read
+								</ButtonLink>
 							</Box>
 						)}
 
@@ -389,28 +373,14 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 							{isMobile && (
 								<Box my={2}>
-									<FlexRow>
-										<ButtonLink
-											href={RoutePath.ReadComicIssue(comicIssue.id)}
-											backgroundColor='transparent'
-											borderColor='grey-100'
-											className='button--preview'
-										>
-											Read
-										</ButtonLink>
-										{candyMachine && (
-											<Button backgroundColor='yellow-500' onClick={handleBuyClick}>
-												Buy&nbsp;
-												<PriceTag
-													component='span'
-													maxDecimals={2}
-													price={candyMachine.groups[0].mintPrice || 0}
-													bold
-													icon
-												/>
-											</Button>
-										)}
-									</FlexRow>
+									<ButtonLink
+										href={RoutePath.ReadComicIssue(comicIssue.id)}
+										backgroundColor='transparent'
+										borderColor='grey-100'
+										className='button--preview'
+									>
+										Read
+									</ButtonLink>
 								</Box>
 							)}
 						</Box>

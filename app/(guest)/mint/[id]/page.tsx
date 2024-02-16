@@ -252,7 +252,10 @@ const MintPage = ({ params }: { params: Params }) => {
 										</div>
 									</>
 								) : (
-									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/trade/tensorverse_episode_1'>
+									<ButtonLink
+										backgroundColor='yellow-500'
+										href='https://www.tensor.trade/trade/liberty_square_originz_embers'
+									>
 										Trade on Tensor
 									</ButtonLink>
 								)}
