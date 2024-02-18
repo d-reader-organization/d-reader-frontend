@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
@@ -224,33 +225,12 @@ const MintPage = ({ params }: { params: Params }) => {
 						) : !mintDetailsSection ? (
 							<Box pt={2}>
 								{candyMachine ? (
-									<>
-										<div className='mint-header'>
-											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
-											<Box>
-												<h3 style={{ margin: '8px 0 0 0' }}>
-													Total: {candyMachine.itemsMinted}/{candyMachine.supply}
-												</h3>
-												{/* <p style={{ margin: '0 0 4px 0' }}>
-													<em>*200 of which goes into the &apos;Comic Vault&apos;</em>
-												</p> */}
-											</Box>
-										</div>
-										<div className='mint-details'>
-											{candyMachine.groups.map((group) => {
-												return (
-													<CandyMachineGroup
-														key={group.label}
-														group={group}
-														isMintTransactionLoading={isMintTransactionLoading}
-														handleMint={handleMint}
-														totalSupply={candyMachine.supply}
-														totalMinted={candyMachine.itemsMinted}
-													/>
-												)
-											})}
-										</div>
-									</>
+									<ButtonLink
+										backgroundColor='yellow-500'
+										href='https://www.tensor.trade/trade/liberty_square_originz_embers'
+									>
+										Trade on Tensor
+									</ButtonLink>
 								) : (
 									<ButtonLink
 										backgroundColor='yellow-500'
