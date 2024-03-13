@@ -161,11 +161,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			// 	return
 			// }
 		} else {
-			const {
-				data: mintTransactions = [],
-				error,
-				isLoading: isMintTransactionLoading,
-			} = await fetchMintOneTransaction()
+			const { data: mintTransactions = [], error } = await fetchMintOneTransaction()
 			if (error) return
 
 			if (!signAllTransactions) {
@@ -213,6 +209,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		candyMachine,
 		connection,
 		fetchCandyMachine,
+		openMintedNftDialog,
 		fetchMintOneTransaction,
 		hasVerifiedEmail,
 		hasWalletConnected,
@@ -339,7 +336,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 													group={group}
 													isMintTransactionLoading={isMintTransactionLoading}
 													handleMint={handleBuyClick}
-													totalSupply={candyMachine.supply}
 													totalMinted={candyMachine.itemsMinted}
 												/>
 											)

@@ -37,6 +37,7 @@ import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
+import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 interface Params {
 	id: string | number
@@ -54,7 +55,8 @@ const MintPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-	const paramsId = params.id === 'embers' ? 93 : params.id
+	const paramsId = params.id === 'bad-environment' ? 94 : params.id
+	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 2, 13, 17, 0, 0) })
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -177,11 +179,34 @@ const MintPage = ({ params }: { params: Params }) => {
 		toaster,
 	])
 
+	if (params.id === 'bad-environment' && !candyMachine) {
+		return (
+			<>
+				<GuestNavigation />
+				<Box
+					pt={{
+						xs: 8,
+						sm: 16,
+						md: 24,
+					}}
+					justifyContent='center'
+					display='flex'
+					flexDirection='column'
+					margin='0 auto'
+					textAlign='center'
+				>
+					<h3>starts in</h3>
+					<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
+					<em>details coming soon</em>
+				</Box>
+			</>
+		)
+	}
+
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
 
 	const heroImage = comicIssue.cover || PageBanner.src
-
 	return (
 		<>
 			<GuestNavigation />
@@ -224,17 +249,34 @@ const MintPage = ({ params }: { params: Params }) => {
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
 						) : !mintDetailsSection ? (
 							<Box pt={2}>
-								{candyMachine ? (
-									<ButtonLink
-										backgroundColor='yellow-500'
-										href='https://www.tensor.trade/trade/liberty_square_originz_embers'
-									>
-										Trade on Tensor
-									</ButtonLink>
+								{candyMachine && !comicIssue.isSecondarySaleActive ? (
+									<>
+										<div className='mint-header'>
+											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
+											<Box>
+												<h3 style={{ margin: '8px 0 0 0' }}>
+													Total: {candyMachine.itemsMinted}/{candyMachine.supply}
+												</h3>
+											</Box>
+										</div>
+										<div className='mint-details'>
+											{candyMachine.groups.map((group) => {
+												return (
+													<CandyMachineGroup
+														key={group.label}
+														group={group}
+														isMintTransactionLoading={isMintTransactionLoading}
+														handleMint={handleMint}
+														totalMinted={candyMachine.itemsMinted}
+													/>
+												)
+											})}
+										</div>
+									</>
 								) : (
 									<ButtonLink
 										backgroundColor='yellow-500'
-										href='https://www.tensor.trade/trade/liberty_square_originz_embers'
+										href='https://www.tensor.trade/trade/bad_environment_club_this_night_has_opened_my_eyes'
 									>
 										Trade on Tensor
 									</ButtonLink>
@@ -276,7 +318,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								</p>
 								<p>
 									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and use the code
-									&quot;embers&quot; to gain Beta access and read the comic.
+									&quot;bad&quot; to gain Beta access and read the comic.
 								</p>
 								{comicIssue.creator && (
 									<Box className='comic-issue-creator-wrapper'>

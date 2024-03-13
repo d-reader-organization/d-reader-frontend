@@ -20,20 +20,13 @@ interface Props {
 	group: CandyMachineGroupWithWallet
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
-	totalSupply: number
 	totalMinted: number
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-const CandyMachineGroup: React.FC<Props> = ({
-	group,
-	handleMint,
-	isMintTransactionLoading,
-	totalSupply,
-	totalMinted,
-}) => {
+const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransactionLoading, totalMinted }) => {
 	const { countdownString } = useCountdown({ expirationDate: group.startDate })
 	const { publicKey } = useWallet()
 
