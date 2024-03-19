@@ -209,7 +209,7 @@ function ProfilePage() {
 										<Input {...register('email')} placeholder={me.email} />
 										<Label isRequired>Username</Label>
 										<p className='description'>
-											Must be 2 to 20 characters long. Leters, numbers, and dashes are allowed
+											Must be 2 to 20 characters long. Leters, numbers, underscores, and dashes are allowed
 										</p>
 										<Input {...register('name')} placeholder={me.name} />
 										<FormActions mobileColumn className='form-actions--mobile'>

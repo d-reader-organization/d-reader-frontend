@@ -72,7 +72,7 @@ export default function RegisterUserPage() {
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
-					<p className='description'>2-20 characters. Letters, numbers, and dashes are allowed</p>
+					<p className='description'>2-20 characters. Letters, numbers, underscores, and dashes are allowed</p>
 					<Input {...register('name')} placeholder='john-doe' />
 
 					<Label isRequired>Email</Label>
