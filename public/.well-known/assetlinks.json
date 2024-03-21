@@ -1,0 +1,9 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.app.dreader",
+      "sha256_cert_fingerprints":
+      ["1C:39:BD:0F:8B:4C:2E:93:22:38:65:D1:39:CB:2D:0D:67:BA:ED:0A:B1:88:EE:87:98:AC:66:17:8F:9E:B2:88"]
+    }
+  }]
