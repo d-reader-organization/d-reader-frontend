@@ -14,8 +14,8 @@ import { ComicSortTag, ComicFilterTag } from '@/models/comic/comicParams'
 import { ComicIssueSortTag, ComicIssueFilterTag } from '@/models/comicIssue/comicIssueParams'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import Navigation from '@/components/layout/Navigation'
-import { useFetchMe } from '@/api/user/queries/useFetchMe'
-import JoinTheBeta from '@/components/JoinTheBeta'
+// import { useFetchMe } from '@/api/user/queries/useFetchMe'
+// import JoinTheBeta from '@/components/JoinTheBeta'
 
 export default function Home() {
 	const [showGenres, , genresRef] = useOnScreen()
@@ -25,7 +25,7 @@ export default function Home() {
 	const [showNewComics, , newComicsRef] = useOnScreen()
 	const [showFreeComicIssues, , freeComicIssuesRef] = useOnScreen()
 
-	const { data: me } = useFetchMe()
+	// const { data: me } = useFetchMe()
 
 	const { xs, sm, md, lg, xl } = useBreakpoints()
 
@@ -41,7 +41,7 @@ export default function Home() {
 	}, [xl, lg, md, sm, xs])
 
 	if (!take) return null
-	if (me && !me.hasBetaAccess) return <JoinTheBeta />
+	// if (me && !me.hasBetaAccess) return <JoinTheBeta />
 
 	return (
 		<>
