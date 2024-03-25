@@ -53,7 +53,7 @@ const MintPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-	const paramsId = params.id === 'bad-environment' ? 94 : params.id
+	const paramsId = params.id === 'bad-environment' ? 94 : params.id === 'dojo' ? 100 : params.id
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -249,7 +249,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								) : (
 									<ButtonLink
 										backgroundColor='yellow-500'
-										href='https://www.tensor.trade/trade/bad_environment_club_this_night_has_opened_my_eyes'
+										href='https://www.tensor.trade/trade/cyber_samurai_chapter_1'
 									>
 										Trade on Tensor
 									</ButtonLink>
@@ -290,8 +290,7 @@ const MintPage = ({ params }: { params: Params }) => {
 										: comicIssue.description} */}
 								</p>
 								<p>
-									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and use the code
-									&quot;bad&quot; to gain Beta access and read the comic.
+									🚨 Register to <FaqLink href='https://dreader.io/links'>dReader</FaqLink> and read the comic.
 								</p>
 								{comicIssue.creator && (
 									<Box className='comic-issue-creator-wrapper'>
@@ -320,7 +319,7 @@ const MintPage = ({ params }: { params: Params }) => {
 			</main>
 			<NftMintedDialog
 				nftAddress={nftAddress}
-				id={params.id.toString()}
+				id={paramsId.toString()}
 				open={showMintedNftDialog}
 				onClose={closeMintedNftDialog}
 			/>

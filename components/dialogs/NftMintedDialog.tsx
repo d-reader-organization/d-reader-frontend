@@ -42,9 +42,9 @@ const NftMintedDialog: React.FC<Props> = ({ id, open, onClose, nftAddress, ...pr
 
 					<Link
 						href={encodeURI(
-							`https://twitter.com/intent/tweet?text=${`${
-								nft.rarity.toLowerCase() === 'legendary' ? 'Fock yea! ' : ''
-							}I just minted a ${nft.rarity.toLowerCase()} copy of the ${nft.name.split('#')[0]}!
+							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity.toLowerCase()} copy of the ${
+								nft.name.split('#')[0]
+							}!
 
 Mint yours here while the supply lasts.👇
 https://dreader.app/mint/${id}`}`
