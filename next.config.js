@@ -1,13 +1,15 @@
-/** @type {import('next').NextConfig} */
-const path = require('path')
-
+const withMDX = require('@next/mdx')()
 const withPWA = require('next-pwa')({
 	dest: 'public',
 	disable: process.env.NODE_ENV === 'development',
 	mode: 'production',
 })
+const path = require('path')
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+	// Configure `pageExtensions` to include MDX files
+	pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 
-module.exports = withPWA({
 	reactStrictMode: true,
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
@@ -25,7 +27,7 @@ module.exports = withPWA({
 			{
 				protocol: 'https',
 				hostname: 'arweave.net',
-			}
+			},
 		],
 	},
 	webpack(config) {
@@ -36,4 +38,6 @@ module.exports = withPWA({
 
 		return config
 	},
-})
+}
+
+module.exports = withMDX(withPWA(nextConfig))
