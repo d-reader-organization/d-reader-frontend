@@ -37,7 +37,7 @@ export async function generateImageMetadata({ params }: { params: { id: string }
 		{
 			id: 'large',
 			size,
-			alt: `Comic issue '${comicIssue.title}' on dReader`,
+			alt: `Buy '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
 			contentType: 'image/png', // what if it isn't image/png?
 		},
 	]
@@ -140,3 +140,6 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 		}
 	)
 }
+
+// TODO: load Satoshi font
+// TODO: comic series og and twitter image metadata (need to fetch /comic/get-public)

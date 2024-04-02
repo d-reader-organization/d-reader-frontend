@@ -37,7 +37,7 @@ export async function generateImageMetadata({ params }: { params: { id: string }
 		{
 			id: 'large',
 			size,
-			alt: `Buy '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
+			alt: `Read '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
 			contentType: 'image/png', // what if it isn't image/png?
 		},
 	]
