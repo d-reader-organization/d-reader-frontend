@@ -1,4 +1,10 @@
+import { Metadata } from 'next'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+
+export const metadata: Metadata = {
+	title: 'dReader - Privacy Policy',
+	description: '🔏 dReader Privacy Policy and Terms of Service',
+}
 
 export default async function RemoteMdxPage() {
 	// MDX text - can be from a local file, database, CMS, fetch, anywhere...
