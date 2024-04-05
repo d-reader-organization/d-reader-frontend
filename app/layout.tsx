@@ -6,6 +6,7 @@ import ToastProvider from 'providers/ToastProvider'
 import localFont from 'next/font/local'
 import clsx from 'clsx'
 import 'app/styles/app.scss'
+import { SessionWrapper } from '@/components/SessionWrapper'
 
 require('@solana/wallet-adapter-react-ui/styles.css')
 
@@ -76,12 +77,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang='en'>
 			<body className={clsx(satoshi.className, 'layout')}>
 				<ClientContext>
-					<UserAuthProvider>
-						<ToastProvider>
-							<CssBaseline />
-							<div className='container'>{children}</div>
-						</ToastProvider>
-					</UserAuthProvider>
+					<SessionWrapper>
+						<UserAuthProvider>
+							<ToastProvider>
+								<CssBaseline />
+								<div className='container'>{children}</div>
+							</ToastProvider>
+						</UserAuthProvider>
+					</SessionWrapper>
 				</ClientContext>
 			</body>
 		</html>

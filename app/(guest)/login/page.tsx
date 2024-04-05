@@ -28,7 +28,10 @@ import { useToaster } from '@/providers/ToastProvider'
 import { useRequestUserPasswordReset } from '@/api/user/queries/useRequestUserPasswordReset'
 import { useToggle } from '@/hooks'
 import Dialog from '@mui/material/Dialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
+import { signIn, useSession } from 'next-auth/react'
+import { useUserAuth } from '@/providers/UserAuthProvider'
 
 export default function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
@@ -42,6 +45,9 @@ export default function LoginPage() {
 	const { mutateAsync: login } = useLoginUser()
 	const { mutateAsync: requestPasswordReset } = useRequestUserPasswordReset()
 
+	const { data: session } = useSession()
+	const { addAuthorization } = useUserAuth()
+
 	const { register, handleSubmit } = useForm<LoginData>({
 		defaultValues: {
 			nameOrEmail: '',
@@ -49,6 +55,12 @@ export default function LoginPage() {
 		},
 		resolver: yupResolver(loginValidationSchema),
 	})
+
+	useEffect(() => {
+		if (session?.authTokens) {
+			addAuthorization(session.authTokens)
+		}
+	}, [session?.authTokens, addAuthorization])
 
 	usePrefetchRoute(nextPage)
 	useGuestRoute()
@@ -84,6 +96,17 @@ export default function LoginPage() {
 					<FormActions column centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
 							Login
+						</Button>
+
+						<Button
+							onClick={() => signIn('google')}
+							type='button'
+							backgroundColor='transparent'
+							borderColor='grey-300'
+							className='action-button'
+						>
+							<GoogleLogoIcon />
+							Google
 						</Button>
 
 						<Button
