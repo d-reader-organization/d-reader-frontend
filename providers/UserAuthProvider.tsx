@@ -16,6 +16,7 @@ import {
 import { parseJwtPayload } from 'utils/objects'
 import { isNil } from 'lodash'
 import axios from 'axios'
+import { signOut } from 'next-auth/react'
 
 interface UserAuthContextState {
 	isAuthenticated: boolean
@@ -79,6 +80,7 @@ export const UserAuthProvider: React.FC<Props> = ({ children }) => {
 	)
 
 	const logout = useCallback(() => {
+		signOut()
 		removeAuthorization(authorization.refreshToken)
 		lsRemoveActiveUser()
 	}, [authorization.refreshToken, removeAuthorization])

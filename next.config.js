@@ -28,6 +28,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'arweave.net',
 			},
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com',
+			},
 		],
 	},
 	webpack(config) {
