@@ -9,10 +9,10 @@ import Link from 'next/link'
 interface Props extends DialogProps {
 	onClose: VoidFunction
 	nftAddress?: string
-	id?: string
+	comicIssueId?: string
 }
 
-const NftMintedDialog: React.FC<Props> = ({ id, open, onClose, nftAddress, ...props }) => {
+const NftMintedDialog: React.FC<Props> = ({ comicIssueId, open, onClose, nftAddress, ...props }) => {
 	const { data: nft } = useFetchNft(nftAddress || '')
 
 	return (
@@ -47,7 +47,7 @@ const NftMintedDialog: React.FC<Props> = ({ id, open, onClose, nftAddress, ...pr
 							}!
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/${id}`}`
+https://dreader.app/mint/${comicIssueId}`}`
 						)}
 						target='_blank'
 						className='twitter-button'

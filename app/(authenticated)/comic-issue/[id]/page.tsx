@@ -443,7 +443,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 				/>
 				<NftMintedDialog
 					nftAddress={nftAddress}
-					id={params.id.toString()}
+					comicIssueId={params.id.toString()}
 					open={showMintedNftDialog}
 					onClose={closeMintedNftDialog}
 				/>

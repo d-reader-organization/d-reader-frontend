@@ -53,9 +53,12 @@ const MintPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
+	// TODO change this to const paramsId = params.id sometimes in a few weeks
 	const paramsId = params.id === 'bad-environment' ? 94 : params.id === 'dojo' ? 100 : params.id
 
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
+	const comicIssueId = comicIssue?.id || 0
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 
@@ -65,14 +68,14 @@ const MintPage = ({ params }: { params: Params }) => {
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
 			setNftAddress(data.nft.address)
 			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
-			queryClient.invalidateQueries(comicIssueKeys.get(paramsId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: paramsId }))
+			queryClient.invalidateQueries(comicIssueKeys.get(comicIssueId))
+			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId }))
 			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
 		})
 		return () => {
 			socket.disconnect()
 		}
-	}, [paramsId, queryClient, walletAddress])
+	}, [comicIssueId, queryClient, walletAddress])
 
 	const {
 		data: candyMachine,
@@ -319,7 +322,7 @@ const MintPage = ({ params }: { params: Params }) => {
 			</main>
 			<NftMintedDialog
 				nftAddress={nftAddress}
-				id={paramsId.toString()}
+				comicIssueId={paramsId.toString()}
 				open={showMintedNftDialog}
 				onClose={closeMintedNftDialog}
 			/>
