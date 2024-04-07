@@ -52,6 +52,8 @@ declare module '*.avif' {
 
 declare global {
 	interface Window {
-		solana?: { publicKey: PublicKey }
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		solana?: any
+		// solana?: { publicKey: PublicKey }
 	}
 }
