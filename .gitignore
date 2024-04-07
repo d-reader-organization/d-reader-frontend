@@ -44,3 +44,6 @@ yarn-error.log*
 
 # sitemap
 sitemap-0.xml
+
+# Local Netlify folder
+.netlify
