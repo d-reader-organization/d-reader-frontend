@@ -80,9 +80,10 @@ export const UserAuthProvider: React.FC<Props> = ({ children }) => {
 	)
 
 	const logout = useCallback(() => {
-		signOut()
-		removeAuthorization(authorization.refreshToken)
-		lsRemoveActiveUser()
+		signOut().then(() => {
+			removeAuthorization(authorization.refreshToken)
+			lsRemoveActiveUser()
+		})
 	}, [authorization.refreshToken, removeAuthorization])
 
 	useEffect(() => {

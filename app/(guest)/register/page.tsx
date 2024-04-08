@@ -29,7 +29,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 
 export default function RegisterUserPage() {
-	const router = useRouter()
+	const { push } = useRouter()
 	const toaster = useToaster()
 	const searchParams = useSearchParams()
 	const referrer = searchParams.get('referrer') || ''
@@ -52,8 +52,9 @@ export default function RegisterUserPage() {
 	useEffect(() => {
 		if (session?.authTokens) {
 			addAuthorization(session.authTokens)
+			push(nextPage)
 		}
-	}, [session?.authTokens, addAuthorization])
+	}, [session?.authTokens, addAuthorization, push, nextPage])
 
 	usePrefetchRoute(nextPage)
 
@@ -63,7 +64,7 @@ export default function RegisterUserPage() {
 		handleSubmit(async (data) => {
 			await registerUser(data)
 			if (referrer) await redeemReferral(referrer)
-			router.push(nextPage)
+			push(nextPage)
 		}, toaster.onFormError)()
 	}
 
@@ -83,7 +84,13 @@ export default function RegisterUserPage() {
 				<div style={{ marginTop: '2rem' }}></div>
 				<Form centered fullWidth maxSize='sm' className='form--register-user'>
 					<Button
-						onClick={() => signIn('google')}
+						onClick={async () => {
+							try {
+								await signIn('google')
+							} catch (error) {
+								toaster.add('Failed to sign up with google', 'error')
+							}
+						}}
 						type='button'
 						backgroundColor='transparent'
 						borderColor='grey-300'
