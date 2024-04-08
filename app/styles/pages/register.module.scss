@@ -4,7 +4,6 @@
 
 .register-page {
 	@include pagePadding(10px, 0px, 0px, 0px);
-	@include centeredColumn;
 
 	.mail-icon {
 		height: auto;
@@ -23,11 +22,8 @@
 
 	.title {
 		text-align: center;
-		padding: 20px 0;
-
-		@include sm {
-			padding: 40px 0;
-		}
+		padding-top: 40px;
+		margin-bottom: 1rem;
 	}
 
 	.form {
@@ -47,6 +43,10 @@
 			.form-actions {
 				margin: 2rem 0 3rem 0;
 			}
+		}
+
+		.google-button {
+			width: 100%;
 		}
 	}
 
@@ -83,5 +83,34 @@
 		margin: 2rem 0 4rem 0;
 		width: 100%;
 		height: auto;
+	}
+
+	.google-icon {
+		height: 19px;
+		width: auto;
+		margin-right: 4px;
+	}
+
+	.divider {
+		display: flex;
+		align-items: center;
+		margin: 1rem 0;
+		font-size: 16px;
+
+		&::before,
+		&::after {
+			flex: 1;
+			content: '';
+			padding: 1px;
+			background: $grey-300;
+		}
+
+		&::before {
+			margin: 8px 8px 8px 0px;
+		}
+
+		&::after {
+			margin: 8px 0px 8px 8px;
+		}
 	}
 }

@@ -40,4 +40,33 @@
 	.forgot-email-input {
 		width: 100%;
 	}
+
+	.google-icon {
+		height: 19px;
+		width: auto;
+		margin-right: 4px;
+	}
+
+	.divider {
+		display: flex;
+		align-items: center;
+		margin: 1rem 0;
+		font-size: 16px;
+
+		&::before,
+		&::after {
+			flex: 1;
+			content: '';
+			padding: 1px;
+			background: $grey-300;
+		}
+
+		&::before {
+			margin: 8px 8px 8px 0px;
+		}
+
+		&::after {
+			margin: 8px 0px 8px 8px;
+		}
+	}
 }

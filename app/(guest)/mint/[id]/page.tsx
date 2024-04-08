@@ -54,9 +54,10 @@ const MintPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
-	// TODO change this to const paramsId = params.id sometimes in a few weeks
-	const paramsId = params.id === 'bad-environment' ? 94 : params.id === 'dojo' ? 100 : params.id
+	// TODO: how do we display the Tensor link properly if user provides the id as a number?
+	// No way for us to know what's the collection.slug
 
+	const paramsId = params.id
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const comicIssueId = comicIssue?.id || 0
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
@@ -250,10 +251,7 @@ const MintPage = ({ params }: { params: Params }) => {
 										</div>
 									</>
 								) : (
-									<ButtonLink
-										backgroundColor='yellow-500'
-										href='https://www.tensor.trade/trade/cyber_samurai_chapter_1'
-									>
+									<ButtonLink backgroundColor='yellow-500' href={`https://www.tensor.trade/trade/${params.id}`}>
 										Trade on Tensor
 									</ButtonLink>
 								)}

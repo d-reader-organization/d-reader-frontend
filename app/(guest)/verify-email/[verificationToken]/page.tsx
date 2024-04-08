@@ -17,7 +17,7 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 	const verificationToken = params?.verificationToken
 	const { isAuthenticated } = useUserAuth()
 
-	const { data: user, mutateAsync: verifyEmail } = useVerifyUserEmail()
+	const { data: user, mutateAsync: verifyEmail, error } = useVerifyUserEmail()
 	const { data: me } = useFetchMe()
 
 	useEffect(() => {
@@ -35,10 +35,16 @@ export default function VerifyEmailPage({ params }: { params: Params }) {
 				<br />
 				<span className='subtitle'>{name}</span>
 			</h1>
-			<p className='description description--content'>
-				Your email has been <span className='description--highlighted'>successfully verified</span>! Now lets get
-				started and explore some awesome content!
-			</p>
+			{error ? (
+				<p className='description description--content'>
+					Something went wrong while while verifying your email: {error.message}
+				</p>
+			) : (
+				<p className='description description--content'>
+					Your email has been <span className='description--highlighted'>successfully verified</span>, you can now
+					browse the app while enjoying full features!
+				</p>
+			)}
 
 			<FormActions centered className='actions'>
 				<ButtonLink

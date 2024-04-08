@@ -32,6 +32,7 @@ import { useEffect, useState } from 'react'
 import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
 import { signIn, useSession } from 'next-auth/react'
 import { useUserAuth } from '@/providers/UserAuthProvider'
+import Important from '@/components/ui/Important'
 
 export default function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
@@ -84,9 +85,22 @@ export default function LoginPage() {
 			<Header image={<LogoIcon className='logo' />} />
 
 			<main className='login-page'>
-				<h1 className='title'>Welcome</h1>
+				<h1 className='title'>Welcome back</h1>
 
 				<Form centered maxSize='xs' fullWidth className='form--login-user'>
+					<Button
+						onClick={() => signIn('google')}
+						type='button'
+						backgroundColor='transparent'
+						borderColor='grey-300'
+						className='action-button'
+					>
+						<GoogleLogoIcon className='google-icon' />
+						Sign in with google
+					</Button>
+
+					<div className='divider'>or with</div>
+
 					<Label isRequired>Email or username</Label>
 					<Input {...register('nameOrEmail')} placeholder='john.doe@dreader.io' />
 
@@ -96,17 +110,6 @@ export default function LoginPage() {
 					<FormActions column centered>
 						<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
 							Login
-						</Button>
-
-						<Button
-							onClick={() => signIn('google')}
-							type='button'
-							backgroundColor='transparent'
-							borderColor='grey-300'
-							className='action-button'
-						>
-							<GoogleLogoIcon />
-							Google
 						</Button>
 
 						<Button
@@ -124,7 +127,7 @@ export default function LoginPage() {
 							backgroundColor='transparent'
 							className='action-button action-button--register'
 						>
-							Don&apos;t have an account? Register here
+							Don&apos;t have an account?&nbsp;<Important>Register here</Important>
 						</ButtonLink>
 					</FormActions>
 				</Form>

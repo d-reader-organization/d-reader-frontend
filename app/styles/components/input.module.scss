@@ -3,7 +3,7 @@
 @use '../mixins/breakpoints.module.scss' as *;
 
 .input-wrapper {
-	margin-bottom: 28px;
+	margin-bottom: 18px;
 
 	&--prefix {
 		@include flexRow;

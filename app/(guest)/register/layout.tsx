@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	title: 'dReader - Register',
@@ -28,5 +29,5 @@ export const metadata: Metadata = {
 }
 
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
-	return children
+	return <Suspense>{children}</Suspense>
 }

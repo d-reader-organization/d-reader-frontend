@@ -9,7 +9,9 @@ const path = require('path')
 const nextConfig = {
 	// Configure `pageExtensions` to include MDX files
 	pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
-
+	// experimental: {
+	// 	missingSuspenseWithCSRBailout: false,
+	// },
 	reactStrictMode: true,
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
@@ -43,5 +45,6 @@ const nextConfig = {
 		return config
 	},
 }
+
 
 module.exports = withMDX(withPWA(nextConfig))

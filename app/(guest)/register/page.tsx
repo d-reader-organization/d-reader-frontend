@@ -23,6 +23,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import { useToaster } from '@/providers/ToastProvider'
+import { Suspense, useEffect } from 'react'
+import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
+import { signIn, useSession } from 'next-auth/react'
+import { useUserAuth } from '@/providers/UserAuthProvider'
 
 export default function RegisterUserPage() {
 	const router = useRouter()
@@ -42,6 +46,15 @@ export default function RegisterUserPage() {
 		resolver: yupResolver(registerValidationSchema),
 	})
 
+	const { data: session } = useSession()
+	const { addAuthorization } = useUserAuth()
+
+	useEffect(() => {
+		if (session?.authTokens) {
+			addAuthorization(session.authTokens)
+		}
+	}, [session?.authTokens, addAuthorization])
+
 	usePrefetchRoute(nextPage)
 
 	const onSubmitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,7 +68,7 @@ export default function RegisterUserPage() {
 	}
 
 	return (
-		<>
+		<Suspense>
 			<Header image={<LogoIcon className='logo' />} />
 			<Steps
 				steps={[
@@ -66,9 +79,22 @@ export default function RegisterUserPage() {
 			/>
 
 			<main className='register-page'>
-				{/* <h1 className='title'>Welcome to dReader</h1> */}
+				{/* <h1 className='title'>Join dReader</h1> */}
 				<div style={{ marginTop: '2rem' }}></div>
 				<Form centered fullWidth maxSize='sm' className='form--register-user'>
+					<Button
+						onClick={() => signIn('google')}
+						type='button'
+						backgroundColor='transparent'
+						borderColor='grey-300'
+						className='action-button google-button'
+					>
+						<GoogleLogoIcon className='google-icon' />
+						Sign up with google
+					</Button>
+
+					<div className='divider'>or with</div>
+
 					<Label isRequired tooltipText={usernameTooltip}>
 						Username
 					</Label>
@@ -99,6 +125,6 @@ export default function RegisterUserPage() {
 					</Link>
 				</Form>
 			</main>
-		</>
+		</Suspense>
 	)
 }

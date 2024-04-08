@@ -4,7 +4,9 @@
 	.action-button--register {
 		font-weight: normal;
 		border-radius: 0;
-		border-bottom: 1px solid $grey-100;
+		// border-bottom: 1px solid $grey-100;
+		justify-content: flex-start;
+		padding-left: 0;
 
 		&:hover {
 			filter: brightness(1.5);
