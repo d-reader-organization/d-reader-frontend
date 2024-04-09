@@ -14,7 +14,6 @@ export interface BasicComic {
 	isPopular: boolean
 	cover: string
 	banner: string
-	pfp: string
 	logo: string
 	description: string
 	flavorText: string
@@ -80,6 +79,5 @@ export type UpdateComicSocialsData = Partial<
 export type UpdateComicFilesData = Partial<{
 	cover: File
 	banner: File
-	pfp: File
 	logo: File
 }>

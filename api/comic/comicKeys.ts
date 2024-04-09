@@ -10,7 +10,6 @@ export const COMIC_QUERY_KEYS = Object.freeze({
 	COVER: 'cover',
 	BANNER: 'banner',
 	FILES: 'files',
-	PFP: 'pfp',
 	LOGO: 'logo',
 	RATE: 'rate',
 	SUBSCRIBE: 'subscribe',

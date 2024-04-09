@@ -12,7 +12,6 @@ export interface RawComic {
 	popularizedAt: string
 	cover: string
 	banner: string
-	pfp: string
 	logo: string
 	description: string
 	flavorText: string
