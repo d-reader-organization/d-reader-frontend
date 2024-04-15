@@ -21,22 +21,6 @@ const FAQ: React.FC = () => {
 						<FaqLink href='https://dreader.app/register'>dReader register link</FaqLink>. It&apos;s important to note
 						that if you&apos;re opening this link on your mobile device, use Phantom or Solflare in-app browser feature.
 					</p>
-					<p>
-						After registration <Important>use the code &apos;faq&apos;</Important> to gain full access to the app.
-					</p>
-					<NotImportant>
-						visit our&nbsp;
-						<FaqLink href='https://dreader.io/links'>linkree</FaqLink> to learn more about what we do
-					</NotImportant>
-				</Expandable>
-
-				<Expandable title='😠 I need a referral code to get in?!' id='referral-code'>
-					<p>
-						Use the code&nbsp;
-						<Important>
-							<Important>&apos;faq&apos;</Important>
-						</Important>
-					</p>
 					<NotImportant>
 						visit our&nbsp;
 						<FaqLink href='https://dreader.io/links'>linkree</FaqLink> to learn more about what we do
@@ -47,13 +31,10 @@ const FAQ: React.FC = () => {
 					To learn more about the project visit our <FaqLink href='https://dreader.io/links'>linkree</FaqLink> and take
 					a look at our pitch deck! 🔥
 				</Expandable>
-			</div>
 
-			<div className='faq-section'>
-				<p className='faq-section-title'>MINTING</p>
-				<Expandable title='📱 How do I mint the comic on the mobile app?' id='mint-on-mobile-app'>
+				<Expandable title='📱 How do I buy the comic on the mobile app?' id='buy-on-mobile-app'>
 					<p>Our mobile app is currently only available on Android.</p>
-					<p>To mint the comic:</p>
+					<p>To buy the comic:</p>
 					<ol>
 						<li>go to the mobile app</li>
 						<li>
@@ -62,23 +43,23 @@ const FAQ: React.FC = () => {
 							- if there is no &quot;send email verification&quot; button, you&apos;re good to go!
 							<br />- if the button is there, click on it and check your email inbox (check for spam!)
 						</li>
-						<li>find the comic you&apos;d like to mint (usually promoted on the homepage banner)</li>
-						<li>go to the comic details and hit the mint button</li>
+						<li>find the comic you&apos;d like to buy (usually promoted on the homepage banner)</li>
+						<li>go to the comic details and hit the buy button</li>
 					</ol>
 					<p>
 						<NotImportant>
 							* it&apos;s important to note that you&apos;ll need&nbsp;
-							<Important>at least 0.029 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
+							<Important>at least 0.0033 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
 							comic is listed as free.
 						</NotImportant>
 					</p>
 				</Expandable>
 
-				<Expandable title='🌐 How do I mint the comic from my mobile browser?' id='mint-on-mobile-browser'>
+				<Expandable title='🌐 How do I buy the comic from my mobile browser?' id='buy-on-mobile-browser'>
 					<p>
 						Our web app is currently available at <FaqLink href='https://dreader.app'>https://dreader.app</FaqLink>
 					</p>
-					<p>To mint the comic:</p>
+					<p>To buy the comic:</p>
 					<ol>
 						<li>open our web app from your mobile wallet&apos;s in-app browser</li>
 						<li>
@@ -87,13 +68,13 @@ const FAQ: React.FC = () => {
 							- if there is no &quot;send email verification&quot; button, you&apos;re good to go!
 							<br />- if the button is there, click on it and check your email inbox (check for spam!)
 						</li>
-						<li>find the comic you&apos;d like to mint (usually promoted on the homepage banner)</li>
-						<li>go to the comic details and hit the mint button</li>
+						<li>find the comic you&apos;d like to buy (usually promoted on the homepage banner)</li>
+						<li>go to the comic details and hit the buy button</li>
 					</ol>
 					<p>
 						<NotImportant>
 							* it&apos;s important to note that you&apos;ll need&nbsp;
-							<Important>at least 0.029 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
+							<Important>at least 0.0033 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
 							comic is listed as free.
 						</NotImportant>
 						<br />
@@ -103,11 +84,11 @@ const FAQ: React.FC = () => {
 					</p>
 				</Expandable>
 
-				<Expandable title='💻 How do I mint the comic from my desktop browser?' id='mint-on-desktop-browser'>
+				<Expandable title='💻 How do I buy the comic from my desktop browser?' id='buy-on-desktop-browser'>
 					<p>
 						Our web app is currently available at <FaqLink href='https://dreader.app'>https://dreader.app</FaqLink>
 					</p>
-					<p>To mint the comic:</p>
+					<p>To buy the comic:</p>
 					<ol>
 						<li>open our web app</li>
 						<li>
@@ -116,13 +97,13 @@ const FAQ: React.FC = () => {
 							- if there is no &quot;send email verification&quot; button, you&apos;re good to go!
 							<br />- if the button is there, click on it and check your email inbox (check for spam!)
 						</li>
-						<li>find the comic you&apos;d like to mint (usually promoted on the homepage banner)</li>
-						<li>go to the comic details and hit the mint button</li>
+						<li>find the comic you&apos;d like to buy (usually promoted on the homepage banner)</li>
+						<li>go to the comic details and hit the buy button</li>
 					</ol>
 					<p>
 						<NotImportant>
 							* it&apos;s important to note that you&apos;ll need&nbsp;
-							<Important>at least 0.029 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
+							<Important>at least 0.0033 SOL in your wallet</Important> to pay for protocol & on-chain fees, even if the
 							comic is listed as free.
 						</NotImportant>
 						<br />
@@ -135,30 +116,13 @@ const FAQ: React.FC = () => {
 
 			<div className='faq-section'>
 				<p className='faq-section-title'>TROUBLESHOOTING</p>
-				<Expandable title={`⚠️ ERROR: "wallet aaa..aaa is not eligible for mint"`} id='wallet-not-eligible-for-mint'>
-					<p>
-						When wallet is not eligible for minting it could mean that you haven&apos;t completed all of the
-						prerequisites.
-					</p>
-					<p>
-						Some of our mints require users to have verified email addresses. If you&apos;re trying to collect a mint
-						from a referral bonus, you&apos;ll need to onboard at least 2 users to dReader AND they&apos;ll need to
-						verify their email and connect their wallet (fully onboarded)
-					</p>
-					<p>
-						Lastly, there is an <Important>important note</Important> to make regarding how wallets are allowlisted for
-						mints on dReader. We only allowlist the wallet you have first connected to your user.
-						<br />
-						For example: you might have 3 wallets connected and have just onboarded 2 friends to dReader. In this case,
-						we&apos;ll allowlist the wallet which you&apos;ve first connected to the app. Your other 2 wallets
-						won&apos;t have the rights to mint the referral bonus.
-					</p>
-					<p>This is in order to prevent abuse. We will work on improving this user experience in 2024.</p>
-				</Expandable>
-
-				<Expandable title={`⚠️ ERROR: "wallet aaa..aaa has reached the mint limit"`} id='wallet-reached-mint-limit'>
-					Some of our mints have limitations of NFTs per wallet basis. For example, your wallet might only be eligible
-					for 1 free mint, 2 public (paid) discounted mints, and unlimited public (full price) mints.
+				<Expandable
+					title={`⚠️ ERROR: "user/wallet aaa..aaa has reached the purchase limit"`}
+					id='wallet-reached-purchase-limit'
+				>
+					Some of our sales have limitations of NFTs bought per user/wallet basis. For example, you might only be
+					eligible for 1 free comic, 2 public (paid) discounted comics, and unlimited public (full price) comics on a
+					single comic sale.
 				</Expandable>
 
 				<Expandable
@@ -166,10 +130,7 @@ const FAQ: React.FC = () => {
 					id='transaction-signature-verification-failure'
 				>
 					Phantom has an issue with their Seed Vault implementation on Saga. If you see this errror, you&apos;re most
-					likely using Saga and Phantom.
-					<br />
-					We have worked with Phantom to resolve the issue which should be live by now. Update Phantom to the latest
-					version from the dApp store and retry.
+					likely using the Saga device and Phantom wallet.
 					<br />
 					If the issue persists, connect your seed phrase to the Solflare wallet. Works like a charm. 🤌
 				</Expandable>
@@ -179,30 +140,18 @@ const FAQ: React.FC = () => {
 					preventing you from minting reach out to me on discord &apos;josipvolarevic&apos; and I&apos;ll see if my
 					personal treasury help in any way.
 					<br />
-					Especially if you&apos;re trying to mint the free comic but don&apos;t have 0.029 SOL to pay for on-chain &
+					Especially if you&apos;re trying to buy the free comic but don&apos;t have 0.0033 SOL to pay for on-chain &
 					protocol fees!
-				</Expandable>
-
-				<Expandable
-					title={`⚠️ ERROR: cannot connect a wallet to the mobile app`}
-					id='cannot-connect-wallet-to-mobile-app'
-				>
-					This could be due to multiple reasons. Mainly its due to power saving mode or ..
-					<p>
-						<NotImportant>
-							*Update your wallet app and dReader on google play or apple store(soon) to the latest version and reset
-							your device.
-						</NotImportant>
-					</p>
 				</Expandable>
 			</div>
 
 			<div className='faq-section'>
 				<p className='faq-section-title'>OTHER</p>
 				<Expandable title={`🫰 Where can I trade my comics?`} id='trading-comics'>
-					Comics can be traded within our mobile app. Web app is WIP progress, ETA Q1 2024.
+					Comics can be traded within our mobile app. Web app is WIP progress, ETA Q3 2024.
 					<br />
-					Until then, you can buy comics from secondary marketplaces like Tensor.
+					Until then, you can buy comics from secondary marketplaces like{' '}
+					<FaqLink href='https://www.tensor.trade/creator/dreader'>Tensor</FaqLink>.
 				</Expandable>
 
 				<Expandable title={`💀 What happens if dReader dies?`} id='what-if-dReader-dies'>
