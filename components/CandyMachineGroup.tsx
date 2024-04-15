@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 import { WALLET_LABELS } from '@/constants/wallets'
 import CircularProgress from '@mui/material/CircularProgress'
 import LinearProgress from '@mui/material/LinearProgress'
-import { CandyMachineGroupWithSource } from '@/models/candyMachine/candyMachineGroup'
+import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 import useCountdown from '@/hooks/useCountdown'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -78,7 +78,12 @@ const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransacti
 								<CircularProgress thickness={6} classes={{ svg: 'loader', root: 'loader--root' }} />
 							)}
 						</Button>
-					) : <Button backgroundColor='disabled' disabled>{error}</Button>) : (
+					) : (
+					<>
+						<Button backgroundColor='disabled' disabled>{error}</Button>
+						{group.whiteListType == WhiteListType.User ? <p className='guest-user-note'>Only dReader users are eligible ! <a className='register-link'>Register/Login to Buy</a> </p>: null}
+					</>
+					)) : (
 						<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} style={{ width: '100%' }} />
 					)}
 					<p className='mint-limit'>{group.mintLimit ? `Limit ${group.mintLimit} per wallet` : null}</p>

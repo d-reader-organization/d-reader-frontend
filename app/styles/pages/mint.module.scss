@@ -130,6 +130,19 @@
 			background-color: rgba(9, 8, 8, 0.5);
 			margin-bottom: 10px;
 
+			.guest-user-note {
+				color: $yellow-500;
+				font-size: medium;
+				font-weight: 500;
+				align-self: center;
+			}
+
+			.register-link {
+				text-decoration: underline;
+				font-weight: bold;
+				cursor: pointer;
+			}
+
 			.group-detail-wrapper {
 				display: flex;
 				justify-content: space-between;
