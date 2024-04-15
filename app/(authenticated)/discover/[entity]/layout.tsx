@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 		title: 'dReader - Discover',
 		description: '📚 Affordable, Authentic & Limited Edition - from manga to comics. Discover new content on dReader!',
 		images: '/assets/images/metadata-discover.jpg',
-		url: process.env.NEXT_PUBLIC_SITE_URL + '/discover',
+		url: process.env.NEXT_PUBLIC_SITE_URL + '/discover/comics',
 		siteName: 'dReader',
 	},
 	appleWebApp: {
