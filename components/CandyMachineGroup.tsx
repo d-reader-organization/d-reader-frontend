@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 import { WALLET_LABELS } from '@/constants/wallets'
 import CircularProgress from '@mui/material/CircularProgress'
 import LinearProgress from '@mui/material/LinearProgress'
-import { CandyMachineGroupWithWallet } from '@/models/candyMachine/candyMachineGroup'
+import { CandyMachineGroupWithSource } from '@/models/candyMachine/candyMachineGroup'
 import useCountdown from '@/hooks/useCountdown'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -17,16 +17,18 @@ const BaseWalletMultiButtonDynamic = dynamic(
 )
 
 interface Props {
-	group: CandyMachineGroupWithWallet
+	group: CandyMachineGroupWithSource
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
 	totalMinted: number
+	isEligible: boolean
+	error?: string
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransactionLoading, totalMinted }) => {
+const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransactionLoading, totalMinted, isEligible, error }) => {
 	const { countdownString } = useCountdown({ expirationDate: group.startDate })
 	const { publicKey } = useWallet()
 
@@ -68,7 +70,7 @@ const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransacti
 			/>
 			{isLive ? (
 				<>
-					{hasWalletConnected ? (
+					{hasWalletConnected ? (isEligible ?(
 						<Button onClick={handleMint}>
 							{!isMintTransactionLoading ? (
 								'Mint'
@@ -76,7 +78,7 @@ const CandyMachineGroup: React.FC<Props> = ({ group, handleMint, isMintTransacti
 								<CircularProgress thickness={6} classes={{ svg: 'loader', root: 'loader--root' }} />
 							)}
 						</Button>
-					) : (
+					) : <Button backgroundColor='disabled' disabled>{error}</Button>) : (
 						<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} style={{ width: '100%' }} />
 					)}
 					<p className='mint-limit'>{group.mintLimit ? `Limit ${group.mintLimit} per wallet` : null}</p>
