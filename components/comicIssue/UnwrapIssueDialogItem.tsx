@@ -61,37 +61,32 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
 	)
 
 	const handleUnwrap = useCallback(async () => {
-		if (signTransaction) {
-			try {
-				setIsLoading(true)
-				const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
-				if (unwrapTransaction) {
-					const latestBlockhash = await connection.getLatestBlockhash()
-					const signedTransaction = await signTransaction(unwrapTransaction)
-
-					toaster.confirmingTransactions()
-
-					const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
-					if (!!response.value.err) {
-						console.log('Response error log: ', response.value.err)
-						toaster.add('Error while unwrapping the comic', 'error')
-						throw Error()
-					}
-
-					await sleep(1000)
-
-					// TODO: make sure comic pages are also invalidated
-					queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
-					queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
-					queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
-					toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
+		try {
+			setIsLoading(true)
+			const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
+			if (unwrapTransaction) {
+				if (!signTransaction) return
+				const latestBlockhash = await connection.getLatestBlockhash()
+				const signedTransaction = await signTransaction(unwrapTransaction)
+				toaster.confirmingTransactions()
+				const signature = await connection.sendRawTransaction(signedTransaction.serialize())
+				const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+				if (!!response.value.err) {
+					console.log('Response error log: ', response.value.err)
+					toaster.add('Error while unwrapping the comic', 'error')
+					throw Error()
 				}
-			} catch (e) {
-				console.error('Error while unwrapping the comic', e)
-			} finally {
-				setIsLoading(false)
+				await sleep(1000)
 			}
+			// TODO: make sure comic pages are also invalidated
+			queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
+			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
+			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
+			toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
+		} catch (e) {
+			console.error('Error while unwrapping the comic', e)
+		} finally {
+			setIsLoading(false)
 		}
 	}, [comicIssue.id, connection, fetchUseComicIssueNftTransaction, myId, queryClient, signTransaction, toaster])
 
