@@ -16,6 +16,7 @@ import {
 import { parseJwtPayload } from 'utils/objects'
 import { isNil } from 'lodash'
 import axios from 'axios'
+import { signOut } from 'next-auth/react'
 
 interface CreatorAuthContextState {
 	isAuthenticated: boolean
@@ -78,9 +79,10 @@ export const CreatorAuthProvider: React.FC<Props> = ({ children }) => {
 		[addAuthorization, removeAuthorization]
 	)
 
-	const logout = useCallback(() => {
+	const logout = useCallback(async () => {
 		removeAuthorization(authorization.refreshToken)
 		lsRemoveActiveUser()
+		signOut()
 	}, [authorization.refreshToken, removeAuthorization])
 
 	useEffect(() => {
