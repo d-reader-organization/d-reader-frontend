@@ -50,6 +50,10 @@
 		color: $white;
 	}
 
+	&--background-color-disabled {
+		color: white;
+	}
+
 	&--background-color-green-500 {
 		background: $green-500;
 		color: $grey-600;

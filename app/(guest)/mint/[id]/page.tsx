@@ -16,7 +16,6 @@ import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import clsx from 'clsx'
 import CircularProgress from '@mui/material/CircularProgress'
 import SkeletonImage from '@/components/SkeletonImage'
-import { shortenString } from '@/utils/helpers'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
 import { useToggle } from '@/hooks'
@@ -36,6 +35,7 @@ import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
+import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 
 interface Params {
 	id: string | number
@@ -53,7 +53,6 @@ const MintPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-
 	// TODO: how do we display the Tensor link properly if user provides the id as a number?
 	// No way for us to know what's the collection.slug
 
@@ -98,37 +97,47 @@ const MintPage = ({ params }: { params: Params }) => {
 		})
 	}
 
-	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
-		{
-			candyMachineAddress,
-			minterAddress: walletAddress || '',
-			label: getActiveGroup(candyMachine)?.label || '',
-		},
-		!!walletAddress
-	)
-
 	const hasMintingStarted = () => {
 		if (candyMachine?.groups.at(0)?.startDate)
 			return !(new Date(candyMachine?.groups.at(0)?.startDate || '') > new Date())
 		return false
 	}
 
+	const validateMintEligibilty = (group:CandyMachineGroupWithSource | undefined)=>{
+		let isMintLimitReached, isEligible;
+		
+		if(group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList){
+			isMintLimitReached = (group?.mintLimit && group?.wallet.itemsMinted && group?.mintLimit <= group?.wallet.itemsMinted);
+			isEligible = group?.wallet.isEligible;
+		}else{
+			isMintLimitReached = (group?.mintLimit && group?.user.itemsMinted && group?.mintLimit <= group?.user.itemsMinted);
+			isEligible = group?.user.isEligible;
+		}
+
+		if (!group?.isActive) return {isEligible:false,error:"Group Is Inactive"};
+		else if (isMintLimitReached) return {isEligible:false,error:`Your Mint Limit Reached.`};
+		else if (!isEligible) return {isEligible:false,error:`Not Eligible`};
+
+		return {isEligible:true};
+	}
+
+	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
+		{
+			candyMachineAddress,
+			minterAddress: walletAddress || '',
+			label: getActiveGroup(candyMachine)?.label || '',
+		},
+		!!walletAddress && validateMintEligibilty(getActiveGroup(candyMachine)).isEligible
+	)
+
 	const handleMint = useCallback(async () => {
 		openMintTransactionLoading()
 		try {
 			const { data: updatedCandyMachine } = await fetchCandyMachine()
 			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
-			if (!updatedActiveGroup?.isActive) {
-				toaster.add(`Group is not active`, 'error')
-			} else if (
-				updatedActiveGroup?.mintLimit &&
-				updatedActiveGroup?.wallet.itemsMinted &&
-				updatedActiveGroup?.mintLimit <= updatedActiveGroup?.wallet.itemsMinted
-			) {
-				toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} has reached its minting limit.`, 'error')
-			} else if (!updatedActiveGroup?.wallet.isEligible) {
-				toaster.add(`Wallet ${shortenString(publicKey?.toString() || '')} is not eligible`, 'error')
-			} else {
+			const isMintValid = validateMintEligibilty(updatedActiveGroup);
+
+			if(isMintValid) {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 				if (!signAllTransactions) {
 					return toaster.add('Wallet does not support signing multiple transactions', 'error')
@@ -136,6 +145,7 @@ const MintPage = ({ params }: { params: Params }) => {
 				const signedTransactions = await signAllTransactions(mintTransactions)
 				closeMintTransactionLoading()
 				openTransactionConfirmationDialog()
+				
 				let i = 0
 				for (const transaction of signedTransactions) {
 					try {
@@ -238,6 +248,7 @@ const MintPage = ({ params }: { params: Params }) => {
 										</div>
 										<div className='mint-details'>
 											{candyMachine.groups.map((group) => {
+												const groupSourceData = validateMintEligibilty(group)
 												return (
 													<CandyMachineGroup
 														key={group.label}
@@ -245,6 +256,8 @@ const MintPage = ({ params }: { params: Params }) => {
 														isMintTransactionLoading={isMintTransactionLoading}
 														handleMint={handleMint}
 														totalMinted={candyMachine.itemsMinted}
+														isEligible = {groupSourceData.isEligible}
+														error = {groupSourceData.error}
 													/>
 												)
 											})}
