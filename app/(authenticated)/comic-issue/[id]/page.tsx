@@ -44,6 +44,7 @@ import CandyMachineGroup from '@/components/CandyMachineGroup'
 import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
+import { validateMintEligibilty } from '@/utils/mint'
 
 interface Params {
 	id: string
@@ -330,10 +331,12 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 									</div>
 									<div className='mint-details'>
 										{candyMachine.groups.map((group) => {
+											const groupSourceData = validateMintEligibilty(group)
 											return (
 												<CandyMachineGroup
 													key={group.label}
 													group={group}
+													isEligible={groupSourceData.isEligible}
 													isMintTransactionLoading={isMintTransactionLoading}
 													handleMint={handleBuyClick}
 													totalMinted={candyMachine.itemsMinted}

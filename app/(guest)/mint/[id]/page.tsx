@@ -35,7 +35,7 @@ import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
-import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
+import { validateMintEligibilty } from '@/utils/mint'
 
 interface Params {
 	id: string | number
@@ -103,24 +103,6 @@ const MintPage = ({ params }: { params: Params }) => {
 		return false
 	}
 
-	const validateMintEligibilty = (group:CandyMachineGroupWithSource | undefined)=>{
-		let isMintLimitReached, isEligible;
-		
-		if(group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList){
-			isMintLimitReached = (group?.mintLimit && group?.wallet.itemsMinted && group?.mintLimit <= group?.wallet.itemsMinted);
-			isEligible = group?.wallet.isEligible;
-		}else{
-			isMintLimitReached = (group?.mintLimit && group?.user.itemsMinted && group?.mintLimit <= group?.user.itemsMinted);
-			isEligible = group?.user.isEligible;
-		}
-
-		if (!group?.isActive) return {isEligible:false,error:"Group Is Inactive"};
-		else if (isMintLimitReached) return {isEligible:false,error:`Your Mint Limit Reached.`};
-		else if (!isEligible) return {isEligible:false,error:`Not Eligible`};
-
-		return {isEligible:true};
-	}
-
 	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
 			candyMachineAddress,
@@ -135,9 +117,9 @@ const MintPage = ({ params }: { params: Params }) => {
 		try {
 			const { data: updatedCandyMachine } = await fetchCandyMachine()
 			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
-			const isMintValid = validateMintEligibilty(updatedActiveGroup);
+			const isMintValid = validateMintEligibilty(updatedActiveGroup)
 
-			if(isMintValid) {
+			if (isMintValid) {
 				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
 				if (!signAllTransactions) {
 					return toaster.add('Wallet does not support signing multiple transactions', 'error')
@@ -145,7 +127,7 @@ const MintPage = ({ params }: { params: Params }) => {
 				const signedTransactions = await signAllTransactions(mintTransactions)
 				closeMintTransactionLoading()
 				openTransactionConfirmationDialog()
-				
+
 				let i = 0
 				for (const transaction of signedTransactions) {
 					try {
@@ -256,15 +238,15 @@ const MintPage = ({ params }: { params: Params }) => {
 														isMintTransactionLoading={isMintTransactionLoading}
 														handleMint={handleMint}
 														totalMinted={candyMachine.itemsMinted}
-														isEligible = {groupSourceData.isEligible}
-														error = {groupSourceData.error}
+														isEligible={groupSourceData.isEligible}
+														error={groupSourceData.error}
 													/>
 												)
 											})}
 										</div>
 									</>
 								) : (
-									<ButtonLink backgroundColor='yellow-500' href="https://www.tensor.trade/creator/dreader">
+									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/creator/dreader'>
 										Trade on Tensor
 									</ButtonLink>
 								)}
