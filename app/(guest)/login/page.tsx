@@ -28,26 +28,22 @@ import { useToaster } from '@/providers/ToastProvider'
 import { useRequestUserPasswordReset } from '@/api/user/queries/useRequestUserPasswordReset'
 import { useToggle } from '@/hooks'
 import Dialog from '@mui/material/Dialog'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
-import { signIn, useSession } from 'next-auth/react'
-import { useUserAuth } from '@/providers/UserAuthProvider'
+import { signIn } from 'next-auth/react'
 import Important from '@/components/ui/Important'
+import { useGoogleSessionCheck } from '@/hooks/useGoogleSessionCheck'
 
 export default function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
 	const [passwordDialogOpen, togglePasswordDialog] = useToggle()
 	const [forgotPasswordEmailOrName, setForgotPasswordEmailOrName] = useState('')
-
 	const toaster = useToaster()
-	const router = useRouter()
+	const { push } = useRouter()
 	const nextPage = RoutePath.Home
 
 	const { mutateAsync: login } = useLoginUser()
 	const { mutateAsync: requestPasswordReset } = useRequestUserPasswordReset()
-
-	const { data: session } = useSession()
-	const { addAuthorization } = useUserAuth()
 
 	const { register, handleSubmit } = useForm<LoginData>({
 		defaultValues: {
@@ -56,13 +52,7 @@ export default function LoginPage() {
 		},
 		resolver: yupResolver(loginValidationSchema),
 	})
-
-	useEffect(() => {
-		if (session?.authTokens) {
-			addAuthorization(session.authTokens)
-		}
-	}, [session?.authTokens, addAuthorization])
-
+	useGoogleSessionCheck()
 	usePrefetchRoute(nextPage)
 	useGuestRoute()
 
@@ -72,7 +62,7 @@ export default function LoginPage() {
 		handleSubmit(async (data) => {
 			await login(data)
 			setIsFirstTimeLogin(false)
-			router.push(nextPage)
+			push(nextPage)
 		}, toaster.onFormError)()
 	}
 
