@@ -1,5 +1,5 @@
 import { Authorization } from '@/models/auth'
-import NextAuth from 'next-auth'
+import NextAuth, { AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 declare module 'next-auth' {
@@ -8,6 +8,7 @@ declare module 'next-auth' {
 	 */
 	interface Session {
 		authTokens?: Authorization
+		accessToken?: string
 	}
 }
 
@@ -16,12 +17,18 @@ declare module 'next-auth/jwt' {
 		accessToken?: string
 	}
 }
-
-const handler = NextAuth({
+export const authOptions = {
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_AUTH_CLIENT_ID ?? '',
 			clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET ?? '',
+			authorization: {
+				params: {
+					prompt: 'consent',
+					access_type: 'offline',
+					response_type: 'code',
+				},
+			},
 		}),
 	],
 	session: { strategy: 'jwt' },
@@ -36,16 +43,13 @@ const handler = NextAuth({
 			if (!token.accessToken) {
 				return session
 			}
-			const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/auth/user/google-login`, {
-				method: 'PATCH',
-				headers: {
-					Authorization: `Google ${token.accessToken}`,
-				},
-			})
+			session.accessToken = token.accessToken
 
-			return response.status === 200 ? { ...session, authTokens: await response.json() } : session
+			return session
 		},
 	},
-})
+} satisfies AuthOptions
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

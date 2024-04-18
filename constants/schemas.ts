@@ -23,10 +23,19 @@ export const registerValidationSchema = yup.object().shape({
 	name: yup
 		.string()
 		.required(yupRequiredMessage('Name'))
-		.min(2, generateMinLengthErrorMessage('name', 2))
+		.min(3, generateMinLengthErrorMessage('name', 3))
 		.max(20, generateMaxLengthErrorMessage('name', 20)),
 	email: yup.string().email().required(yupRequiredMessage('Email')),
 	password: yup.string().required(yupRequiredMessage('Password')),
+})
+export const googleRegisterValidationSchema = yup.object().shape({
+	name: yup
+		.string()
+		.required(yupRequiredMessage('Name'))
+		.min(3, generateMinLengthErrorMessage('name', 3))
+		.max(20, generateMaxLengthErrorMessage('name', 20)),
+	email: yup.string().email().optional().default(''),
+	password: yup.string().optional().default(''),
 })
 
 export const updateUserAvatarValidationSchema = yup.object().shape({

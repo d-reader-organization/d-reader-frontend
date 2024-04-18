@@ -26,3 +26,25 @@ export const useLoginUser = () => {
 		onError: toaster.onQueryError,
 	})
 }
+
+const loginWithGoogle = async (): Promise<Authorization | boolean> => {
+	const response = await http.patch<Authorization | boolean>(`${location.origin}/api/${AUTH}/login-with-google`)
+	return response.data
+}
+
+export const useLoginGoogleUser = () => {
+	const { addAuthorization } = useUserAuth()
+	const toaster = useToaster()
+
+	return useMutation({
+		mutationFn: () => loginWithGoogle(),
+		onSuccess: (data) => {
+			if (typeof data === 'boolean') {
+				return
+			}
+			const user = addAuthorization(data)
+			toaster.add(`Welcome ${user.name}! 🎉`, 'success')
+		},
+		onError: toaster.onQueryError,
+	})
+}

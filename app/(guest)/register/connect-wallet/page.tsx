@@ -14,7 +14,7 @@ import Button from '@/components/Button'
 import { WALLET_LABELS } from '@/constants/wallets'
 import { useWallet } from '@solana/wallet-adapter-react'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Dialog from '@mui/material/Dialog'
 import { useToggle } from '@/hooks'
 import dynamic from 'next/dynamic'
@@ -27,9 +27,9 @@ const BaseWalletMultiButtonDynamic = dynamic(
 )
 
 export default function ConnectWalletPage() {
-	const router = useRouter()
+	const { push } = useRouter()
 	const [whyWalletDialogOpen, toggleWhyWalletDialog] = useToggle()
-
+	const searchParams = useSearchParams()
 	const { publicKey } = useWallet()
 
 	const { data: me } = useFetchMe()
@@ -38,16 +38,17 @@ export default function ConnectWalletPage() {
 	const walletAddress = publicKey?.toBase58()
 	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
-
+	const isRegisterWithGoogle = (searchParams.get('sso') ?? '') === 'google'
+	const nextPage = isRegisterWithGoogle ? RoutePath.Home : RoutePath.RegisterEmailVerification
 	const moveToNextPage = useCallback(() => {
-		router.push(RoutePath.RegisterEmailVerification)
-	}, [router])
+		push(nextPage)
+	}, [push, nextPage])
 
 	useAuthenticatedRoute()
 	useAuthorizeWallet(moveToNextPage)
 
 	if (hasWalletConnected) {
-		router.push(RoutePath.RegisterEmailVerification)
+		push(nextPage)
 		return
 	}
 
@@ -58,7 +59,7 @@ export default function ConnectWalletPage() {
 				steps={[
 					{ label: '01 Create account', isActive: false },
 					{ label: '02 Connect wallet', isActive: true },
-					{ label: '03	 Verify email', isActive: false },
+					...(isRegisterWithGoogle ? [] : [{ label: '03 Verify email', isActive: false }]),
 				]}
 			/>
 
@@ -69,12 +70,7 @@ export default function ConnectWalletPage() {
 					<p>Connect with your favorite Solana wallet to store digital comics & other collectibles.</p>
 
 					<FormActions centered>
-						<ButtonLink
-							href={RoutePath.RegisterEmailVerification}
-							backgroundColor='transparent'
-							borderColor='grey-100'
-							className='action-button'
-						>
+						<ButtonLink href={nextPage} backgroundColor='transparent' borderColor='grey-100' className='action-button'>
 							Skip
 						</ButtonLink>
 
