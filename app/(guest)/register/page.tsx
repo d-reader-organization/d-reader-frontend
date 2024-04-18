@@ -75,6 +75,7 @@ export default function RegisterUserPage() {
 			/>
 
 			<main className='register-page'>
+				{isRegisterWithGoogle ? <h1 className='title'>Set your details</h1> : null}
 				{/* <h1 className='title'>Join dReader</h1> */}
 				<div style={{ marginTop: '2rem' }}></div>
 				{isRegisterWithGoogle ? (
@@ -92,6 +93,15 @@ export default function RegisterUserPage() {
 								Register
 							</Button>
 						</FormActions>
+						<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+							<Image
+								src={MobileAppBannerDesktop}
+								width={480}
+								height={171}
+								alt='Download on Google Play'
+								className='download-mobile-promo-banner'
+							/>
+						</Link>
 					</Form>
 				) : (
 					<Form centered fullWidth maxSize='sm' className='form--register-user'>

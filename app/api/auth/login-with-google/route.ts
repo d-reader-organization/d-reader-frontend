@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../[...nextauth]/route'
 import { Authorization } from '@/models/auth'
 import { NextResponse } from 'next/server'
+import { authOptions } from '@/utils/auth'
 
 export async function PATCH() {
 	const session = await getServerSession(authOptions)
