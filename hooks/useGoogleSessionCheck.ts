@@ -12,8 +12,8 @@ export const useGoogleSessionCheck = () => {
 	useEffect(() => {
 		if (session?.accessToken) {
 			loginWithGoogle().then((value) => {
-				console.log(`login with google fired`)
 				const shouldRegister = typeof value === 'boolean'
+				console.log(value)
 				push(shouldRegister ? `${RoutePath.Register}?sso=google` : RoutePath.Home)
 			})
 		}
