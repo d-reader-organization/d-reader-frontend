@@ -25,6 +25,6 @@ export async function POST(req: Request) {
 		}),
 	})
 
-	const data = (await response.json()) as Authorization
+	const data: Authorization = await response.json()
 	return NextResponse.json(data)
 }
