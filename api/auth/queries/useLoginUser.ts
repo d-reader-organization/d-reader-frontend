@@ -29,7 +29,6 @@ export const useLoginUser = () => {
 
 const loginWithGoogle = async (): Promise<Authorization | boolean> => {
 	const response = await http.patch<Authorization | boolean>(`${location.origin}/api/${AUTH}/login-with-google`)
-	console.log(response)
 	return response.data
 }
 

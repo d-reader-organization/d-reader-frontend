@@ -13,7 +13,6 @@ export const useGoogleSessionCheck = () => {
 		if (session?.accessToken) {
 			loginWithGoogle().then((value) => {
 				const shouldRegister = typeof value === 'boolean'
-				console.log(value)
 				push(shouldRegister ? `${RoutePath.Register}?sso=google` : RoutePath.Home)
 			})
 		}
