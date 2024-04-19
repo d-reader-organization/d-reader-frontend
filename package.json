@@ -23,7 +23,7 @@
 		"@metaplex-foundation/js": "^0.20.1",
 		"@mui/lab": "^5.0.0-alpha.155",
 		"@mui/material": "^5.14.20",
-		"@netlify/plugin-nextjs": "^4.41.2",
+		"@netlify/plugin-nextjs": "^5.1.2",
 		"@next/mdx": "^14.1.4",
 		"@solana/wallet-adapter-base": "^0.9.23",
 		"@solana/wallet-adapter-base-ui": "^0.1.2",
