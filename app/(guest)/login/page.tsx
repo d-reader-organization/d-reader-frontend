@@ -91,10 +91,10 @@ export default function LoginPage() {
 
 					<div className='divider'>or with</div>
 
-					<Label isRequired>Email or username</Label>
+					<Label>Email or username</Label>
 					<Input {...register('nameOrEmail')} placeholder='john.doe@dreader.io' />
 
-					<Label isRequired>Password</Label>
+					<Label>Password</Label>
 					<Input {...register('password')} type='password' placeholder='********' />
 
 					<FormActions column centered>
@@ -106,8 +106,8 @@ export default function LoginPage() {
 							onClick={togglePasswordDialog}
 							type='button'
 							backgroundColor='transparent'
-							borderColor='grey-300'
-							className='action-button'
+							// borderColor='grey-300'
+							className='action-button action-button--forgot-password'
 						>
 							Forgot password?
 						</Button>

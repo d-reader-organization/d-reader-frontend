@@ -1,12 +1,25 @@
 @use '../variables/theme.module.scss' as *;
 
 .form--login-user {
+	.action-button--forgot-password {
+		font-weight: normal;
+		border-radius: 0;
+		// border-bottom: 1px solid $grey-100;
+		justify-content: flex-start;
+		padding: 8px 8px 8px 0;
+		margin-bottom: 0 !important;
+
+		&:hover {
+			filter: brightness(1.5);
+		}
+	}
+
 	.action-button--register {
 		font-weight: normal;
 		border-radius: 0;
 		// border-bottom: 1px solid $grey-100;
 		justify-content: flex-start;
-		padding-left: 0;
+		padding: 8px 8px 8px 0;
 
 		&:hover {
 			filter: brightness(1.5);

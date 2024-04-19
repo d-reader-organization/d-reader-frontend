@@ -4,7 +4,6 @@ import Header from 'components/layout/Header'
 import Button from 'components/Button'
 import Input from '@/components/forms/Input'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
-import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { RegisterData } from 'models/auth/register'
@@ -12,16 +11,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRegisterGoogleUser, useRegisterUser } from 'api/auth'
 import { RoutePath } from 'enums/routePath'
 import { googleRegisterValidationSchema, registerValidationSchema } from '@/constants/schemas'
-import { usernameTooltip } from '@/constants/tooltips'
 import Form from '@/components/forms/Form'
 import usePrefetchRoute from '@/hooks/usePrefetchRoute'
 import FormActions from '@/components/forms/FormActions'
 import Label from '@/components/forms/Label'
 import Steps from '@/components/ui/Steps'
 import { useRedeemUserReferral } from '@/api/user'
-import Image from 'next/image'
-import Link from 'next/link'
-import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import { useToaster } from '@/providers/ToastProvider'
 import { Suspense } from 'react'
 import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
@@ -75,36 +70,29 @@ export default function RegisterUserPage() {
 			/>
 
 			<main className='register-page'>
-				{isRegisterWithGoogle ? <h1 className='title'>Set your details</h1> : null}
+				{isRegisterWithGoogle ? <h1 className='title'>Set your details</h1> : <h1 className='title'>Welcome!</h1>}
 				{/* <h1 className='title'>Join dReader</h1> */}
 				<div style={{ marginTop: '2rem' }}></div>
 				{isRegisterWithGoogle ? (
-					<Form centered fullWidth maxSize='sm' className='form--register-user'>
-						<Label isRequired tooltipText={usernameTooltip}>
-							Username
-						</Label>
-						<p className='description'>3-20 characters. Numbers, dashes and underscores are allowed</p>
+					<Form centered maxSize='xs' fullWidth className='form--register-user'>
+						<Label>Username</Label>
+						<p className='description'>3-20 chars. Numbers, dashes, underscores allowed</p>
 						<Input {...register('name')} placeholder='john-doe' />
 
-						<TermsOfServiceAndPrivacyPolicy />
-
 						<FormActions centered>
-							<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
+							<Button
+								type='submit'
+								onClick={onSubmitClick}
+								backgroundColor='yellow-500'
+								className='action-button action-button--register'
+							>
 								Register
 							</Button>
 						</FormActions>
-						<Link href={GOOGLE_PLAY_LINK} target='_blank'>
-							<Image
-								src={MobileAppBannerDesktop}
-								width={480}
-								height={171}
-								alt='Download on Google Play'
-								className='download-mobile-promo-banner'
-							/>
-						</Link>
+						<TermsOfServiceAndPrivacyPolicy />
 					</Form>
 				) : (
-					<Form centered fullWidth maxSize='sm' className='form--register-user'>
+					<Form centered maxSize='xs' fullWidth className='form--register-user'>
 						<Button
 							onClick={() => signIn('google')}
 							type='button'
@@ -118,37 +106,42 @@ export default function RegisterUserPage() {
 
 						<div className='divider'>or with</div>
 
-						<Label isRequired tooltipText={usernameTooltip}>
-							Username
-						</Label>
-						<p className='description'>3-20 characters. Numbers, dashes and underscores are allowed</p>
+						<Label>Username</Label>
+						<p className='description'>3-20 chars. Numbers, dashes, underscores allowed</p>
 						<Input {...register('name')} placeholder='john-doe' />
 
-						<Label isRequired>Email</Label>
+						<Label>Email</Label>
 						<Input {...register('email')} placeholder='john.doe@dreader.io' />
 
-						<Label isRequired>Password</Label>
+						<Label>Password</Label>
 						<p className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</p>
 						<Input {...register('password')} type='password' placeholder='********' />
 
-						<TermsOfServiceAndPrivacyPolicy />
 						<FormActions centered>
-							<Button type='submit' onClick={onSubmitClick} backgroundColor='yellow-500' className='action-button'>
+							<Button
+								type='submit'
+								onClick={onSubmitClick}
+								backgroundColor='yellow-500'
+								className='action-button action-button--register'
+							>
 								Register
 							</Button>
 						</FormActions>
-
-						<Link href={GOOGLE_PLAY_LINK} target='_blank'>
-							<Image
-								src={MobileAppBannerDesktop}
-								width={480}
-								height={171}
-								alt='Download on Google Play'
-								className='download-mobile-promo-banner'
-							/>
-						</Link>
+						<TermsOfServiceAndPrivacyPolicy />
 					</Form>
 				)}
+
+				{/* <Box maxWidth='sm' margin='1rem auto'>
+					<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+						<Image
+							src={MobileAppBannerDesktop}
+							width={480}
+							height={171}
+							alt='Download on Google Play'
+							className='download-mobile-promo-banner'
+						/>
+					</Link>
+				</Box> */}
 			</main>
 		</Suspense>
 	)
