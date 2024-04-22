@@ -1,3 +1,4 @@
+import { CandyMachine } from '@/models/candyMachine'
 import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 
 export const validateMintEligibilty = (group: CandyMachineGroupWithSource | undefined) => {
@@ -11,9 +12,18 @@ export const validateMintEligibilty = (group: CandyMachineGroupWithSource | unde
 		isEligible = group?.user.isEligible
 	}
 
-	if (!group?.isActive) return { isEligible: false, error: 'Group Is Inactive' }
-	else if (isMintLimitReached) return { isEligible: false, error: `Your Mint Limit Reached.` }
+	if (isMintLimitReached) return { isEligible: false, error: `Your Mint Limit Reached.` }
 	else if (!isEligible) return { isEligible: false, error: `Not Eligible` }
 
 	return { isEligible: true }
+}
+
+export const getActiveGroup = (candyMachineData: CandyMachine | undefined) => {
+	return candyMachineData?.groups.find((group) => {
+		const startDate = new Date(group.startDate)
+		const endDate = new Date(group.endDate)
+		const currentDate = new Date(new Date().toUTCString())
+
+		return startDate <= currentDate && currentDate <= endDate
+	})
 }
