@@ -4,6 +4,7 @@ export const RoutePath = Object.freeze({
 	Profile: '/profile',
 	Login: '/login',
 	Register: '/register',
+	Mint: '/mint',
 	RegisterEmailVerification: '/register/email-verification',
 	RegisterConnectWallet: '/register/connect-wallet',
 	Discover: '/discover',

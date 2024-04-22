@@ -31,7 +31,9 @@ const queryClient = new QueryClient({
 
 const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const pathname = usePathname()
-	const autoConnect = pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) // only autoconnect on /comic-issue screens
+	// only autoconnect on /comic-issue and /mint screens
+	const autoConnect =
+		pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) || pathname.toLowerCase().startsWith(RoutePath.Mint)
 	// const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
 
 	return (
