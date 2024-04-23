@@ -117,66 +117,6 @@
 		}
 	}
 
-	.mint-details {
-		// max-height: 370px;
-		// overflow-y: scroll;
-		margin-top: 10px;
-
-		.mint-group {
-			display: flex;
-			flex-direction: column;
-			border-radius: 20px;
-			padding: 10px 25px;
-			background-color: rgba(9, 8, 8, 0.5);
-			margin-bottom: 10px;
-
-			.guest-user-note {
-				color: $yellow-500;
-				font-size: medium;
-				font-weight: 500;
-				align-self: center;
-			}
-
-			.register-link {
-				text-decoration: underline;
-				font-weight: bold;
-				cursor: pointer;
-			}
-
-			.group-detail-wrapper {
-				display: flex;
-				justify-content: space-between;
-
-				p {
-					font-weight: bold;
-				}
-
-				.group-status {
-					font-weight: bold;
-				}
-			}
-
-			.button {
-				.--not-eligible {
-					background-color: $red-500;
-					cursor: none;
-				}
-			}
-
-			.mint-limit {
-				text-align: center;
-				color: $grey-100;
-				font-size: medium;
-			}
-
-			.progress-bar {
-				border-radius: 10px;
-				margin: 10px 0;
-				height: 10px;
-			}
-		}
-	}
-
 	.comic-issue-cover {
 		border-radius: 10px;
 		aspect-ratio: $comic-issue-cover-aspect-ratio;
@@ -299,7 +239,7 @@
 		}
 	}
 
-	.download-mobile-promo-banner {
+	.register-login-banner {
 		margin: 2rem 0;
 		width: 100%;
 		height: auto;

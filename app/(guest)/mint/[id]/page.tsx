@@ -11,7 +11,6 @@ import { comicIssueKeys, useFetchPublicComicIssue } from 'api/comicIssue'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useFetchMintOneTransaction } from '@/api/transaction'
 import { useToaster } from '@/providers/ToastProvider'
-import { CandyMachine } from '@/models/candyMachine'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import clsx from 'clsx'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -25,17 +24,16 @@ import { useQueryClient } from 'react-query'
 import { nftKeys } from '@/api/nft'
 import Grid from '@mui/material/Grid'
 import GuestNavigation from '@/components/layout/GuestNavigation'
-import CandyMachineGroup from '../../../../components/CandyMachineGroup'
+import CandyMachineDetail from '../../../../components/CandyMachineDetail'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
+import RegistDesktopBanner from 'public/assets/register-desktop-banner.png'
 import Link from 'next/link'
 import Image from 'next/image'
-import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
-import { validateMintEligibilty } from '@/utils/mint'
+import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
 
 interface Params {
 	id: string | number
@@ -86,22 +84,6 @@ const MintPage = ({ params }: { params: Params }) => {
 		walletAddress,
 	})
 	useAuthorizeWallet()
-
-	const getActiveGroup = (candyMachineData: CandyMachine | undefined) => {
-		return candyMachineData?.groups.find((group) => {
-			const startDate = new Date(group.startDate)
-			const endDate = new Date(group.endDate)
-			const currentDate = new Date(new Date().toUTCString())
-
-			return startDate <= currentDate && currentDate <= endDate
-		})
-	}
-
-	const hasMintingStarted = () => {
-		if (candyMachine?.groups.at(0)?.startDate)
-			return !(new Date(candyMachine?.groups.at(0)?.startDate || '') > new Date())
-		return false
-	}
 
 	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
 		{
@@ -218,33 +200,14 @@ const MintPage = ({ params }: { params: Params }) => {
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
 						) : !mintDetailsSection ? (
 							<Box pt={2}>
-								{candyMachine && !comicIssue.isSecondarySaleActive ? (
-									<>
-										<div className='mint-header'>
-											{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
-											<Box>
-												<h3 style={{ margin: '8px 0 0 0' }}>
-													Total: {candyMachine.itemsMinted}/{candyMachine.supply}
-												</h3>
-											</Box>
-										</div>
-										<div className='mint-details'>
-											{candyMachine.groups.map((group) => {
-												const groupSourceData = validateMintEligibilty(group)
-												return (
-													<CandyMachineGroup
-														key={group.label}
-														group={group}
-														isMintTransactionLoading={isMintTransactionLoading}
-														handleMint={handleMint}
-														totalMinted={candyMachine.itemsMinted}
-														isEligible={groupSourceData.isEligible}
-														error={groupSourceData.error}
-													/>
-												)
-											})}
-										</div>
-									</>
+								{candyMachine && candyMachine.groups.length > 0 && !comicIssue.isSecondarySaleActive ? (
+									<div className='mint-details'>
+										<CandyMachineDetail
+											candyMachine={candyMachine}
+											isMintTransactionLoading={isMintTransactionLoading}
+											handleMint={handleMint}
+										/>
+									</div>
 								) : (
 									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/creator/dreader'>
 										Trade on Tensor
@@ -302,13 +265,13 @@ const MintPage = ({ params }: { params: Params }) => {
 					</Grid>
 				</Grid>
 				<FlexRow centered justifyContent='center' maxWidth='100%'>
-					<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+					<Link href={'/login'} target='_blank'>
 						<Image
-							src={MobileAppBannerDesktop}
+							src={RegistDesktopBanner}
 							width={480}
 							height={171}
-							alt='Download on Google Play'
-							className='download-mobile-promo-banner'
+							alt='Register/Login to -10% off on mints'
+							className='register-login-banner'
 						/>
 					</Link>
 				</FlexRow>

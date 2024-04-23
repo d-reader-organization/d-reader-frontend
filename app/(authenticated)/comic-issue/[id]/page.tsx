@@ -40,11 +40,10 @@ import { isNil } from 'lodash'
 import clsx from 'clsx'
 import { nftKeys } from '@/api/nft'
 import { useQueryClient } from 'react-query'
-import CandyMachineGroup from '@/components/CandyMachineGroup'
 import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
-import { validateMintEligibilty } from '@/utils/mint'
+import CandyMachineDetail from '@/components/CandyMachineDetail'
 
 interface Params {
 	id: string
@@ -125,12 +124,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		},
 		false
 	)
-
-	const hasMintingStarted = () => {
-		if (candyMachine?.groups.at(0)?.startDate)
-			return !(new Date(candyMachine?.groups.at(0)?.startDate || '') > new Date())
-		return false
-	}
 
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -316,36 +309,15 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 								</Box>
 							)}
 
-							{candyMachine && (
-								<>
-									<div className='mint-header'>
-										{hasMintingStarted() ? <p className='text--success'>● Minting in progress</p> : null}
-										<Box>
-											<h3 style={{ margin: '8px 0 0 0' }}>
-												Total: {candyMachine.itemsMinted}/{candyMachine.supply}
-											</h3>
-											{/* <p style={{ margin: '0 0 4px 0' }}>
-											<em>*200 of which goes into the &apos;Comic Vault&apos;</em>
-										</p> */}
-										</Box>
-									</div>
-									<div className='mint-details'>
-										{candyMachine.groups.map((group) => {
-											const groupSourceData = validateMintEligibilty(group)
-											return (
-												<CandyMachineGroup
-													key={group.label}
-													group={group}
-													isEligible={groupSourceData.isEligible}
-													isMintTransactionLoading={isMintTransactionLoading}
-													handleMint={handleBuyClick}
-													totalMinted={candyMachine.itemsMinted}
-												/>
-											)
-										})}
-									</div>
-								</>
-							)}
+							{candyMachine && candyMachine.groups.length > 0 && !comicIssue.isSecondarySaleActive ? (
+								<div className='mint-details'>
+									<CandyMachineDetail
+										candyMachine={candyMachine}
+										isMintTransactionLoading={isMintTransactionLoading}
+										handleMint={handleBuyClick}
+									/>
+								</div>
+							) : null}
 
 							{isMobile && (
 								<Box className='comic-issue-page--left'>

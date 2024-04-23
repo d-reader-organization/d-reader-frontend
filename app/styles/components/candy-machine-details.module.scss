@@ -1,0 +1,110 @@
+@use '../variables/theme.module.scss' as *;
+
+.mint-group {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px 25px;
+    background-color: $grey-500;
+    margin-bottom: 10px;
+
+    .mint-button {
+        background-color: $important-color;
+    }
+
+    .guest-user-note {
+        color: $yellow-500;
+        font-size: medium;
+        font-weight: 500;
+        align-self: center;
+    }
+
+    .register-link {
+        text-decoration: underline;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .balance-details {
+        display: flex;
+        font-size: medium;
+        font-weight: bold;
+        justify-content: space-between;
+        margin: 5px 0 10px 0
+    }
+
+    .comic-vault {
+        font-size: medium;
+        margin: 5px 0 10px 0;
+        border-radius: 10px;
+        background-color: $grey-400;
+        padding: 10px;
+
+        .lock-icon {
+            margin-top: 3px;
+        }
+
+        .title {
+            display: flex;
+        }
+
+        .comic-vault-details {
+            margin-top: 10px;
+            font-size: 15px;
+        }
+    }
+
+    .group-detail-wrapper {
+
+        .group-detail {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .group-status {
+                font-weight: bold;
+            }
+
+            .price {
+                font-weight: bold;
+            }
+        }
+
+        .user-detail-wrapper {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            text-align: center;
+            color: $grey-100;
+            font-size: medium;
+
+            .user-detail {
+                display: flex;
+            }
+
+            .items-minted {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .button {
+        .--not-eligible {
+            background-color: $red-500;
+            cursor: none;
+        }
+    }
+
+    .mint-limit {
+        text-align: center;
+        color: $grey-100;
+        font-size: medium;
+    }
+
+    .progress-bar {
+        border-radius: 10px;
+        margin: 10px 0;
+        height: 10px;
+        background-color: $grey-400;
+    }
+}
