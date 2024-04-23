@@ -11,7 +11,9 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
 import { CandyMachine } from '@/models/candyMachine'
 import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
-import { CandyMachineGroupWithSource } from '@/models/candyMachine/candyMachineGroup'
+import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
+import LockIcon from 'public/assets/vector-icons/lock.svg'
+import { MAX_PROTOCOL_FEE } from '@/constants/fee'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -42,11 +44,20 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 	const { isEligible, error } = validateMintEligibilty(candyMachine.groups.at(0))
 
 	const group = getActiveGroup(candyMachine)
+	const getItemsMinted = (candyMachine: CandyMachine) => {
+		const group = candyMachine.groups.at(0)
+		if (group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList) {
+			return group.wallet.itemsMinted ?? 0
+		} else {
+			return group?.user.itemsMinted ?? 0
+		}
+	}
+	const itemsMintedPerUserOrWallet = getItemsMinted(candyMachine)
 
 	return (
 		<div className='mint-group'>
 			<div className='group-detail-wrapper'>
-				<div>
+				<div className='group-detail'>
 					<div className='group-status'>
 						{isLive ? (
 							<span className='text--important'>● Live</span>
@@ -58,22 +69,52 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 							</span>
 						)}
 					</div>
+					<div>
+						<span className='price'>
+							{group?.mintPrice == 0 ? '*Free' : `${toSol((group?.mintPrice as number) + MAX_PROTOCOL_FEE)} SOL`}
+						</span>
+					</div>
 				</div>
-				<div>
-					<p>{group?.mintPrice == 0 ? '*Free' : `${toSol(group?.mintPrice as number)} SOL`}</p>
+				<div className='user-detail-wrapper'>
+					<div className='user-detail'>
+						<div>You minted</div>
+						<div className='items-minted'>
+							{itemsMintedPerUserOrWallet}/{mintLimit ?? '∞'}
+						</div>
+					</div>
+					<div>
+						{candyMachine.itemsMinted}/{candyMachine.supply}
+					</div>
 				</div>
 			</div>
 			<LinearProgress
 				variant='determinate'
 				className='progress-bar'
-				color='inherit'
+				sx={{
+					'& .MuiLinearProgress-bar': {
+						backgroundColor: '#fceb54',
+					},
+				}}
 				value={normalise(candyMachine.itemsMinted, candyMachine.supply)}
 			/>
+			<div className='comic-vault'>
+				<div className='title'>
+					<LockIcon className='lock-icon' /> Comic Vault
+				</div>
+				<div className='comic-vault-details'>
+					Comic Vault stores portion of the supply of each issue to later use in giveaways & other activities where we
+					reward loyal users
+				</div>
+			</div>
+			<div className='balance-details'>
+				<div>Total</div>
+				<div>≈ {toSol((group?.mintPrice as number) + MAX_PROTOCOL_FEE)} SOL</div>
+			</div>
 			{isLive ? (
 				<>
 					{hasWalletConnected ? (
 						isEligible ? (
-							<Button onClick={handleMint}>
+							<Button className='mint-button' onClick={handleMint}>
 								{!isMintTransactionLoading ? (
 									'Mint'
 								) : (
@@ -90,7 +131,6 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 					) : (
 						<BaseWalletMultiButtonDynamic labels={WALLET_LABELS} style={{ width: '100%' }} />
 					)}
-					<p className='mint-limit'>{mintLimit ? `Limit ${mintLimit} per wallet` : null}</p>
 				</>
 			) : null}
 		</div>

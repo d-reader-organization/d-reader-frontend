@@ -27,10 +27,9 @@ import GuestNavigation from '@/components/layout/GuestNavigation'
 import CandyMachineDetail from '../../../../components/CandyMachineDetail'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
+import RegistDesktopBanner from 'public/assets/register-desktop-banner.png'
 import Link from 'next/link'
 import Image from 'next/image'
-import { GOOGLE_PLAY_LINK } from '@/constants/links'
 import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
@@ -266,13 +265,13 @@ const MintPage = ({ params }: { params: Params }) => {
 					</Grid>
 				</Grid>
 				<FlexRow centered justifyContent='center' maxWidth='100%'>
-					<Link href={GOOGLE_PLAY_LINK} target='_blank'>
+					<Link href={'/login'} target='_blank'>
 						<Image
-							src={MobileAppBannerDesktop}
+							src={RegistDesktopBanner}
 							width={480}
 							height={171}
-							alt='Download on Google Play'
-							className='download-mobile-promo-banner'
+							alt='Register/Login to -10% off on mints'
+							className='register-login-banner'
 						/>
 					</Link>
 				</FlexRow>

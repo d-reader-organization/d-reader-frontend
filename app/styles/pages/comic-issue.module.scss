@@ -13,7 +13,7 @@
 			@include flexRow;
 			justify-content: center;
 
-			& > *:not(:last-child) {
+			&>*:not(:last-child) {
 				margin-right: 1rem;
 			}
 		}
@@ -30,7 +30,7 @@
 		.comic-issue-stats {
 			margin: 0;
 
-			& > *:not(:last-child) {
+			&>*:not(:last-child) {
 				margin-left: 1rem;
 			}
 
@@ -42,7 +42,7 @@
 				justify-content: flex-start;
 				margin: 2rem 0 1rem 0;
 
-				& > *:not(:last-child) {
+				&>*:not(:last-child) {
 					margin-right: 1rem;
 				}
 			}
@@ -153,44 +153,7 @@
 		}
 
 		.mint-details {
-			// max-height: 370px;
-			// overflow-y: scroll;
-			margin-top: 10px;
-			margin-bottom: 2rem;
-
-			.mint-group {
-				display: flex;
-				flex-direction: column;
-				border-radius: 20px;
-				padding: 10px 25px;
-				background-color: rgba(9, 8, 8, 0.5);
-				margin-bottom: 10px;
-
-				.group-detail-wrapper {
-					display: flex;
-					justify-content: space-between;
-
-					p {
-						font-weight: bold;
-					}
-
-					.group-status {
-						font-weight: bold;
-					}
-				}
-
-				.mint-limit {
-					text-align: center;
-					color: $grey-100;
-					font-size: medium;
-				}
-
-				.progress-bar {
-					border-radius: 10px;
-					margin: 10px 0;
-					height: 10px;
-				}
-			}
+			margin-top: 20px;
 		}
 
 		.comic-title {
@@ -324,12 +287,10 @@
 		}
 
 		&--simpler {
-			background: linear-gradient(
-				rgba(21, 23, 28, 0.2) 0%,
-				rgba(21, 23, 28, 0.2) 16%,
-				rgba(21, 23, 28, 0.75) 72%,
-				rgb(21, 23, 28) 100%
-			);
+			background: linear-gradient(rgba(21, 23, 28, 0.2) 0%,
+					rgba(21, 23, 28, 0.2) 16%,
+					rgba(21, 23, 28, 0.75) 72%,
+					rgb(21, 23, 28) 100%);
 		}
 	}
 }
