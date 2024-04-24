@@ -10,7 +10,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
 import { CandyMachine } from '@/models/candyMachine'
-import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
+import { validateMintEligibilty } from '@/utils/mint'
 import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 import LockIcon from 'public/assets/vector-icons/lock.svg'
 import { MAX_PROTOCOL_FEE } from '@/constants/fee'
@@ -30,7 +30,7 @@ const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
 const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
-	const { startDate, endDate, mintLimit } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
+	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
 	const { countdownString } = useCountdown({ expirationDate: startDate })
 	const { publicKey } = useWallet()
@@ -43,7 +43,6 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 
 	const { isEligible, error } = validateMintEligibilty(candyMachine.groups.at(0))
 
-	const group = getActiveGroup(candyMachine)
 	const getItemsMinted = (candyMachine: CandyMachine) => {
 		const group = candyMachine.groups.at(0)
 		if (group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList) {
@@ -70,9 +69,7 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 						)}
 					</div>
 					<div>
-						<span className='price'>
-							{group?.mintPrice == 0 ? '*Free' : `${toSol((group?.mintPrice as number) + MAX_PROTOCOL_FEE)} SOL`}
-						</span>
+						<span className='price'>{mintPrice == 0 ? '*Free' : `${toSol(mintPrice)} SOL`}</span>
 					</div>
 				</div>
 				<div className='user-detail-wrapper'>
@@ -108,7 +105,7 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 			</div>
 			<div className='balance-details'>
 				<div>Total</div>
-				<div>≈ {toSol((group?.mintPrice as number) + MAX_PROTOCOL_FEE)} SOL</div>
+				<div>≈ {toSol(mintPrice + MAX_PROTOCOL_FEE)} SOL</div>
 			</div>
 			{isLive ? (
 				<>

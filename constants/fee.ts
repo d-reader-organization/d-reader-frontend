@@ -1,1 +1,1 @@
-export const MAX_PROTOCOL_FEE = 5500000
+export const MAX_PROTOCOL_FEE = 3600000
