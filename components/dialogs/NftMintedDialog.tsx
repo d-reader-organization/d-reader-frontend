@@ -5,14 +5,15 @@ import Image from 'next/image'
 import { CircularProgress } from '@mui/material'
 import { getRarityIcon } from '../comicIssue/UnwrapIssueDialogItem'
 import Link from 'next/link'
+import { ComicIssue } from '@/models/comicIssue'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
 	nftAddress?: string
-	comicIssueId?: string
+	comicIssue?: ComicIssue
 }
 
-const NftMintedDialog: React.FC<Props> = ({ comicIssueId, open, onClose, nftAddress, ...props }) => {
+const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddress, ...props }) => {
 	const { data: nft } = useFetchNft(nftAddress || '')
 
 	return (
@@ -42,12 +43,10 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssueId, open, onClose, nftAddr
 
 					<Link
 						href={encodeURI(
-							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity.toLowerCase()} copy of the ${
-								nft.name.split('#')[0]
-							}!
+							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${nft.name.split('#')[0]}' comic on @dReaderApp! 📚
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/${comicIssueId}`}`
+https://dreader.app/mint/${comicIssue?.comicSlug}_${comicIssue?.slug}`}`
 						)}
 						target='_blank'
 						className='twitter-button'

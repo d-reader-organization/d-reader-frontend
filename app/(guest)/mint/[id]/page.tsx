@@ -30,7 +30,6 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import RegistDesktopBanner from 'public/assets/register-desktop-banner.png'
 import Link from 'next/link'
 import Image from 'next/image'
-import FlexRow from '@/components/ui/FlexRow'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
 import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
@@ -149,7 +148,6 @@ const MintPage = ({ params }: { params: Params }) => {
 		openMintTransactionLoading,
 		openMintedNftDialog,
 		openTransactionConfirmationDialog,
-		publicKey,
 		signAllTransactions,
 		toaster,
 	])
@@ -262,23 +260,21 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
+						<Link href={'/login'} target='_blank'>
+							<Image
+								src={RegistDesktopBanner}
+								width={480}
+								height={171}
+								alt='Register/Login to -10% off on mints'
+								className='register-login-banner'
+							/>
+						</Link>
 					</Grid>
 				</Grid>
-				<FlexRow centered justifyContent='center' maxWidth='100%'>
-					<Link href={'/login'} target='_blank'>
-						<Image
-							src={RegistDesktopBanner}
-							width={480}
-							height={171}
-							alt='Register/Login to -10% off on mints'
-							className='register-login-banner'
-						/>
-					</Link>
-				</FlexRow>
 			</main>
 			<NftMintedDialog
 				nftAddress={nftAddress}
-				comicIssueId={paramsId.toString()}
+				comicIssue={comicIssue}
 				open={showMintedNftDialog}
 				onClose={closeMintedNftDialog}
 			/>
