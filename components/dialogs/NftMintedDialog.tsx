@@ -46,7 +46,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${nft.name.split('#')[0]}' comic on @dReaderApp! 📚
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/${comicIssue?.comicSlug}_${comicIssue?.slug}`}`
+https://dreader.app/mint/${comicIssue?.comicSlug}_${comicIssue?.slug}?utm_source=web`}`
 						)}
 						target='_blank'
 						className='twitter-button'
