@@ -5,7 +5,7 @@ import Button from 'components/Button'
 import Input from '@/components/forms/Input'
 import LogoIcon from 'public/assets/vector-icons/logo-with-text.svg'
 import MobileAppBannerDesktop from 'public/assets/mobile-app-banner-desktop.png'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useLoginUser } from 'api/auth'
@@ -38,10 +38,12 @@ export default function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
 	const [passwordDialogOpen, togglePasswordDialog] = useToggle()
 	const [forgotPasswordEmailOrName, setForgotPasswordEmailOrName] = useState('')
+	const searchParams = useSearchParams()
 	const toaster = useToaster()
 	const { push } = useRouter()
-	const nextPage = RoutePath.Home
+	const redirectTo = searchParams.get('redirectTo')
 
+	const nextPage = redirectTo ?? RoutePath.Home
 	const { mutateAsync: login } = useLoginUser()
 	const { mutateAsync: requestPasswordReset } = useRequestUserPasswordReset()
 
@@ -112,7 +114,7 @@ export default function LoginPage() {
 							Forgot password?
 						</Button>
 						<ButtonLink
-							href={RoutePath.Register}
+							href={`${RoutePath.Register}${searchParams.size ? `?${searchParams.toString()}` : ''}`}
 							clickableEffect={false}
 							backgroundColor='transparent'
 							className='action-button action-button--register'
