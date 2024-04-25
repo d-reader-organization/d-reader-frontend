@@ -39,7 +39,10 @@ export default function ConnectWalletPage() {
 	const connectedWalletAddresses = connectedWallets.map((wallet) => wallet.address)
 	const hasWalletConnected = !!walletAddress && connectedWalletAddresses.includes(walletAddress)
 	const isRegisterWithGoogle = (searchParams.get('sso') ?? '') === 'google'
-	const nextPage = isRegisterWithGoogle ? RoutePath.Home : RoutePath.RegisterEmailVerification
+	const nextPage = isRegisterWithGoogle
+		? RoutePath.Home
+		: `${RoutePath.RegisterEmailVerification}${searchParams.size ? `?${searchParams.toString()}` : ''}`
+
 	const moveToNextPage = useCallback(() => {
 		push(nextPage)
 	}, [push, nextPage])

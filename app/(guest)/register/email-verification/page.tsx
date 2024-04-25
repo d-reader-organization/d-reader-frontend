@@ -11,9 +11,12 @@ import Steps from '@/components/ui/Steps'
 import { useRequestUserEmailVerification } from '@/api/user'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import { RoutePath } from '@/enums/routePath'
+import { useSearchParams } from 'next/navigation'
 
 export default function EmailVerificationPage() {
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
+	const searchParams = useSearchParams()
+	const redirectTo = searchParams.get('redirectTo')
 
 	useAuthenticatedRoute()
 
@@ -39,7 +42,7 @@ export default function EmailVerificationPage() {
 					</p>
 
 					<FormActions centered>
-						<ButtonLink href={RoutePath.Home} backgroundColor='yellow-500' className='action-button'>
+						<ButtonLink href={redirectTo ?? RoutePath.Home} backgroundColor='yellow-500' className='action-button'>
 							Next
 						</ButtonLink>
 					</FormActions>

@@ -260,7 +260,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						<Link href={'/login'} target='_blank'>
+						<Link href={`/register?redirectTo=https://dreader.app/mint/${paramsId}`}>
 							<Image
 								src={RegistDesktopBanner}
 								width={480}
