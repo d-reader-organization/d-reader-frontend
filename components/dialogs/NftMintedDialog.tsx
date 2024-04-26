@@ -10,7 +10,7 @@ import { ComicIssue } from '@/models/comicIssue'
 interface Props extends DialogProps {
 	onClose: VoidFunction
 	nftAddress?: string
-	comicIssue?: ComicIssue
+	comicIssue: ComicIssue
 }
 
 const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddress, ...props }) => {
@@ -43,10 +43,10 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 
 					<Link
 						href={encodeURI(
-							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${nft.name.split('#')[0]}' comic on @dReaderApp! 📚
+							`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
 
 Mint yours here while the supply lasts.👇
-https://dreader.app/mint/${comicIssue?.comicSlug}_${comicIssue?.slug}?utm_source=web`}`
+https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=web`}`
 						)}
 						target='_blank'
 						className='twitter-button'
