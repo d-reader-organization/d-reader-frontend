@@ -20,10 +20,14 @@ import { ComicIssue } from '@/models/comicIssue'
 import { useFetchMe } from '@/api/user'
 import { nftKeys } from '@/api/nft'
 import { sleep } from '@/utils/helpers'
+import { useLocalStorage, useToggle } from '@/hooks'
+import { Button } from '@mui/material'
+import UnwrapWarningDialog from '../dialogs/UnwrapWarningDialog'
 
 interface Props {
 	nft: Nft
 	comicIssue: ComicIssue
+	onClose: () => void
 }
 
 export const getRarityIcon = (rarity: string) => {
@@ -43,7 +47,10 @@ export const getRarityIcon = (rarity: string) => {
 	}
 }
 
-const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
+const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) => {
+	const [isUnwrapWarningRead] = useLocalStorage('unwrapWarning', false)
+	const [unwrapWarningDialog, , closeUnwrapWarningDialog, openUnwrapWarningDialog] = useToggle(false)
+
 	const toaster = useToaster()
 	const queryClient = useQueryClient()
 	const { signTransaction } = useWallet()
@@ -87,6 +94,8 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
 			console.error('Error while unwrapping the comic', e)
 		} finally {
 			setIsLoading(false)
+			closeUnwrapWarningDialog()
+			onClose()
 		}
 	}, [comicIssue.id, connection, fetchUseComicIssueNftTransaction, myId, queryClient, signTransaction, toaster])
 
@@ -112,9 +121,21 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue }) => {
 					)}
 				</div>
 			</div>
-			<ConnectButton className='button--unwrap' noMinWidth onClick={handleUnwrap}>
-				{isLoading ? <CircularProgress className='loading-spinner' size={24} /> : 'Open'}
-			</ConnectButton>
+			{isUnwrapWarningRead ? (
+				<ConnectButton className='button--unwrap' noMinWidth onClick={handleUnwrap}>
+					{isLoading ? <CircularProgress className='loading-spinner' size={24} /> : 'Open'}
+				</ConnectButton>
+			) : (
+				<Button className='button--unwrap' onClick={openUnwrapWarningDialog}>
+					{isLoading ? <CircularProgress className='loading-spinner' size={24} /> : 'Open'}
+				</Button>
+			)}
+			<UnwrapWarningDialog
+				open={unwrapWarningDialog}
+				onClose={closeUnwrapWarningDialog}
+				handleUnwrap={handleUnwrap}
+				isLoading={isLoading}
+			/>
 		</div>
 	)
 }

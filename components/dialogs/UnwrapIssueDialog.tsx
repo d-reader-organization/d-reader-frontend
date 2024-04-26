@@ -31,7 +31,7 @@ const UnwrapIssueDialog: React.FC<Props> = ({ nfts = [], comicIssue, onClose, op
 				<h3>Choose to open</h3>
 				<p>In order to read the full comic issue, at least one NFT should be unwrapped.</p>
 				{unusedNfts.map((nft) => (
-					<UnwrapIssueDialogItem key={nft.address} nft={nft} comicIssue={comicIssue} />
+					<UnwrapIssueDialogItem key={nft.address} nft={nft} comicIssue={comicIssue} onClose={onClose} />
 				))}
 			</div>
 		</Dialog>

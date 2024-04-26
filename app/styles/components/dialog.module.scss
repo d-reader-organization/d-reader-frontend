@@ -104,6 +104,34 @@
 	}
 }
 
+.unwrap-warning-dialog {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	.content-wrapper {
+		background-color: $grey-400;
+		padding: 0 20px 0 20px;
+		border-radius: 5px;
+	}
+
+	.dialog-title {
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.dialog-content {
+		text-align: center;
+	}
+
+	.unwrap-button {
+		align-self: center;
+		width: 100%;
+		background-color: $important-color;
+		margin: 20px 0 20px 0;
+	}
+}
+
 .minted-nft-dialog {
 	position: relative;
 	overflow-y: scroll;
