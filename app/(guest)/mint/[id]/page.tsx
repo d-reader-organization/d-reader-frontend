@@ -27,12 +27,10 @@ import GuestNavigation from '@/components/layout/GuestNavigation'
 import CandyMachineDetail from '../../../../components/CandyMachineDetail'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import RegistDesktopBanner from 'public/assets/register-desktop-banner.png'
-import Link from 'next/link'
-import Image from 'next/image'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
 import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
+import { SignUpBanner } from '@/components/SignUpBanner'
 
 interface Params {
 	id: string | number
@@ -115,7 +113,7 @@ const MintPage = ({ params }: { params: Params }) => {
 						const signature = await connection.sendTransaction(transaction)
 
 						const latestBlockhash = await connection.getLatestBlockhash()
-						const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+						const response = await connection.confirmTransaction({ signature, ...latestBlockhash }, 'confirmed')
 						if (!!response.value.err) {
 							console.log('Response error log: ', response.value.err)
 							throw new Error()
@@ -260,15 +258,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						<Link href={`/login?redirectTo=/mint/${paramsId}`}>
-							<Image
-								src={RegistDesktopBanner}
-								width={480}
-								height={171}
-								alt='Register/Login to -10% off on mints'
-								className='register-login-banner'
-							/>
-						</Link>
+						<SignUpBanner issueId={paramsId} />
 					</Grid>
 				</Grid>
 			</main>

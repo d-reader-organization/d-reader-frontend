@@ -23,8 +23,8 @@ const UnwrapWarningDialog: React.FC<Props> = ({ open, onClose, handleUnwrap, isL
 				<div>
 					<p className='dialog-title'>Comic Unwrapping</p>
 					<p className='dialog-content'>
-						By unwrapping the comic, you'll be able to read it. This action is irreversible and will make the comic lose
-						the mint condition.
+						By unwrapping the comic, you&quot;ll be able to read it. This action is irreversible and will make the comic
+						lose the mint condition.
 					</p>
 				</div>
 				<ConnectButton className='unwrap-button' onClick={handleUnwrap}>

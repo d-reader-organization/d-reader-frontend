@@ -28,13 +28,21 @@ import { useToaster } from '@/providers/ToastProvider'
 import { useRequestUserPasswordReset } from '@/api/user/queries/useRequestUserPasswordReset'
 import { useToggle } from '@/hooks'
 import Dialog from '@mui/material/Dialog'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
 import { signIn } from 'next-auth/react'
 import Important from '@/components/ui/Important'
 import { useGoogleSessionCheck } from '@/hooks/useGoogleSessionCheck'
 
-export default function LoginPage() {
+export default function LoginPageSuspenseWrapper() {
+	return (
+		<Suspense>
+			<LoginPage />
+		</Suspense>
+	)
+}
+
+function LoginPage() {
 	const [isFirstTimeLogin, setIsFirstTimeLogin] = useLocalStorage('firstTimeLogin', true)
 	const [passwordDialogOpen, togglePasswordDialog] = useToggle()
 	const [forgotPasswordEmailOrName, setForgotPasswordEmailOrName] = useState('')
@@ -56,7 +64,7 @@ export default function LoginPage() {
 	})
 	useGoogleSessionCheck()
 	usePrefetchRoute(nextPage)
-	useGuestRoute()
+	useGuestRoute(nextPage)
 
 	const onSubmitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()

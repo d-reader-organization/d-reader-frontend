@@ -82,7 +82,9 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const myId = me?.id || 0
 
 	useEffect(() => {
-		if (!walletAddress) return
+		if (!walletAddress) {
+			return
+		}
 		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
 			setNftAddress(data.nft.address)
@@ -172,7 +174,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					const signature = await connection.sendTransaction(transaction)
 
 					const latestBlockhash = await connection.getLatestBlockhash()
-					const response = await connection.confirmTransaction({ signature, ...latestBlockhash })
+					const response = await connection.confirmTransaction({ signature, ...latestBlockhash }, 'confirmed')
 					if (!!response.value.err) {
 						console.log('Response error log: ', response.value.err)
 						throw new Error()
