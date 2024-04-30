@@ -33,6 +33,7 @@ import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 
+export const dynamic = 'force-dynamic'
 interface Params {
 	id: string | number
 }
