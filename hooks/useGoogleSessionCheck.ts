@@ -25,5 +25,5 @@ export const useGoogleSessionCheck = () => {
 				)
 			})
 		}
-	}, [session?.accessToken, push])
+	}, [session?.accessToken, push, isAuthenticated, loginWithGoogle, searchParams])
 }
