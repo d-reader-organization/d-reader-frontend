@@ -21,6 +21,7 @@ const defaultTextStyles: React.CSSProperties = {
 }
 
 export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
 
 const size = { width: 1200, height: 627 }
 

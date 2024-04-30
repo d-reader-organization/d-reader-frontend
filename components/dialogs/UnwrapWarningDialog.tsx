@@ -19,7 +19,7 @@ const UnwrapWarningDialog: React.FC<Props> = ({ open, onClose, handleUnwrap, isL
 			open={open}
 			{...props}
 		>
-			<div className='content-wrapper '>
+			<div className='content-wrapper'>
 				<div>
 					<p className='dialog-title'>Comic Unwrapping</p>
 					<p className='dialog-content'>

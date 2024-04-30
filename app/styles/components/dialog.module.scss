@@ -57,11 +57,11 @@
 	.stars-row {
 		margin-top: 1rem;
 
-		&>*:not(:last-child) {
+		& > *:not(:last-child) {
 			margin-right: 0.8rem;
 		}
 
-		&>* {
+		& > * {
 			color: $yellow-500;
 		}
 	}
@@ -77,7 +77,7 @@
 
 		border-top: 2px solid $grey-600 !important;
 
-		&>* {
+		& > * {
 			padding: 1rem !important;
 			width: 100% !important;
 
@@ -86,7 +86,7 @@
 			}
 		}
 
-		&>*:not(:last-child) {
+		& > *:not(:last-child) {
 			border-right: 2px solid $grey-600 !important;
 		}
 	}
@@ -111,7 +111,7 @@
 
 	.content-wrapper {
 		background-color: $grey-400;
-		padding: 0 20px 0 20px;
+		padding: 20px;
 		border-radius: 5px;
 	}
 
@@ -139,7 +139,7 @@
 	.twitter-button {
 		width: max-content;
 		align-self: center;
-		margin-top: 10px;
+		margin-top: 16px;
 		box-sizing: border-box;
 		padding: 4px 12px 4px 12px;
 		border: 2px solid white;
@@ -148,6 +148,10 @@
 		border-radius: 0.5rem;
 		font-weight: 500;
 		cursor: pointer;
+	}
+
+	.unwrap-button {
+		margin-top: 16px;
 	}
 
 	.cover-image {

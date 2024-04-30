@@ -23,6 +23,8 @@ import { sleep } from '@/utils/helpers'
 import { useLocalStorage, useToggle } from '@/hooks'
 import { Button } from '@mui/material'
 import UnwrapWarningDialog from '../dialogs/UnwrapWarningDialog'
+import { RoutePath } from '@/enums/routePath'
+import { useRouter } from 'next/navigation'
 
 interface Props {
 	nft: Nft
@@ -58,6 +60,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 	const [isLoading, setIsLoading] = useState(false)
 	const { data: me } = useFetchMe()
 	const myId = me?.id || 0
+	const { push } = useRouter()
 
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
@@ -90,6 +93,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
 			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
 			toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
+			push(RoutePath.ReadComicIssue(comicIssue.id), { scroll: false })
 		} catch (e) {
 			console.error('Error while unwrapping the comic', e)
 		} finally {
