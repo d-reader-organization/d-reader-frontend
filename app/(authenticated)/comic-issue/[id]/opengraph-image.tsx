@@ -3,27 +3,27 @@ import { ComicIssue } from '@/models/comicIssue'
 import { COMIC_ISSUE_QUERY_KEYS } from '@/api/comicIssue/comicIssueKeys'
 // import fontSrc from '../../../fonts/Satoshi-Regular.woff2'
 const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
+
 const defaultTextStyles: React.CSSProperties = {
 	position: 'absolute',
-	left: 471,
+	left: 310,
 	padding: 0,
 	margin: 0,
-	width: 680,
+	width: '100%',
 	color: 'white',
-	fontSize: '50px',
+	fontSize: '32px',
 	fontWeight: 'bold',
 	overflow: 'hidden',
 	whiteSpace: 'nowrap',
-	textOverflow: 'ellipsis',
-	fontFamily: 'serif',
 }
 
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
-const size = { width: 1200, height: 627 }
+const size = { width: 800, height: 417 }
 
 // const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
+
 // const fetchSatoshiFont = fetchAsset(new URL('../../../fonts/Satoshi-Regular.woff2', import.meta.url))
 export async function generateImageMetadata({ params }: { params: { id: string } }) {
 	const comicIssue: ComicIssue = await (
@@ -59,35 +59,38 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 			>
 				<img width='100%' src={comicIssue.cover} alt='' style={{ position: 'absolute', opacity: 0.05 }} />
 				<img
-					width='351px'
-					height='507px'
+					width='220px'
+					height='322px'
 					src={comicIssue.cover}
 					alt=''
 					style={{ position: 'absolute', top: 60, left: 60, borderRadius: 8 }}
 				/>
-				<p style={{ ...defaultTextStyles, top: 100, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
+				<p style={{ ...defaultTextStyles, top: 75, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
 				<p
 					style={{
 						...defaultTextStyles,
-						top: 184,
-						fontSize: '58px',
+						top: 128,
+						fontSize: '40px',
 						fontWeight: 'bolder',
 					}}
 				>
 					{comicIssue.comic?.title || ''}
 				</p>
-				<p style={{ ...defaultTextStyles, top: 280 }}>
+				<p style={{ ...defaultTextStyles, top: 190 }}>
 					{comicIssue.title || ''} (EP{comicIssue.number})
 				</p>
-				{!!comicIssue.activeCandyMachineAddress && (
+				{!comicIssue.activeCandyMachineAddress && (
 					<p
 						style={{
 							position: 'absolute',
-							left: 471,
-							top: 380,
+							left: 310,
+							top: 260,
+							display: 'flex',
+							height: '52px',
+							alignItems: 'center',
 							backgroundColor: '#fceb54',
 							color: 'black',
-							fontSize: '32px',
+							fontSize: '21px',
 							fontWeight: 'bold',
 							padding: '16px',
 							borderRadius: '8px',
@@ -111,8 +114,9 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 						MINTING LIVE
 					</p>
 				)}
+
 				<svg
-					style={{ position: 'absolute', bottom: 60, right: 60 }}
+					style={{ position: 'absolute', bottom: 40, right: 40 }}
 					width={51}
 					height={50}
 					color='white'
