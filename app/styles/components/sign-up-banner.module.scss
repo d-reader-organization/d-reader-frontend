@@ -1,41 +1,66 @@
 @use '../variables/theme.module.scss' as *;
+@use '../mixins/common.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .sign-up-banner {
-	display: flex;
+	@include flexColumn;
+	align-items: center;
+	position: relative;
+	justify-content: space-between;
 	border-radius: 8px;
-	padding: 10px 24px;
-	margin-top: 64px;
+	padding: 5px 12px;
+	margin-top: 48px;
 	border: 1px solid $grey-200;
 	background-color: $grey-500;
 
+	@include md {
+		flex-direction: row;
+		padding: 10px 16px;
+		margin-top: 64px;
+	}
+
 	.discount-section {
-		display: flex;
-		flex-grow: 2;
-		flex-direction: column;
-		align-items: start;
-		justify-content: space-between;
+		@include flexRow;
+		align-self: start;
+		max-width: 60%;
+		@include md {
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: start;
+		}
 	}
 
 	.discount-text {
-		font-size: 20px;
+		font-size: 16px;
 		font-weight: 700;
 		line-height: 28.8px;
 
 		.highlighed-text {
 			color: $yellow-500;
 		}
+
+		@include md {
+			font-size: 20px;
+		}
 	}
 	.login {
 		padding: 14px 0;
-	}
-
-	.right-section {
-		display: flex;
-		flex-grow: 1;
+		font-size: 14px;
 	}
 
 	.wen-image {
-		margin-top: -16%;
+		position: absolute;
+		top: -32px;
+		right: -16px;
+		@include md {
+			right: 72px;
+		}
+		@include lg {
+			right: 80px;
+		}
+		@include xl {
+			right: 88px;
+		}
 	}
 
 	.sign-up-button {
@@ -45,7 +70,13 @@
 		padding: 16px;
 		gap: 10px;
 		flex-shrink: 0;
-		margin-left: -6%;
 		align-self: center;
+		width: 100%;
+		margin-top: 25px;
+
+		@include md {
+			width: max-content;
+			margin-top: 0px;
+		}
 	}
 }

@@ -29,7 +29,7 @@ interface Props {
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
+export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
 	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
 	const { countdownString } = useCountdown({ expirationDate: startDate })
@@ -134,4 +134,3 @@ const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintT
 	)
 }
 
-export default CandyMachineDetail

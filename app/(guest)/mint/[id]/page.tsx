@@ -24,13 +24,14 @@ import { useQueryClient } from 'react-query'
 import { nftKeys } from '@/api/nft'
 import Grid from '@mui/material/Grid'
 import GuestNavigation from '@/components/layout/GuestNavigation'
-import CandyMachineDetail from '../../../../components/CandyMachineDetail'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
 import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
 import { SignUpBanner } from '@/components/SignUpBanner'
+import { CandyMachineDetail } from '@/components/CandyMachineDetail'
+import { useUserAuth } from '@/providers/UserAuthProvider'
 
 interface Params {
 	id: string | number
@@ -48,6 +49,7 @@ const MintPage = ({ params }: { params: Params }) => {
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+	const { isAuthenticated } = useUserAuth()
 	// TODO: how do we display the Tensor link properly if user provides the id as a number?
 	// No way for us to know what's the collection.slug
 
@@ -258,7 +260,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						<SignUpBanner issueId={paramsId} />
+						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} />}
 					</Grid>
 				</Grid>
 			</main>

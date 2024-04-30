@@ -43,7 +43,7 @@ import { useQueryClient } from 'react-query'
 import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
-import CandyMachineDetail from '@/components/CandyMachineDetail'
+import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 
 interface Params {
 	id: string
