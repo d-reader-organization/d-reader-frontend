@@ -266,7 +266,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} discountAmount={15} />}
+						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} discountAmount={10} />}
 					</Grid>
 				</Grid>
 			</main>
