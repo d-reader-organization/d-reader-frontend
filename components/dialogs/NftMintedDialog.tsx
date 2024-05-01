@@ -100,14 +100,13 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 				open={open}
 				onClose={onClose}
 				fullWidth
-				maxWidth='xs'
 				PaperProps={{
 					style: {
 						backgroundColor: 'transparent',
 						boxShadow: 'none',
 						maxHeight: 'calc(100% - 32px)',
 						margin: '16px',
-						overflowY: 'scroll',
+						maxWidth: '100%',
 					},
 				}}
 			>
