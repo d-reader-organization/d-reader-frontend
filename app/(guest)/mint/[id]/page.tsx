@@ -209,6 +209,7 @@ const MintPage = ({ params }: { params: Params }) => {
 											isMintTransactionLoading={isMintTransactionLoading}
 											handleMint={handleMint}
 											highlightDiscount={isAuthenticated}
+											discountAmount={10}
 										/>
 									</div>
 								) : (
@@ -265,7 +266,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} />}
+						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} discountAmount={15} />}
 					</Grid>
 				</Grid>
 			</main>

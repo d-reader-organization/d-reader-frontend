@@ -27,6 +27,7 @@ interface Props {
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
 	highlightDiscount?: boolean
+	discountAmount: number
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
@@ -37,6 +38,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 	handleMint,
 	isMintTransactionLoading,
 	highlightDiscount = false,
+	discountAmount,
 }) => {
 	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
@@ -79,7 +81,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 					<div className='price-div'>
 						{highlightDiscount ? (
 							<div className='discount-chip'>
-								<span>-10&#37;</span>
+								<span>-{discountAmount}&#37;</span>
 							</div>
 						) : null}
 						<span className={clsx('price', highlightDiscount && 'price--highlight')}>
@@ -127,7 +129,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 			>
 				<p className='comic-vault-details'>
 					Comic Vault stores portion of the supply of each issue to later use in giveaways & other activities where we
-					reward loyal users
+					reward loyal users.
 				</p>
 			</Expandable>
 

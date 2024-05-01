@@ -101,7 +101,18 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 			closeUnwrapWarningDialog()
 			onClose()
 		}
-	}, [comicIssue.id, connection, fetchUseComicIssueNftTransaction, myId, queryClient, signTransaction, toaster])
+	}, [
+		closeUnwrapWarningDialog,
+		comicIssue.id,
+		connection,
+		fetchUseComicIssueNftTransaction,
+		myId,
+		onClose,
+		push,
+		queryClient,
+		signTransaction,
+		toaster,
+	])
 
 	return (
 		<div className='comic-issue-unwrap-item'>

@@ -12,6 +12,7 @@ import { useRequestUserEmailVerification } from '@/api/user'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import { RoutePath } from '@/enums/routePath'
 import { useSearchParams } from 'next/navigation'
+import FlexRow from '@/components/ui/FlexRow'
 
 export default function EmailVerificationPage() {
 	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
@@ -33,7 +34,9 @@ export default function EmailVerificationPage() {
 
 			<main className='register-page'>
 				<h1 className='title'>Check your mail</h1>
-				<MailIcon className='mail-icon' />
+				<FlexRow>
+					<MailIcon className='mail-icon' />
+				</FlexRow>
 
 				<Form centered fullWidth maxSize='sm' className='form--verify-email'>
 					<p>

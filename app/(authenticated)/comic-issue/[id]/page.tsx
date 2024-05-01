@@ -127,6 +127,9 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		false
 	)
 
+	// const userGroup = candyMachine?.groups.find(group => group.label === "dUser")
+	// const publicGroup = candyMachine?.groups.find(group => group.label === "public")
+
 	// const { countdownString } = useCountdown({ expirationDate: candyMachine?.endsAt })
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
@@ -317,6 +320,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										candyMachine={candyMachine}
 										isMintTransactionLoading={isMintTransactionLoading}
 										handleMint={handleBuyClick}
+										discountAmount={10}
 									/>
 								</div>
 							) : null}

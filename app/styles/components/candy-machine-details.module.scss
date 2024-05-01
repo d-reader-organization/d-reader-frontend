@@ -41,8 +41,11 @@
 		font-weight: 500;
 		line-height: 21.6px;
 		color: $grey-100;
+
 		.lock-icon {
-			margin-top: 3px;
+			width: 18px;
+			height: auto;
+			margin-right: 0.2rem;
 		}
 		@include sm {
 			font-size: 18px;
@@ -52,7 +55,7 @@
 	.comic-vault-details {
 		color: $grey-100;
 		font-size: 14px;
-		font-weight: 500;
+		margin: 0;
 		line-height: 21.6px;
 
 		@include sm {

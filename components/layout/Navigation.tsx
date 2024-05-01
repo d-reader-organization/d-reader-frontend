@@ -11,7 +11,7 @@ import logoImage from 'public/assets/logo.png'
 import FullLogo from 'public/assets/vector-icons/full-logo.svg'
 import HamburgerMenuIcon from 'public/assets/vector-icons/hamburger-menu.svg'
 import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
-import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
+// import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
 import ProfileIcon from 'public/assets/vector-icons/profile.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
 import { RoutePath } from 'enums/routePath'
@@ -28,7 +28,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 
 	const isHome = pathname === RoutePath.Home
 	const isDiscover = pathname.startsWith(RoutePath.Discover)
-	const isLibrary = pathname.startsWith(RoutePath.Library)
+	// const isLibrary = pathname.startsWith(RoutePath.Library)
 	const isProfile = pathname.startsWith(RoutePath.Profile)
 
 	return (
@@ -73,12 +73,12 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 									Discover
 								</IconLink>
 							</MenuItem>
-							<MenuItem onClick={resetMenuAnchorEl}>
+							{/* <MenuItem onClick={resetMenuAnchorEl}>
 								<IconLink className={clsx('navigation-item', isLibrary && 'active')} href={'#' || RoutePath.Library}>
 									<LibraryIcon />
 									Library
 								</IconLink>
-							</MenuItem>
+							</MenuItem> */}
 							<MenuItem onClick={resetMenuAnchorEl}>
 								<IconLink className={clsx('navigation-item', isProfile && 'active')} href={RoutePath.Profile}>
 									<ProfileIcon />
@@ -97,14 +97,14 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							<DiscoverIcon />
 							Discover
 						</Link>
-						<Link
+						{/* <Link
 							className={clsx('navigation-item', isLibrary && 'active')}
 							aria-label='library'
 							href={'#' || RoutePath.Library}
 						>
 							<LibraryIcon />
 							Library
-						</Link>
+						</Link> */}
 						<Link
 							className={clsx('navigation-item', isProfile && 'active')}
 							aria-label='library'
