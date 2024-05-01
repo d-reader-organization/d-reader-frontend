@@ -19,6 +19,8 @@ import { sleep } from '@/utils/helpers'
 import { comicIssueKeys } from '@/api/comicIssue'
 import Button from '../Button'
 import { useRouter } from 'next/navigation'
+import { useUserAuth } from '@/providers/UserAuthProvider'
+import ButtonLink from '../ButtonLink'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
@@ -37,6 +39,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 	const { connection } = useConnection()
 	const [isLoading, setIsLoading] = useState(false)
 	const { data: me } = useFetchMe()
+	const { isAuthenticated } = useUserAuth()
 	const myId = me?.id || 0
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
@@ -142,18 +145,27 @@ https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=w
 								</Link>
 
 								<div className='actions'>
-									<Button
-										onClick={async () => {
-											if (!isUnwrapWarningRead) {
-												openUnwrapWarningDialog()
-												return
-											}
-											await handleUnwrap()
-										}}
-										backgroundColor='important'
-									>
-										Unwrap & Read
-									</Button>
+									{isAuthenticated ? (
+										<Button
+											onClick={async () => {
+												if (!isUnwrapWarningRead) {
+													openUnwrapWarningDialog()
+													return
+												}
+												await handleUnwrap()
+											}}
+											backgroundColor='important'
+										>
+											Unwrap & Read
+										</Button>
+									) : (
+										<ButtonLink
+											href={`${RoutePath.Login}?redirectTo=/comic-issue/${comicIssue.id}/read`}
+											backgroundColor='important'
+										>
+											Login to Read
+										</ButtonLink>
+									)}
 									<Button className='close-button' onClick={onClose} backgroundColor='transparent'>
 										Close
 									</Button>
