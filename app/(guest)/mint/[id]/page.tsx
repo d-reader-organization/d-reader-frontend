@@ -180,7 +180,7 @@ const MintPage = ({ params }: { params: Params }) => {
 							className='comic-issue-cover'
 						/>
 					</Grid>
-					<Grid item className='details details--right' xs={12} md={6}>
+					<Grid item className='details details--right' xs={12} md={6} mt={[4,0]}>
 						<p className='comic-issue-title'>
 							{comicIssue.comic?.title} - {comicIssue.title}
 						</p>
@@ -201,7 +201,7 @@ const MintPage = ({ params }: { params: Params }) => {
 						{isCandyMachineDetailsLoading ? (
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
 						) : !mintDetailsSection ? (
-							<Box pt={2}>
+							<Box pt={3}>
 								{candyMachine && candyMachine.groups.length > 0 && !comicIssue.isSecondarySaleActive ? (
 									<div className='mint-details'>
 										<CandyMachineDetail
@@ -219,12 +219,7 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						) : (
-							<Box pt={1}>
-								{comicIssue.flavorText && (
-									<Typography variant='body2' className='comic-issue-flavor-text'>
-										{comicIssue.flavorText}
-									</Typography>
-								)}
+							<Box className='comic-issue-container' pt={3}>
 								{comicIssue.genres && (
 									<div>
 										<Box className='comic-issue-genre-list'>
