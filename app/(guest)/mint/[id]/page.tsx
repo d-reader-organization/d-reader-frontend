@@ -181,7 +181,9 @@ const MintPage = ({ params }: { params: Params }) => {
 						/>
 					</Grid>
 					<Grid item className='details details--right' xs={12} md={6}>
-						<p className='comic-issue-title'>{comicIssue.title}</p>
+						<p className='comic-issue-title'>
+							{comicIssue.comic?.title} - {comicIssue.title}
+						</p>
 						<div className='detail-toggle'>
 							<p
 								onClick={closeMintDetailsSection}

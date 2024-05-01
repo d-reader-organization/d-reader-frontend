@@ -24,6 +24,7 @@
 		align-self: start;
 		max-width: 60%;
 		@include md {
+			max-width: 56%;
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: start;
@@ -50,23 +51,27 @@
 
 	.wen-image {
 		position: absolute;
-		top: -33px;
+		top: -34px;
 		right: -16px;
+		width: 140px;
 		height: 124px;
 		@include md {
 			height: 161px;
+			width: 150px;
 			right: 72px;
-			top: -37px;
+			top: -36px;
 		}
 		@include lg {
-			top: -46px;
-			right: 80px;
+			top: -45px;
+			right: 70px;
+			width: 161px;
 			height: 170px;
 		}
 		@include xl {
-			top: -55px;
+			top: -54px;
 			height: 179px;
-			right: 88px;
+			width: 170px;
+			right: 68px;
 		}
 	}
 
