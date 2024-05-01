@@ -6,11 +6,20 @@ import useEventListener from '@/hooks/useEventListener'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	title: string
+	titleComponent?: React.ReactNode
 	children?: React.ReactNode
 	open?: boolean
+	hideArrow?: boolean
 }
 
-const Expandable: React.FC<Props> = ({ title, open = false, children, ...props }) => {
+const Expandable: React.FC<Props> = ({
+	title,
+	titleComponent,
+	open = false,
+	children,
+	hideArrow = false,
+	...props
+}) => {
 	const [isExpanded, setIsExpanded] = useState(open)
 	const [contentHeight, setContentHeight] = useState(0)
 	const [contentRef, setContentRef] = useState<HTMLDivElement | null>(null)
@@ -33,12 +42,14 @@ const Expandable: React.FC<Props> = ({ title, open = false, children, ...props }
 	return (
 		<div className='expandable' {...props}>
 			<div className='expandable-header' onClick={() => setIsExpanded((currentIsExpanded) => !currentIsExpanded)}>
-				{title}
-				<ArrowDownIcon
-					className={clsx('expandable-header-arrow-icon', {
-						'expandable-header-arrow-icon--rotated': isExpanded,
-					})}
-				/>
+				{titleComponent ?? title}
+				{hideArrow ? null : (
+					<ArrowDownIcon
+						className={clsx('expandable-header-arrow-icon', {
+							'expandable-header-arrow-icon--rotated': isExpanded,
+						})}
+					/>
+				)}
 			</div>
 			<div
 				className={clsx('expandable-content-wrapper', {

@@ -50,15 +50,22 @@
 
 	.wen-image {
 		position: absolute;
-		top: -32px;
+		top: -33px;
 		right: -16px;
+		height: 124px;
 		@include md {
+			height: 161px;
 			right: 72px;
+			top: -37px;
 		}
 		@include lg {
+			top: -46px;
 			right: 80px;
+			height: 170px;
 		}
 		@include xl {
+			top: -55px;
+			height: 179px;
 			right: 88px;
 		}
 	}
@@ -72,7 +79,7 @@
 		flex-shrink: 0;
 		align-self: center;
 		width: 100%;
-		margin-top: 25px;
+		margin-top: 28px;
 
 		@include md {
 			width: max-content;

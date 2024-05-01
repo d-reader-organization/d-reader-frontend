@@ -1,110 +1,136 @@
 @use '../variables/theme.module.scss' as *;
+@use '../mixins/breakpoints.module.scss' as *;
 
 .mint-group {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    padding: 10px 25px;
-    background-color: $grey-500;
-    margin-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	padding: 10px 25px;
+	background-color: $grey-500;
+	margin-bottom: 10px;
 
-    .mint-button {
-        background-color: $important-color;
-    }
+	.mint-button {
+		background-color: $important-color;
+	}
 
-    .guest-user-note {
-        color: $yellow-500;
-        font-size: medium;
-        font-weight: 500;
-        align-self: center;
-    }
+	.guest-user-note {
+		color: $yellow-500;
+		font-size: medium;
+		font-weight: 500;
+		align-self: center;
+	}
 
-    .register-link {
-        text-decoration: underline;
-        font-weight: bold;
-        cursor: pointer;
-    }
+	.register-link {
+		text-decoration: underline;
+		font-weight: bold;
+		cursor: pointer;
+	}
 
-    .balance-details {
-        display: flex;
-        font-size: medium;
-        font-weight: bold;
-        justify-content: space-between;
-        margin: 5px 0 10px 0
-    }
+	.balance-details {
+		display: flex;
+		font-size: medium;
+		font-weight: bold;
+		justify-content: space-between;
+		margin: 5px 0 10px 0;
+	}
 
-    .comic-vault {
-        font-size: medium;
-        margin: 5px 0 10px 0;
-        border-radius: 10px;
-        background-color: $grey-400;
-        padding: 10px;
+	.comic-vault-title {
+		display: flex;
+		align-items: center;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 21.6px;
+		color: $grey-100;
+		.lock-icon {
+			margin-top: 3px;
+		}
+		@include sm {
+			font-size: 18px;
+		}
+	}
 
-        .lock-icon {
-            margin-top: 3px;
-        }
+	.comic-vault-details {
+		color: $grey-100;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 21.6px;
 
-        .title {
-            display: flex;
-        }
+		@include sm {
+			font-size: 18px;
+		}
+	}
 
-        .comic-vault-details {
-            margin-top: 10px;
-            font-size: 15px;
-        }
-    }
+	.group-detail-wrapper {
+		.group-detail {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
 
-    .group-detail-wrapper {
+			.group-status {
+				font-weight: bold;
+			}
 
-        .group-detail {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
+			.price-div {
+				display: flex;
+				align-items: center;
 
-            .group-status {
-                font-weight: bold;
-            }
+				.discount-chip {
+					font-size: 14px;
+					color: $grey-600;
+					font-weight: 700;
+					border-radius: 8px;
+					padding: 4px;
+					background-color: $yellow-500;
+					margin-right: 6px;
+					height: 29px;
+				}
 
-            .price {
-                font-weight: bold;
-            }
-        }
+				.price {
+					font-weight: 700;
+					font-size: 22px;
 
-        .user-detail-wrapper {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            text-align: center;
-            color: $grey-100;
-            font-size: medium;
+					&--highlight {
+						color: $yellow-500;
+					}
+				}
+			}
+		}
 
-            .user-detail {
-                display: flex;
-            }
+		.user-detail-wrapper {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+			text-align: center;
+			color: $grey-100;
+			font-size: medium;
 
-            .items-minted {
-                margin-left: 10px;
-            }
-        }
-    }
+			.user-detail {
+				display: flex;
+			}
 
-    .button {
-        .--not-eligible {
-            background-color: $red-500;
-            cursor: none;
-        }
-    }
+			.items-minted {
+				margin-left: 10px;
+			}
+		}
+	}
 
-    .mint-limit {
-        text-align: center;
-        color: $grey-100;
-        font-size: medium;
-    }
+	.button {
+		.--not-eligible {
+			background-color: $red-500;
+			cursor: none;
+		}
+	}
 
-    .progress-bar {
-        border-radius: 10px;
-        margin: 10px 0;
-        height: 10px;
-        background-color: $grey-400;
-    }
+	.mint-limit {
+		text-align: center;
+		color: $grey-100;
+		font-size: medium;
+	}
+
+	.progress-bar {
+		border-radius: 10px;
+		margin: 10px 0;
+		height: 10px;
+		background-color: $grey-400;
+	}
 }

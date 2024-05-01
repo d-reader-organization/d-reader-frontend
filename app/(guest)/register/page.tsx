@@ -23,6 +23,8 @@ import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
 import { signIn } from 'next-auth/react'
 import { useGoogleSessionCheck } from '@/hooks/useGoogleSessionCheck'
 import { TermsOfServiceAndPrivacyPolicy } from '@/components/TosAndPPText'
+import ButtonLink from '@/components/ButtonLink'
+import Important from '@/components/ui/Important'
 
 export default function RegisterUserPage() {
 	const { push } = useRouter()
@@ -127,6 +129,14 @@ export default function RegisterUserPage() {
 								Register
 							</Button>
 						</FormActions>
+						<ButtonLink
+							href={RoutePath.Login}
+							clickableEffect={false}
+							backgroundColor='transparent'
+							className='action-button action-button--login'
+						>
+							Already have account?&nbsp;<Important>Log in</Important>
+						</ButtonLink>
 						<TermsOfServiceAndPrivacyPolicy />
 					</Form>
 				)}

@@ -14,6 +14,8 @@ import { validateMintEligibilty } from '@/utils/mint'
 import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 import LockIcon from 'public/assets/vector-icons/lock.svg'
 import { MAX_PROTOCOL_FEE } from '@/constants/fee'
+import clsx from 'clsx'
+import Expandable from './ui/Expandable'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -24,12 +26,18 @@ interface Props {
 	candyMachine: CandyMachine
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
+	highlightDiscount?: boolean
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
+export const CandyMachineDetail: React.FC<Props> = ({
+	candyMachine,
+	handleMint,
+	isMintTransactionLoading,
+	highlightDiscount = false,
+}) => {
 	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
 	const { countdownString } = useCountdown({ expirationDate: startDate })
@@ -68,8 +76,15 @@ export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, 
 							</span>
 						)}
 					</div>
-					<div>
-						<span className='price'>{mintPrice == 0 ? '*Free' : `${toSol(mintPrice)} SOL`}</span>
+					<div className='price-div'>
+						{highlightDiscount ? (
+							<div className='discount-chip'>
+								<span>-10&#37;</span>
+							</div>
+						) : null}
+						<span className={clsx('price', highlightDiscount && 'price--highlight')}>
+							{mintPrice == 0 ? '*Free' : `${toSol(mintPrice)} SOL`}
+						</span>
 					</div>
 				</div>
 				<div className='user-detail-wrapper'>
@@ -94,15 +109,28 @@ export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, 
 				}}
 				value={normalise(candyMachine.itemsMinted, candyMachine.supply)}
 			/>
-			<div className='comic-vault'>
-				<div className='title'>
-					<LockIcon className='lock-icon' /> Comic Vault
-				</div>
-				<div className='comic-vault-details'>
+			<Expandable
+				title='Comic Vault'
+				style={{
+					backgroundColor: '#2F333E',
+					borderColor: 'transparent',
+					borderRadius: '8px',
+					marginTop: '8px',
+					marginBottom: '8px',
+				}}
+				titleComponent={
+					<div className='comic-vault-title'>
+						<LockIcon className='lock-icon' /> Comic Vault
+					</div>
+				}
+				hideArrow
+			>
+				<p className='comic-vault-details'>
 					Comic Vault stores portion of the supply of each issue to later use in giveaways & other activities where we
 					reward loyal users
-				</div>
-			</div>
+				</p>
+			</Expandable>
+
 			<div className='balance-details'>
 				<div>Total</div>
 				<div>≈ {toSol(mintPrice + MAX_PROTOCOL_FEE)} SOL</div>
@@ -133,4 +161,3 @@ export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, 
 		</div>
 	)
 }
-

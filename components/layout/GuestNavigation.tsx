@@ -3,7 +3,7 @@ import Toolbar, { ToolbarProps } from '@mui/material/Toolbar'
 import Hidden from '@mui/material/Hidden'
 import AppBar from '@mui/material/AppBar'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
-import logoWithTextImage from 'public/assets/logo-with-text-colored.png'
+import FullLogo from 'public/assets/vector-icons/full-logo.svg'
 import logoImage from 'public/assets/logo.png'
 import { RoutePath } from 'enums/routePath'
 import Image from 'next/image'
@@ -26,10 +26,10 @@ const GuestNavigation: React.FC<ToolbarProps> = () => {
 
 	return (
 		<AppBar className={clsx('header-navigation', trigger && 'header-navigation--blurred', 'guest-navigation')}>
-			<Toolbar component='nav' className='guest-navigation'>
+			<Toolbar component='nav' className='items'>
 				<Link href={isAuthenticated ? RoutePath.Home : RoutePath.Login} className='logo-wrapper'>
 					<Hidden smDown>
-						<Image className='logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
+					<FullLogo className='logo' />
 					</Hidden>
 					<Hidden smUp>
 						<Image className='logo' src={logoImage} width={30} height={30} alt='dReader' />

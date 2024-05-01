@@ -40,8 +40,23 @@
 }
 
 .guest-navigation {
-	display: flex;
-	justify-content: space-between;
+	width: 100%;
+	margin: 0 auto;
+	height: 72px;
+	max-width: $xl-width;
+
+	padding: 0 2rem !important;
+
+	.items {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	@media (max-width: 300px) {
+		.navigation-hamburger-button {
+			display: none;
+		}
+	}
 
 	.logo {
 		height: 32px;

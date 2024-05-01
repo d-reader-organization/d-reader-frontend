@@ -17,6 +17,7 @@ const UnwrapWarningDialog: React.FC<Props> = ({ open, onClose, handleUnwrap, isL
 			PaperProps={{ className: 'unwrap-warning-dialog' }}
 			onClose={onClose}
 			open={open}
+			maxWidth='xs'
 			{...props}
 		>
 			<div className='content-wrapper'>

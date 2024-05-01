@@ -7,8 +7,8 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AppBar from '@mui/material/AppBar'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
-import logoWithTextImage from 'public/assets/logo-with-text-colored.png'
 import logoImage from 'public/assets/logo.png'
+import FullLogo from 'public/assets/vector-icons/full-logo.svg'
 import HamburgerMenuIcon from 'public/assets/vector-icons/hamburger-menu.svg'
 import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
 import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
@@ -42,7 +42,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 			<Toolbar component='nav' className='navigation' {...props}>
 				<Link href={RoutePath.Home} className='company-logo-wrapper'>
 					<Hidden smDown>
-						<Image className='company-logo' src={logoWithTextImage} width={170} height={40} alt='dReader' />
+						<FullLogo className='company-logo' />
 					</Hidden>
 					<Hidden smUp>
 						<Image className='company-logo' src={logoImage} width={96} height={96} alt='dReader' />

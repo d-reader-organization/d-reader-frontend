@@ -7,7 +7,7 @@ interface Props extends DialogProps {
 const ConfirmingTransactionDialog: React.FC<Props> = ({ open, onClose, ...props }) => {
 	return (
 		<Dialog
-			style={{ backdropFilter: 'blur(4px)', background: 'radial-gradient(#15171c, rgb(21, 23, 28, 0.75))' }}
+			style={{ background: '#15171c' }}
 			PaperProps={{ className: 'confirm-transaction-dialog' }}
 			onClose={onClose}
 			open={open}

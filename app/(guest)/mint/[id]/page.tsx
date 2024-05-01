@@ -32,6 +32,7 @@ import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
 import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
+import Navigation from '@/components/layout/Navigation'
 
 export const dynamic = 'force-dynamic'
 interface Params {
@@ -159,7 +160,7 @@ const MintPage = ({ params }: { params: Params }) => {
 	const heroImage = comicIssue.cover || PageBanner.src
 	return (
 		<>
-			<GuestNavigation />
+			{isAuthenticated ? <Navigation /> : <GuestNavigation />}
 
 			<main className='mint-page'>
 				<div
@@ -205,6 +206,7 @@ const MintPage = ({ params }: { params: Params }) => {
 											candyMachine={candyMachine}
 											isMintTransactionLoading={isMintTransactionLoading}
 											handleMint={handleMint}
+											highlightDiscount={isAuthenticated}
 										/>
 									</div>
 								) : (

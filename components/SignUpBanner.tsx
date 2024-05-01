@@ -33,7 +33,7 @@ const SignUpButton: React.FC<Props> = ({ issueId }) => {
 }
 
 const WenImage: React.FC = () => {
-	return <Image className='wen-image' width={140} src={WenImageSrc} alt='Wen Image' />
+	return <Image className='wen-image' width={150} src={WenImageSrc} alt='Wen Image' />
 }
 
 const DiscountSection: React.FC<Props> = ({ issueId }) => {
