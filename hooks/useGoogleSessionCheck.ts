@@ -11,19 +11,15 @@ export const useGoogleSessionCheck = () => {
 	const { mutateAsync: loginWithGoogle } = useLoginGoogleUser()
 	const { isAuthenticated } = useUserAuth()
 	const searchParams = useSearchParams()
+	const queryParams = searchParams.size ? searchParams.toString() : ''
+	const redirectTo = searchParams.get('redirectTo') ?? `${RoutePath.Home}?${queryParams}`
 
 	useEffect(() => {
 		if (session?.accessToken && !isAuthenticated) {
 			loginWithGoogle().then((value) => {
 				const shouldRegister = typeof value === 'boolean'
-				const queryParams = searchParams.size ? searchParams.toString() : ''
-				const redirectTo = searchParams.get('redirectTo')
-				push(
-					shouldRegister
-						? `${RoutePath.Register}?${queryParams}&sso=google`
-						: redirectTo ?? `${RoutePath.Home}?${queryParams}`
-				)
+				push(shouldRegister ? `${RoutePath.Register}?${queryParams}&sso=google` : redirectTo)
 			})
 		}
-	}, [session?.accessToken, push])
+	}, [session?.accessToken, push, isAuthenticated, redirectTo])
 }
