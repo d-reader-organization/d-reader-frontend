@@ -11,7 +11,7 @@ import PreviewPagesIcon from 'public/assets/vector-icons/preview-pages-icon.svg'
 import Image from 'next/image'
 import { useToggle } from '@/hooks'
 import UnwrapIssueDialog from '@/components/dialogs/UnwrapIssueDialog'
-import { useFetchNfts } from '@/api/nft'
+import { useFetchAssets } from '@/api/asset'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useFetchMe } from '@/api/user/queries/useFetchMe'
 import Button from '@/components/Button'
@@ -30,16 +30,16 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 
 	// TODO: highlight NFTs owned by this public key and disable "open" buttons on others
 
-	const { data: nfts = [], refetch: fetchNfts } = useFetchNfts({ userId: me?.id, comicIssueId: params.id }, !!me)
+	const { data: assets = [], refetch: fetchAssets } = useFetchAssets({ userId: me?.id, comicIssueId: params.id }, !!me)
 
 	useAuthenticatedRoute()
 
-	const hasUnusedNfts = useMemo(() => nfts.some((nft) => !nft.isUsed), [nfts])
+	const hasUnusedAssets = useMemo(() => assets.some((asset) => !asset.isUsed), [assets])
 
 	const handleOpenUnwrapDialog = useCallback(async () => {
-		await fetchNfts()
+		await fetchAssets()
 		openUnwrapIssueDialog()
-	}, [fetchNfts, openUnwrapIssueDialog])
+	}, [fetchAssets, openUnwrapIssueDialog])
 
 	// TODO:
 	// - skeleton loading images
@@ -78,7 +78,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 										To view all pages you need to own at least one <strong>opened</strong> comic issue NFT.
 									</p>
 								)}
-								{hasUnusedNfts && !comicIssue.myStats?.canRead && (
+								{hasUnusedAssets && !comicIssue.myStats?.canRead && (
 									<Button className='button--unwrap' backgroundColor='yellow-500' onClick={handleOpenUnwrapDialog}>
 										Unwrap
 									</Button>
@@ -93,7 +93,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 						</div>
 					)}
 					<UnwrapIssueDialog
-						nfts={nfts}
+						assets={assets}
 						open={unwrapIssueDialog}
 						onClose={closeUnwrapIssueDialog}
 						comicIssue={comicIssue}

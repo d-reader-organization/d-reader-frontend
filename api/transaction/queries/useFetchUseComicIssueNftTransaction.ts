@@ -1,19 +1,19 @@
 import { transactionKeys, TRANSACTION_QUERY_KEYS } from 'api/transaction/transactionKeys'
 import { useToaster } from 'providers/ToastProvider'
-import { UseComicIssueNftParams } from 'models/transaction/useComicIssueNft'
+import { UseComicIssueAssetParams } from '@/models/transaction/useComicIssueAsset'
 import { decodeTransaction } from 'utils/transactions'
 import { Transaction } from '@solana/web3.js'
 import { useQuery } from 'react-query'
 import http from 'api/http'
 
-const { TRANSACTION, USE_COMIC_ISSUE_NFT } = TRANSACTION_QUERY_KEYS
+const { TRANSACTION, USE_COMIC_ISSUE_ASSET } = TRANSACTION_QUERY_KEYS
 
-const fetchUseComicIssueNftTransaction = async (params: UseComicIssueNftParams): Promise<Transaction> => {
-	const response = await http.get<string>(`${TRANSACTION}/${USE_COMIC_ISSUE_NFT}`, { params })
+const fetchUseComicIssueNftTransaction = async (params: UseComicIssueAssetParams): Promise<Transaction> => {
+	const response = await http.get<string>(`${TRANSACTION}/${USE_COMIC_ISSUE_ASSET}`, { params })
 	return decodeTransaction(response.data, 'base64')
 }
 
-export const useFetchUseComicIssueNftTransaction = (params: UseComicIssueNftParams, enabled = true) => {
+export const useFetchUseComicIssueNftTransaction = (params: UseComicIssueAssetParams, enabled = true) => {
 	const toaster = useToaster()
 
 	return useQuery({

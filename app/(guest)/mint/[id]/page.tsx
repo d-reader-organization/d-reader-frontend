@@ -16,12 +16,12 @@ import clsx from 'clsx'
 import CircularProgress from '@mui/material/CircularProgress'
 import SkeletonImage from '@/components/SkeletonImage'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
-import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
+import NftMintedDialog from '@/components/dialogs/AssetMintedDialog'
 import { useToggle } from '@/hooks'
 import ConfirmingTransactionDialog from '@/components/dialogs/ConfirmingTransactionDialog'
 import io from 'socket.io-client'
 import { useQueryClient } from 'react-query'
-import { nftKeys } from '@/api/nft'
+import { assetKeys } from '@/api/asset'
 import Grid from '@mui/material/Grid'
 import GuestNavigation from '@/components/layout/GuestNavigation'
 import { Theme } from '@mui/material/styles'
@@ -46,7 +46,7 @@ const MintPage = ({ params }: { params: Params }) => {
 		useToggle()
 	const [isMintTransactionLoading, openMintTransactionLoading, closeMintTransactionLoading] = useToggle(false)
 	const [showMintedNftDialog, openMintedNftDialog, closeMintedNftDialog] = useToggle()
-	const [nftAddress, setNftAddress] = useState<string>()
+	const [assetAddress, setAssetAddress] = useState<string>()
 	const { connection } = useConnection()
 	const queryClient = useQueryClient()
 	const toaster = useToaster()
@@ -65,11 +65,11 @@ const MintPage = ({ params }: { params: Params }) => {
 		if (!walletAddress) return
 		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
-			setNftAddress(data.nft.address)
+			setAssetAddress(data.asset.address)
 			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
 			queryClient.invalidateQueries(comicIssueKeys.get(comicIssueId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId }))
-			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId }))
+			queryClient.invalidateQueries(assetKeys.getMany({ ownerAddress: walletAddress }))
 		})
 		return () => {
 			socket.disconnect()
@@ -180,7 +180,7 @@ const MintPage = ({ params }: { params: Params }) => {
 							className='comic-issue-cover'
 						/>
 					</Grid>
-					<Grid item className='details details--right' xs={12} md={6} mt={[4,0]}>
+					<Grid item className='details details--right' xs={12} md={6} mt={[4, 0]}>
 						<p className='comic-issue-title'>
 							{comicIssue.comic?.title} - {comicIssue.title}
 						</p>
@@ -266,7 +266,7 @@ const MintPage = ({ params }: { params: Params }) => {
 				</Grid>
 			</main>
 			<NftMintedDialog
-				nftAddress={nftAddress}
+				assetAddress={assetAddress}
 				comicIssue={comicIssue}
 				open={showMintedNftDialog}
 				onClose={closeMintedNftDialog}

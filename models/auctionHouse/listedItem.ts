@@ -1,16 +1,16 @@
 import { ComicRarity } from 'enums/comicRarity'
-import { NftAttribute } from 'models/nft/nftAttribute'
+import { AssetAttribute } from '@/models/asset/assetAttribute'
 import { WalletIdentity } from 'models/wallet/walletIdentity'
 
-export interface ListedNftItem {
+export interface ListedAssetItem {
 	id: number
-	nftAddress: string
+	assetAddress: string
 	name: string
 	cover: string
 	seller: WalletIdentity
 	tokenAddress: string
 	price: number
-	attributes: NftAttribute[]
+	attributes: AssetAttribute[]
 	isUsed: boolean
 	isSigned: boolean
 	rarity: ComicRarity

@@ -38,11 +38,11 @@ import { shortenString, sleep } from '@/utils/helpers'
 import dynamic from 'next/dynamic'
 import { isNil } from 'lodash'
 import clsx from 'clsx'
-import { nftKeys } from '@/api/nft'
+import { assetKeys } from '@/api/asset'
 import { useQueryClient } from 'react-query'
 import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
-import NftMintedDialog from '@/components/dialogs/NftMintedDialog'
+import AssetMintedDialog from '@/components/dialogs/AssetMintedDialog'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 
 interface Params {
@@ -58,8 +58,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const [walletNotConnectedDialogOpen, toggleWalletNotConnectedDialog] = useToggle()
 	const [emailNotVerifiedDialogOpen, toggleEmailNotVerifiedDialog] = useToggle()
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
-	const [showMintedNftDialog, openMintedNftDialog, closeMintedNftDialog] = useToggle()
-	const [nftAddress, setNftAddress] = useState<string>()
+	const [showMintedAssetDialog, openMintedAssetDialog, closeMintedAssetDialog] = useToggle()
+	const [assetAddress, setAssetAddress] = useState<string>()
 
 	const { publicKey, signAllTransactions } = useWallet()
 	const { connection } = useConnection()
@@ -87,11 +87,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		}
 		const socket = io(process.env.NEXT_PUBLIC_API_ENDPOINT || '')
 		socket.on(`wallet/${walletAddress}/item-minted`, async (data: CandyMachineReceipt): Promise<void> => {
-			setNftAddress(data.nft.address)
+			setAssetAddress(data.asset.address)
 			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
 			queryClient.invalidateQueries(comicIssueKeys.get(params.id))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: params.id }))
-			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId: params.id }))
+			queryClient.invalidateQueries(assetKeys.getMany({ ownerAddress: walletAddress }))
 		})
 		return () => {
 			socket.disconnect()
@@ -182,8 +182,8 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						console.log('Response error log: ', response.value.err)
 						throw new Error()
 					}
-					openMintedNftDialog()
-					toaster.add('Successfully minted the comic! NFT is now in your wallet', 'success')
+					openMintedAssetDialog()
+					toaster.add('Successfully minted the comic! Asset is now in your wallet', 'success')
 				} catch (e) {
 					console.log('error: ', e)
 					if (signedTransactions.length === 2 && i === 0) {
@@ -200,15 +200,15 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			queryClient.invalidateQueries([CANDY_MACHINE_QUERY_KEYS.CANDY_MACHINE])
 			queryClient.invalidateQueries(comicIssueKeys.get(params.id))
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: params.id }))
-			queryClient.invalidateQueries(nftKeys.getMany({ ownerAddress: walletAddress }))
-			queryClient.invalidateQueries(nftKeys.getMany({ userId: myId }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId: params.id }))
+			queryClient.invalidateQueries(assetKeys.getMany({ ownerAddress: walletAddress }))
+			queryClient.invalidateQueries(assetKeys.getMany({ userId: myId }))
 		}
 	}, [
 		candyMachine,
 		connection,
 		fetchCandyMachine,
-		openMintedNftDialog,
+		openMintedAssetDialog,
 		fetchMintOneTransaction,
 		hasVerifiedEmail,
 		hasWalletConnected,
@@ -422,11 +422,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 						closeStarRatingDialog()
 					}}
 				/>
-				<NftMintedDialog
-					nftAddress={nftAddress}
+				<AssetMintedDialog
+					assetAddress={assetAddress}
 					comicIssue={comicIssue}
-					open={showMintedNftDialog}
-					onClose={closeMintedNftDialog}
+					open={showMintedAssetDialog}
+					onClose={closeMintedAssetDialog}
 				/>
 			</main>
 		</>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-import { Nft } from '@/models/nft'
+import { Asset } from '@/models/asset'
 import { useFetchUseComicIssueNftTransaction } from '@/api/transaction'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useToaster } from '@/providers/ToastProvider'
@@ -18,7 +18,7 @@ import { useQueryClient } from 'react-query'
 import { comicIssueKeys } from '@/api/comicIssue'
 import { ComicIssue } from '@/models/comicIssue'
 import { useFetchMe } from '@/api/user'
-import { nftKeys } from '@/api/nft'
+import { assetKeys } from '@/api/asset'
 import { sleep } from '@/utils/helpers'
 import { useLocalStorage, useToggle } from '@/hooks'
 import { Button } from '@mui/material'
@@ -27,7 +27,7 @@ import { RoutePath } from '@/enums/routePath'
 import { useRouter } from 'next/navigation'
 
 interface Props {
-	nft: Nft
+	asset: Asset
 	comicIssue: ComicIssue
 	onClose: () => void
 }
@@ -49,7 +49,7 @@ export const getRarityIcon = (rarity: string) => {
 	}
 }
 
-const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) => {
+const UnwrapIssueDialogItem: React.FC<Props> = ({ asset, comicIssue, onClose }) => {
 	const [isUnwrapWarningRead] = useLocalStorage('unwrapWarning', false)
 	const [unwrapWarningDialog, , closeUnwrapWarningDialog, openUnwrapWarningDialog] = useToggle(false)
 
@@ -64,8 +64,8 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
-			ownerAddress: nft.ownerAddress,
-			nftAddress: nft.address,
+			ownerAddress: asset.ownerAddress,
+			assetAddress: asset.address,
 		},
 		false
 	)
@@ -91,7 +91,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 			// TODO: make sure comic pages are also invalidated
 			queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId: comicIssue.id }))
 			toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
 			push(RoutePath.ReadComicIssue(comicIssue.id), { scroll: false })
 		} catch (e) {
@@ -117,19 +117,19 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ nft, comicIssue, onClose }) =>
 	return (
 		<div className='comic-issue-unwrap-item'>
 			<div>
-				<p className='title'>{nft.name}</p>
+				<p className='title'>{asset.name}</p>
 				<div className='trait-label-list'>
-					{nft.rarity && (
-						<div className={`trait-label trait-label--${nft.rarity.toLowerCase()}`}>
-							{getRarityIcon(nft.rarity)} {nft.rarity}
+					{asset.rarity && (
+						<div className={`trait-label trait-label--${asset.rarity.toLowerCase()}`}>
+							{getRarityIcon(asset.rarity)} {asset.rarity}
 						</div>
 					)}
-					{!nft.isUsed && (
+					{!asset.isUsed && (
 						<div className='trait-label trait-label--mint'>
 							<MintIcon /> Mint
 						</div>
 					)}
-					{nft.isSigned && (
+					{asset.isSigned && (
 						<div className='trait-label trait-label--signed'>
 							<SignedIcon /> Signed
 						</div>

@@ -7,7 +7,7 @@ import { useFetchMe } from '@/api/user/queries/useFetchMe'
 import { TRANSACTION_QUERY_KEYS } from '@/api/transaction'
 import { comicKeys } from '@/api/comic'
 import { isNil, isFinite, toNumber } from 'lodash'
-import { NFT_QUERY_KEYS } from '@/api/nft'
+import { ASSET_QUERY_KEYS } from '@/api/asset'
 import http from 'api/http'
 
 const { AUTH, WALLET, CONNECT } = AUTH_QUERY_KEYS
@@ -41,7 +41,7 @@ export const useConnectUserWallet = () => {
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(me?.id || 0))
 			queryClient.invalidateQueries(comicKeys.getByOwner(me?.id || 0))
 			queryClient.invalidateQueries([TRANSACTION_QUERY_KEYS.TRANSACTION])
-			queryClient.invalidateQueries([NFT_QUERY_KEYS.NFT, NFT_QUERY_KEYS.GET])
+			queryClient.invalidateQueries([ASSET_QUERY_KEYS.ASSET, ASSET_QUERY_KEYS.GET])
 			queryClient.invalidateQueries({
 				predicate: (query) => {
 					return (

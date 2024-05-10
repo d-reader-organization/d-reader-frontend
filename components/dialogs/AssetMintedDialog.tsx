@@ -1,6 +1,6 @@
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 // import CloseIcon from 'public/assets/vector-icons/close.svg'
-import { nftKeys, useFetchNft } from '@/api/nft'
+import { assetKeys, useFetchAsset } from '@/api/asset'
 import Image from 'next/image'
 import { CircularProgress, DialogContent } from '@mui/material'
 import { getRarityIcon } from '../comicIssue/UnwrapIssueDialogItem'
@@ -24,12 +24,12 @@ import ButtonLink from '../ButtonLink'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
-	nftAddress?: string
+	assetAddress?: string
 	comicIssue: ComicIssue
 }
 
-const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddress }) => {
-	const { data: nft } = useFetchNft(nftAddress || '')
+const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAddress }) => {
+	const { data: nft } = useFetchAsset(assetAddress || '')
 	const [isUnwrapWarningRead] = useLocalStorage('unwrapWarning', false)
 	const [unwrapWarningDialog, , closeUnwrapWarningDialog, openUnwrapWarningDialog] = useToggle(false)
 	const { push } = useRouter()
@@ -44,7 +44,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
 		{
 			ownerAddress: nft?.ownerAddress ?? '',
-			nftAddress: nft?.address ?? '',
+			assetAddress: nft?.address ?? '',
 		},
 		false
 	)
@@ -74,7 +74,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 			// TODO: make sure comic pages are also invalidated
 			queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId: comicIssue.id }))
 			toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
 			goToReader()
 		} catch (e) {
@@ -187,4 +187,4 @@ https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=w
 	)
 }
 
-export default NftMintedDialog
+export default AssetMintedDialog
