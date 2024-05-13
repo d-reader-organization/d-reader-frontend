@@ -42,7 +42,7 @@ import { assetKeys } from '@/api/asset'
 import { useQueryClient } from 'react-query'
 import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
-import AssetMintedDialog from '@/components/dialogs/AssetMintedDialog'
+import { AssetMintedDialog } from '@/components/dialogs/AssetMintedDialog'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 
 interface Params {
