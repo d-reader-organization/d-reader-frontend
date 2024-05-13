@@ -132,7 +132,7 @@
 	}
 }
 
-.minted-nft-dialog {
+.minted-asset-dialog {
 	@include flexColumn;
 	align-items: center;
 	gap: 24px;
@@ -150,7 +150,7 @@
 		line-height: 19.2px;
 	}
 
-	.nft-tag {
+	.asset-tag {
 		color: white;
 		font-size: 24px;
 		font-weight: 700;

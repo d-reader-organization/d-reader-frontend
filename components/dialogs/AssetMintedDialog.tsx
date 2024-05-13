@@ -14,7 +14,7 @@ import { useQueryClient } from 'react-query'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useCallback, useState } from 'react'
 import { useFetchMe } from '@/api/user'
-import { useFetchUseComicIssueNftTransaction } from '@/api/transaction'
+import { useFetchUseComicIssueAssetTransaction } from '@/api/transaction'
 import { sleep } from '@/utils/helpers'
 import { comicIssueKeys } from '@/api/comicIssue'
 import Button from '../Button'
@@ -28,8 +28,8 @@ interface Props extends DialogProps {
 	comicIssue: ComicIssue
 }
 
-const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAddress }) => {
-	const { data: nft } = useFetchAsset(assetAddress || '')
+export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAddress }) => {
+	const { data: asset } = useFetchAsset(assetAddress || '')
 	const [isUnwrapWarningRead] = useLocalStorage('unwrapWarning', false)
 	const [unwrapWarningDialog, , closeUnwrapWarningDialog, openUnwrapWarningDialog] = useToggle(false)
 	const { push } = useRouter()
@@ -41,10 +41,10 @@ const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAd
 	const { data: me } = useFetchMe()
 	const { isAuthenticated } = useUserAuth()
 	const myId = me?.id || 0
-	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
+	const { refetch: fetchUseComicIssueAssetTransaction } = useFetchUseComicIssueAssetTransaction(
 		{
-			ownerAddress: nft?.ownerAddress ?? '',
-			assetAddress: nft?.address ?? '',
+			ownerAddress: asset?.ownerAddress ?? '',
+			assetAddress: asset?.address ?? '',
 		},
 		false
 	)
@@ -56,7 +56,7 @@ const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAd
 	const handleUnwrap = useCallback(async () => {
 		try {
 			setIsLoading(true)
-			const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
+			const { data: unwrapTransaction } = await fetchUseComicIssueAssetTransaction()
 			if (unwrapTransaction) {
 				if (!signTransaction) return
 				const latestBlockhash = await connection.getLatestBlockhash()
@@ -87,7 +87,7 @@ const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAd
 	}, [
 		comicIssue.id,
 		connection,
-		fetchUseComicIssueNftTransaction,
+		fetchUseComicIssueAssetTransaction,
 		myId,
 		queryClient,
 		signTransaction,
@@ -119,21 +119,21 @@ const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAd
 							<source src='/assets/animations/mint-loop.mp4' type='video/mp4' />
 						</video>
 					</div>
-					<div className='minted-nft-dialog'>
-						{nft ? (
+					<div className='minted-asset-dialog'>
+						{asset ? (
 							<>
 								<span className='issue-title'>
 									{comicIssue.title} - EP&nbsp;{comicIssue.number}
 								</span>
-								<span className='nft-tag'>Congrats! You got #{nft.name.split('#')[1]}</span>
-								<div className={`rarity rarity--${nft.rarity.toLowerCase()}`}>
-									{getRarityIcon(nft.rarity)} {nft.rarity}
+								<span className='asset-tag'>Congrats! You got #{asset.name.split('#')[1]}</span>
+								<div className={`rarity rarity--${asset.rarity.toLowerCase()}`}>
+									{getRarityIcon(asset.rarity)} {asset.rarity}
 								</div>
-								<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
+								<Image src={asset.image} width={690} height={1000} alt='Comic' className='cover-image' />
 
 								<Link
 									href={encodeURI(
-										`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
+										`https://twitter.com/intent/tweet?text=${`I just minted a ${asset.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
 
 Mint yours here while the supply lasts.👇
 https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=web`}`
@@ -187,4 +187,3 @@ https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=w
 	)
 }
 
-export default AssetMintedDialog

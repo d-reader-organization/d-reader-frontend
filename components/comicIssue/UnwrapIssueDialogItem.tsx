@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { Asset } from '@/models/asset'
-import { useFetchUseComicIssueNftTransaction } from '@/api/transaction'
+import { useFetchUseComicIssueAssetTransaction } from '@/api/transaction'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useToaster } from '@/providers/ToastProvider'
 import MintIcon from 'public/assets/vector-icons/mint-attribute-icon.svg'
@@ -62,7 +62,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ asset, comicIssue, onClose }) 
 	const myId = me?.id || 0
 	const { push } = useRouter()
 
-	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
+	const { refetch: fetchUseComicIssueAssetTransaction } = useFetchUseComicIssueAssetTransaction(
 		{
 			ownerAddress: asset.ownerAddress,
 			assetAddress: asset.address,
@@ -73,7 +73,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ asset, comicIssue, onClose }) 
 	const handleUnwrap = useCallback(async () => {
 		try {
 			setIsLoading(true)
-			const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
+			const { data: unwrapTransaction } = await fetchUseComicIssueAssetTransaction()
 			if (unwrapTransaction) {
 				if (!signTransaction) return
 				const latestBlockhash = await connection.getLatestBlockhash()
@@ -105,7 +105,7 @@ const UnwrapIssueDialogItem: React.FC<Props> = ({ asset, comicIssue, onClose }) 
 		closeUnwrapWarningDialog,
 		comicIssue.id,
 		connection,
-		fetchUseComicIssueNftTransaction,
+		fetchUseComicIssueAssetTransaction,
 		myId,
 		onClose,
 		push,

@@ -47,7 +47,7 @@ export const transactionKeys = Object.freeze({
 		params.assetAddress,
 		params.signerAddress,
 	],
-	useComicIssueNft: (params: UseComicIssueAssetParams) => [
+	useComicIssueAsset: (params: UseComicIssueAssetParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
 		TRANSACTION_QUERY_KEYS.USE_COMIC_ISSUE_ASSET,
 		params.assetAddress,

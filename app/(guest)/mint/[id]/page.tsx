@@ -16,7 +16,7 @@ import clsx from 'clsx'
 import CircularProgress from '@mui/material/CircularProgress'
 import SkeletonImage from '@/components/SkeletonImage'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
-import NftMintedDialog from '@/components/dialogs/AssetMintedDialog'
+import { AssetMintedDialog } from '@/components/dialogs/AssetMintedDialog'
 import { useToggle } from '@/hooks'
 import ConfirmingTransactionDialog from '@/components/dialogs/ConfirmingTransactionDialog'
 import io from 'socket.io-client'
@@ -45,7 +45,7 @@ const MintPage = ({ params }: { params: Params }) => {
 	const [transactionConfirmationDialog, , closeTransactionConfirmationDialog, openTransactionConfirmationDialog] =
 		useToggle()
 	const [isMintTransactionLoading, openMintTransactionLoading, closeMintTransactionLoading] = useToggle(false)
-	const [showMintedNftDialog, openMintedNftDialog, closeMintedNftDialog] = useToggle()
+	const [showMintedAssetDialog, openMintedAssetDialog, closeMintedAssetDialog] = useToggle()
 	const [assetAddress, setAssetAddress] = useState<string>()
 	const { connection } = useConnection()
 	const queryClient = useQueryClient()
@@ -122,7 +122,7 @@ const MintPage = ({ params }: { params: Params }) => {
 							console.log('Response error log: ', response.value.err)
 							throw new Error()
 						}
-						openMintedNftDialog()
+						openMintedAssetDialog()
 						toaster.add('Successfully minted the comic! Find the NFT in your wallet', 'success')
 					} catch (e) {
 						console.log('error: ', e)
@@ -148,7 +148,7 @@ const MintPage = ({ params }: { params: Params }) => {
 		fetchCandyMachine,
 		fetchMintOneTransaction,
 		openMintTransactionLoading,
-		openMintedNftDialog,
+		openMintedAssetDialog,
 		openTransactionConfirmationDialog,
 		signAllTransactions,
 		toaster,
@@ -265,11 +265,11 @@ const MintPage = ({ params }: { params: Params }) => {
 					</Grid>
 				</Grid>
 			</main>
-			<NftMintedDialog
+			<AssetMintedDialog
 				assetAddress={assetAddress}
 				comicIssue={comicIssue}
-				open={showMintedNftDialog}
-				onClose={closeMintedNftDialog}
+				open={showMintedAssetDialog}
+				onClose={closeMintedAssetDialog}
 			/>
 			<ConfirmingTransactionDialog open={transactionConfirmationDialog} onClose={closeTransactionConfirmationDialog} />
 		</>

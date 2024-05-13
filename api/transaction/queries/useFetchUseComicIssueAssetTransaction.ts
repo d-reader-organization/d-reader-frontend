@@ -8,17 +8,17 @@ import http from 'api/http'
 
 const { TRANSACTION, USE_COMIC_ISSUE_ASSET } = TRANSACTION_QUERY_KEYS
 
-const fetchUseComicIssueNftTransaction = async (params: UseComicIssueAssetParams): Promise<Transaction> => {
+const fetchUseComicIssueAssetTransaction = async (params: UseComicIssueAssetParams): Promise<Transaction> => {
 	const response = await http.get<string>(`${TRANSACTION}/${USE_COMIC_ISSUE_ASSET}`, { params })
 	return decodeTransaction(response.data, 'base64')
 }
 
-export const useFetchUseComicIssueNftTransaction = (params: UseComicIssueAssetParams, enabled = true) => {
+export const useFetchUseComicIssueAssetTransaction = (params: UseComicIssueAssetParams, enabled = true) => {
 	const toaster = useToaster()
 
 	return useQuery({
-		queryFn: () => fetchUseComicIssueNftTransaction(params),
-		queryKey: transactionKeys.useComicIssueNft(params),
+		queryFn: () => fetchUseComicIssueAssetTransaction(params),
+		queryKey: transactionKeys.useComicIssueAsset(params),
 		staleTime: 1000 * 60 * 10, // stale for 10 minutes,
 		enabled,
 		onError: toaster.onQueryError,
