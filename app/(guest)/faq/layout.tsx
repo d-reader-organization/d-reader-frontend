@@ -4,7 +4,7 @@ export const metadata: Metadata = {
 	title: 'dReader - FAQ',
 	metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),
 	description: 'Find answers to most common questions regarding dReader - next generation platform for digital comics!',
-	keywords: 'NFT, dReader, dPublisher, Comic, Solana, SOL, mint, collection, manga, manwha',
+	keywords: 'NFT, asset, dReader, dPublisher, Comic, Solana, SOL, mint, collection, manga, manwha',
 	openGraph: {
 		type: 'website',
 		title: 'dReader - FAQ',

@@ -75,7 +75,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 								<p className='preview-message-title'>This is a comic preview!</p>
 								{!comicIssue.myStats?.canRead && (
 									<p className='preview-message-text'>
-										To view all pages you need to own at least one <strong>opened</strong> comic issue NFT.
+										To view all pages you need to own at least one <strong>opened</strong> comic issue asset.
 									</p>
 								)}
 								{hasUnusedAssets && !comicIssue.myStats?.canRead && (

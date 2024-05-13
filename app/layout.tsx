@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 	metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),
 	description:
 		'📚 Affordable, Authentic & Limited Edition - from manga to comics. dReader is a new kind of platform for discovering, trading, collecting, and reading digital comics.',
-	keywords: 'NFT, dReader, dPublisher, Comic, Solana, SOL, mint, collection, manga, manwha',
+	keywords: 'NFT, asset, dReader, dPublisher, Comic, Solana, SOL, mint, collection, manga, manwha',
 	openGraph: {
 		type: 'website',
 		title: 'dReader',

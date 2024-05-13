@@ -123,7 +123,7 @@ const MintPage = ({ params }: { params: Params }) => {
 							throw new Error()
 						}
 						openMintedAssetDialog()
-						toaster.add('Successfully minted the comic! Find the NFT in your wallet', 'success')
+						toaster.add('Successfully minted the comic! Find the asset in your wallet', 'success')
 					} catch (e) {
 						console.log('error: ', e)
 						if (signedTransactions.length === 2 && i === 0) {
