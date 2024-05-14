@@ -1,15 +1,15 @@
 import { auctionHouseKeys, AUCTION_HOUSE_QUERY_KEYS } from 'api/auctionHouse/auctionHouseKeys'
 import { useToaster } from 'providers/ToastProvider'
 import { ListedItemsParams } from 'models/auctionHouse/listedItemParams'
-import { ListedNftItem } from 'models/auctionHouse/listedItem'
+import { ListedAssetItem } from 'models/auctionHouse/listedItem'
 import { useQuery } from 'react-query'
 import { isNil } from 'lodash'
 import http from 'api/http'
 
 const { AUCTION_HOUSE, GET, LISTED_ITEMS } = AUCTION_HOUSE_QUERY_KEYS
 
-const fetchAuctionHouseListedItems = async (params: ListedItemsParams): Promise<ListedNftItem[]> => {
-	const response = await http.get<ListedNftItem[]>(`${AUCTION_HOUSE}/${GET}/${LISTED_ITEMS}`, { params })
+const fetchAuctionHouseListedItems = async (params: ListedItemsParams): Promise<ListedAssetItem[]> => {
+	const response = await http.get<ListedAssetItem[]>(`${AUCTION_HOUSE}/${GET}/${LISTED_ITEMS}`, { params })
 	return response.data
 }
 

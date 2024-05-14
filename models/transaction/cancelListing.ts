@@ -1,4 +1,4 @@
 export interface CancelListingParams {
-	nftAddress: string
+	assetAddress: string
 	receiptAddress?: string
 }

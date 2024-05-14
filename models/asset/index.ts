@@ -1,7 +1,7 @@
 import { ComicRarity } from 'enums/comicRarity'
-import { NftAttribute } from './nftAttribute'
+import { AssetAttribute } from './assetAttribute'
 
-export interface Nft {
+export interface Asset {
 	address: string
 	uri: string
 	image: string
@@ -15,6 +15,6 @@ export interface Nft {
 	comicIssueName: string
 	comicIssueId: number
 	isListed: boolean
-	attributes: NftAttribute[]
+	attributes: AssetAttribute[]
 	rarity: ComicRarity
 }

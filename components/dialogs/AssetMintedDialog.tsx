@@ -1,6 +1,6 @@
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 // import CloseIcon from 'public/assets/vector-icons/close.svg'
-import { nftKeys, useFetchNft } from '@/api/nft'
+import { assetKeys, useFetchAsset } from '@/api/asset'
 import Image from 'next/image'
 import { CircularProgress, DialogContent } from '@mui/material'
 import { getRarityIcon } from '../comicIssue/UnwrapIssueDialogItem'
@@ -14,7 +14,7 @@ import { useQueryClient } from 'react-query'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useCallback, useState } from 'react'
 import { useFetchMe } from '@/api/user'
-import { useFetchUseComicIssueNftTransaction } from '@/api/transaction'
+import { useFetchUseComicIssueAssetTransaction } from '@/api/transaction'
 import { sleep } from '@/utils/helpers'
 import { comicIssueKeys } from '@/api/comicIssue'
 import Button from '../Button'
@@ -24,12 +24,12 @@ import ButtonLink from '../ButtonLink'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
-	nftAddress?: string
+	assetAddress?: string
 	comicIssue: ComicIssue
 }
 
-const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddress }) => {
-	const { data: nft } = useFetchNft(nftAddress || '')
+export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, assetAddress }) => {
+	const { data: asset } = useFetchAsset(assetAddress || '')
 	const [isUnwrapWarningRead] = useLocalStorage('unwrapWarning', false)
 	const [unwrapWarningDialog, , closeUnwrapWarningDialog, openUnwrapWarningDialog] = useToggle(false)
 	const { push } = useRouter()
@@ -41,10 +41,10 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 	const { data: me } = useFetchMe()
 	const { isAuthenticated } = useUserAuth()
 	const myId = me?.id || 0
-	const { refetch: fetchUseComicIssueNftTransaction } = useFetchUseComicIssueNftTransaction(
+	const { refetch: fetchUseComicIssueAssetTransaction } = useFetchUseComicIssueAssetTransaction(
 		{
-			ownerAddress: nft?.ownerAddress ?? '',
-			nftAddress: nft?.address ?? '',
+			ownerAddress: asset?.ownerAddress ?? '',
+			assetAddress: asset?.address ?? '',
 		},
 		false
 	)
@@ -56,7 +56,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 	const handleUnwrap = useCallback(async () => {
 		try {
 			setIsLoading(true)
-			const { data: unwrapTransaction } = await fetchUseComicIssueNftTransaction()
+			const { data: unwrapTransaction } = await fetchUseComicIssueAssetTransaction()
 			if (unwrapTransaction) {
 				if (!signTransaction) return
 				const latestBlockhash = await connection.getLatestBlockhash()
@@ -74,7 +74,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 			// TODO: make sure comic pages are also invalidated
 			queryClient.invalidateQueries(comicIssueKeys.get(comicIssue.id))
 			queryClient.invalidateQueries(comicIssueKeys.getByOwner(myId))
-			queryClient.invalidateQueries(nftKeys.getMany({ comicIssueId: comicIssue.id }))
+			queryClient.invalidateQueries(assetKeys.getMany({ comicIssueId: comicIssue.id }))
 			toaster.add('Comic unwrapped! Lets get to reading 🎉', 'success')
 			goToReader()
 		} catch (e) {
@@ -87,7 +87,7 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 	}, [
 		comicIssue.id,
 		connection,
-		fetchUseComicIssueNftTransaction,
+		fetchUseComicIssueAssetTransaction,
 		myId,
 		queryClient,
 		signTransaction,
@@ -119,21 +119,21 @@ const NftMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, nftAddres
 							<source src='/assets/animations/mint-loop.mp4' type='video/mp4' />
 						</video>
 					</div>
-					<div className='minted-nft-dialog'>
-						{nft ? (
+					<div className='minted-asset-dialog'>
+						{asset ? (
 							<>
 								<span className='issue-title'>
 									{comicIssue.title} - EP&nbsp;{comicIssue.number}
 								</span>
-								<span className='nft-tag'>Congrats! You got #{nft.name.split('#')[1]}</span>
-								<div className={`rarity rarity--${nft.rarity.toLowerCase()}`}>
-									{getRarityIcon(nft.rarity)} {nft.rarity}
+								<span className='asset-tag'>Congrats! You got #{asset.name.split('#')[1]}</span>
+								<div className={`rarity rarity--${asset.rarity.toLowerCase()}`}>
+									{getRarityIcon(asset.rarity)} {asset.rarity}
 								</div>
-								<Image src={nft.image} width={690} height={1000} alt='Comic' className='cover-image' />
+								<Image src={asset.image} width={690} height={1000} alt='Comic' className='cover-image' />
 
 								<Link
 									href={encodeURI(
-										`https://twitter.com/intent/tweet?text=${`I just minted a ${nft.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
+										`https://twitter.com/intent/tweet?text=${`I just minted a ${asset.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
 
 Mint yours here while the supply lasts.👇
 https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=web`}`
@@ -187,4 +187,3 @@ https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=w
 	)
 }
 
-export default NftMintedDialog

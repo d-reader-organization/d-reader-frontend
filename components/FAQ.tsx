@@ -120,7 +120,7 @@ const FAQ: React.FC = () => {
 					title={`⚠️ ERROR: "user/wallet aaa..aaa has reached the purchase limit"`}
 					id='wallet-reached-purchase-limit'
 				>
-					Some of our sales have limitations of NFTs bought per user/wallet basis. For example, you might only be
+					Some of our sales have limitations of assets bought per user/wallet basis. For example, you might only be
 					eligible for 1 free comic, 2 public (paid) discounted comics, and unlimited public (full price) comics on a
 					single comic sale.
 				</Expandable>
@@ -158,7 +158,7 @@ const FAQ: React.FC = () => {
 					Founders will look for a job at McDonalds, but your comics will still be safe! 🍟🍔
 					<br />
 					We&apos;re using <FaqLink href='https://www.darkblock.io'>Darkblock protocol</FaqLink> for on-chain data
-					encryption. Comic assets are stored on Arweave and encrypted so only the owner of the NFT can read it&apos;s
+					encryption. Comic assets are stored on Arweave and encrypted so only the owner of the asset can read it&apos;s
 					content. If dReader goes under, you&apos;ll still be able to read the comics and trade on secondary.
 				</Expandable>
 

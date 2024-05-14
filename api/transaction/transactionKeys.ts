@@ -8,14 +8,14 @@ import { MultipleBuyParams } from 'models/transaction/multipleBuy'
 import { PrivateBidParams } from 'models/transaction/privateBid'
 import { SignComicParams } from 'models/transaction/signComic'
 import { TipCreatorParams } from 'models/transaction/tipCreator'
-import { UseComicIssueNftParams } from 'models/transaction/useComicIssueNft'
+import { UseComicIssueAssetParams } from '@/models/transaction/useComicIssueAsset'
 
 export const TRANSACTION_QUERY_KEYS = Object.freeze({
 	TRANSACTION: 'transaction',
 	MINT_ONE: 'mint-one',
 	MINT: 'mint',
 	SIGN_COMIC: 'sign-comic',
-	USE_COMIC_ISSUE_NFT: 'use-comic-issue-nft',
+	USE_COMIC_ISSUE_ASSET: 'use-comic-issue-asset',
 	LIST: 'list',
 	PRIVATE_BID: 'private-bid',
 	INSTANT_BUY: 'instant-buy',
@@ -44,13 +44,13 @@ export const transactionKeys = Object.freeze({
 	signComic: (params: SignComicParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
 		TRANSACTION_QUERY_KEYS.SIGN_COMIC,
-		params.nftAddress,
+		params.assetAddress,
 		params.signerAddress,
 	],
-	useComicIssueNft: (params: UseComicIssueNftParams) => [
+	useComicIssueAsset: (params: UseComicIssueAssetParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
-		TRANSACTION_QUERY_KEYS.USE_COMIC_ISSUE_NFT,
-		params.nftAddress,
+		TRANSACTION_QUERY_KEYS.USE_COMIC_ISSUE_ASSET,
+		params.assetAddress,
 		params.ownerAddress,
 	],
 	list: (params: ListParams) => [
@@ -93,13 +93,13 @@ export const transactionKeys = Object.freeze({
 	cancelBid: (params: CancelBidParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
 		TRANSACTION_QUERY_KEYS.CANCEL_BID,
-		params.nftAddress,
+		params.assetAddress,
 		params.receiptAddress,
 	],
 	cancelListing: (params: CancelListingParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
 		TRANSACTION_QUERY_KEYS.CANCEL_LISTING,
-		params.nftAddress,
+		params.assetAddress,
 		params.receiptAddress,
 	],
 })

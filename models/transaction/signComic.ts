@@ -1,4 +1,4 @@
 export interface SignComicParams {
-	nftAddress: string
+	assetAddress: string
 	signerAddress: string
 }
