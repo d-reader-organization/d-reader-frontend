@@ -64,7 +64,7 @@ const JoinTheBeta: React.FC<Props> = ({ inForm = false, ...props }) => {
 					</Button>
 				</FlexRow>
 			</Form>
-			<div className='links-container'>
+			{/* <div className='links-container'>
 				<p className='links-container-title'>Don&apos;t have the code?</p>
 				<p className='description'>
 					Find a referrer or connect with us on social media to find out if there any invite codes available!
@@ -91,7 +91,7 @@ const JoinTheBeta: React.FC<Props> = ({ inForm = false, ...props }) => {
 						Discord
 					</ButtonLink>
 				</FlexRow>
-			</div>
+			</div> */}
 		</Container>
 	)
 }

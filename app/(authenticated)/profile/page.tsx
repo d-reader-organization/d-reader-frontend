@@ -285,47 +285,34 @@ function ProfilePage() {
 						<TabPanel value='3'>
 							{me && (
 								<Box className='tab-content'>
-									{!me.hasBetaAccess ? (
-										<>
-											<div className='title-box'>
-												<FlexRow>
-													<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
-													<h2>Join the Beta</h2>
-												</FlexRow>
-												<p>🎁 Give your referrer a bonus by typing their username</p>
-											</div>
-											<JoinTheBeta inForm />
-										</>
-									) : (
-										<>
-											<div className='title-box'>
-												<FlexRow>
-													<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
-													<h2>Invite your friends</h2>
-												</FlexRow>
-												<p className='subtitle'>
-													<span className='emoji'>🎁</span> Invite friends and receive a referrer bonus
-												</p>
-											</div>
+									<div className='title-box'>
+										<FlexRow>
+											<AlphaBunnyIcon style={{ height: 32, width: 'auto', marginRight: '1rem' }} />
+											{!me.hasBetaAccess ? <h2>Claim referral</h2> : <h2>Invite your friends</h2>}
+										</FlexRow>
+										{!me.hasBetaAccess && (
 											<p>
-												Referrals remaining: <strong>{me.referralsRemaining}</strong>
+												🎁 Enter the username or wallet address of your referrer so they can claim the referral bonus.
 											</p>
-											<p className='subtitle'>
-												Fully (email verified & wallet connected) onboarding 2 people to the platform will make you
-												eligible for a free comic mint!
-											</p>
-											<Button
-												bold={false}
-												backgroundColor='yellow-500'
-												onClick={() => {
-													navigator.clipboard.writeText(`https://dreader.app/register?referrer=${me.name}`)
-													toaster.add('Referral link copied to clipboard', 'success')
-												}}
-											>
-												copy referral link
-											</Button>
-										</>
-									)}
+										)}
+										{!me.hasBetaAccess && <JoinTheBeta inForm />}
+									</div>
+									<p>
+										Referrals remaining: <strong>{me.referralsRemaining}</strong>
+									</p>
+									<p className='subtitle'>
+										Onboarding people to the platform will make you eligible for rewards in the future!
+									</p>
+									<Button
+										bold={false}
+										backgroundColor='yellow-500'
+										onClick={() => {
+											navigator.clipboard.writeText(`https://dreader.app/register?referrer=${me.name}`)
+											toaster.add('Referral link copied to clipboard', 'success')
+										}}
+									>
+										copy referral link
+									</Button>
 								</Box>
 							)}
 						</TabPanel>

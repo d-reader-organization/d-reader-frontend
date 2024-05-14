@@ -41,7 +41,6 @@ export default function Home() {
 	}, [xl, lg, md, sm, xs])
 
 	if (!take) return null
-	// if (me && !me.hasBetaAccess) return <JoinTheBeta />
 
 	return (
 		<>
