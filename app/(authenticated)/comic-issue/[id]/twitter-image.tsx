@@ -6,12 +6,12 @@ const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
 
 const defaultTextStyles: React.CSSProperties = {
 	position: 'absolute',
-	left: 310,
+	left: 471,
 	padding: 0,
 	margin: 0,
-	width: '100%',
+	width: 680,
 	color: 'white',
-	fontSize: '32px',
+	fontSize: '50px',
 	fontWeight: 'bold',
 	overflow: 'hidden',
 	whiteSpace: 'nowrap',
@@ -20,7 +20,7 @@ const defaultTextStyles: React.CSSProperties = {
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
-const size = { width: 800, height: 417 }
+const size = { width: 1200, height: 627 }
 
 // const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
 
@@ -59,40 +59,40 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 			>
 				<img width='100%' src={comicIssue.cover} alt='' style={{ position: 'absolute', opacity: 0.05 }} />
 				<img
-					width='220px'
-					height='322px'
+					width='351px'
+					height='507px'
 					src={comicIssue.cover}
 					alt=''
 					style={{ position: 'absolute', top: 60, left: 60, borderRadius: 8 }}
 				/>
-				<p style={{ ...defaultTextStyles, top: 75, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
+				<p style={{ ...defaultTextStyles, top: 100, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
 				<p
 					style={{
 						...defaultTextStyles,
-						top: 128,
-						fontSize: '40px',
+						top: 184,
+						fontSize: '58px',
 						fontWeight: 'bolder',
 					}}
 				>
 					{comicIssue.comic?.title || ''}
 				</p>
-				<p style={{ ...defaultTextStyles, top: 190 }}>
+				<p style={{ ...defaultTextStyles, top: 280 }}>
 					{comicIssue.title || ''} (EP{comicIssue.number})
 				</p>
 				{!comicIssue.activeCandyMachineAddress && (
 					<p
 						style={{
 							position: 'absolute',
-							left: 310,
-							top: 260,
+							left: 471,
+							top: 380,
 							display: 'flex',
 							height: '52px',
 							alignItems: 'center',
 							backgroundColor: '#fceb54',
 							color: 'black',
-							fontSize: '21px',
+							fontSize: '32px',
 							fontWeight: 'bold',
-							padding: '16px',
+							padding: '8px',
 							borderRadius: '8px',
 						}}
 					>
@@ -116,9 +116,9 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 				)}
 
 				<svg
-					style={{ position: 'absolute', bottom: 40, right: 40 }}
-					width={51}
-					height={50}
+					style={{ position: 'absolute', bottom: 60, right: 60 }}
+					width={41}
+					height={40}
 					color='white'
 					fill='white'
 					id='Layer_1'

@@ -6,12 +6,12 @@ const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
 
 const defaultTextStyles: React.CSSProperties = {
 	position: 'absolute',
-	left: 310,
+	left: 471,
 	padding: 0,
 	margin: 0,
-	width: '100%',
+	width: 680,
 	color: 'white',
-	fontSize: '32px',
+	fontSize: '50px',
 	fontWeight: 'bold',
 	overflow: 'hidden',
 	whiteSpace: 'nowrap',
@@ -20,7 +20,7 @@ const defaultTextStyles: React.CSSProperties = {
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
-const size = { width: 800, height: 417 }
+const size = { width: 1200, height: 627 }
 
 // const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
 
@@ -42,8 +42,89 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 	const comicIssue: ComicIssue = await (
 		await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/${COMIC_ISSUE}/${GET_PUBLIC}/${params.id}`)
 	).json()
+
+	const comicIssueInfoBox = (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<img
+				width='200px'
+				height='250px'
+				src={comicIssue.cover}
+				alt=''
+				// style={{ position: 'absolute', top: 60, left: 60, borderRadius: 8 }}
+			/>
+			<p style={{ color: '#c2c5ce', fontSize: '50px' }}>{comicIssue.creator?.name || ''}</p>
+			<p
+				style={{
+					fontSize: '28px',
+					fontWeight: 'bolder',
+					color: 'white',
+				}}
+			>
+				{comicIssue.comic?.title || ''}
+			</p>
+			<p style={{ fontSize: '28px', color: 'white' }}>
+				{comicIssue.title || ''} (EP{comicIssue.number})
+			</p>
+			{comicIssue.activeCandyMachineAddress && (
+				<p
+					style={{
+						display: 'flex',
+						height: '52px',
+						alignItems: 'center',
+						justifyContent: 'center',
+						backgroundColor: '#fceb54',
+						color: 'black',
+						fontSize: '32px',
+						fontWeight: 'bold',
+						padding: '8px',
+						borderRadius: '8px',
+					}}
+				>
+					<svg
+						style={{ marginRight: '8px', marginBottom: '2px' }}
+						viewBox='0 0 44 44'
+						fill='none'
+						xmlns='http://www.w3.org/2000/svg'
+					>
+						<path d='M9.08759 21.6247H14.4937' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M21.7019 9.0105V14.4166' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M34.3162 21.6249H28.91' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M21.7019 34.239V28.8329' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M12.7819 30.5443L16.6046 26.7216' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M12.7819 12.7052L16.6046 16.5279' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M30.622 12.7052L26.7993 16.5279' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+						<path d='M30.622 30.5443L26.7993 26.7216' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
+					</svg>
+					MINTING LIVE
+				</p>
+			)}
+		</div>
+	)
 	// const comicIssueImage = process.env.NEXT_PUBLIC_SITE_URL + '/' + comicIssueImageSrc.src
 	// const [satoshiFont] = await Promise.all([fetchSatoshiFont])
+	return new ImageResponse(
+		(
+			<div
+				style={{
+					display: 'flex',
+					backgroundColor: 'rgb(21, 23, 28)',
+					width: '100%',
+					height: '100%',
+					justifyContent: 'center',
+				}}
+			>
+				{comicIssueInfoBox}
+			</div>
+		),
+		{ ...size }
+	)
 	return new ImageResponse(
 		(
 			<div
@@ -59,40 +140,40 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 			>
 				<img width='100%' src={comicIssue.cover} alt='' style={{ position: 'absolute', opacity: 0.05 }} />
 				<img
-					width='220px'
-					height='322px'
+					width='351px'
+					height='507px'
 					src={comicIssue.cover}
 					alt=''
 					style={{ position: 'absolute', top: 60, left: 60, borderRadius: 8 }}
 				/>
-				<p style={{ ...defaultTextStyles, top: 75, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
+				<p style={{ ...defaultTextStyles, top: 100, color: '#c2c5ce' }}>{comicIssue.creator?.name || ''}</p>
 				<p
 					style={{
 						...defaultTextStyles,
-						top: 128,
-						fontSize: '40px',
+						top: 184,
+						fontSize: '58px',
 						fontWeight: 'bolder',
 					}}
 				>
 					{comicIssue.comic?.title || ''}
 				</p>
-				<p style={{ ...defaultTextStyles, top: 190 }}>
+				<p style={{ ...defaultTextStyles, top: 280 }}>
 					{comicIssue.title || ''} (EP{comicIssue.number})
 				</p>
-				{!comicIssue.activeCandyMachineAddress && (
+				{comicIssue.activeCandyMachineAddress && (
 					<p
 						style={{
 							position: 'absolute',
-							left: 310,
-							top: 260,
+							left: 471,
+							top: 380,
 							display: 'flex',
 							height: '52px',
 							alignItems: 'center',
 							backgroundColor: '#fceb54',
 							color: 'black',
-							fontSize: '21px',
+							fontSize: '32px',
 							fontWeight: 'bold',
-							padding: '16px',
+							padding: '8px',
 							borderRadius: '8px',
 						}}
 					>
@@ -116,9 +197,9 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 				)}
 
 				<svg
-					style={{ position: 'absolute', bottom: 40, right: 40 }}
-					width={51}
-					height={50}
+					style={{ position: 'absolute', bottom: 60, right: 60 }}
+					width={41}
+					height={40}
 					color='white'
 					fill='white'
 					id='Layer_1'
