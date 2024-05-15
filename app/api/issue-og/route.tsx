@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og'
 import { ComicIssue } from '@/models/comicIssue'
 import { COMIC_ISSUE_QUERY_KEYS } from '@/api/comicIssue/comicIssueKeys'
-// import fontSrc from '../../../fonts/Satoshi-Regular.woff2'
+import { NextRequest } from 'next/server'
+
 const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
 
 const defaultTextStyles: React.CSSProperties = {
@@ -17,33 +18,15 @@ const defaultTextStyles: React.CSSProperties = {
 	whiteSpace: 'nowrap',
 }
 
-export const runtime = 'edge'
-export const dynamic = 'force-dynamic'
-
 const size = { width: 1200, height: 630 }
 
-// const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
-
-// const fetchSatoshiFont = fetchAsset(new URL('../../../fonts/Satoshi-Regular.woff2', import.meta.url))
-export async function generateImageMetadata({ params }: { params: { id: string } }) {
+export async function GET(req: NextRequest) {
+	const url = new URL(req.url)
+	const comicIssueId = url.searchParams.get('comicIssueId')
 	const comicIssue: ComicIssue = await (
-		await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/${COMIC_ISSUE}/${GET_PUBLIC}/${params.id}`)
-	).json()
-	return [
-		{
-			id: 'large',
-			size,
-			alt: `Read '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
-		},
-	]
-}
-export default async function GET({ params }: { params: { id: string }; id: number }) {
-	const comicIssue: ComicIssue = await (
-		await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/${COMIC_ISSUE}/${GET_PUBLIC}/${params.id}`)
+		await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/${COMIC_ISSUE}/${GET_PUBLIC}/${comicIssueId}`)
 	).json()
 
-	// const comicIssueImage = process.env.NEXT_PUBLIC_SITE_URL + '/' + comicIssueImageSrc.src
-	// const [satoshiFont] = await Promise.all([fetchSatoshiFont])
 	return new ImageResponse(
 		(
 			<div
@@ -132,7 +115,6 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 		),
 		{
 			...size,
-			// fonts: [{ name: 'var(--font-sans)', data: satoshiFont, style: 'normal' }],
 		}
 	)
 }
