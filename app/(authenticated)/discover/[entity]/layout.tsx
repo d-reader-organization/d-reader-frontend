@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
 	title: 'dReader - Discover',
 	metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),

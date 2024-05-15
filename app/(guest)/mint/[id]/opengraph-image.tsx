@@ -20,7 +20,7 @@ const defaultTextStyles: React.CSSProperties = {
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
-const size = { width: 1200, height: 627 }
+const size = { width: 1200, height: 630 }
 
 // const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
 
@@ -34,7 +34,6 @@ export async function generateImageMetadata({ params }: { params: { id: string }
 			id: 'large',
 			size,
 			alt: `Read '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
-			contentType: 'image/png', // what if it isn't image/png?
 		},
 	]
 }
@@ -43,88 +42,8 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 		await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/${COMIC_ISSUE}/${GET_PUBLIC}/${params.id}`)
 	).json()
 
-	const comicIssueInfoBox = (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<img
-				width='200px'
-				height='250px'
-				src={comicIssue.cover}
-				alt=''
-				// style={{ position: 'absolute', top: 60, left: 60, borderRadius: 8 }}
-			/>
-			<p style={{ color: '#c2c5ce', fontSize: '50px' }}>{comicIssue.creator?.name || ''}</p>
-			<p
-				style={{
-					fontSize: '28px',
-					fontWeight: 'bolder',
-					color: 'white',
-				}}
-			>
-				{comicIssue.comic?.title || ''}
-			</p>
-			<p style={{ fontSize: '28px', color: 'white' }}>
-				{comicIssue.title || ''} (EP{comicIssue.number})
-			</p>
-			{comicIssue.activeCandyMachineAddress && (
-				<p
-					style={{
-						display: 'flex',
-						height: '52px',
-						alignItems: 'center',
-						justifyContent: 'center',
-						backgroundColor: '#fceb54',
-						color: 'black',
-						fontSize: '32px',
-						fontWeight: 'bold',
-						padding: '8px',
-						borderRadius: '8px',
-					}}
-				>
-					<svg
-						style={{ marginRight: '8px', marginBottom: '2px' }}
-						viewBox='0 0 44 44'
-						fill='none'
-						xmlns='http://www.w3.org/2000/svg'
-					>
-						<path d='M9.08759 21.6247H14.4937' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M21.7019 9.0105V14.4166' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M34.3162 21.6249H28.91' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M21.7019 34.239V28.8329' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M12.7819 30.5443L16.6046 26.7216' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M12.7819 12.7052L16.6046 16.5279' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M30.622 12.7052L26.7993 16.5279' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-						<path d='M30.622 30.5443L26.7993 26.7216' stroke='black' stroke-width='2.70306' stroke-linecap='round' />
-					</svg>
-					MINTING LIVE
-				</p>
-			)}
-		</div>
-	)
 	// const comicIssueImage = process.env.NEXT_PUBLIC_SITE_URL + '/' + comicIssueImageSrc.src
 	// const [satoshiFont] = await Promise.all([fetchSatoshiFont])
-	return new ImageResponse(
-		(
-			<div
-				style={{
-					display: 'flex',
-					backgroundColor: 'rgb(21, 23, 28)',
-					width: '100%',
-					height: '100%',
-					justifyContent: 'center',
-				}}
-			>
-				{comicIssueInfoBox}
-			</div>
-		),
-		{ ...size }
-	)
 	return new ImageResponse(
 		(
 			<div
