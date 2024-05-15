@@ -9,10 +9,6 @@ export const metadata: Metadata = {
 		title: 'dReader - Launchpad',
 		startupImage: '/assets/apple-touch-icon.png',
 	},
-	openGraph: {},
-	twitter: {
-		card: 'summary_large_image',
-	},
 }
 
 export default function MintLayout({ children }: { children: React.ReactNode }) {

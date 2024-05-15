@@ -34,6 +34,7 @@ import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
 
+export const dynamic = 'force-dynamic'
 interface Params {
 	id: string | number
 }
@@ -159,14 +160,6 @@ const MintPage = ({ params }: { params: Params }) => {
 	const heroImage = comicIssue.cover || PageBanner.src
 	return (
 		<>
-			<meta
-				name='twitter:title'
-				content={`Read '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`}
-			/>
-			<meta
-				name='twitter:image'
-				content={`${process.env.NEXT_PUBLIC_SITE_URL}/api/issue-og/?comicIssueId=${paramsId}`}
-			/>
 			{isAuthenticated ? <Navigation /> : <GuestNavigation />}
 
 			<main className='mint-page'>
