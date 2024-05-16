@@ -174,7 +174,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 			let i = 0
 			for (const transaction of signedTransactions) {
 				try {
-					const signature = await connection.sendTransaction(transaction)
+					const signature = await connection.sendTransaction(transaction, { skipPreflight: true })
 
 					const latestBlockhash = await connection.getLatestBlockhash()
 					const response = await connection.confirmTransaction({ signature, ...latestBlockhash }, 'confirmed')
