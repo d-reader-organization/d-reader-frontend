@@ -26,22 +26,17 @@ interface Props {
 	candyMachine: CandyMachine
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
-	highlightDiscount?: boolean
-	discountAmount: number
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-export const CandyMachineDetail: React.FC<Props> = ({
-	candyMachine,
-	handleMint,
-	isMintTransactionLoading,
-	highlightDiscount = false,
-	discountAmount,
-}) => {
-	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
+export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
+	const { startDate, endDate, mintLimit, mintPrice, discount } = candyMachine.groups.at(
+		0
+	) as CandyMachineGroupWithSource
 
+	const highlightDiscount = discount > 0
 	const { countdownString } = useCountdown({ expirationDate: startDate })
 	const { publicKey } = useWallet()
 
@@ -81,7 +76,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 					<div className='price-div'>
 						{highlightDiscount ? (
 							<div className='discount-chip'>
-								<span>-{discountAmount}&#37;</span>
+								<span>-{discount}&#37;</span>
 							</div>
 						) : null}
 						<span className={clsx('price', highlightDiscount && 'price--highlight')}>

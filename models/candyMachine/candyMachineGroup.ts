@@ -7,16 +7,17 @@ export interface CandyMachineGroup {
 	mintPrice: number
 	itemsMinted: number
 	mintLimit: number
+	discount: number
 	supply: number
 	isActive: boolean
 	whiteListType: WhiteListType
 }
 
 export enum WhiteListType {
-	User = "User",
-	Wallet = "Wallet",
-	UserWhiteList = "UserWhiteList",
-	WalletWhiteList = "WalletWhiteList"
+	User = 'User',
+	Wallet = 'Wallet',
+	UserWhiteList = 'UserWhiteList',
+	WalletWhiteList = 'WalletWhiteList',
 }
 
 export interface CandyMachineGroupWallet {
@@ -32,6 +33,6 @@ export interface CandyMachineGroupUser {
 }
 
 export interface CandyMachineGroupWithSource extends CandyMachineGroup {
-	wallet: CandyMachineGroupWallet,
+	wallet: CandyMachineGroupWallet
 	user: CandyMachineGroupUser
 }

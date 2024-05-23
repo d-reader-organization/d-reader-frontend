@@ -320,7 +320,6 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										candyMachine={candyMachine}
 										isMintTransactionLoading={isMintTransactionLoading}
 										handleMint={handleBuyClick}
-										discountAmount={10}
 									/>
 								</div>
 							) : null}
