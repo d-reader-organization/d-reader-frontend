@@ -16,6 +16,7 @@ import LockIcon from 'public/assets/vector-icons/lock.svg'
 import { MAX_PROTOCOL_FEE } from '@/constants/fee'
 import clsx from 'clsx'
 import Expandable from './ui/Expandable'
+import { findDiscountAmountFromCandyMachine } from '@/utils/helpers'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -32,11 +33,10 @@ const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
 export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
-	const { startDate, endDate, mintLimit, mintPrice, discount } = candyMachine.groups.at(
-		0
-	) as CandyMachineGroupWithSource
+	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
-	const highlightDiscount = discount > 0
+	const discount = findDiscountAmountFromCandyMachine(candyMachine)
+	const highlightDiscount = discount && discount > 0
 	const { countdownString } = useCountdown({ expirationDate: startDate })
 	const { publicKey } = useWallet()
 

@@ -33,6 +33,7 @@ import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
+import { findDiscountAmountFromCandyMachine } from '@/utils/helpers'
 
 export const dynamic = 'force-dynamic'
 interface Params {
@@ -153,6 +154,8 @@ const MintPage = ({ params }: { params: Params }) => {
 		signAllTransactions,
 		toaster,
 	])
+	const discount = findDiscountAmountFromCandyMachine(candyMachine)
+	const highlightDiscount = discount && discount > 0
 
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
@@ -259,7 +262,9 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						{isAuthenticated ? null : <SignUpBanner issueId={paramsId} discountAmount={10} />}
+						{isAuthenticated || !highlightDiscount ? null : (
+							<SignUpBanner issueId={paramsId} discountAmount={discount} />
+						)}
 					</Grid>
 				</Grid>
 			</main>

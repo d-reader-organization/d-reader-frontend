@@ -1,3 +1,5 @@
+import { CandyMachine } from '@/models/candyMachine'
+import { WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 import { PartialGenre } from '@/models/genre'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 
@@ -117,4 +119,9 @@ export function isBrave() {
 
 export function genresToSlugs(genres: PartialGenre[]): string[] {
 	return genres.map((genre) => genre.slug)
+}
+
+export function findDiscountAmountFromCandyMachine(candyMachine: CandyMachine | undefined) {
+	const group = candyMachine?.groups.find((group) => group.whiteListType === WhiteListType.User)
+	return group?.discount
 }
