@@ -44,6 +44,7 @@ import { io } from 'socket.io-client'
 import { CandyMachineReceipt } from '@/models/candyMachine/candyMachineReceipt'
 import { AssetMintedDialog } from '@/components/dialogs/AssetMintedDialog'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
+import { useUserAuth } from '@/providers/UserAuthProvider'
 
 interface Params {
 	id: string
@@ -69,6 +70,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
 		useFavouritiseComicIssue(params.id)
 	const { mutateAsync: rateComicIssue } = useRateComicIssue(params.id)
+	const { isAuthenticated } = useUserAuth()
 
 	const { data: me } = useFetchMe()
 	const { data: comicIssue, error } = useFetchComicIssue(params.id)
@@ -320,6 +322,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 										candyMachine={candyMachine}
 										isMintTransactionLoading={isMintTransactionLoading}
 										handleMint={handleBuyClick}
+										isAuthenticated={isAuthenticated}
 									/>
 								</div>
 							) : null}

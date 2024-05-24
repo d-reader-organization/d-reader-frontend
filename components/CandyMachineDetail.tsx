@@ -27,16 +27,22 @@ interface Props {
 	candyMachine: CandyMachine
 	handleMint: () => Promise<void>
 	isMintTransactionLoading: boolean
+	isAuthenticated?: boolean
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX
 const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
-export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
+export const CandyMachineDetail: React.FC<Props> = ({
+	candyMachine,
+	handleMint,
+	isMintTransactionLoading,
+	isAuthenticated,
+}) => {
 	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
 	const discountAmount = useDiscountAmount(candyMachine)
-	const highlightDiscount = discountAmount && discountAmount > 0
+	const highlightDiscount = isAuthenticated && discountAmount && discountAmount > 0
 	const { countdownString } = useCountdown({ expirationDate: startDate })
 	const { publicKey } = useWallet()
 
@@ -50,7 +56,7 @@ export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, 
 
 	const getItemsMinted = (candyMachine: CandyMachine) => {
 		const group = candyMachine.groups.at(0)
-		if (group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList) {
+		if (group?.whiteListType == WhiteListType.Public || group?.whiteListType == WhiteListType.WalletWhiteList) {
 			return group.wallet.itemsMinted ?? 0
 		} else {
 			return group?.user.itemsMinted ?? 0

@@ -15,7 +15,7 @@ export interface CandyMachineGroup {
 
 export enum WhiteListType {
 	User = 'User',
-	Wallet = 'Wallet',
+	Public = 'Public',
 	UserWhiteList = 'UserWhiteList',
 	WalletWhiteList = 'WalletWhiteList',
 }

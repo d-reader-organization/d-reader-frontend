@@ -210,6 +210,7 @@ const MintPage = ({ params }: { params: Params }) => {
 											candyMachine={candyMachine}
 											isMintTransactionLoading={isMintTransactionLoading}
 											handleMint={handleMint}
+											isAuthenticated={isAuthenticated}
 										/>
 									</div>
 								) : (

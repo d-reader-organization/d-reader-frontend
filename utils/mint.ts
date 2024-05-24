@@ -4,7 +4,7 @@ import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachin
 export const validateMintEligibilty = (group: CandyMachineGroupWithSource | undefined) => {
 	let isMintLimitReached, isEligible
 
-	if (group?.whiteListType == WhiteListType.Wallet || group?.whiteListType == WhiteListType.WalletWhiteList) {
+	if (group?.whiteListType == WhiteListType.Public || group?.whiteListType == WhiteListType.WalletWhiteList) {
 		isMintLimitReached = group?.mintLimit && group?.wallet.itemsMinted && group?.mintLimit <= group?.wallet.itemsMinted
 		isEligible = group?.wallet.isEligible
 	} else {

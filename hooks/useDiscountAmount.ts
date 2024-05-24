@@ -3,7 +3,10 @@ import { WhiteListType } from '@/models/candyMachine/candyMachineGroup'
 import { useMemo } from 'react'
 
 export function findDiscountAmountFromCandyMachine(candyMachine: CandyMachine) {
-	const group = candyMachine?.groups.find((group) => group.whiteListType === WhiteListType.User)
+	let group = candyMachine.groups.find((group) => group.whiteListType === WhiteListType.Public)
+	if (!group) {
+		group = candyMachine.groups.find((group) => group.whiteListType === WhiteListType.User)
+	}
 	return group?.discount
 }
 
