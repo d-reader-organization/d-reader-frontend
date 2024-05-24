@@ -120,8 +120,3 @@ export function isBrave() {
 export function genresToSlugs(genres: PartialGenre[]): string[] {
 	return genres.map((genre) => genre.slug)
 }
-
-export function findDiscountAmountFromCandyMachine(candyMachine: CandyMachine | undefined) {
-	const group = candyMachine?.groups.find((group) => group.whiteListType === WhiteListType.User)
-	return group?.discount
-}

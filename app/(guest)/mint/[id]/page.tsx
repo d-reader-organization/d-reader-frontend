@@ -33,7 +33,7 @@ import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
-import { findDiscountAmountFromCandyMachine } from '@/utils/helpers'
+import useDiscountAmount from '@/hooks/useDiscountAmount'
 
 export const dynamic = 'force-dynamic'
 interface Params {
@@ -95,6 +95,7 @@ const MintPage = ({ params }: { params: Params }) => {
 		},
 		!!walletAddress && validateMintEligibilty(getActiveGroup(candyMachine)).isEligible
 	)
+	const discountAmount = useDiscountAmount(candyMachine)
 
 	const handleMint = useCallback(async () => {
 		openMintTransactionLoading()
@@ -154,8 +155,6 @@ const MintPage = ({ params }: { params: Params }) => {
 		signAllTransactions,
 		toaster,
 	])
-	const discount = findDiscountAmountFromCandyMachine(candyMachine)
-	const highlightDiscount = discount && discount > 0
 
 	if (error) return <Box p={2}>{error.message}</Box>
 	if (!comicIssue) return null
@@ -262,8 +261,8 @@ const MintPage = ({ params }: { params: Params }) => {
 								)}
 							</Box>
 						)}
-						{isAuthenticated || !highlightDiscount ? null : (
-							<SignUpBanner issueId={paramsId} discountAmount={discount} />
+						{isAuthenticated || !discountAmount ? null : (
+							<SignUpBanner issueId={paramsId} discountAmount={discountAmount} />
 						)}
 					</Grid>
 				</Grid>

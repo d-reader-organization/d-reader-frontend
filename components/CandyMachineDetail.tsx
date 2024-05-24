@@ -16,7 +16,7 @@ import LockIcon from 'public/assets/vector-icons/lock.svg'
 import { MAX_PROTOCOL_FEE } from '@/constants/fee'
 import clsx from 'clsx'
 import Expandable from './ui/Expandable'
-import { findDiscountAmountFromCandyMachine } from '@/utils/helpers'
+import useDiscountAmount from '@/hooks/useDiscountAmount'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -35,8 +35,8 @@ const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, isMintTransactionLoading }) => {
 	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
 
-	const discount = findDiscountAmountFromCandyMachine(candyMachine)
-	const highlightDiscount = discount && discount > 0
+	const discountAmount = useDiscountAmount(candyMachine)
+	const highlightDiscount = discountAmount && discountAmount > 0
 	const { countdownString } = useCountdown({ expirationDate: startDate })
 	const { publicKey } = useWallet()
 
@@ -76,7 +76,7 @@ export const CandyMachineDetail: React.FC<Props> = ({ candyMachine, handleMint, 
 					<div className='price-div'>
 						{highlightDiscount ? (
 							<div className='discount-chip'>
-								<span>-{discount}&#37;</span>
+								<span>-{discountAmount}&#37;</span>
 							</div>
 						) : null}
 						<span className={clsx('price', highlightDiscount && 'price--highlight')}>
