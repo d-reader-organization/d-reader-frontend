@@ -21,6 +21,7 @@ import Button from '../Button'
 import { useRouter } from 'next/navigation'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import ButtonLink from '../ButtonLink'
+import { useFetchTwitterIntentComicMinted } from '@/api/twitter/queries/useFetchIntentComicMinted'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
@@ -48,6 +49,7 @@ export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, 
 		},
 		false
 	)
+	const { data: twitterIntentComicMinted } = useFetchTwitterIntentComicMinted({ comicAddress: assetAddress ?? '' })
 
 	const goToReader = useCallback(() => {
 		push(RoutePath.ReadComicIssue(comicIssue.id), { scroll: false })
@@ -131,16 +133,7 @@ export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, 
 								</div>
 								<Image src={asset.image} width={690} height={1000} alt='Comic' className='cover-image' />
 
-								<Link
-									href={encodeURI(
-										`https://twitter.com/intent/tweet?text=${`I just minted a ${asset.rarity} '${comicIssue.comic?.title}: ${comicIssue.title}' comic on @dReaderApp! 📚
-
-Mint yours here while the supply lasts.👇
-https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=web`}`
-									)}
-									target='_blank'
-									className='twitter-button'
-								>
+								<Link href={encodeURI(twitterIntentComicMinted ?? '')} target='_blank' className='twitter-button'>
 									Share on &#120143;
 								</Link>
 
@@ -186,4 +179,3 @@ https://dreader.app/mint/${comicIssue.comicSlug}_${comicIssue.slug}?utm_source=w
 		</>
 	)
 }
-
