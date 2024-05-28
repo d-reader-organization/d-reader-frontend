@@ -1,17 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
-import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
+// import TwitterIcon from 'public/assets/vector-icons/twitter-icon.svg'
+// import DiscordIcon from 'public/assets/vector-icons/discord-icon.svg'
 import AlphaBunnyIcon from 'public/assets/vector-icons/alpha-bunny-icon.svg'
 import Container, { ContainerProps } from '@mui/material/Container'
-import ButtonLink from '@/components/ButtonLink'
+// import ButtonLink from '@/components/ButtonLink'
 import Form from '@/components/forms/Form'
 import FlexRow from '@/components/ui/FlexRow'
 import Input from '@/components/forms/Input'
 import Button from '@/components/Button'
 import { useRedeemUserReferral } from '@/api/user/queries/useRedeemUserReferral'
-import { DISCORD_LINK, TWITTER_LINK } from '@/constants/links'
+// import { DISCORD_LINK, TWITTER_LINK } from '@/constants/links'
 
 interface Props extends ContainerProps {
 	inForm?: boolean

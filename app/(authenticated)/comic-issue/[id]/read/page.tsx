@@ -58,8 +58,8 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 						<div key={page.id} style={{ maxWidth: 1200, margin: 'auto', lineHeight: 0 }}>
 							<Image
 								sizes='(max-width: 1200px) 100vw, 1200px'
-								width={1200}
-								height={2000}
+								width={page.width}
+								height={page.height}
 								src={page.image}
 								alt={`Page ${page.pageNumber}`}
 								style={{ width: '100%', height: 'auto' }}
