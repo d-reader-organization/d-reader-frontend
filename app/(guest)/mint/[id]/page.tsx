@@ -33,7 +33,6 @@ import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
-import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 export const dynamic = 'force-dynamic'
 
@@ -54,12 +53,10 @@ const MintPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const { isAuthenticated } = useUserAuth()
-	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 4, 30, 16, 0, 0) })
 
 	const paramsId = params.id
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const comicIssueId = comicIssue?.id || 0
-	const isDclcComic = paramsId === 31 || paramsId === 'dream-city_dclc'
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 
@@ -212,11 +209,6 @@ const MintPage = ({ params }: { params: Params }) => {
 											isAuthenticated={isAuthenticated}
 										/>
 									</div>
-								) : isDclcComic ? (
-									<Box>
-										<h3>starts in</h3>
-										<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
-									</Box>
 								) : (
 									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/creator/dreader'>
 										Trade on Tensor
