@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { ComicIssue } from '@/models/comicIssue'
 import { COMIC_ISSUE_QUERY_KEYS } from '@/api/comicIssue/comicIssueKeys'
+import { METADATA_IMAGE_SIZE } from '@/constants/metadata'
 // import fontSrc from '../../../fonts/Satoshi-Regular.woff2'
 const { COMIC_ISSUE, GET_PUBLIC } = COMIC_ISSUE_QUERY_KEYS
 
@@ -20,8 +21,6 @@ const defaultTextStyles: React.CSSProperties = {
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
-const size = { width: 1200, height: 627 }
-
 // const fetchAsset = (url: URL) => fetch(url).then((res) => res.arrayBuffer())
 
 // const fetchSatoshiFont = fetchAsset(new URL('../../../fonts/Satoshi-Regular.woff2', import.meta.url))
@@ -32,7 +31,7 @@ export async function generateImageMetadata({ params }: { params: { id: string }
 	return [
 		{
 			id: 'large',
-			size,
+			size: METADATA_IMAGE_SIZE,
 			alt: `Read '${comicIssue.comic?.title}' Episode ${comicIssue.number} on dReader`,
 			contentType: 'image/png', // what if it isn't image/png?
 		},
@@ -131,7 +130,7 @@ export default async function GET({ params }: { params: { id: string }; id: numb
 			</div>
 		),
 		{
-			...size,
+			...METADATA_IMAGE_SIZE,
 			// fonts: [{ name: 'var(--font-sans)', data: satoshiFont, style: 'normal' }],
 		}
 	)

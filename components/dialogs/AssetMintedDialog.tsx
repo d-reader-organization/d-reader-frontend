@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import ButtonLink from '../ButtonLink'
 import { useFetchTwitterIntentComicMinted } from '@/api/twitter/queries/useFetchIntentComicMinted'
+import { UtmSource } from '@/models/twitter/twitterIntentComicMintedParams'
 
 interface Props extends DialogProps {
 	onClose: VoidFunction
@@ -49,7 +50,10 @@ export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, 
 		},
 		false
 	)
-	const { data: twitterIntentComicMinted } = useFetchTwitterIntentComicMinted({ comicAddress: assetAddress ?? '' })
+	const { data: twitterIntentComicMinted } = useFetchTwitterIntentComicMinted({
+		comicAddress: assetAddress ?? '',
+		utmSource: UtmSource.WEB,
+	})
 
 	const goToReader = useCallback(() => {
 		push(RoutePath.ReadComicIssue(comicIssue.id), { scroll: false })

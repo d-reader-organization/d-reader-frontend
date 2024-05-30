@@ -33,6 +33,7 @@ import { SignUpBanner } from '@/components/SignUpBanner'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
+import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 export const dynamic = 'force-dynamic'
 interface Params {
@@ -52,12 +53,12 @@ const MintPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const { isAuthenticated } = useUserAuth()
-	// TODO: how do we display the Tensor link properly if user provides the id as a number?
-	// No way for us to know what's the collection.slug
+	const { countdownString } = useCountdownWithUnits({ expirationDate: Date.UTC(2024, 4, 30, 16, 0, 0) })
 
 	const paramsId = params.id
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
 	const comicIssueId = comicIssue?.id || 0
+	const isDclcComic = paramsId === 31 || paramsId === 'dream-city_dclc'
 	const candyMachineAddress = comicIssue?.activeCandyMachineAddress || ''
 	const walletAddress = publicKey?.toBase58()
 
@@ -210,6 +211,11 @@ const MintPage = ({ params }: { params: Params }) => {
 											isAuthenticated={isAuthenticated}
 										/>
 									</div>
+								) : isDclcComic ? (
+									<Box>
+										<h3>starts in</h3>
+										<h1 style={{ fontVariantNumeric: 'tabular-nums' }}>{countdownString}</h1>
+									</Box>
 								) : (
 									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/creator/dreader'>
 										Trade on Tensor
@@ -232,7 +238,7 @@ const MintPage = ({ params }: { params: Params }) => {
 										</Box>
 									</div>
 								)}
-								<p>📖 Pages: {comicIssue.stats?.totalPagesCount || 30}</p>
+								<p>📖 Pages: {comicIssue.stats?.totalPagesCount || 16}</p>
 
 								<p className='comic-issue-description'>
 									{comicIssue.description.length > 281
