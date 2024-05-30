@@ -36,6 +36,7 @@ import Navigation from '@/components/layout/Navigation'
 import useCountdownWithUnits from '@/hooks/useCountdownWithUnits'
 
 export const dynamic = 'force-dynamic'
+
 interface Params {
 	id: string | number
 }
