@@ -137,7 +137,7 @@ export const AssetMintedDialog: React.FC<Props> = ({ comicIssue, open, onClose, 
 								</div>
 								<Image src={asset.image} width={690} height={1000} alt='Comic' className='cover-image' />
 
-								<Link href={encodeURI(twitterIntentComicMinted ?? '')} target='_blank' className='twitter-button'>
+								<Link href={twitterIntentComicMinted ?? ''} target='_blank' className='twitter-button'>
 									Share on &#120143;
 								</Link>
 
