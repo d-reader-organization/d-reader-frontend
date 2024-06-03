@@ -1,3 +1,4 @@
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { ledger } from './ledgerAdapter'
 
 export const WALLET_LABELS = {
@@ -12,5 +13,5 @@ export const WALLET_LABELS = {
 
 export const getWallets = () => {
 	if (typeof window === 'undefined') return []
-	else return [ledger]
+	else return [new PhantomWalletAdapter(),new SolflareWalletAdapter(), ledger]
 }
