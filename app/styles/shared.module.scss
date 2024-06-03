@@ -3,8 +3,8 @@
 @use 'mixins/breakpoints.module.scss' as *;
 
 html {
-	scrollbar-color: $grey-700 transparent;
-	scrollbar-width: thin;
+	scrollbar-color: $grey-100 $grey-500;
+	// scrollbar-width: thin;
 }
 
 body {
@@ -105,12 +105,12 @@ svg {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: $grey-700;
+	background: $grey-100;
 	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: $grey-600;
+	background: $grey-50;
 }
 
 .blur {
