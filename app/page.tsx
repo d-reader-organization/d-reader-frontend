@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 import Container from '@mui/material/Container'
 import { RoutePath } from 'enums/routePath'
 import ComicList from '@/components/ComicList'
-import GenreList from '@/components/GenreList'
 import HeroCarousel from '@/components/HeroCarousel'
 import ComicIssueList from '@/components/comicIssue/ComicIssueList'
 import CreatorList from '@/components/creator/CreatorList'
@@ -18,7 +17,6 @@ import Navigation from '@/components/layout/Navigation'
 // import JoinTheBeta from '@/components/JoinTheBeta'
 
 export default function Home() {
-	const [showGenres, , genresRef] = useOnScreen()
 	const [showPopularComics, , popularComicsRef] = useOnScreen()
 	const [showNewComicIssues, , newComicIssuesRef] = useOnScreen()
 	const [showTopCreators, , topCreatorsRef] = useOnScreen()
@@ -73,16 +71,6 @@ export default function Home() {
 							params={{ skip: 0, take: take.comics, filterTag: ComicFilterTag.Popular }}
 							slidesToShow={take.comicsPerPage}
 						/>
-					</Section>
-
-					<Section
-						id='genres'
-						title='Genres'
-						show={showGenres}
-						ref={genresRef}
-						actionProps={{ children: 'See All', href: RoutePath.DiscoverComics }}
-					>
-						<GenreList skip={0} take={take.genres} animate={showGenres} />
 					</Section>
 
 					<Section
