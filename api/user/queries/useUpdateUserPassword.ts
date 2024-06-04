@@ -11,11 +11,11 @@ const updateUserPassword = async (id: string | number, request: UpdatePasswordDa
 	return response.data
 }
 
-export const useUpdateUserPassword = (id: string | number, updateData: UpdatePasswordData) => {
+export const useUpdateUserPassword = (id: string | number) => {
 	const toaster = useToaster()
 
 	return useMutation({
-		mutationFn: () => updateUserPassword(id, updateData),
+		mutationFn: (updateData: UpdatePasswordData) => updateUserPassword(id, updateData),
 		onSuccess: () => {
 			toaster.add('Password updated!', 'success')
 		},

@@ -5,11 +5,15 @@ import Container from '@mui/material/Container'
 import Navigation from '@/components/layout/Navigation'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import AlphaBunnyIcon from 'public/assets/vector-icons/alpha-bunny-icon.svg'
-import { UpdateUserAvatarData, UpdateUserData } from '@/models/user'
-import { useFetchMe, useFetchUserWallets, useUpdateUser, useUpdateUserAvatar } from '@/api/user'
+import { UpdateUserAvatarData, UpdateUserData, UpdateUserPassword } from '@/models/user'
+import { useFetchMe, useFetchUserWallets, useUpdateUser, useUpdateUserAvatar, useUpdateUserPassword } from '@/api/user'
 import { useToaster } from '@/providers/ToastProvider'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { updateUserAvatarValidationSchema, updateUserValidationSchema } from '@/constants/schemas'
+import {
+	updateUserAvatarValidationSchema,
+	updateUserPasswordValidationSchema,
+	updateUserValidationSchema,
+} from '@/constants/schemas'
 import CloseIcon from 'public/assets/vector-icons/close.svg'
 import { Resolver, useForm } from 'react-hook-form'
 import Label from '@/components/forms/Label'
@@ -39,6 +43,7 @@ import Important from '@/components/ui/Important'
 import FAQ from '@/components/FAQ'
 import FaqLink from '@/components/ui/FaqLink'
 import { useRequestUserEmailChange } from '@/api/user/queries/useRequestUserEmailChange'
+import { ForgotPasswordDialog } from '@/components/dialogs/ForgotPasswordDialog'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -57,7 +62,8 @@ function ProfilePage() {
 	const { mutateAsync: updateUser } = useUpdateUser(me?.id || 0)
 	const { mutateAsync: requestUserEmailChange } = useRequestUserEmailChange()
 	const { mutateAsync: disconnectWallet } = useDisconnectUserWallet()
-	const { mutateAsync: updateUserAvatar } = useUpdateUserAvatar(me?.id || 0)
+	const { mutateAsync: updateUserAvatar } = useUpdateUserAvatar(me?.id ?? 0)
+	const { mutateAsync: updatePassword } = useUpdateUserPassword(me?.id ?? 0)
 
 	const { register, handleSubmit, reset, formState } = useForm<UpdateUserData>({
 		defaultValues: {
@@ -65,6 +71,18 @@ function ProfilePage() {
 			name: '',
 		},
 		resolver: yupResolver(updateUserValidationSchema),
+	})
+
+	const {
+		register: passwordRegister,
+		handleSubmit: handlePasswordChangeSubmit,
+		formState: passwordFormState,
+	} = useForm<UpdateUserPassword>({
+		defaultValues: {
+			oldPassword: '',
+			newPassword: '',
+		},
+		resolver: yupResolver(updateUserPasswordValidationSchema),
 	})
 
 	const {
@@ -108,6 +126,16 @@ function ProfilePage() {
 			const formData = new FormData()
 			if (data.avatar) formData.append('avatar', data.avatar)
 			await updateUserAvatar(formData)
+		}, toaster.onFormError)()
+	}
+
+	const handlePasswordUpdate = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault()
+
+		handlePasswordChangeSubmit(async (data) => {
+			if (passwordFormState.isDirty) {
+				await updatePassword(data)
+			}
 		}, toaster.onFormError)()
 	}
 
@@ -221,6 +249,26 @@ function ProfilePage() {
 												className='action-button'
 											>
 												Save
+											</Button>
+										</FormActions>
+									</Form>
+									<div className='profile-settings-section'>Change your password</div>
+									<Form fullWidth>
+										<Label isRequired>Current password</Label>
+										<Input {...passwordRegister('oldPassword')} type='password' placeholder='********' />
+										<Label isRequired>New password</Label>
+										<Input {...passwordRegister('newPassword')} type='password' placeholder='********' />
+										<p className='description'>8 characters minimum. At least 1 lowercase, 1 uppercase and 1 number</p>
+										<ForgotPasswordDialog />
+										<FormActions mobileColumn marginTop className='form-actions--mobile'>
+											<Button
+												bold={false}
+												type='submit'
+												onClick={handlePasswordUpdate}
+												backgroundColor={passwordFormState.isDirty ? 'yellow-500' : 'grey-300'}
+												className='action-button'
+											>
+												Submit
 											</Button>
 										</FormActions>
 									</Form>

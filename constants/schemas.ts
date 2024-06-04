@@ -9,6 +9,11 @@ export const updateUserValidationSchema = yup.object().shape({
 		.max(20, generateMaxLengthErrorMessage('name', 20)),
 })
 
+export const updateUserPasswordValidationSchema = yup.object().shape({
+	oldPassword: yup.string().required(yupRequiredMessage('Old password')),
+	newPassword: yup.string().required(yupRequiredMessage('New password')),
+})
+
 export const loginValidationSchema = yup.object().shape({
 	nameOrEmail: yup.string().required(yupRequiredMessage('Email')),
 	password: yup.string().required(yupRequiredMessage('Password')),

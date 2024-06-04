@@ -16,3 +16,8 @@ export interface UpdateUserData extends Partial<Pick<User, 'email' | 'name'>> {
 }
 
 export type UpdateUserAvatarData = Partial<{ avatar: File }>
+
+export type UpdateUserPassword = {
+	oldPassword: string
+	newPassword: string
+}
