@@ -9,6 +9,7 @@ export const USER_QUERY_KEYS = Object.freeze({
 	RESET_PASSWORD: 'reset-password',
 	REQUEST_EMAIL_VERIFICATION: 'request-email-verification',
 	REQUEST_PASSWORD_RESET: 'request-password-reset',
+	REQUEST_EMAIL_CHANGE: 'request-email-change',
 	VERIFY_EMAIL: 'verify-email',
 	AVATAR: 'avatar',
 	REDEEM_REFERRAL: 'redeem-referral',

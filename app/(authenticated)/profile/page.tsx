@@ -6,13 +6,7 @@ import Navigation from '@/components/layout/Navigation'
 import useAuthenticatedRoute from '@/hooks/useUserAuthenticatedRoute'
 import AlphaBunnyIcon from 'public/assets/vector-icons/alpha-bunny-icon.svg'
 import { UpdateUserAvatarData, UpdateUserData } from '@/models/user'
-import {
-	useFetchMe,
-	useFetchUserWallets,
-	useRequestUserEmailVerification,
-	useUpdateUser,
-	useUpdateUserAvatar,
-} from '@/api/user'
+import { useFetchMe, useFetchUserWallets, useUpdateUser, useUpdateUserAvatar } from '@/api/user'
 import { useToaster } from '@/providers/ToastProvider'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { updateUserAvatarValidationSchema, updateUserValidationSchema } from '@/constants/schemas'
@@ -44,6 +38,7 @@ import { useUserAuth } from '@/providers/UserAuthProvider'
 import Important from '@/components/ui/Important'
 import FAQ from '@/components/FAQ'
 import FaqLink from '@/components/ui/FaqLink'
+import { useRequestUserEmailChange } from '@/api/user/queries/useRequestUserEmailChange'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -60,7 +55,7 @@ function ProfilePage() {
 	const { data: connectedWallets = [] } = useFetchUserWallets(me?.id || 0)
 
 	const { mutateAsync: updateUser } = useUpdateUser(me?.id || 0)
-	const { mutateAsync: requestUserEmailVerification } = useRequestUserEmailVerification()
+	const { mutateAsync: requestUserEmailChange } = useRequestUserEmailChange()
 	const { mutateAsync: disconnectWallet } = useDisconnectUserWallet()
 	const { mutateAsync: updateUserAvatar } = useUpdateUserAvatar(me?.id || 0)
 
@@ -97,7 +92,12 @@ function ProfilePage() {
 		event.preventDefault()
 
 		handleSubmit(async (data) => {
-			await updateUser(data)
+			if (data.email && data.email !== me?.email) {
+				await requestUserEmailChange({ newEmail: data.email })
+			}
+			if (data.name !== me?.name) {
+				await updateUser({ name: data.name })
+			}
 		}, toaster.onFormError)()
 	}
 
@@ -213,17 +213,6 @@ function ProfilePage() {
 										</p>
 										<Input {...register('name')} placeholder={me.name} />
 										<FormActions mobileColumn className='form-actions--mobile'>
-											{!me.isEmailVerified && (
-												<Button
-													onClick={async () => {
-														await requestUserEmailVerification()
-													}}
-													bold={false}
-													className='action-button'
-												>
-													Resend verification email
-												</Button>
-											)}
 											<Button
 												bold={false}
 												type='submit'
