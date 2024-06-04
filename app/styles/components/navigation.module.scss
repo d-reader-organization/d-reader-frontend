@@ -29,13 +29,27 @@
 	}
 }
 
-.footer-navigation {
+.bottom-navigation {
+	min-height: 60px;
 	position: fixed !important;
 	top: unset !important;
+	width: 100%;
 	bottom: 0 !important;
+	z-index: 1000000;
+	color: white;
 
 	&--hidden {
 		opacity: 0 !important;
+	}
+
+	&--blurred {
+		backdrop-filter: blur(10px) !important;
+		background: rgba($grey-500, 0.75) !important;
+	}
+
+	&--label {
+		margin-top: 2px;
+		color: white;
 	}
 }
 

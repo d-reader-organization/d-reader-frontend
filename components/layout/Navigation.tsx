@@ -12,6 +12,7 @@ import FullLogo from 'public/assets/vector-icons/full-logo.svg'
 import HamburgerMenuIcon from 'public/assets/vector-icons/hamburger-menu.svg'
 import DiscoverIcon from 'public/assets/vector-icons/discover-icon.svg'
 // import LibraryIcon from 'public/assets/vector-icons/library-icon.svg'
+import HomeIcon from 'public/assets/vector-icons/home-icon.svg'
 import ProfileIcon from 'public/assets/vector-icons/profile.svg'
 import useAnchorElement from 'hooks/useAnchorElement'
 import { RoutePath } from 'enums/routePath'
@@ -20,6 +21,65 @@ import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx'
 import IconLink from '../IconLink'
+import { BottomNavigation, BottomNavigationAction, Theme, useMediaQuery } from '@mui/material'
+import { useSessionStorage } from '@/hooks/useSessionStorage'
+
+enum BottomNavItem {
+	home = 'home',
+	discover = 'discover',
+	profile = 'profile',
+}
+
+type BottomNavProps = {
+	initialNavItem?: BottomNavItem
+}
+
+const DBottomNavigation: React.FC<BottomNavProps> = ({ initialNavItem = BottomNavItem.home }) => {
+	const bottomNavItemKey = 'bottom_nav_item'
+	const [navItemValue, setNavItemValue] = useSessionStorage(bottomNavItemKey, initialNavItem)
+
+	return (
+		<BottomNavigation
+			className='bottom-navigation bottom-navigation--blurred'
+			showLabels
+			sx={{
+				'& .Mui-selected, .Mui-selected > svg': {
+					color: '#fceb54',
+				},
+			}}
+			value={navItemValue}
+			onChange={(event, newValue) => {
+				if (newValue === navItemValue) {
+					event.preventDefault()
+					return
+				}
+				setNavItemValue(newValue)
+			}}
+		>
+			<BottomNavigationAction
+				classes={{ label: 'bottom-navigation--label' }}
+				icon={<HomeIcon />}
+				label='Home'
+				value={BottomNavItem.home}
+				href={RoutePath.Home}
+			/>
+			<BottomNavigationAction
+				classes={{ label: 'bottom-navigation--label' }}
+				icon={<DiscoverIcon />}
+				label='Discover'
+				value={BottomNavItem.discover}
+				href={RoutePath.DiscoverComics}
+			/>
+			<BottomNavigationAction
+				classes={{ label: 'bottom-navigation--label' }}
+				icon={<ProfileIcon />}
+				label='Profile'
+				value={BottomNavItem.profile}
+				href={RoutePath.Profile}
+			/>
+		</BottomNavigation>
+	)
+}
 
 const Navigation: React.FC<ToolbarProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
@@ -31,7 +91,13 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	// const isLibrary = pathname.startsWith(RoutePath.Library)
 	const isProfile = pathname.startsWith(RoutePath.Profile)
 
-	return (
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
+	return isMobile ? (
+		<DBottomNavigation
+			initialNavItem={isDiscover ? BottomNavItem.discover : isProfile ? BottomNavItem.profile : BottomNavItem.home}
+		/>
+	) : (
 		<AppBar
 			className={clsx(
 				'header-navigation',
