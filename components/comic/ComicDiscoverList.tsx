@@ -47,7 +47,7 @@ const ComicDiscoverList: React.FC<Props> = ({ params, enabled, narrow = false, .
 				))}
 			</Grid>
 			<Box ref={showMoreRef} display='flex' justifyContent='center' py={12}>
-				{isFetching && <Loader/>}
+				{isFetching && <Loader />}
 				{!hasNextPage && !isFetching && `${comics.length} ${comics.length === 1 ? 'item' : 'items'} found`}
 			</Box>
 		</>
