@@ -16,8 +16,13 @@ body {
 
 	.container {
 		width: 100%;
+		margin-bottom: 60px;
 		// overflow-y: auto;
 		min-height: 100vh;
+
+		@include sm {
+			margin-bottom: 0;
+		}
 	}
 }
 
