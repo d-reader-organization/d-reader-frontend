@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { useFetchCreators } from 'api/creator'
 import { useEffect, useMemo } from 'react'
 import CreatorItem from 'components/creator/CreatorItem'
 import { useOnScreen, useBreakpoints } from 'hooks'
 import { CreatorParams } from 'models/creator/creatorParams'
+import { Loader } from '../Loader'
 
 interface Props extends GridProps {
 	params: Partial<CreatorParams>
@@ -47,7 +47,7 @@ const CreatorDiscoverList: React.FC<Props> = ({ params, enabled, narrow = false,
 				))}
 			</Grid>
 			<Box ref={showMoreRef} display='flex' justifyContent='center' py={12}>
-				{isFetching && <CircularProgress />}
+				{isFetching && <Loader />}
 				{!hasNextPage && !isFetching && `${creators.length} ${creators.length === 1 ? 'item' : 'items'} found`}
 			</Box>
 		</>

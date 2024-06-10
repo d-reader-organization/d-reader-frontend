@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { useFetchComics } from 'api/comic'
 import { useEffect, useMemo } from 'react'
 import ComicItem from 'components/comic/ComicItem'
 import { useOnScreen, useBreakpoints } from 'hooks'
 import { ComicParams } from 'models/comic/comicParams'
+import { Loader } from '../Loader'
 
 interface Props extends GridProps {
 	params: Partial<ComicParams>
@@ -47,7 +47,7 @@ const ComicDiscoverList: React.FC<Props> = ({ params, enabled, narrow = false, .
 				))}
 			</Grid>
 			<Box ref={showMoreRef} display='flex' justifyContent='center' py={12}>
-				{isFetching && <CircularProgress />}
+				{isFetching && <Loader/>}
 				{!hasNextPage && !isFetching && `${comics.length} ${comics.length === 1 ? 'item' : 'items'} found`}
 			</Box>
 		</>
