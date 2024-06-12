@@ -30,12 +30,15 @@ import { signIn } from 'next-auth/react'
 import Important from '@/components/ui/Important'
 import { useGoogleSessionCheck } from '@/hooks/useGoogleSessionCheck'
 import { ForgotPasswordDialog } from '@/components/dialogs/ForgotPasswordDialog'
+import { SessionWrapper } from '@/components/SessionWrapper'
 
-export default function LoginPageSuspenseWrapper() {
+export default function LoginPageWrapper() {
 	return (
-		<Suspense>
-			<LoginPage />
-		</Suspense>
+		<SessionWrapper>
+			<Suspense>
+				<LoginPage />
+			</Suspense>
+		</SessionWrapper>
 	)
 }
 

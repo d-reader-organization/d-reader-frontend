@@ -18,15 +18,23 @@ import Label from '@/components/forms/Label'
 import Steps from '@/components/ui/Steps'
 import { useRedeemUserReferral } from '@/api/user'
 import { useToaster } from '@/providers/ToastProvider'
-import { Suspense } from 'react'
 import GoogleLogoIcon from 'public/assets/vector-icons/google-logo.svg'
 import { signIn } from 'next-auth/react'
 import { useGoogleSessionCheck } from '@/hooks/useGoogleSessionCheck'
 import { TermsOfServiceAndPrivacyPolicy } from '@/components/TosAndPPText'
 import ButtonLink from '@/components/ButtonLink'
 import Important from '@/components/ui/Important'
+import { SessionWrapper } from '@/components/SessionWrapper'
 
-export default function RegisterUserPage() {
+export default function RegisterPageWrapper() {
+	return (
+		<SessionWrapper>
+			<RegisterUserPage />
+		</SessionWrapper>
+	)
+}
+
+function RegisterUserPage() {
 	const { push } = useRouter()
 	const toaster = useToaster()
 	const searchParams = useSearchParams()
@@ -61,7 +69,7 @@ export default function RegisterUserPage() {
 	}
 
 	return (
-		<Suspense>
+		<>
 			<Header image={<LogoIcon className='logo' />} />
 			<Steps
 				steps={[
@@ -153,6 +161,6 @@ export default function RegisterUserPage() {
 					</Link>
 				</Box> */}
 			</main>
-		</Suspense>
+		</>
 	)
 }

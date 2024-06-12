@@ -22,7 +22,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, priority, fetchPriority,
 					className='cover-image'
 					src={comic.cover}
 					loading='eager'
-					alt=''
+					alt={`cover-${comic.title}`}
 					fill
 					priority={priority}
 					fetchPriority={fetchPriority}
@@ -32,7 +32,7 @@ const ComicItem: React.FC<Props> = ({ comic, className, priority, fetchPriority,
 					className='cover-logo'
 					src={comic.logo}
 					loading='eager'
-					alt=''
+					alt={`logo-${comic.title}`}
 					fill
 					priority={priority}
 				/>
