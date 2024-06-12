@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 		type: 'website',
 		title: 'dReader - Launchpad',
 		description: '📚 Affordable, Authentic & Limited Edition - from manga to comics. Collect comics on dReader!',
-		images: '/assets/images/dclc-metadata.png',
+		images: '/assets/images/lump-metadata.png',
 		siteName: 'dReader',
 	},
 	appleWebApp: {
@@ -22,10 +22,10 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 		site: '@dReaderApp',
 		creator: '@dReaderApp',
-		images: '/assets/images/dclc-metadata.png',
+		images: '/assets/images/lump-metadata.png',
 	},
 }
 
-export default function RecruitsMintLayout({ children }: { children: React.ReactNode }) {
+export default function LSSMintLayout({ children }: { children: React.ReactNode }) {
 	return children
 }
