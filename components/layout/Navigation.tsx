@@ -23,6 +23,13 @@ import clsx from 'clsx'
 import IconLink from '../IconLink'
 import { BottomNavigation, BottomNavigationAction, Theme, useMediaQuery } from '@mui/material'
 import { useSessionStorage } from '@/hooks/useSessionStorage'
+import { WALLET_LABELS } from '@/constants/wallets'
+import dynamic from 'next/dynamic'
+
+const BaseWalletMultiButtonDynamic = dynamic(
+	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
+	{ ssr: false }
+)
 
 enum BottomNavItem {
 	home = 'home',
@@ -32,6 +39,10 @@ enum BottomNavItem {
 
 type BottomNavProps = {
 	initialNavItem?: BottomNavItem
+}
+
+interface NavProps extends ToolbarProps {
+	paramId?:string | number
 }
 
 const DBottomNavigation: React.FC<BottomNavProps> = ({ initialNavItem = BottomNavItem.home }) => {
@@ -81,7 +92,7 @@ const DBottomNavigation: React.FC<BottomNavProps> = ({ initialNavItem = BottomNa
 	)
 }
 
-const Navigation: React.FC<ToolbarProps> = (props) => {
+const Navigation: React.FC<NavProps> = (props) => {
 	const [menuAnchorEl, setMenuAnchorEl, resetMenuAnchorEl] = useAnchorElement()
 	const trigger = useScrollTrigger({ threshold: 20, disableHysteresis: false })
 	const pathname = usePathname()
@@ -92,6 +103,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 	const isProfile = pathname.startsWith(RoutePath.Profile)
 
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+	const isMint = props.paramId ? (pathname === RoutePath.Mint(props.paramId) || RoutePath.ComicIssue(props.paramId)) : false;
 
 	return isMobile ? (
 		<DBottomNavigation
@@ -180,6 +192,7 @@ const Navigation: React.FC<ToolbarProps> = (props) => {
 							Profile
 						</Link>
 					</Hidden>
+					{isMint ? <BaseWalletMultiButtonDynamic style={{ fontSize: '17px' }} labels={WALLET_LABELS} /> : null}
 				</Box>
 			</Toolbar>
 		</AppBar>

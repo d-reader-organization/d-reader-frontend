@@ -231,7 +231,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 
 	return (
 		<>
-			<Navigation />
+			<Navigation paramId={params.id}/>
 			<main className='comic-issue-page'>
 				<div
 					className='comic-issue-banner-image'

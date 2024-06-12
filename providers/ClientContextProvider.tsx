@@ -33,7 +33,7 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 	const pathname = usePathname()
 	// only autoconnect on /comic-issue and /mint screens
 	const autoConnect =
-		pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) || pathname.toLowerCase().startsWith(RoutePath.Mint)
+		pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) || pathname.toLowerCase().startsWith(RoutePath.Mint(''))
 	// const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
 
 	return (

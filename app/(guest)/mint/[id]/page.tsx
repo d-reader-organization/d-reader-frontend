@@ -158,7 +158,7 @@ const MintPage = ({ params }: { params: Params }) => {
 	const heroImage = comicIssue.cover || PageBanner.src
 	return (
 		<>
-			{isAuthenticated ? <Navigation /> : <GuestNavigation />}
+			{isAuthenticated ? <Navigation paramId={params.id}/> : <GuestNavigation />}
 
 			<main className='mint-page'>
 				<div
