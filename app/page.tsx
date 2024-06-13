@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import Container from '@mui/material/Container'
 import { RoutePath } from 'enums/routePath'
-import ComicList from '@/components/ComicList'
+import ComicList from '@/components/comic/ComicList'
 import HeroCarousel from '@/components/HeroCarousel'
 import ComicIssueList from '@/components/comicIssue/ComicIssueList'
 import CreatorList from '@/components/creator/CreatorList'

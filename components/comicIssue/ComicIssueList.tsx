@@ -24,6 +24,7 @@ const ComicIssueList: React.FC<Props> = ({ params, slidesToShow, className }) =>
 			className={clsx('comic-issue-list', className)}
 			slidesToShow={slidesToShow}
 			slidesToScroll={slidesToShow}
+			lazyLoad='anticipated'
 		>
 			{comicIssues.map((issue) => (
 				<ComicIssueItem key={issue.id} comicIssue={issue} />
