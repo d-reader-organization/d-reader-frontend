@@ -1,7 +1,6 @@
 'use client'
 
 import { endpoint } from '@/constants/environment'
-import { getWallets } from '@/constants/wallets'
 import { ThemeProvider } from '@mui/material/styles'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
@@ -14,6 +13,7 @@ import { RoutePath } from '@/enums/routePath'
 // import CloseIcon from 'public/assets/vector-icons/close.svg'
 // import Dialog from '@mui/material/Dialog'
 import theme from 'app/styles/theme'
+import { useWalletAdapter } from '@/hooks/useWalletAdapter'
 
 export const ClientContext = createContext(null)
 
@@ -35,12 +35,13 @@ const ClientContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 	const autoConnect =
 		pathname.toLowerCase().startsWith(RoutePath.ComicIssue('')) || pathname.toLowerCase().startsWith(RoutePath.Mint(''))
 	// const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useLocalStorage('firstTimeVisitor', true)
+	const wallets = useWalletAdapter();
 
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<ConnectionProvider endpoint={endpoint}>
-					<WalletProvider wallets={getWallets()} autoConnect={autoConnect}>
+					<WalletProvider wallets={wallets} autoConnect={autoConnect}>
 						<WalletModalProvider className='wallet-dialog'>
 							{children}
 							{/* <Dialog

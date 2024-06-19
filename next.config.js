@@ -7,6 +7,9 @@ const withPWA = require('next-pwa')({
 const path = require('path')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	env:{
+		TIPLINK_CLIENT_ID: process.env.TIPLINK_CLIENT_ID
+	},
 	// Configure `pageExtensions` to include MDX files
 	pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 	// experimental: {

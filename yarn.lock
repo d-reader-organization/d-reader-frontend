@@ -2912,6 +2912,11 @@
     "@noble/hashes" "~1.3.2"
     "@scure/base" "~1.1.4"
 
+"@sentry/types@^7.46.0":
+  version "7.117.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.117.0.tgz#c4d89aba487c05f4e5cbfa2f1c65180b536393b4"
+  integrity sha512-5dtdulcUttc3F0Te7ekZmpSp/ebt/CA71ELx0uyqVGjWsSAINwskFD77sdcjqvZWek//WjiYX1+GRKlpJ1QqsA==
+
 "@sinclair/typebox@^0.31.28":
   version "0.31.28"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.31.28.tgz#b68831e7bc7d09daac26968ea32f42bedc968ede"
@@ -3792,6 +3797,24 @@
   dependencies:
     "@swc/counter" "^0.1.3"
     tslib "^2.4.0"
+
+"@tiplink/wallet-adapter@^2.1.17":
+  version "2.1.17"
+  resolved "https://registry.yarnpkg.com/@tiplink/wallet-adapter/-/wallet-adapter-2.1.17.tgz#106e53117b7b9c2066973d6f4c37565613cf7d1f"
+  integrity sha512-H1Lj8Gk742b3ccpW5uwn8KQdeKEOpSr7HFlD0YVwhc2mVEkNg04wZ7qVJly2Nu0YG7Z1ui1Qhlqe8Eks4fNAaA==
+  dependencies:
+    "@sentry/types" "^7.46.0"
+    "@solana/wallet-adapter-base" "^0.9.23"
+    "@solana/wallet-standard-util" "^1.1.0"
+    "@solana/wallet-standard-wallet-adapter-base" "^1.1.2"
+    assert "^2.0.0"
+    bs58 "^4.0.1"
+    crypto-browserify "^3.12.0"
+    fast-deep-equal "^3.1.3"
+    process "^0.11.10"
+    pump "^3.0.0"
+    stream-browserify "^3.0.0"
+    uuid "^9.0.1"
 
 "@toruslabs/base-controllers@^2.8.0":
   version "2.9.0"
@@ -12650,7 +12673,7 @@ uuid@^7.0.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
   integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
-uuid@^9.0.0:
+uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
