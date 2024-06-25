@@ -1,0 +1,8 @@
+{
+    "rules": [
+      {
+        "pathPattern": "/mint/*",
+        "apiPath": "https://api-main-mainnet.dreader.io/blink/action-spec/mint/*"
+      }
+    ]
+}
