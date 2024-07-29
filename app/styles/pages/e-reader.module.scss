@@ -3,6 +3,10 @@
 @use '../variables/theme.module.scss' as *;
 
 .e-reader-page {
+	.e-reader-container {
+		max-width: $e-reader-width;
+	}
+
 	.preview-message {
 		border-radius: 1rem;
 		position: relative;

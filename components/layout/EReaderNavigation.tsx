@@ -7,12 +7,12 @@ import Box from '@mui/material/Box'
 import AppBar from '@mui/material/AppBar'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 import ArrowRightIcon from 'public/assets/vector-icons/arrow-right.svg'
-import PageByPageIcon from 'public/assets/vector-icons/page-by-page-icon.svg'
-import SwapIcon from 'public/assets/vector-icons/swap-icon.svg'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
+// import PageByPageIcon from 'public/assets/vector-icons/page-by-page-icon.svg'
+// import SwapIcon from 'public/assets/vector-icons/swap-icon.svg'
+// import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { ComicIssue } from '@/models/comicIssue'
 import { RoutePath } from 'enums/routePath'
-import Switch from '@mui/material/Switch'
+// import Switch from '@mui/material/Switch'
 import Link from 'next/link'
 import clsx from 'clsx'
 import FlexRow from '../ui/FlexRow'
@@ -33,7 +33,7 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 	const [, touchingPageBottom, pageBottomRef] = useOnScreen()
 	const hideNavigation = trigger && !touchingPageBottom
 
-	const [isInfiniteScrollView, setIsInfiniteScrollView] = useLocalStorage('isInfiniteScrollView', true)
+	// const [isInfiniteScrollView, setIsInfiniteScrollView] = useLocalStorage('isInfiniteScrollView', true)
 	const [starRatingDialog, , closeStarRatingDialog, openStarRatingDialog] = useToggle()
 
 	const { mutateAsync: toggleFavoriteComicIssue, isLoading: loadingToggleFavoriteComicIssue } =
@@ -42,7 +42,7 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 
 	const commands = (
 		<FlexRow className='e-reader-navigation--right'>
-			<FlexRow centered>
+			{/* <FlexRow centered>
 				<SwapIcon className={clsx('switch-icon', isInfiniteScrollView && 'switch-icon--active')} />
 				<Switch
 					defaultChecked={!isInfiniteScrollView}
@@ -53,7 +53,7 @@ const EReaderNavigation: React.FC<Props> = ({ comicIssue, ...props }) => {
 					color='secondary'
 				/>
 				<PageByPageIcon className={clsx('switch-icon', !isInfiniteScrollView && 'switch-icon--active')} />
-			</FlexRow>
+			</FlexRow> */}
 
 			<FlexRow centered sx={{ mx: { xs: 2, xl: 3 } }}>
 				<Button

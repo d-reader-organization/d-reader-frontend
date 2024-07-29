@@ -53,7 +53,7 @@ const ReadComicIssuePage = ({ params }: { params: Params }) => {
 		<>
 			<EReaderNavigation comicIssue={comicIssue} />
 			<main className='e-reader-page' style={{ marginBottom: 72 }}>
-				<Container className='e-reader-container' maxWidth='md' disableGutters>
+				<Container className='e-reader-container' disableGutters>
 					{pages.map((page) => (
 						<div key={page.id} style={{ maxWidth: 1200, margin: 'auto', lineHeight: 0 }}>
 							<Image
