@@ -93,6 +93,12 @@ const MintPage = ({ params }: { params: Params }) => {
 		},
 		!!walletAddress && validateMintEligibilty(getActiveGroup(candyMachine)).isEligible
 	)
+	
+	const handleCloseMintedAssetDialog = useCallback(() => {
+		setAssetAddress(undefined)
+		closeMintedAssetDialog()
+	}, [closeMintedAssetDialog])
+
 	const handleMint = useCallback(async () => {
 		openMintTransactionLoading()
 		try {
@@ -268,7 +274,7 @@ const MintPage = ({ params }: { params: Params }) => {
 				assetAddress={assetAddress}
 				comicIssue={comicIssue}
 				open={showMintedAssetDialog}
-				onClose={closeMintedAssetDialog}
+				onClose={handleCloseMintedAssetDialog}
 			/>
 			<ConfirmingTransactionDialog open={transactionConfirmationDialog} onClose={closeTransactionConfirmationDialog} />
 		</>

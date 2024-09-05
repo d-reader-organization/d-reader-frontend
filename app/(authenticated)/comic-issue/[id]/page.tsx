@@ -129,6 +129,11 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 		false
 	)
 
+	const handleCloseMintedAssetDialog = useCallback(() => {
+		setAssetAddress(undefined)
+		closeMintedAssetDialog()
+	}, [closeMintedAssetDialog])
+
 	// const userGroup = candyMachine?.groups.find(group => group.label === "dUser")
 	// const publicGroup = candyMachine?.groups.find(group => group.label === "public")
 
@@ -428,7 +433,7 @@ const ComicIssueDetails = ({ params }: { params: Params }) => {
 					assetAddress={assetAddress}
 					comicIssue={comicIssue}
 					open={showMintedAssetDialog}
-					onClose={closeMintedAssetDialog}
+					onClose={handleCloseMintedAssetDialog}
 				/>
 			</main>
 		</>
