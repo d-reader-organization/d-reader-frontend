@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import Button from '@/components/Button'
 import { WALLET_LABELS } from '@/constants/wallets'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -10,12 +10,17 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import dynamic from 'next/dynamic'
 import { CandyMachine } from '@/models/candyMachine'
-import { validateMintEligibilty } from '@/utils/mint'
-import { CandyMachineGroupWithSource, WhiteListType } from '@/models/candyMachine/candyMachineGroup'
+import { checkIfCouponIsActive, getCouponDiscount, validateMintEligibilty } from '@/utils/mint'
 import LockIcon from 'public/assets/vector-icons/lock.svg'
 import { MAX_PROTOCOL_FEE } from '@/constants/fee'
 import clsx from 'clsx'
 import Expandable from './ui/Expandable'
+import { CandyMachineCoupon, CouponCurrencySetting } from '@/models/candyMachine/candyMachineCoupon'
+import Select from './forms/Select'
+import { SelectOption } from '@/models/selectOption'
+import { useFetchSupportedTokens } from '@/api/settings'
+import { WRAPPED_SOL_MINT } from '@metaplex-foundation/js'
+import { SplToken } from '@/models/settings/splToken'
 
 const BaseWalletMultiButtonDynamic = dynamic(
 	async () => (await import('@solana/wallet-adapter-react-ui')).BaseWalletMultiButton,
@@ -23,8 +28,11 @@ const BaseWalletMultiButtonDynamic = dynamic(
 )
 
 interface Props {
-	candyMachine: CandyMachine
+	candyMachine: CandyMachine,
+	selectedCouponId: number,
+	supportedTokens: SplToken[],
 	handleMint: () => Promise<void>
+	setCouponLabel: Dispatch<SetStateAction<string | undefined>>
 	isMintTransactionLoading: boolean
 	isAuthenticated?: boolean
 }
@@ -34,34 +42,60 @@ const toSol = (lamports: number) => +(lamports / LAMPORTS_PER_SOL).toFixed(3)
 
 export const CandyMachineDetail: React.FC<Props> = ({
 	candyMachine,
+	selectedCouponId,
+	supportedTokens,
 	handleMint,
+	setCouponLabel,
 	isMintTransactionLoading,
 	isAuthenticated,
 }) => {
-	const { startDate, endDate, mintLimit, mintPrice } = candyMachine.groups.at(0) as CandyMachineGroupWithSource
+	const selectedCoupon = candyMachine.coupons.find(coupon=>coupon.id==selectedCouponId) as CandyMachineCoupon;
+	const { startsAt, expiresAt, numberOfRedemptions, prices} = selectedCoupon;
 
-	const highlightDiscount = isAuthenticated && candyMachine.discount
-	const { countdownString } = useCountdown({ expirationDate: startDate })
+	const currencyToOption = (currency: CouponCurrencySetting | undefined) => {
+		if(!currency){
+			return {label: "UNKNOWN $SOL", value: WRAPPED_SOL_MINT.toString()}
+		}
+
+		const token = supportedTokens?.find(token=>token.address == currency.splTokenAddress);
+		const denominator = Math.pow(10 ,token?.decimals || 9);
+		const symbol = token?.symbol || 'UKNOWN';
+
+		return {
+			label: (currency.mintPrice/denominator).toPrecision(3).toString() + " " + symbol,
+			value: token?.address || WRAPPED_SOL_MINT.toString()
+		}
+	}
+
+	const solCurrency = prices.find(price=>price.splTokenAddress == WRAPPED_SOL_MINT.toString());
+	const [selectedCurrency,setSelectedCurrency] = useState(solCurrency);
+	setCouponLabel(selectedCurrency?.label);
+
+	const currencyList : SelectOption[] = prices.map(price=>{
+		return currencyToOption(price);
+	});
+
+
+
+	const { countdownString } = useCountdown({ expirationDate: startsAt })
 	const { publicKey } = useWallet()
 
 	const walletAddress = publicKey?.toBase58()
 	const hasWalletConnected = !!walletAddress
 
-	const isLive = new Date(startDate) <= new Date() && new Date(endDate) > new Date()
-	const isEnded = new Date() > new Date(endDate)
+	const isLive = checkIfCouponIsActive(selectedCoupon);
+	const isEnded = expiresAt ? new Date() > new Date(expiresAt) : false;
 
-	const { isEligible, error } = validateMintEligibilty(candyMachine.groups.at(0))
+	const { isEligible, error } = validateMintEligibilty(candyMachine.coupons,selectedCouponId)
+	const itemsMintedPerUserOrWallet = 	selectedCoupon.stats.itemsMinted;
+	const isSolCurrencySelected = selectedCurrency?.splTokenAddress == solCurrency?.splTokenAddress;
 
-	const getItemsMinted = (candyMachine: CandyMachine) => {
-		const group = candyMachine.groups.at(0)
-		if (group?.whiteListType == WhiteListType.Public || group?.whiteListType == WhiteListType.WalletWhiteList) {
-			return group.wallet.itemsMinted ?? 0
-		} else {
-			return group?.user.itemsMinted ?? 0
-		}
+	const discount = getCouponDiscount(candyMachine.coupons,selectedCoupon);
+	const highlightDiscount = (discount && discount > 0);
+
+	const findCurrencySetting = (splTokenAddress: string) => {
+		return selectedCoupon.prices.find(price=>price.splTokenAddress == splTokenAddress);
 	}
-	const itemsMintedPerUserOrWallet = getItemsMinted(candyMachine)
-
 	return (
 		<div className='mint-group'>
 			<div className='group-detail-wrapper'>
@@ -80,11 +114,21 @@ export const CandyMachineDetail: React.FC<Props> = ({
 					<div className='price-div'>
 						{highlightDiscount ? (
 							<div className='discount-chip'>
-								<span>-{candyMachine.discount}&#37;</span>
+								<span>-{discount}&#37;</span>
 							</div>
 						) : null}
 						<span className={clsx('price', highlightDiscount && 'price--highlight')}>
-							{mintPrice == 0 ? '*Free' : `${toSol(mintPrice)} SOL`}
+							{selectedCurrency && <Select
+								options={currencyList}
+								defaultSelectedOptions={[currencyToOption(selectedCurrency)]}
+								onSelect={(selectedOptions) => {
+									const currencySetting = findCurrencySetting(selectedOptions[0].value)
+									setSelectedCurrency(currencySetting)
+									setCouponLabel(currencySetting?.label);
+								}}
+								unselectableIfAlreadySelected
+								placeholder='Select currency'
+							/>}
 						</span>
 					</div>
 				</div>
@@ -92,7 +136,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 					<div className='user-detail'>
 						<div>You minted</div>
 						<div className='items-minted'>
-							{itemsMintedPerUserOrWallet}/{mintLimit ?? '∞'}
+							{itemsMintedPerUserOrWallet}/{numberOfRedemptions ?? '∞'}
 						</div>
 					</div>
 					<div>
@@ -134,7 +178,7 @@ export const CandyMachineDetail: React.FC<Props> = ({
 
 			<div className='balance-details'>
 				<div>Total</div>
-				<div>≈ {toSol(mintPrice + MAX_PROTOCOL_FEE)} SOL</div>
+				<div>≈ {(isSolCurrencySelected ? toSol(MAX_PROTOCOL_FEE + (solCurrency?.mintPrice || 0)) +  " $SOL" : currencyToOption(selectedCurrency).label)}</div>
 			</div>
 			{isLive ? (
 				<>

@@ -9,7 +9,7 @@ import AvatarImage from 'components/AvatarImage'
 import { CANDY_MACHINE_QUERY_KEYS, useFetchCandyMachine } from 'api/candyMachine'
 import { comicIssueKeys, useFetchPublicComicIssue } from 'api/comicIssue'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { useFetchMintOneTransaction } from '@/api/transaction'
+import { useFetchMintTransaction } from '@/api/transaction'
 import { useToaster } from '@/providers/ToastProvider'
 import useAuthorizeWallet from '@/hooks/useAuthorizeWallet'
 import clsx from 'clsx'
@@ -28,11 +28,13 @@ import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import FaqLink from '@/components/ui/FaqLink'
 import ButtonLink from '@/components/ButtonLink'
-import { getActiveGroup, validateMintEligibilty } from '@/utils/mint'
-import { SignUpBanner } from '@/components/SignUpBanner'
+import { getCouponDiscount, validateMintEligibilty } from '@/utils/mint'
 import { CandyMachineDetail } from '@/components/CandyMachineDetail'
 import { useUserAuth } from '@/providers/UserAuthProvider'
 import Navigation from '@/components/layout/Navigation'
+import { CouponType } from '@/models/candyMachine/candyMachineCoupon'
+import { sendMintTransaction } from '@/api/transaction/queries/useSendMintTransaction'
+import { useFetchSupportedTokens } from '@/api/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -53,6 +55,9 @@ const MintPage = ({ params }: { params: Params }) => {
 	const toaster = useToaster()
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 	const { isAuthenticated } = useUserAuth()
+	const [selectedCouponId,setSelectedCouponId] = useState<number>()
+	const [couponLabel,setCouponLabel] = useState<string>()
+	const [numberOfItems,setNumberOfItems] = useState(1);
 
 	const paramsId = params.id
 	const { data: comicIssue, error } = useFetchPublicComicIssue(paramsId)
@@ -83,15 +88,24 @@ const MintPage = ({ params }: { params: Params }) => {
 		candyMachineAddress,
 		walletAddress,
 	})
+
+	const {data: supportedTokens} = useFetchSupportedTokens();
+	useEffect(()=>{
+		const publicCoupon = candyMachine?.coupons.find(coupon=>coupon.type == CouponType.PublicUser);
+		setSelectedCouponId(publicCoupon?.id);
+	},[candyMachine])
+
 	useAuthorizeWallet()
 
-	const { refetch: fetchMintOneTransaction } = useFetchMintOneTransaction(
+	const { refetch: fetchMintTransaction } = useFetchMintTransaction(
 		{
 			candyMachineAddress,
 			minterAddress: walletAddress || '',
-			label: getActiveGroup(candyMachine)?.label || '',
+			label: couponLabel,
+			couponId: selectedCouponId,
+			numberOfItems:numberOfItems.toString()
 		},
-		!!walletAddress && validateMintEligibilty(getActiveGroup(candyMachine)).isEligible
+		!!walletAddress && !!candyMachine && validateMintEligibilty(candyMachine?.coupons,selectedCouponId).isEligible
 	)
 	
 	const handleCloseMintedAssetDialog = useCallback(() => {
@@ -100,45 +114,47 @@ const MintPage = ({ params }: { params: Params }) => {
 	}, [closeMintedAssetDialog])
 
 	const handleMint = useCallback(async () => {
+		console.log(couponLabel)
+		if(!walletAddress){
+			toaster.add("Please connect your wallet", 'info');
+			return;
+		}
+
 		openMintTransactionLoading()
 		try {
 			const { data: updatedCandyMachine } = await fetchCandyMachine()
-			const updatedActiveGroup = getActiveGroup(updatedCandyMachine)
-			const isMintValid = validateMintEligibilty(updatedActiveGroup)
+			if(!updatedCandyMachine){
+				toaster.add("Mint is not active",'error');
+				return;
+			}
 
+			const isMintValid = validateMintEligibilty(updatedCandyMachine?.coupons,selectedCouponId)
 			if (isMintValid) {
-				const { data: mintTransactions = [] } = await fetchMintOneTransaction()
+				const { data: mintTransactions = [] } = await fetchMintTransaction()
 				if (!signAllTransactions) {
 					return toaster.add('Wallet does not support signing multiple transactions', 'error')
 				}
 				const signedTransactions = await signAllTransactions(mintTransactions)
 				closeMintTransactionLoading()
 				openTransactionConfirmationDialog()
-
+				const serializedTransactions : string[] = []
+				
 				let i = 0
 				for (const transaction of signedTransactions) {
 					try {
-						const signature = await connection.sendTransaction(transaction, { skipPreflight: true })
-
-						const latestBlockhash = await connection.getLatestBlockhash()
-						const response = await connection.confirmTransaction({ signature, ...latestBlockhash }, 'confirmed')
-						if (!!response.value.err) {
-							console.log('Response error log: ', response.value.err)
-							throw new Error()
-						}
-						openMintedAssetDialog()
-						toaster.add('Successfully minted the comic! Find the asset in your wallet', 'success')
+						const serializedTransaction = Buffer.from(transaction.serialize()).toString('base64')
+						serializedTransactions.push(serializedTransaction);
 					} catch (e) {
 						console.log('error: ', e)
-						if (signedTransactions.length === 2 && i === 0) {
-							toaster.add('Wallet is not allowlisted to mint this comic', 'error')
-						} else {
-							toaster.add('Something went wrong', 'error')
-						}
+						toaster.add('Something went wrong', 'error')
 					}
 					i += 1
 				}
+				openMintedAssetDialog()
+				await sendMintTransaction(walletAddress,serializedTransactions);
+				toaster.add('Successfully minted the comic! Find the asset in your wallet', 'success')
 			}
+
 		} catch (e) {
 			console.error(e)
 		} finally {
@@ -150,7 +166,7 @@ const MintPage = ({ params }: { params: Params }) => {
 		closeTransactionConfirmationDialog,
 		connection,
 		fetchCandyMachine,
-		fetchMintOneTransaction,
+		fetchMintTransaction,
 		openMintTransactionLoading,
 		openMintedAssetDialog,
 		openTransactionConfirmationDialog,
@@ -206,14 +222,29 @@ const MintPage = ({ params }: { params: Params }) => {
 							<CircularProgress thickness={6} classes={{ svg: 'details-loader', root: 'details-loader--root' }} />
 						) : !mintDetailsSection ? (
 							<Box pt={3}>
-								{candyMachine && candyMachine.groups.length > 0 && !comicIssue.isSecondarySaleActive ? (
+								{supportedTokens && selectedCouponId && candyMachine && candyMachine.coupons.length > 0 && !comicIssue.isSecondarySaleActive ? (
+									<div>
 									<div className='mint-details'>
-										<CandyMachineDetail
-											candyMachine={candyMachine}
-											isMintTransactionLoading={isMintTransactionLoading}
-											handleMint={handleMint}
-											isAuthenticated={isAuthenticated}
-										/>
+									<CandyMachineDetail
+										selectedCouponId={selectedCouponId}
+										supportedTokens={supportedTokens}
+										candyMachine={candyMachine}
+										isMintTransactionLoading={isMintTransactionLoading}
+										handleMint={handleMint}
+										setCouponLabel={setCouponLabel}
+										isAuthenticated={isAuthenticated}
+									/>
+								</div>
+								<div className='coupon-list'>
+									{candyMachine.coupons.map(coupon=>(
+										<div className={coupon.stats.isEligible ? 'coupon' : 'coupon coupon--disable'} onClick={()=>setSelectedCouponId(coupon.id)}>
+											<p>{coupon.name}</p>
+											<p>{coupon.description}</p>
+											<p>{coupon.numberOfRedemptions}</p>
+											<p>Discount: {getCouponDiscount(candyMachine.coupons,coupon)}</p>
+										</div>
+									))}
+								</div>
 									</div>
 								) : (
 									<ButtonLink backgroundColor='yellow-500' href='https://www.tensor.trade/creator/dreader' blank>
@@ -263,9 +294,6 @@ const MintPage = ({ params }: { params: Params }) => {
 									</Box>
 								)}
 							</Box>
-						)}
-						{isAuthenticated || !candyMachine?.discount ? null : (
-							<SignUpBanner issueId={paramsId} discountAmount={candyMachine?.discount} />
 						)}
 					</Grid>
 				</Grid>

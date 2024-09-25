@@ -14,14 +14,14 @@ const fetchMintTransaction = async (params: MintParams): Promise<VersionedTransa
 	return response.data.map(versionedTransactionFromBs64)
 }
 
-export const useFetchMintTransaction = (params: MintParams) => {
+export const useFetchMintTransaction = (params: MintParams, enabled?: boolean) => {
 	const toaster = useToaster()
 
 	return useQuery({
 		queryFn: () => fetchMintTransaction(params),
 		queryKey: transactionKeys.mint(params),
 		staleTime: 1000 * 60 * 10, // stale for 10 minutes
-		enabled: !!params.candyMachineAddress && !!params.minterAddress && !!params.label,
+		enabled: enabled && !!params.candyMachineAddress && !!params.minterAddress && !!params.label && !!params.couponId,
 		onError: toaster.onQueryError,
 	})
 }

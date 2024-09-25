@@ -1,5 +1,5 @@
 import { CandyMachine } from '@/models/candyMachine'
-import { WhiteListType } from '@/models/candyMachine/candyMachineGroup'
+import { WhiteListType } from '@/models/candyMachine/candyMachineCoupon'
 import { PartialGenre } from '@/models/genre'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 

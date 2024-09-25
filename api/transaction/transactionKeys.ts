@@ -23,6 +23,7 @@ export const TRANSACTION_QUERY_KEYS = Object.freeze({
 	MULTIPLE_BUY: 'multiple-buy',
 	CANCEL_BID: 'cancel-bid',
 	CANCEL_LISTING: 'cancel-listing',
+	SEND_MINT_TRANSACTION: 'send-mint-transaction'
 })
 
 export const transactionKeys = Object.freeze({
@@ -36,9 +37,11 @@ export const transactionKeys = Object.freeze({
 
 	mint: (params: MintParams) => [
 		TRANSACTION_QUERY_KEYS.TRANSACTION,
-		TRANSACTION_QUERY_KEYS.MINT_ONE,
+		TRANSACTION_QUERY_KEYS.MINT,
 		params.candyMachineAddress,
-		params.mintCount,
+		params.couponId,
+		params.label,
+		params.numberOfItems,
 		params.minterAddress,
 	],
 	signComic: (params: SignComicParams) => [
