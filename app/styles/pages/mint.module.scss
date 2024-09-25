@@ -102,6 +102,25 @@
 		}
 	}
 
+	.coupon-list {
+		display: flex;
+	}
+
+	.coupon {
+		background-color: black;
+		border-radius: 10px;
+		border: 2px solid;
+		padding: 5px;
+
+		&:nth-child(2n) {
+			margin-left: 10px;
+		}
+
+		&--disable {
+			opacity: 80%;
+		}
+	}
+
 	.loader {
 		height: 25px;
 		width: 25px;
